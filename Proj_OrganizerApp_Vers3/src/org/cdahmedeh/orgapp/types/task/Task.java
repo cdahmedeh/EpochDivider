@@ -21,7 +21,7 @@ public class Task{
 	
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append(this.getTitle());
 		sb.append(" => ");
 		sb.append(this.getDurationToComplete().getStandardMinutes());
