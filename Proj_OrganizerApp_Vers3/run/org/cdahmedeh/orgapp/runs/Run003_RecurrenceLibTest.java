@@ -6,6 +6,8 @@ import com.google.ical.compat.jodatime.LocalDateIteratorFactory;
 
 /**
  * Trying recurrence library.
+ * 
+ * @author cdahmedeh
  */
 public class Run003_RecurrenceLibTest {
 	public static void main(String[] args) throws Exception {
