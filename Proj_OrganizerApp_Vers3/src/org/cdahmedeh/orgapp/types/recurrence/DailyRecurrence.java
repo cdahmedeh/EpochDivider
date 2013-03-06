@@ -1,8 +1,5 @@
 package org.cdahmedeh.orgapp.types.recurrence;
 
-import java.util.ArrayList;
-
-import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 
 public class DailyRecurrence extends Recurrence {

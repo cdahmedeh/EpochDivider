@@ -1,11 +1,8 @@
 package org.cdahmedeh.orgapp.runs;
 
 import org.cdahmedeh.orgapp.types.recurrence.DailyRecurrence;
-import org.cdahmedeh.orgapp.types.recurrence.Recurrence;
 import org.cdahmedeh.orgapp.types.recurrence.WeeklyRecurrence;
 import org.joda.time.LocalDate;
-
-import com.google.ical.compat.jodatime.LocalDateIteratorFactory;
 
 /**
  * Testing own recurrence types.
@@ -31,6 +28,6 @@ public class Run005_RecurrenceTypeTest {
 		wrec.setAmount(10);
 //		rec.setEnd(new LocalDate(2013, 10, 10));
 		
-		for (LocalDate date: wrec.generateRecurrenceDateIterable()) System.out.println(date.toString("E"));
+		for (LocalDate date: wrec.generateRecurrenceDateIterable()) System.out.println(date.toString("W"));
 	}
 }
