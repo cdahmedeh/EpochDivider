@@ -1,5 +1,8 @@
 package org.cdahmedeh.orgapp.types.task;
 
+import java.util.ArrayList;
+
+import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.Duration;
 
 public class Task{
@@ -19,13 +22,34 @@ public class Task{
 	public Duration getDurationToComplete() {return durationToComplete;}
 	public void setDurationToComplete(Duration durationToComplete) {this.durationToComplete = durationToComplete;}
 	
+	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
+	public boolean isAssignedToTimeBlock() {return !timeBlocks.isEmpty();}
+	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
+	
+	public Duration getTotalScheduledDuration() {
+		Duration duration = Duration.ZERO;
+		for (TimeBlock timeBlock: timeBlocks) duration = duration.plus(timeBlock.getDuration()); 
+		return duration;	
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(this.getTitle());
-		sb.append(" => ");
+		sb.append(" Duration: ");
 		sb.append(this.getDurationToComplete().getStandardMinutes());
 		sb.append(" mins");
+		
+		sb.append(" Scheduled Total: ");
+		sb.append(this.getTotalScheduledDuration().getStandardMinutes());
+		sb.append(" mins");
+		
+		for (TimeBlock timeBlock: timeBlocks){
+			sb.append("\n");
+			sb.append("\t");
+			sb.append(timeBlock.toString());
+		}
+		
 		return sb.toString();
 	}
 }
