@@ -23,4 +23,6 @@ public class TimeBlock {
 	private DateTime end = null;
 	public void setEnd(DateTime end) {this.end = end;}
 	public DateTime getEnd() {return end;}
+	
+	public Duration getDuration() {return new Duration(start, end);}
 }
