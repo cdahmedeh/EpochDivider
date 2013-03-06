@@ -7,15 +7,15 @@ public class Task{
 	public String getTitle() {return title;}
 	public void setTitle(String title) {this.title = title != null ? title.trim() : "";}
 	
-	public Mutability mutability = TypeConstants.DEFAULT_MUTABILITY;
+	private Mutability mutability = TypeConstants.DEFAULT_MUTABILITY;
 	public Mutability getMutability() {return mutability;}
 	public void setMutability(Mutability mutability) {this.mutability = mutability != null ? mutability : TypeConstants.DEFAULT_MUTABILITY;}
 	
-	public Permissibility permissibility = TypeConstants.DEFAULT_PERMISSIBILITY;
+	private Permissibility permissibility = TypeConstants.DEFAULT_PERMISSIBILITY;
 	public Permissibility getPermissibility() {return permissibility;}
 	public void setPermissibility(Permissibility permissibility) {this.permissibility = permissibility != null ? permissibility : TypeConstants.DEFAULT_PERMISSIBILITY;}
 		
-	public Duration durationToComplete = new Duration(0);
+	private Duration durationToComplete = new Duration(0);
 	public Duration getDurationToComplete() {return durationToComplete;}
 	public void setDurationToComplete(Duration durationToComplete) {this.durationToComplete = durationToComplete;}
 	
