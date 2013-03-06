@@ -3,6 +3,7 @@ package org.cdahmedeh.orgapp.types.task;
 import java.util.ArrayList;
 
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
+import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 public class Task{
@@ -21,6 +22,11 @@ public class Task{
 	private Duration durationToComplete = new Duration(0);
 	public Duration getDurationToComplete() {return durationToComplete;}
 	public void setDurationToComplete(Duration durationToComplete) {this.durationToComplete = durationToComplete;}
+	
+	private DateTime dueDate = null;
+	public boolean hasDueDate() {return this.dueDate != null;}
+	public DateTime getDueDate() {return dueDate;}
+	public void setDueDate(DateTime dueDate) {this.dueDate = dueDate;}
 	
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
 	public boolean isAssignedToTimeBlock() {return !timeBlocks.isEmpty();}
