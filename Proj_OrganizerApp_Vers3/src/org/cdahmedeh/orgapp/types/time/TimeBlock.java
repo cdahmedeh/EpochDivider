@@ -25,4 +25,9 @@ public class TimeBlock {
 	public DateTime getEnd() {return end;}
 	
 	public Duration getDuration() {return new Duration(start, end);}
+	
+	@Override
+	public String toString() {
+		return start + " " + end;
+	}
 }
