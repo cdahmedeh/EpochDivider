@@ -7,6 +7,9 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 public class Task{
+	public Task() {}
+	public Task(String title) {this.title = title;}
+	
 	private	String title = "";
 	public String getTitle() {return title;}
 	public void setTitle(String title) {this.title = title != null ? title.trim() : "";}
@@ -28,9 +31,13 @@ public class Task{
 	public DateTime getDueDate() {return dueDate;}
 	public void setDueDate(DateTime dueDate) {this.dueDate = dueDate;}
 	
+	//TODO: Ordering
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
 	public boolean isAssignedToTimeBlock() {return !timeBlocks.isEmpty();}
+	public boolean hasOnlyOneTimeBlock() {return timeBlocks.size() == 1;}
+	public void clearAssignedTimeBlocks() {this.timeBlocks.clear();}
 	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
+	public TimeBlock getFirstTimeBlock() {return timeBlocks.get(0);}
 	
 	public Duration getTotalScheduledDuration() {
 		Duration duration = Duration.ZERO;
