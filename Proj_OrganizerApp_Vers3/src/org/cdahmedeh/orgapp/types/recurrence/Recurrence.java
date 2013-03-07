@@ -30,29 +30,17 @@ public abstract class Recurrence {
 	
 	public abstract StringBuilder buildSpecificRule();
 	
-	private StringBuilder buildGeneralRule(){
+	private StringBuilder buildGeneralRule(int pAmount, LocalDate pEnd, int pMultiplier){
 		StringBuilder sb = new StringBuilder();
-		
-		//TOOD: amount or end, but not both.
-		
-		if (amount != RecurrenceConstants.RECURRENCE_AMOUNT_NONE){
-			sb.append("COUNT=");
-			sb.append(amount);
-			sb.append(";");
+		if (pAmount != RecurrenceConstants.RECURRENCE_AMOUNT_NONE){
+			sb.append("COUNT="); sb.append(amount);	sb.append(";");
 		}
-		
-		if (end != null){
-			sb.append("UNTIL=");
-			sb.append(end.toString(RecurrenceConstants.RFC2445_DATE_FORMAT));
-			sb.append(";");
+		if (pEnd != null){
+			sb.append("UNTIL="); sb.append(end.toString(RecurrenceConstants.RFC2445_DATE_FORMAT)); sb.append(";");
 		}
-		
-		if (multiplier > 1){
-			sb.append("INTERVAL=");
-			sb.append(multiplier);
-			sb.append(";");
+		if (pMultiplier > 1){
+			sb.append("INTERVAL="); sb.append(multiplier); sb.append(";");
 		}
-		
 		return sb;
 	}
 	
@@ -61,11 +49,12 @@ public abstract class Recurrence {
 		
 		sb.append("RRULE:");
 		sb.append(buildSpecificRule());
-		sb.append(buildGeneralRule());
+		sb.append(buildGeneralRule(amount, end, multiplier));
 		
 		try {
 			return LocalDateIteratorFactory.createLocalDateIterable(sb.toString(), start, true);
 		} catch (ParseException e) {
+			//TODO: Shouldn't catch exception
 			return null;
 		}
 	}
