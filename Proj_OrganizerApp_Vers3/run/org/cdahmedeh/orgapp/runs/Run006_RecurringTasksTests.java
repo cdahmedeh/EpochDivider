@@ -17,6 +17,7 @@ public class Run006_RecurringTasksTests {
 		 
 		DailyRecurrence rec = new DailyRecurrence(start);
 		rec.setAmount(10);
+		rec.addExceptions(new LocalDate(2013,01,03));
 //		rec.setEnd(new LocalDate(2013, 10, 10));
 		
 		RecurrentTaskTemplate rTaskI = new RecurrentTaskTemplate();

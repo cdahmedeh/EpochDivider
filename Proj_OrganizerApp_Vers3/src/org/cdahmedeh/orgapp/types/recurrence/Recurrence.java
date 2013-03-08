@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.types.recurrence;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import org.joda.time.LocalDate;
 
@@ -28,7 +29,19 @@ public abstract class Recurrence {
 	public LocalDate getEnd() {return end;}
 	public void setEnd(LocalDate end) {this.end = end;}
 	
+	private ArrayList<LocalDate> exceptions = new ArrayList<>();
+	public void addExceptions(LocalDate date) {exceptions.add(date);}
+	
 	public abstract StringBuilder buildSpecificRule();
+	
+	private StringBuilder buildExceptionRule() {
+		StringBuilder sb = new StringBuilder();
+		if (!exceptions.isEmpty()){
+			sb.append("EXDATE:");
+			for (LocalDate ex: exceptions) {sb.append(ex.toString(RecurrenceConstants.RFC2445_DATE_FORMAT)); sb.append(",");} 
+		}
+		return sb;
+	}
 	
 	private StringBuilder buildGeneralRule(int pAmount, LocalDate pEnd, int pMultiplier){
 		StringBuilder sb = new StringBuilder();
@@ -46,6 +59,10 @@ public abstract class Recurrence {
 	
 	public LocalDateIterable generateRecurrenceDateIterable(){
 		StringBuilder sb = new StringBuilder();
+
+		sb.append(buildExceptionRule());
+		
+		sb.append("\n");
 		
 		sb.append("RRULE:");
 		sb.append(buildSpecificRule());
