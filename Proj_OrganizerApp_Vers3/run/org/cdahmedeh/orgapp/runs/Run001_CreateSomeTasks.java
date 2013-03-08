@@ -12,12 +12,10 @@ import org.joda.time.Duration;
  */
 public class Run001_CreateSomeTasks {
 	public static void main(String[] args) {
-		Task task1 = new Task();
-		task1.setTitle("Work");
+		Task task1 = new Task("Work");
 		task1.setDurationToComplete(new Duration(new Duration(DateTimeConstants.MILLIS_PER_HOUR * 2)));
 		
-		Task task2 = new Task();
-		task2.setTitle("More Work");
+		Task task2 = new Task("More Work");
 		task2.setDurationToComplete(new Duration(new Duration(DateTimeConstants.MILLIS_PER_HOUR * 1)));
 	}
 }

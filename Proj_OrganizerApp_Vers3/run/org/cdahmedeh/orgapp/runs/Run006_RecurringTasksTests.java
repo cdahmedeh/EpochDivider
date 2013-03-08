@@ -20,8 +20,7 @@ public class Run006_RecurringTasksTests {
 		rec.addExceptions(new LocalDate(2013,01,03));
 //		rec.setEnd(new LocalDate(2013, 10, 10));
 		
-		RecurrentTaskTemplate rTaskI = new RecurrentTaskTemplate();
-		rTaskI.setTitle("Some Task");
+		RecurrentTaskTemplate rTaskI = new RecurrentTaskTemplate("Some task");
 		rTaskI.setRecurrence(rec);
 		rTaskI.assignToTimeBlock(new TimeBlock());
 		

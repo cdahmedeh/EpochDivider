@@ -11,21 +11,18 @@ import org.joda.time.DateTime;
  */
 public class Run004_TasksSetToTimeBlocks {
 	public static void main(String[] args) throws Exception {
-		Task task = new Task();
-		task.setTitle("Two blocks");
+		Task task = new Task("Two blocks");
 		
 		task.assignToTimeBlock(new TimeBlock());
 		task.assignToTimeBlock(new TimeBlock(new DateTime().plusDays(3)));
 		
 		System.out.println(task.toString());
 		
-		Task task2 = new Task();
-		task2.setTitle("No Time");
+		Task task2 = new Task("No Time");
 		
 		System.out.println(task2.toString());
 		
-		Task task3 = new Task();
-		task3.setTitle("One block");
+		Task task3 = new Task("One block");
 		
 		task3.assignToTimeBlock(new TimeBlock(new DateTime().plusDays(1), new DateTime().plusDays(1).plusHours(1)));
 		

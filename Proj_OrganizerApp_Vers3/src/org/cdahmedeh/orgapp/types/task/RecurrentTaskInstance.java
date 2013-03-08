@@ -1,6 +1,10 @@
 package org.cdahmedeh.orgapp.types.task;
 
 public class RecurrentTaskInstance extends Task{
+	public RecurrentTaskInstance(String title) {
+		super(title);
+	}
+
 	protected RecurrentTaskTemplate template = null;
 	public RecurrentTaskTemplate getTemplate() {return template;}
 	public void setTemplate(RecurrentTaskTemplate template) {this.template = template;}
@@ -16,7 +20,7 @@ public class RecurrentTaskInstance extends Task{
 	public void seperate(){
 		template.getRecurrence().addExceptions(this.getFirstTimeBlock().getStart().toLocalDate());
 		
-		FormerlyRecurrentTaskInstance taskInstance = new FormerlyRecurrentTaskInstance();
+		FormerlyRecurrentTaskInstance taskInstance = new FormerlyRecurrentTaskInstance("");
 		
 		TaskCopier.copy(this, taskInstance);
 		

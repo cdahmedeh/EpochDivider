@@ -11,8 +11,7 @@ import org.joda.time.Duration;
  */
 public class Run002_CreateMoreTasks {
 	public static void main(String[] args) {
-		Task task1 = new Task();
-		task1.setTitle("Finish Assignment");
+		Task task1 = new Task("Finish Assignment");
 		task1.setDurationToComplete(new Duration(DateTimeConstants.MILLIS_PER_MINUTE * 15));
 	}
 }

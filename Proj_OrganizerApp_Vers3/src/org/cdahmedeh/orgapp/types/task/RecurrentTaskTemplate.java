@@ -7,6 +7,10 @@ import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.LocalDate;
 
 public class RecurrentTaskTemplate extends Task {
+	public RecurrentTaskTemplate(String title) {
+		super(title);
+	}
+
 	private Recurrence recurrence = null;
 	public Recurrence getRecurrence() {return recurrence;}
 	public void setRecurrence(Recurrence recurrence) {this.recurrence = recurrence;}
@@ -22,7 +26,7 @@ public class RecurrentTaskTemplate extends Task {
 		//TODO: Very experimental, start and end range currently useless.
 		//TODO: Clean me up please.
 		for (LocalDate date: recurrence.generateRecurrenceDateIterable()){
-			RecurrentTaskInstance rTaskI = new RecurrentTaskInstance();
+			RecurrentTaskInstance rTaskI = new RecurrentTaskInstance("");
 			TimeBlock firstTimeBlock = this.getFirstTimeBlock();
 			TaskCopier.copy(this, rTaskI);
 			rTaskI.clearAssignedTimeBlocks();

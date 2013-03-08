@@ -7,8 +7,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 public class Task{
-	public Task() {}
-	public Task(String title) {this.title = title;}
+	public Task(String title) {this.setTitle(title);}
 	
 	private	String title = "";
 	public String getTitle() {return title;}
