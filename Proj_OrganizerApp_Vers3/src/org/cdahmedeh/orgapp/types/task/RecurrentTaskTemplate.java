@@ -13,6 +13,9 @@ public class RecurrentTaskTemplate extends Task {
 
 	private ArrayList<RecurrentTaskInstance> instances = new ArrayList<>();
 	
+	//TOOD: is this a good idea?
+	protected ArrayList<FormerlyRecurrentTaskInstance> formers = new ArrayList<>();
+	
 	public ArrayList<RecurrentTaskInstance> generateRecurrentTasks(LocalDate startRange, LocalDate endRange){
 		ArrayList<RecurrentTaskInstance> rTasks = new ArrayList<>();
 		
