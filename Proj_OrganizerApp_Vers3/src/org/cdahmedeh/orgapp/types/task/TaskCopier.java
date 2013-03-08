@@ -5,7 +5,7 @@ public class TaskCopier {
 		target.setTitle(				source.getTitle());
 		
 		target.setMutability( 			source.getMutability());
-		target.setPermissibility( 		source.getPermissibility());
+		target.setPriority( 		source.getPriority());
 		
 		target.setDurationToComplete(	source.getDurationToComplete());
 		target.setDueDate( 				source.getDueDate());

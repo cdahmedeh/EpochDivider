@@ -18,9 +18,9 @@ public class Task{
 	public Mutability getMutability() {return mutability;}
 	public void setMutability(Mutability mutability) {this.mutability = mutability != null ? mutability : TypeConstants.DEFAULT_MUTABILITY;}
 	
-	private Permissibility permissibility = TypeConstants.DEFAULT_PERMISSIBILITY;
-	public Permissibility getPermissibility() {return permissibility;}
-	public void setPermissibility(Permissibility permissibility) {this.permissibility = permissibility != null ? permissibility : TypeConstants.DEFAULT_PERMISSIBILITY;}
+	private Priority priority = TypeConstants.DEFAULT_PRIORITY;
+	public Priority getPriority() {return priority;}
+	public void setPriority(Priority priority) {this.priority = priority != null ? priority : TypeConstants.DEFAULT_PRIORITY;}
 		
 	private Duration durationToComplete = new Duration(0);
 	public Duration getDurationToComplete() {return durationToComplete;}
