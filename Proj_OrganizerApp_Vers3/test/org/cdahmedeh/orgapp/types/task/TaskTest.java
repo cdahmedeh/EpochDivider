@@ -50,11 +50,11 @@ public class TaskTest {
 	}
 	
 	@Test public void taskHasCorrectDefaultPermissibilitySettingWhenCreated(){
-		assertEquals(TypeConstants.DEFAULT_PERMISSIBILITY, new Task().getPermissibility());
+		assertEquals(TypeConstants.DEFAULT_PRIORITY, new Task().getPriority());
 	}
 	@Test public void settingTaskPermissibilityToNullShouldReallySetItToDefault(){	
 		Task task = new Task();
-		task.setPermissibility(null);
-		assertEquals(TypeConstants.DEFAULT_PERMISSIBILITY, task.getPermissibility()); 
+		task.setPriority(null);
+		assertEquals(TypeConstants.DEFAULT_PRIORITY, task.getPriority()); 
 	}
 }
