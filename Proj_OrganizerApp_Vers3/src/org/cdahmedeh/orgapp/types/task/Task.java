@@ -37,6 +37,7 @@ public class Task{
 	public void clearAssignedTimeBlocks() {this.timeBlocks.clear();}
 	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
 	public TimeBlock getFirstTimeBlock() {return timeBlocks.get(0);}
+	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;} //TODO: copy?
 	
 	public Duration getTotalScheduledDuration() {
 		Duration duration = Duration.ZERO;
