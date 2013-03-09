@@ -15,7 +15,7 @@ import swing2swt.layout.BorderLayout;
 public class TaskListComposite extends Composite {
 	@Override protected void checkSubclass() {}
 	
-	TaskContainer taskContainer = null;
+	private TaskContainer taskContainer = null;
 	private Tree treeTasksList;
 	
 	public TaskListComposite(Composite parent, int style, TaskContainer taskContainer) {
@@ -27,6 +27,8 @@ public class TaskListComposite extends Composite {
 		
 		makeTaskTree();
 		fillTaskTree();
+		
+		
 	}
 
 	private void makeTaskTree() {
