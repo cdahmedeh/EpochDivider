@@ -10,6 +10,8 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
+import swing2swt.layout.BorderLayout;
+
 public class TaskListComposite extends Composite {
 	@Override protected void checkSubclass() {}
 	
@@ -21,15 +23,23 @@ public class TaskListComposite extends Composite {
 		
 		this.taskContainer = taskContainer;
 		
-		this.setLayout(new FillLayout());
+		this.setLayout(new BorderLayout());
 		
+		makeTaskTree();
+		fillTaskTree();
+	}
+
+	private void makeTaskTree() {
 		treeTasksList = new Tree(this, SWT.NONE);
+		treeTasksList.setLayoutData(BorderLayout.CENTER);
 		treeTasksList.setHeaderVisible(true);
 		
 		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Title", 300);
 		TreeColumn clmDuration = ComponentFactory.generateTreeColumn(treeTasksList, "Duration", 100);
 		TreeColumn clmDueDate = ComponentFactory.generateTreeColumn(treeTasksList, "Due Date", 100);
-		
+	}
+	
+	private void fillTaskTree() {
 		for (Task task: taskContainer.getAllTasks()){
 			TreeItem itmTask = new TreeItem(treeTasksList, SWT.NONE);
 			itmTask.setText(new String[]{
