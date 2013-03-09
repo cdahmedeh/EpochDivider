@@ -1,7 +1,6 @@
 package org.cdahmedeh.orgapp.types.task;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class TaskContainer {
 	public ArrayList<Task> tasks = new ArrayList<>();
