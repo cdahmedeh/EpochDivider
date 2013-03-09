@@ -6,6 +6,8 @@ import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
@@ -26,14 +28,16 @@ public class TaskListComposite extends Composite {
 		this.setLayout(new BorderLayout());
 		
 		makeTaskTree();
+		treeTasksList.setLayoutData(BorderLayout.CENTER);
+		
 		fillTaskTree();
 		
-		
+		ToolBar bottomBar = makeBottomBar();
+		bottomBar.setLayoutData(BorderLayout.SOUTH);
 	}
 
 	private void makeTaskTree() {
 		treeTasksList = new Tree(this, SWT.NONE);
-		treeTasksList.setLayoutData(BorderLayout.CENTER);
 		treeTasksList.setHeaderVisible(true);
 		
 		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Title", 300);
@@ -50,5 +54,13 @@ public class TaskListComposite extends Composite {
 					task.getDueDate() == null ? "" : task.getDueDate().toString()
 					});
 		}
+	}
+	
+	private ToolBar makeBottomBar() {
+		ToolBar bottomBar = new ToolBar(this, SWT.NONE);
+		
+		ToolItem buttonAddTask = new ToolItem(bottomBar, SWT.NONE);
+		buttonAddTask.setText("Add");
+		return bottomBar;
 	}
 }
