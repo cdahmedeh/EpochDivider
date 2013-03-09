@@ -2,8 +2,10 @@ package org.cdahmedeh.orgapp.ui.main;
 
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
+import org.cdahmedeh.orgapp.ui.calendar.CalendarComposite;
 import org.cdahmedeh.orgapp.ui.task.TaskListComposite;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
@@ -44,6 +46,9 @@ public class MainAppWindow {
 		taskContainer.addTask(new Task("Test"));
 		taskContainer.addTask(new Task("Test"));
 		
-		TaskListComposite taskListComposite = new TaskListComposite(shell, SWT.NONE, taskContainer);
+		SashForm sashForm = new SashForm(shell, SWT.SMOOTH | SWT.VERTICAL);
+		
+		CalendarComposite calendarComposite = new CalendarComposite(sashForm, SWT.BORDER);
+		TaskListComposite taskListComposite = new TaskListComposite(sashForm, SWT.BORDER, taskContainer);
 	}
 }
