@@ -3,9 +3,10 @@ package org.cdahmedeh.orgapp.ui.task;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
+import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
@@ -13,6 +14,8 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import swing2swt.layout.BorderLayout;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.GridData;
 
 public class TaskListComposite extends Composite {
 	@Override protected void checkSubclass() {}
@@ -32,7 +35,7 @@ public class TaskListComposite extends Composite {
 		
 		fillTaskTree();
 		
-		ToolBar bottomBar = makeBottomBar();
+		Composite bottomBar = makeBottomBar();
 		bottomBar.setLayoutData(BorderLayout.SOUTH);
 	}
 
@@ -56,11 +59,19 @@ public class TaskListComposite extends Composite {
 		}
 	}
 	
-	private ToolBar makeBottomBar() {
-		ToolBar bottomBar = new ToolBar(this, SWT.NONE);
+	private Composite makeBottomBar() {
+		Composite bottomBarComposite = new Composite(this, SWT.NONE);
+		GridLayout gridLayout = new GridLayout(2, false);
+		ComponentModifier.removeSpacingAndMargins(gridLayout);
+		bottomBarComposite.setLayout(gridLayout);
+		
+		Text text = new Text(bottomBarComposite, SWT.BORDER);
+		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		ToolBar bottomBar = new ToolBar(bottomBarComposite, SWT.FLAT);
 		
 		ToolItem buttonAddTask = new ToolItem(bottomBar, SWT.NONE);
 		buttonAddTask.setText("Add");
-		return bottomBar;
+		return bottomBarComposite;
 	}
 }
