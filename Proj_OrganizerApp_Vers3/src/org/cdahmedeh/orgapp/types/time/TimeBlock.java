@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.types.time;
 
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.Duration;
 
 public class TimeBlock {
@@ -25,6 +26,8 @@ public class TimeBlock {
 	public DateTime getEnd() {return end;}
 	
 	public Duration getDuration() {return new Duration(start, end);}
+	
+	public int daysSpaning() {return Days.daysBetween(start, end).getDays();}
 	
 	@Override
 	public String toString() {

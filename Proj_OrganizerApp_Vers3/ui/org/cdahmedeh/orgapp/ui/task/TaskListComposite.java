@@ -37,7 +37,7 @@ public class TaskListComposite extends Composite {
 	}
 
 	private void makeTaskTree() {
-		treeTasksList = new Tree(this, SWT.NONE);
+		treeTasksList = new Tree(this, SWT.CHECK);
 		treeTasksList.setHeaderVisible(true);
 		
 		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Title", 300);

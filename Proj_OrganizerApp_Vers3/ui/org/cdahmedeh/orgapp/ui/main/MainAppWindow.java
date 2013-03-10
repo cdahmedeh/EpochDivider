@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.ui.main;
 
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
+import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.cdahmedeh.orgapp.ui.calendar.CalendarComposite;
 import org.cdahmedeh.orgapp.ui.task.TaskListComposite;
 import org.eclipse.swt.SWT;
@@ -10,6 +11,9 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 public class MainAppWindow {
 	protected Shell shell;
@@ -43,12 +47,15 @@ public class MainAppWindow {
 		shell.setLayout(new FillLayout());
 		
 		TaskContainer taskContainer = new TaskContainer();
-		taskContainer.addTask(new Task("Test"));
+		Task task = new Task("Test");
+		task.assignToTimeBlock(new TimeBlock());
+		task.assignToTimeBlock(new TimeBlock(new LocalDate().toDateTime(new LocalTime(14,30,00))));
+		taskContainer.addTask(task);
 		taskContainer.addTask(new Task("Test"));
 		
 		SashForm sashForm = new SashForm(shell, SWT.SMOOTH | SWT.VERTICAL);
 		
-		CalendarComposite calendarComposite = new CalendarComposite(sashForm, SWT.BORDER);
+		CalendarComposite calendarComposite = new CalendarComposite(sashForm, SWT.BORDER, taskContainer);
 		TaskListComposite taskListComposite = new TaskListComposite(sashForm, SWT.BORDER, taskContainer);
 	}
 }
