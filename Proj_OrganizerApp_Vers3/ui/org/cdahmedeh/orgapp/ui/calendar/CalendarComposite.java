@@ -10,6 +10,8 @@ import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Canvas;
@@ -25,6 +27,7 @@ public class CalendarComposite extends Composite {
 	
 	private TaskContainer taskContainer = null;
 	private HashMap<TimeBlock, Task> timeBlockTaskMap = new HashMap<>();
+	private View currentView =  new View(new LocalDate(), new LocalDate().plusDays(7), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59));
 	
 	public CalendarComposite(Composite parent, int style, TaskContainer taskContainer) {
 		super(parent, style);
@@ -47,10 +50,10 @@ public class CalendarComposite extends Composite {
 	}
 	
 	public void makeCalendar() {
-		final View currentView = new View(new LocalDate(), new LocalDate().plusDays(7), LocalTime.MIDNIGHT, new LocalTime(13, 59, 59));
-		
 		final Canvas calendarCanvas = new Canvas(this, SWT.V_SCROLL);
 		calendarCanvas.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		makeCalendarScrollable(calendarCanvas);
 		
 		calendarCanvas.addPaintListener(new PaintListener() { 
 			public void paintControl(PaintEvent e) {
@@ -64,5 +67,22 @@ public class CalendarComposite extends Composite {
 				GridRenderer.drawCurrentTime(Display.getDefault(), calendarCanvas, currentView, e);
 	        }
 	    });
+	}
+
+	public void makeCalendarScrollable(final Canvas calendarCanvas) {
+		final ScrollBar calendarVBar = calendarCanvas.getVerticalBar();
+		calendarVBar.setValues(
+			currentView.getFirstHour().getHourOfDay(), 0, 
+			23 - currentView.getNumberOfHoursVisible(), 1, 1, 1);
+		
+		calendarVBar.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int selection = calendarVBar.getSelection();
+				currentView.setLastHour(new LocalTime(selection+currentView.getNumberOfHoursVisible(),59,59));
+				currentView.setFirstHour(new LocalTime(selection, 0, 0));
+				calendarCanvas.redraw();
+			}
+		});
 	}
 }
