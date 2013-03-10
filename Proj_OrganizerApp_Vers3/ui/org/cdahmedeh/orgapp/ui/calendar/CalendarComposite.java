@@ -7,6 +7,7 @@ import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
+import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -14,6 +15,8 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -25,6 +28,10 @@ import org.joda.time.LocalTime;
 public class CalendarComposite extends Composite {
 	@Override protected void checkSubclass() {}
 	
+	protected Canvas calendarCanvas;
+	protected Canvas daylineCanvas;
+	protected Canvas timelineCanvas;
+	
 	private TaskContainer taskContainer = null;
 	private HashMap<TimeBlock, Task> timeBlockTaskMap = new HashMap<>();
 	private View currentView =  new View(new LocalDate(), new LocalDate().plusDays(7), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59));
@@ -33,12 +40,14 @@ public class CalendarComposite extends Composite {
 		super(parent, style);
 		
 		this.taskContainer = taskContainer;
-		
-		this.setLayout(new FillLayout());
-		
+	
 		fillTimeBlockTaskMap();
-		
+		prepareGridLayout();
+		makeSpacer();
+		makeDayLine();
+		makeTimeLine();
 		makeCalendar();
+		makeCalendarScrollable();
 	}
 
 	public void fillTimeBlockTaskMap() {
@@ -49,12 +58,51 @@ public class CalendarComposite extends Composite {
 		}
 	}
 	
+	public void prepareGridLayout() {
+		GridLayout calendarGridLayout = new GridLayout();
+		ComponentModifier.removeSpacingAndMargins(calendarGridLayout);
+		calendarGridLayout.numColumns = 2;
+		this.setLayout(calendarGridLayout);
+	}
+	
+	public void makeSpacer() {
+		final Composite empty = new Composite(this, SWT.NONE);
+		GridData emptyGridLayout = new GridData(SWT.LEFT, SWT.TOP, false, false);
+		emptyGridLayout.heightHint = CalendarUIConstants.dayLineHeight;
+		emptyGridLayout.widthHint = CalendarUIConstants.timeLineWidth;
+		empty.setLayoutData(emptyGridLayout);
+		empty.setBackground(SWTResourceManager.getColor(CalendarUIConstants.lineBackgroundColor));
+	}
+	
+	public void makeDayLine() {
+		daylineCanvas = new Canvas(this, SWT.V_SCROLL);
+		daylineCanvas.setBackground(SWTResourceManager.getColor(CalendarUIConstants.lineBackgroundColor));
+		
+		GridData dayLineGl = new GridData(SWT.FILL, SWT.TOP, true, false);
+		dayLineGl.heightHint = CalendarUIConstants.dayLineHeight;
+		daylineCanvas.setLayoutData(dayLineGl);
+		
+		daylineCanvas.addPaintListener(new PaintListener() {
+		@Override public void paintControl(PaintEvent e) {GridRenderer.drawDays(e, daylineCanvas, currentView);}});
+	}
+	
+	public void makeTimeLine() {
+		timelineCanvas = new Canvas(this, SWT.NONE);
+		timelineCanvas.setBackground(SWTResourceManager.getColor(CalendarUIConstants.lineBackgroundColor));
+		
+		GridData timelineGL = new GridData(SWT.FILL, SWT.FILL, false, true);
+		timelineGL.widthHint = CalendarUIConstants.timeLineWidth;
+		timelineCanvas.setLayoutData(timelineGL);
+
+		timelineCanvas.addPaintListener(new PaintListener() {
+		@Override public void paintControl(PaintEvent e) {GridRenderer.drawHours(e, timelineCanvas, currentView);}});
+	}
+	
 	public void makeCalendar() {
-		final Canvas calendarCanvas = new Canvas(this, SWT.V_SCROLL);
+		calendarCanvas = new Canvas(this, SWT.V_SCROLL);
 		calendarCanvas.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		makeCalendarScrollable(calendarCanvas);
-		
+		calendarCanvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			
 		calendarCanvas.addPaintListener(new PaintListener() { 
 			public void paintControl(PaintEvent e) {
 	        	e.gc.setAntialias(SWT.ON);
@@ -69,11 +117,11 @@ public class CalendarComposite extends Composite {
 	    });
 	}
 
-	public void makeCalendarScrollable(final Canvas calendarCanvas) {
+	public void makeCalendarScrollable() {
 		final ScrollBar calendarVBar = calendarCanvas.getVerticalBar();
 		calendarVBar.setValues(
 			currentView.getFirstHour().getHourOfDay(), 0, 
-			23 - currentView.getNumberOfHoursVisible(), 1, 1, 1);
+			24 - currentView.getNumberOfHoursVisible(), 1, 1, 1);
 		
 		calendarVBar.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -82,6 +130,8 @@ public class CalendarComposite extends Composite {
 				currentView.setLastHour(new LocalTime(selection+currentView.getNumberOfHoursVisible(),59,59));
 				currentView.setFirstHour(new LocalTime(selection, 0, 0));
 				calendarCanvas.redraw();
+				timelineCanvas.redraw();
+				daylineCanvas.redraw();
 			}
 		});
 	}
