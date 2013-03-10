@@ -13,8 +13,6 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
@@ -31,9 +29,10 @@ public class CalendarComposite extends Composite {
 	protected Canvas calendarCanvas;
 	protected Canvas daylineCanvas;
 	protected Canvas timelineCanvas;
+
+	private HashMap<TimeBlock, Task> timeBlockTaskMap = new HashMap<>();
 	
 	private TaskContainer taskContainer = null;
-	private HashMap<TimeBlock, Task> timeBlockTaskMap = new HashMap<>();
 	private View currentView =  new View(new LocalDate(), new LocalDate().plusDays(7), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59));
 	
 	public CalendarComposite(Composite parent, int style, TaskContainer taskContainer) {
@@ -129,10 +128,14 @@ public class CalendarComposite extends Composite {
 				int selection = calendarVBar.getSelection();
 				currentView.setLastHour(new LocalTime(selection+currentView.getNumberOfHoursVisible(),59,59));
 				currentView.setFirstHour(new LocalTime(selection, 0, 0));
-				calendarCanvas.redraw();
-				timelineCanvas.redraw();
-				daylineCanvas.redraw();
+				redrawAllCanvas();
 			}
 		});
+	}
+	
+	public void redrawAllCanvas() {
+		calendarCanvas.redraw();
+		timelineCanvas.redraw();
+		daylineCanvas.redraw();
 	}
 }
