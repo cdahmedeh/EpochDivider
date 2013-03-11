@@ -27,7 +27,7 @@ public class TimeBlock {
 	
 	public Duration getDuration() {return new Duration(start, end);}
 	
-	public int daysSpaning() {return Days.daysBetween(start, end).getDays();}
+	public int daysSpaning() {return Days.daysBetween(start.toLocalDate(), end.toLocalDate()).getDays();}
 	
 	@Override
 	public String toString() {
