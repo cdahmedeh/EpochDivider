@@ -1,5 +1,6 @@
 package org.cdahmedeh.orgapp.ui.calendar;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -13,6 +14,7 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
@@ -31,6 +33,7 @@ public class CalendarComposite extends Composite {
 	protected Canvas timelineCanvas;
 
 	private HashMap<TimeBlock, Task> timeBlockTaskMap = new HashMap<>();
+	private HashMap<Rectangle, TimeBlock> rectangleTimeBlockMap = new HashMap<>();
 	
 	private TaskContainer taskContainer = null;
 	private View currentView =  new View(new LocalDate(), new LocalDate().plusDays(7), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59, 999));
@@ -108,7 +111,10 @@ public class CalendarComposite extends Composite {
 	            GridRenderer.drawTimeGrid(e, calendarCanvas, currentView);
 	            
 	            for (Entry<TimeBlock, Task> entry : timeBlockTaskMap.entrySet()){
-	            	TimeBlockRenderer.draw(entry.getKey(), entry.getValue(), currentView, e, calendarCanvas);
+	            	ArrayList<Rectangle> rectangles = TimeBlockRenderer.draw(entry.getKey(), entry.getValue(), currentView, e, calendarCanvas);
+	            	for (Rectangle rectangle: rectangles){
+	            		rectangleTimeBlockMap.put(rectangle, entry.getKey());
+	            	}
 				}
 	            
 				GridRenderer.drawCurrentTime(Display.getDefault(), calendarCanvas, currentView, e);
