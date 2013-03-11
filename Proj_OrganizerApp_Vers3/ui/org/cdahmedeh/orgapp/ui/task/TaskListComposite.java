@@ -1,5 +1,7 @@
 package org.cdahmedeh.orgapp.ui.task;
 
+import java.util.HashMap;
+
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.ui.category.CategoryListComposite;
@@ -19,6 +21,14 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import swing2swt.layout.BorderLayout;
 
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSource;
+import org.eclipse.swt.dnd.DragSourceAdapter;
+import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.DragDetectEvent;
+import org.eclipse.swt.events.DragDetectListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridLayout;
@@ -46,6 +56,8 @@ public class TaskListComposite extends Composite {
 	private TaskContainer taskContainer = null;
 	private Tree treeTasksList;
 	
+	private HashMap<TreeItem, Task> mapTreeItemTask = new HashMap<>();
+	
 	public TaskListComposite(Composite parent, int style, TaskContainer taskContainer) {
 		super(parent, style);
 		
@@ -58,6 +70,8 @@ public class TaskListComposite extends Composite {
 
 		Composite bottomBar = makeBottomBar();
 		bottomBar.setLayoutData(BorderLayout.SOUTH);
+		
+		setupDragFrom();
 	}
 
 	private void makeTaskTree() {
@@ -70,6 +84,7 @@ public class TaskListComposite extends Composite {
 	}
 	
 	private void fillTaskTree() {
+		mapTreeItemTask.clear();
 		for (Task task: taskContainer.getAllTasks()){
 			TreeItem itmTask = new TreeItem(treeTasksList, SWT.NONE);
 			itmTask.setText(new String[]{
@@ -77,6 +92,7 @@ public class TaskListComposite extends Composite {
 					task.getDurationToComplete().getStandardHours() + " hr",
 					task.getDueDate() == null ? "" : task.getDueDate().toString()
 					});
+			mapTreeItemTask.put(itmTask, task);
 		}
 	}
 	
@@ -102,5 +118,20 @@ public class TaskListComposite extends Composite {
 			}
 		});
 		return bottomBarComposite;
+	}
+	
+	private void setupDragFrom(){
+		final DragSource source = new DragSource(treeTasksList, DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK);
+		source.setTransfer(new Transfer[]{TextTransfer.getInstance()});
+		source.addDragListener(new DragSourceAdapter(){
+			@Override
+			public void dragStart(DragSourceEvent event) {
+				event.doit = true;
+			}
+			@Override
+			public void dragSetData(DragSourceEvent event) {
+				event.data = String.valueOf(mapTreeItemTask.get(treeTasksList.getSelection()[0]).getId());
+			}
+		});
 	}
 }

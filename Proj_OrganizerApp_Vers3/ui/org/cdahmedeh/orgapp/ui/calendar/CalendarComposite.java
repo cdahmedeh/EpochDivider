@@ -11,6 +11,12 @@ import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
 import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetAdapter;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.DragDetectEvent;
 import org.eclipse.swt.events.DragDetectListener;
 import org.eclipse.swt.events.MouseAdapter;
@@ -28,6 +34,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -72,6 +79,7 @@ public class CalendarComposite extends Composite {
 		makeCalendar();
 		makeCalendarScrollable();
 		makeCalendarBlocksDraggable();
+		setupDrop();
 	}
 
 	public void fillTimeBlockTaskMap() {
@@ -202,6 +210,28 @@ public class CalendarComposite extends Composite {
 					timeBlockDragged.setEnd(PixelsToDate.roundToMins(PixelsToDate.getTimeFromPosition(e.x, e.y, calendarCanvas.getClientArea(), currentView), 15));
 					calendarCanvas.redraw();
 				}
+			}
+		});
+	}
+	
+	public void setupDrop(){
+		DropTarget target = new DropTarget(calendarCanvas, DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK);
+		target.setTransfer(new Transfer[]{TextTransfer.getInstance()});
+		target.addDropListener(new DropTargetAdapter(){
+			@Override
+			public void drop(DropTargetEvent event) {
+				Task selectedTask = taskContainer.getTaskFromId(Integer.valueOf((String) event.data));
+				TimeBlock newTimeBlock = new TimeBlock();
+				selectedTask.assignToTimeBlock(newTimeBlock);
+				timeBlockDragged = newTimeBlock;
+				timeClickedOffset = new Duration(15*DateTimeConstants.MILLIS_PER_MINUTE);
+//				eventBus.post(new TasksModifiedNotification());
+				//TODO: test only
+				timeBlockTaskMap.clear();
+				fillTimeBlockTaskMap();
+				redrawAllCanvas();
+				uiMode = CalendarUIMode.DRAG;
+				System.out.println(selectedTask.getTitle());
 			}
 		});
 	}
