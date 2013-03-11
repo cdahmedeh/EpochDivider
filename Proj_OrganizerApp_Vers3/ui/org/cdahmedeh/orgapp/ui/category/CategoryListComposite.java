@@ -49,7 +49,7 @@ public class CategoryListComposite extends Composite {
 	}
 	
 	private void fillCategoryTree() {
-		for (Category category: categoryContainer.getAllCategorys()){
+		for (Category category: categoryContainer.getAllCategories()){
 			TreeItem itmCategory = new TreeItem(treeCategorysList, SWT.NONE);
 			itmCategory.setText(new String[]{
 					category.getName()
