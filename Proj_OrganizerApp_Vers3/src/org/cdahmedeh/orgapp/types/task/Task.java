@@ -46,7 +46,7 @@ public class Task{
 	public boolean hasOnlyOneTimeBlock() {return timeBlocks.size() == 1;}
 	public void clearAssignedTimeBlocks() {this.timeBlocks.clear();}
 	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
-	public TimeBlock getFirstTimeBlock() {return timeBlocks.get(0);}
+	public TimeBlock getFirstTimeBlock() {return timeBlocks.isEmpty() ? null : timeBlocks.get(0);}
 	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}
 	
 	public Duration getTotalPassedDuration() {

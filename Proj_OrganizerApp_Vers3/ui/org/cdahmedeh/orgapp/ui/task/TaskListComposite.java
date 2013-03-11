@@ -89,8 +89,9 @@ public class TaskListComposite extends Composite {
 		treeTasksList = new Tree(this, SWT.CHECK);
 		treeTasksList.setHeaderVisible(true);
 		
-		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Task", 250);
-		TreeColumn clmCategory = ComponentFactory.generateTreeColumn(treeTasksList, "Category", 100);
+		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Task", 220);
+		TreeColumn clmCategory = ComponentFactory.generateTreeColumn(treeTasksList, "Category", 80);
+		TreeColumn clmNextScheduled = ComponentFactory.generateTreeColumn(treeTasksList, "Next", 80);
 		TreeColumn clmDueDate = ComponentFactory.generateTreeColumn(treeTasksList, "Due Date", 100);
 		TreeColumn clmTotalPassed = ComponentFactory.generateTreeColumn(treeTasksList, "Done", 40);
 		TreeColumn clmTotalScheduled = ComponentFactory.generateTreeColumn(treeTasksList, "Sched.", 40);
@@ -104,6 +105,7 @@ public class TaskListComposite extends Composite {
 			itmTask.setText(new String[]{
 					task.getTitle(),
 					task.getCategory().getName(),
+					task.getFirstTimeBlock() == null ? "" : task.getFirstTimeBlock().toString(),
 					task.getDueDate() == null ? "" : task.getDueDate().toString(),
 					task.getTotalPassedDuration().getStandardHours() + " hr",
 					task.getTotalScheduledDuration().getStandardHours() + " hr",
