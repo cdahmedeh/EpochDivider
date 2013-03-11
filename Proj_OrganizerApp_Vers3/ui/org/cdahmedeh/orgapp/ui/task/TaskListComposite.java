@@ -98,7 +98,7 @@ public class TaskListComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				eventBus.post(new TaskQuickAddNotification(text.getText()));
-				text.clearSelection();
+				text.setText("");
 			}
 		});
 		return bottomBarComposite;
