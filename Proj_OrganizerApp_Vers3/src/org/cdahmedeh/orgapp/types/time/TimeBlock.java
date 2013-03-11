@@ -29,8 +29,5 @@ public class TimeBlock {
 	
 	public int daysSpaning() {return Days.daysBetween(start.toLocalDate(), end.toLocalDate()).getDays();}
 	
-	@Override
-	public String toString() {
-		return start + " " + end;
-	}
+	@Override public String toString() {return start + " " + end;}
 }
