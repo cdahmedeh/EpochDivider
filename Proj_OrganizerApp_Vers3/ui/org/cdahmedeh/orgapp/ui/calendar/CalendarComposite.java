@@ -33,7 +33,7 @@ public class CalendarComposite extends Composite {
 	private HashMap<TimeBlock, Task> timeBlockTaskMap = new HashMap<>();
 	
 	private TaskContainer taskContainer = null;
-	private View currentView =  new View(new LocalDate(), new LocalDate().plusDays(7), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59));
+	private View currentView =  new View(new LocalDate(), new LocalDate().plusDays(7), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59, 999));
 	
 	public CalendarComposite(Composite parent, int style, TaskContainer taskContainer) {
 		super(parent, style);
@@ -126,7 +126,7 @@ public class CalendarComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selection = calendarVBar.getSelection();
-				currentView.setLastHour(new LocalTime(selection+currentView.getNumberOfHoursVisible(),59,59));
+				currentView.setLastHour(new LocalTime(selection+currentView.getNumberOfHoursVisible(),59,59,999));
 				currentView.setFirstHour(new LocalTime(selection, 0, 0));
 				redrawAllCanvas();
 			}
