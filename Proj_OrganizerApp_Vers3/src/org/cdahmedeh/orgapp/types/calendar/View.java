@@ -44,4 +44,8 @@ public class View {
 		this.setStartDate(this.getStartDate().plusDays(days));
 		this.setEndDate(this.getEndDate().plusDays(days));
 	}
+	public void zoomInMinutes(int minutes) {
+		this.setFirstHour(this.getFirstHour().minusMinutes(minutes));
+		this.setLastHour(this.getLastHour().plusMinutes(minutes));
+	}
 }

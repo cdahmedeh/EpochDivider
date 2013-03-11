@@ -16,13 +16,9 @@ import org.cdahmedeh.orgapp.ui.task.TaskListComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -76,13 +72,16 @@ public class MainAppWindow {
 		categoryContainer.addCategory(new NoCategory());
 		categoryContainer.addCategory(new Category("Essentials"));
 		categoryContainer.addCategory(new Category("University"));
+		categoryContainer.addCategory(new Category("Projects"));
+		categoryContainer.addCategory(new Category("Gaming"));
+		categoryContainer.addCategory(new Category("Outing"));
 		
 		eventBus = new EventBus();
 		
 		taskContainer = new TaskContainer();
 		Task task = new Task("Test");
 //		task.assignToTimeBlock(new TimeBlock());
-		task.assignToTimeBlock(new TimeBlock(new DateTime(2013, 03, 12, 12, 00), new DateTime(2013, 03, 13, 12, 00)));
+		task.assignToTimeBlock(new TimeBlock(new DateTime(2013, 03, 12, 12, 00), new DateTime(2013, 03, 12, 14, 00)));
 		taskContainer.addTask(task);
 		taskContainer.addTask(new Task("Test"));
 		
@@ -100,6 +99,8 @@ public class MainAppWindow {
 		calendarComposite.setEventBus(eventBus);
 		taskListComposite.setEventBus(eventBus);
 		taskListComposite2.setEventBus(eventBus);
+	
+		rightSashForm.setWeights(new int[]{7,3});
 		
 		eventBus.post(new TasksModifiedNotification());
 		

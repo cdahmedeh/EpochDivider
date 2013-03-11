@@ -19,13 +19,18 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.DragDetectEvent;
 import org.eclipse.swt.events.DragDetectListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -40,6 +45,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 public class CalendarComposite extends Composite {
 	@Override protected void checkSubclass() {}
@@ -50,6 +56,9 @@ public class CalendarComposite extends Composite {
 		this.eventBus.register(new EventRecorder());
 	}
 	class EventRecorder{
+		@Subscribe public void tasksModified(TasksModifiedNotification notify){
+			redrawAllCanvas();
+		}
 	}
 	
 	protected Canvas calendarCanvas;
@@ -78,6 +87,7 @@ public class CalendarComposite extends Composite {
 		makeTimeLine();
 		makeCalendar();
 		makeCalendarScrollable();
+		makeCalendarZoomable();
 		makeCalendarBlocksDraggable();
 		setupDrop();
 	}
@@ -171,6 +181,18 @@ public class CalendarComposite extends Composite {
 		});
 	}
 	
+	public void makeCalendarZoomable() {
+//		calendarCanvas.addMouseWheelListener(new MouseWheelListener() {
+//			@Override
+//			public void mouseScrolled(MouseEvent e) {
+//				if (e.stateMask == SWT.MOD1){
+//					currentView.zoomInMinutes(e.count > 0 ? -60: 60);
+//					redrawAllCanvas();
+//				}
+//			}
+//		});
+	}
+	
 	private void makeCalendarBlocksDraggable() {
 		calendarCanvas.addDragDetectListener(new DragDetectListener() {
 			@Override
@@ -231,7 +253,7 @@ public class CalendarComposite extends Composite {
 				fillTimeBlockTaskMap();
 				redrawAllCanvas();
 				uiMode = CalendarUIMode.DRAG;
-				System.out.println(selectedTask.getTitle());
+//				System.out.println(selectedTask.getTitle());
 			}
 		});
 	}

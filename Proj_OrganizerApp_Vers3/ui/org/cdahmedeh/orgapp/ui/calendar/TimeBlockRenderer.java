@@ -37,20 +37,23 @@ public class TimeBlockRenderer {
 			rectangles.add(new Rectangle(
 				DateToPixels.getHorizontalPositionFromDate(taskBeginDate , caWidth , view), 
 				DateToPixels.getVerticalPositionFromTime(taskBeginTime , caHeight, view), 
-				DateToPixels.getWidthBasedOnView(caWidth, view), 
+//				DateToPixels.getWidthBasedOnView(caWidth, view),
+				DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(taskBeginDate , caWidth , view), 
 				DateToPixels.getHeightFromInterval(taskBeginTime, taskEndTime, caHeight, view)
 				));
 		} else {
 			rectangles.add(new Rectangle(
 					DateToPixels.getHorizontalPositionFromDate(taskBeginDate, caWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(taskBeginTime, caHeight, view), 
-					DateToPixels.getWidthBasedOnView(caWidth, view), 
+//					DateToPixels.getWidthBasedOnView(caWidth, view), 
+					DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(taskBeginDate , caWidth , view), 
 					DateToPixels.getHeightFromInterval(taskBeginTime, endOfDay, caHeight, view)
 					));
 			rectangles.add( new Rectangle(
 					DateToPixels.getHorizontalPositionFromDate(taskEndDate, caWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(midnight, caHeight, view), 
-					DateToPixels.getWidthBasedOnView(caWidth, view), 
+//					DateToPixels.getWidthBasedOnView(caWidth, view),
+					DateToPixels.getHorizontalPositionFromDate(taskEndDate.plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(taskEndDate, caWidth , view), 
 					DateToPixels.getHeightFromInterval(midnight, taskEndTime, caHeight, view)
 					));
 		}
@@ -60,21 +63,22 @@ public class TimeBlockRenderer {
 			rectangles.add(new Rectangle(
 					DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(i) , caWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(midnight, caHeight, view), 
-					DateToPixels.getWidthBasedOnView(caWidth, view), 
+//					DateToPixels.getWidthBasedOnView(caWidth, view), 
+					DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(i).plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(i) , caWidth , view), 
 					DateToPixels.getHeightFromInterval(midnight, endOfDay, caHeight, view)
 					));
 			}
 		}
 	
-		e.gc.setBackground(SWTResourceManager.getColor(new RGB(230, 230, 230)));
+		e.gc.setBackground(SWTResourceManager.getColor(task.getCategory().getColor()));
 		
 		e.gc.setAlpha(200);
 		
 		e.gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		
 		for (Rectangle rect: rectangles){
-			e.gc.fillRoundRectangle(rect.x, rect.y, rect.width, rect.height, 3, 3);
-			e.gc.drawRoundRectangle(rect.x, rect.y, rect.width, rect.height, 3, 3);
+			e.gc.fillRoundRectangle(rect.x, rect.y, rect.width, rect.height, 2, 0);
+			e.gc.drawRoundRectangle(rect.x, rect.y, rect.width, rect.height, 2, 2);
 
 			if (rect.height > 40){
 				e.gc.drawText(task.getTitle() + "\n" + taskBeginTime.toString("HH:mm") + "\n" + taskEndTime.toString("HH:mm"), rect.x+5, rect.y+5, true);
