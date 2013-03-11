@@ -76,11 +76,11 @@ public class TimeBlockRenderer {
 			e.gc.fillRoundRectangle(rect.x, rect.y, rect.width, rect.height, 3, 3);
 			e.gc.drawRoundRectangle(rect.x, rect.y, rect.width, rect.height, 3, 3);
 
-//			if (rect.height > 40){
-//				e.gc.drawText(task.getName() + "\n" + taskBeginTime.toString("HH:mm") + "\n" + taskEndTime.toString("HH:mm"), rect.x+5, rect.y+5, true);
-//			} else {
-//				e.gc.drawText(task.getName(), rect.x+5, rect.y+3, true);
-//			}
+			if (rect.height > 40){
+				e.gc.drawText(task.getTitle() + "\n" + taskBeginTime.toString("HH:mm") + "\n" + taskEndTime.toString("HH:mm"), rect.x+5, rect.y+5, true);
+			} else {
+				e.gc.drawText(task.getTitle(), rect.x+5, rect.y+3, true);
+			}
 		}
 
 		e.gc.setAlpha(255);
