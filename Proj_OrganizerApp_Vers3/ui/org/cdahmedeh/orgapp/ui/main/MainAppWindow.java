@@ -1,7 +1,9 @@
 package org.cdahmedeh.orgapp.ui.main;
 
+import org.cdahmedeh.orgapp.types.category.AllCategories;
 import org.cdahmedeh.orgapp.types.category.Category;
 import org.cdahmedeh.orgapp.types.category.CategoryContainer;
+import org.cdahmedeh.orgapp.types.category.NoCategory;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
@@ -70,6 +72,8 @@ public class MainAppWindow {
 		shell.setLayout(new FillLayout());
 		
 		CategoryContainer categoryContainer = new CategoryContainer();
+		categoryContainer.addCategory(new AllCategories());
+		categoryContainer.addCategory(new NoCategory());
 		categoryContainer.addCategory(new Category("Essentials"));
 		categoryContainer.addCategory(new Category("University"));
 		

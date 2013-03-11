@@ -2,12 +2,15 @@ package org.cdahmedeh.orgapp.ui.task;
 
 import java.util.HashMap;
 
+import org.cdahmedeh.orgapp.types.category.Category;
+import org.cdahmedeh.orgapp.types.category.NoCategory;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.ui.category.CategoryListComposite;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
 import org.cdahmedeh.orgapp.ui.icons.Icons;
+import org.cdahmedeh.orgapp.ui.notify.CategoryChangedNotification;
 import org.cdahmedeh.orgapp.ui.notify.TaskQuickAddNotification;
 import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;
 import org.eclipse.swt.SWT;
@@ -51,11 +54,18 @@ public class TaskListComposite extends Composite {
 			treeTasksList.removeAll();
 			fillTaskTree();
 		}
+		@Subscribe public void contextChanged(CategoryChangedNotification notify){
+			treeTasksList.removeAll();
+			category = notify.getCategory();
+			fillTaskTree();
+		}
 	}
 	
 	private TaskContainer taskContainer = null;
-	private Tree treeTasksList;
+	private Category category = new NoCategory();
 	
+	private Tree treeTasksList;
+		
 	private HashMap<TreeItem, Task> mapTreeItemTask = new HashMap<>();
 	
 	public TaskListComposite(Composite parent, int style, TaskContainer taskContainer) {
@@ -86,7 +96,7 @@ public class TaskListComposite extends Composite {
 	
 	private void fillTaskTree() {
 		mapTreeItemTask.clear();
-		for (Task task: taskContainer.getAllTasks()){
+		for (Task task: taskContainer.getTasksWithCategory(category)){
 			TreeItem itmTask = new TreeItem(treeTasksList, SWT.NONE);
 			itmTask.setText(new String[]{
 					task.getTitle(),

@@ -10,6 +10,7 @@ import org.cdahmedeh.orgapp.ui.calendar.CalendarUIMode;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
 import org.cdahmedeh.orgapp.ui.icons.Icons;
+import org.cdahmedeh.orgapp.ui.notify.CategoryChangedNotification;
 import org.cdahmedeh.orgapp.ui.notify.ChangeTaskToCategoryRequest;
 import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;
 import org.eclipse.swt.SWT;
@@ -29,6 +30,8 @@ import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -62,6 +65,8 @@ public class CategoryListComposite extends Composite {
 		this.setLayout(new BorderLayout());
 		
 		makeCategoryTree();
+		makeCategoryTreeClickable();
+		
 		treeCategorysList.setLayoutData(BorderLayout.CENTER);
 		
 		fillCategoryTree();
@@ -77,6 +82,15 @@ public class CategoryListComposite extends Composite {
 		treeCategorysList.setHeaderVisible(true);
 		
 		TreeColumn clmName = ComponentFactory.generateTreeColumn(treeCategorysList, "Category", 100);
+	}
+	
+	private void makeCategoryTreeClickable(){
+		treeCategorysList.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				eventBus.post(new CategoryChangedNotification(mapTreeItemCategory.get(treeCategorysList.getSelection()[0])));
+			}
+		});
 	}
 	
 	private void fillCategoryTree() {
@@ -113,7 +127,7 @@ public class CategoryListComposite extends Composite {
 			@Override
 			public void drop(DropTargetEvent event) {
 				int id = Integer.valueOf((String) event.data);
-				eventBus.post(new ChangeTaskToCategoryRequest(id, mapTreeItemCategory.get(treeCategorysList.getSelection()[0])));
+				eventBus.post(new ChangeTaskToCategoryRequest(id, mapTreeItemCategory.get(event.item)));
 			}
 		});
 	}
