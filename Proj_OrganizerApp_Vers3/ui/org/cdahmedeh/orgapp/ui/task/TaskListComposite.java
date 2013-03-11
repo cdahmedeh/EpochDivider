@@ -6,6 +6,7 @@ import org.cdahmedeh.orgapp.ui.category.CategoryListComposite;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
 import org.cdahmedeh.orgapp.ui.icons.Icons;
+import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
@@ -20,8 +21,23 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+
 public class TaskListComposite extends Composite {
 	@Override protected void checkSubclass() {}
+
+	private EventBus eventBus;
+	public void setEventBus(EventBus eventBus) {
+		this.eventBus = eventBus;
+		this.eventBus.register(new EventRecorder());
+	}
+	class EventRecorder{
+		@Subscribe public void tasksModified(TasksModifiedNotification notify){
+			treeTasksList.clearAll(true);
+			fillTaskTree();
+		}
+	}
 	
 	private TaskContainer taskContainer = null;
 	private Tree treeTasksList;
@@ -35,9 +51,7 @@ public class TaskListComposite extends Composite {
 		
 		makeTaskTree();
 		treeTasksList.setLayoutData(BorderLayout.CENTER);
-		
-		fillTaskTree();
-		
+
 		Composite bottomBar = makeBottomBar();
 		bottomBar.setLayoutData(BorderLayout.SOUTH);
 	}

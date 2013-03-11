@@ -7,6 +7,7 @@ import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.cdahmedeh.orgapp.ui.calendar.CalendarComposite;
 import org.cdahmedeh.orgapp.ui.category.CategoryListComposite;
+import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;
 import org.cdahmedeh.orgapp.ui.task.TaskListComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -18,6 +19,8 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+
+import com.google.common.eventbus.EventBus;
 
 public class MainAppWindow {
 	protected Shell shell;
@@ -54,6 +57,8 @@ public class MainAppWindow {
 		categoryContainer.addCategory(new Category("Essentials"));
 		categoryContainer.addCategory(new Category("University"));
 		
+		EventBus eventBus = new EventBus();
+		
 		TaskContainer taskContainer = new TaskContainer();
 		Task task = new Task("Test");
 //		task.assignToTimeBlock(new TimeBlock());
@@ -71,5 +76,9 @@ public class MainAppWindow {
 		
 		CalendarComposite calendarComposite = new CalendarComposite(rightSashForm, SWT.BORDER, taskContainer);
 		TaskListComposite taskListComposite = new TaskListComposite(rightSashForm, SWT.BORDER, taskContainer);
+		
+		taskListComposite.setEventBus(eventBus);
+		
+		eventBus.post(new TasksModifiedNotification());
 	}
 }
