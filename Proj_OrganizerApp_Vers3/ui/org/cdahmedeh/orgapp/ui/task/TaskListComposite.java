@@ -2,8 +2,10 @@ package org.cdahmedeh.orgapp.ui.task;
 
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
+import org.cdahmedeh.orgapp.ui.category.CategoryListComposite;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
+import org.cdahmedeh.orgapp.ui.icons.Icons;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
@@ -16,6 +18,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import swing2swt.layout.BorderLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class TaskListComposite extends Composite {
 	@Override protected void checkSubclass() {}
@@ -43,7 +46,7 @@ public class TaskListComposite extends Composite {
 		treeTasksList = new Tree(this, SWT.CHECK);
 		treeTasksList.setHeaderVisible(true);
 		
-		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Title", 300);
+		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Task", 300);
 		TreeColumn clmDuration = ComponentFactory.generateTreeColumn(treeTasksList, "Duration", 100);
 		TreeColumn clmDueDate = ComponentFactory.generateTreeColumn(treeTasksList, "Due Date", 100);
 	}
@@ -68,10 +71,11 @@ public class TaskListComposite extends Composite {
 		Text text = new Text(bottomBarComposite, SWT.BORDER);
 		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		ToolBar bottomBar = new ToolBar(bottomBarComposite, SWT.FLAT);
+		ToolBar bottomBar = new ToolBar(bottomBarComposite, SWT.FLAT | SWT.RIGHT);
 		
 		ToolItem buttonAddTask = new ToolItem(bottomBar, SWT.NONE);
 		buttonAddTask.setText("Add");
+		buttonAddTask.setImage(SWTResourceManager.getImage(CategoryListComposite.class, Icons.ADD));
 		return bottomBarComposite;
 	}
 }
