@@ -7,7 +7,13 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 public class Task{
-	public Task(String title) {this.setTitle(title);}
+	public Task(String title) {this.setTitle(title); id = idCounter++;}
+	
+	private static int idCounter = 0;
+	private int id = -1;
+	public int getId() {
+		return id;
+	}
 	
 	private	String title = "";
 	public String getTitle() {return title;}
