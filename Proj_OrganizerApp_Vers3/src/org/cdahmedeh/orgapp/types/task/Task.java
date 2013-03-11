@@ -11,9 +11,7 @@ public class Task{
 	
 	private static int idCounter = 0;
 	private int id = -1;
-	public int getId() {
-		return id;
-	}
+	public int getId() {return id;}
 	
 	private	String title = "";
 	public String getTitle() {return title;}
@@ -43,7 +41,7 @@ public class Task{
 	public void clearAssignedTimeBlocks() {this.timeBlocks.clear();}
 	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
 	public TimeBlock getFirstTimeBlock() {return timeBlocks.get(0);}
-	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;} //TODO: copy?
+	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}
 	
 	public Duration getTotalScheduledDuration() {
 		Duration duration = Duration.ZERO;
@@ -52,23 +50,5 @@ public class Task{
 	}
 	
 	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(this.getTitle());
-		sb.append(" Duration: ");
-		sb.append(this.getDurationToComplete().getStandardMinutes());
-		sb.append(" mins");
-		
-		sb.append(" Scheduled Total: ");
-		sb.append(this.getTotalScheduledDuration().getStandardMinutes());
-		sb.append(" mins");
-		
-		for (TimeBlock timeBlock: timeBlocks){
-			sb.append("\n");
-			sb.append("\t");
-			sb.append(timeBlock.toString());
-		}
-		
-		return sb.toString();
-	}
+	public String toString() {return this.getTitle();}
 }
