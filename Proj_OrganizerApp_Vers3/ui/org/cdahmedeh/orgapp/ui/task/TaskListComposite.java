@@ -28,6 +28,7 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSource;
 import org.eclipse.swt.dnd.DragSourceAdapter;
 import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.swt.dnd.DragSourceListener;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.DragDetectEvent;
@@ -88,10 +89,12 @@ public class TaskListComposite extends Composite {
 		treeTasksList = new Tree(this, SWT.CHECK);
 		treeTasksList.setHeaderVisible(true);
 		
-		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Task", 300);
+		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Task", 250);
 		TreeColumn clmCategory = ComponentFactory.generateTreeColumn(treeTasksList, "Category", 100);
-		TreeColumn clmDuration = ComponentFactory.generateTreeColumn(treeTasksList, "Duration", 100);
 		TreeColumn clmDueDate = ComponentFactory.generateTreeColumn(treeTasksList, "Due Date", 100);
+		TreeColumn clmTotalPassed = ComponentFactory.generateTreeColumn(treeTasksList, "Done", 40);
+		TreeColumn clmTotalScheduled = ComponentFactory.generateTreeColumn(treeTasksList, "Sched.", 40);
+		TreeColumn clmDuration = ComponentFactory.generateTreeColumn(treeTasksList, "Est.", 40);
 	}
 	
 	private void fillTaskTree() {
@@ -101,8 +104,10 @@ public class TaskListComposite extends Composite {
 			itmTask.setText(new String[]{
 					task.getTitle(),
 					task.getCategory().getName(),
-					task.getDurationToComplete().getStandardHours() + " hr",
-					task.getDueDate() == null ? "" : task.getDueDate().toString()
+					task.getDueDate() == null ? "" : task.getDueDate().toString(),
+					task.getTotalPassedDuration().getStandardHours() + " hr",
+					task.getTotalScheduledDuration().getStandardHours() + " hr",
+					task.getDurationToComplete().getStandardHours() + " hr"
 					});
 			mapTreeItemTask.put(itmTask, task);
 		}

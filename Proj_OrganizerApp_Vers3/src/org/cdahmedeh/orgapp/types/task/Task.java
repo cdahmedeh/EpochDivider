@@ -49,6 +49,12 @@ public class Task{
 	public TimeBlock getFirstTimeBlock() {return timeBlocks.get(0);}
 	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}
 	
+	public Duration getTotalPassedDuration() {
+		Duration duration = Duration.ZERO;
+		for (TimeBlock timeBlock: timeBlocks) if (timeBlock.getEnd().isBefore(DateTime.now())) duration = duration.plus(timeBlock.getDuration()); 
+		return duration;	
+	}
+	
 	public Duration getTotalScheduledDuration() {
 		Duration duration = Duration.ZERO;
 		for (TimeBlock timeBlock: timeBlocks) duration = duration.plus(timeBlock.getDuration()); 
