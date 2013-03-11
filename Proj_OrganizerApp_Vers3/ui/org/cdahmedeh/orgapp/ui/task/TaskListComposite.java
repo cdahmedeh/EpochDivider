@@ -6,6 +6,7 @@ import org.cdahmedeh.orgapp.ui.category.CategoryListComposite;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
 import org.cdahmedeh.orgapp.ui.icons.Icons;
+import org.cdahmedeh.orgapp.ui.notify.TaskQuickAddNotification;
 import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -17,6 +18,9 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import swing2swt.layout.BorderLayout;
+
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -34,7 +38,7 @@ public class TaskListComposite extends Composite {
 	}
 	class EventRecorder{
 		@Subscribe public void tasksModified(TasksModifiedNotification notify){
-			treeTasksList.clearAll(true);
+			treeTasksList.removeAll();
 			fillTaskTree();
 		}
 	}
@@ -82,7 +86,7 @@ public class TaskListComposite extends Composite {
 		ComponentModifier.removeSpacingAndMargins(gridLayout);
 		bottomBarComposite.setLayout(gridLayout);
 		
-		Text text = new Text(bottomBarComposite, SWT.BORDER);
+		final Text text = new Text(bottomBarComposite, SWT.BORDER);
 		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		ToolBar bottomBar = new ToolBar(bottomBarComposite, SWT.FLAT | SWT.RIGHT);
@@ -90,6 +94,13 @@ public class TaskListComposite extends Composite {
 		ToolItem buttonAddTask = new ToolItem(bottomBar, SWT.NONE);
 		buttonAddTask.setText("Add");
 		buttonAddTask.setImage(SWTResourceManager.getImage(CategoryListComposite.class, Icons.ADD));
+		buttonAddTask.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				eventBus.post(new TaskQuickAddNotification(text.getText()));
+				text.clearSelection();
+			}
+		});
 		return bottomBarComposite;
 	}
 }

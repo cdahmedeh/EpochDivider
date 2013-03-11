@@ -7,6 +7,7 @@ import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.cdahmedeh.orgapp.ui.calendar.CalendarComposite;
 import org.cdahmedeh.orgapp.ui.category.CategoryListComposite;
+import org.cdahmedeh.orgapp.ui.notify.TaskQuickAddNotification;
 import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;
 import org.cdahmedeh.orgapp.ui.task.TaskListComposite;
 import org.eclipse.swt.SWT;
@@ -21,10 +22,20 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 public class MainAppWindow {
 	protected Shell shell;
+	private EventBus eventBus;
+	private TaskContainer taskContainer;
 
+	class EventRecorder{
+		@Subscribe public void tasksModified(TaskQuickAddNotification notify){
+			taskContainer.addTask(new Task(notify.getName()));
+			eventBus.post(new TasksModifiedNotification());
+		}
+	}
+	
 	public static void main(String[] args) {
 		try {
 			MainAppWindow window = new MainAppWindow();
@@ -57,9 +68,9 @@ public class MainAppWindow {
 		categoryContainer.addCategory(new Category("Essentials"));
 		categoryContainer.addCategory(new Category("University"));
 		
-		EventBus eventBus = new EventBus();
+		eventBus = new EventBus();
 		
-		TaskContainer taskContainer = new TaskContainer();
+		taskContainer = new TaskContainer();
 		Task task = new Task("Test");
 //		task.assignToTimeBlock(new TimeBlock());
 		task.assignToTimeBlock(new TimeBlock(new DateTime(2013, 03, 12, 12, 00), new DateTime(2013, 03, 13, 12, 00)));
@@ -80,5 +91,7 @@ public class MainAppWindow {
 		taskListComposite.setEventBus(eventBus);
 		
 		eventBus.post(new TasksModifiedNotification());
+		
+		this.eventBus.register(new EventRecorder());
 	}
 }
