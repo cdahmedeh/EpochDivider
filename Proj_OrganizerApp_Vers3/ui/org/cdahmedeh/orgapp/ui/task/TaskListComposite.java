@@ -89,7 +89,7 @@ public class TaskListComposite extends Composite {
 		treeTasksList = new Tree(this, SWT.CHECK);
 		treeTasksList.setHeaderVisible(true);
 		
-		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Task", 220);
+		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Task", 210);
 		TreeColumn clmCategory = ComponentFactory.generateTreeColumn(treeTasksList, "Category", 80);
 		TreeColumn clmNextScheduled = ComponentFactory.generateTreeColumn(treeTasksList, "Next", 80);
 		TreeColumn clmDueDate = ComponentFactory.generateTreeColumn(treeTasksList, "Due Date", 100);
