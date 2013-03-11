@@ -79,6 +79,7 @@ public class TaskListComposite extends Composite {
 		treeTasksList.setHeaderVisible(true);
 		
 		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Task", 300);
+		TreeColumn clmCategory = ComponentFactory.generateTreeColumn(treeTasksList, "Category", 100);
 		TreeColumn clmDuration = ComponentFactory.generateTreeColumn(treeTasksList, "Duration", 100);
 		TreeColumn clmDueDate = ComponentFactory.generateTreeColumn(treeTasksList, "Due Date", 100);
 	}
@@ -88,7 +89,8 @@ public class TaskListComposite extends Composite {
 		for (Task task: taskContainer.getAllTasks()){
 			TreeItem itmTask = new TreeItem(treeTasksList, SWT.NONE);
 			itmTask.setText(new String[]{
-					task.getTitle(), 
+					task.getTitle(),
+					task.getCategory().getName(),
 					task.getDurationToComplete().getStandardHours() + " hr",
 					task.getDueDate() == null ? "" : task.getDueDate().toString()
 					});

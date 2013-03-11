@@ -2,6 +2,8 @@ package org.cdahmedeh.orgapp.types.task;
 
 import java.util.ArrayList;
 
+import org.cdahmedeh.orgapp.types.category.Category;
+import org.cdahmedeh.orgapp.types.category.NoCategory;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -16,6 +18,10 @@ public class Task{
 	private	String title = "";
 	public String getTitle() {return title;}
 	public void setTitle(String title) {this.title = title != null ? title.trim() : "";}
+	
+	private Category category = new NoCategory();
+	public Category getCategory() {return category;}
+	public void setCategory(Category category) {this.category = category;}
 	
 	private Mutability mutability = TypeConstants.DEFAULT_MUTABILITY;
 	public Mutability getMutability() {return mutability;}
