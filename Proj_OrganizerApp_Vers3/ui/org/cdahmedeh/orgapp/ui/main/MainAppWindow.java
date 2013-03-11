@@ -88,6 +88,7 @@ public class MainAppWindow {
 		CalendarComposite calendarComposite = new CalendarComposite(rightSashForm, SWT.BORDER, taskContainer);
 		TaskListComposite taskListComposite = new TaskListComposite(rightSashForm, SWT.BORDER, taskContainer);
 		
+		calendarComposite.setEventBus(eventBus);
 		taskListComposite.setEventBus(eventBus);
 		
 		eventBus.post(new TasksModifiedNotification());

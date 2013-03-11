@@ -9,7 +9,13 @@ import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
+import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DragDetectEvent;
+import org.eclipse.swt.events.DragDetectListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -22,11 +28,22 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
+import com.google.common.eventbus.EventBus;
+
 public class CalendarComposite extends Composite {
 	@Override protected void checkSubclass() {}
+	
+	private EventBus eventBus;
+	public void setEventBus(EventBus eventBus) {
+		this.eventBus = eventBus;
+		this.eventBus.register(new EventRecorder());
+	}
+	class EventRecorder{
+	}
 	
 	protected Canvas calendarCanvas;
 	protected Canvas daylineCanvas;
@@ -35,6 +52,10 @@ public class CalendarComposite extends Composite {
 	private HashMap<TimeBlock, Task> timeBlockTaskMap = new HashMap<>();
 	private HashMap<Rectangle, TimeBlock> rectangleTimeBlockMap = new HashMap<>();
 	
+	private CalendarUIMode uiMode = CalendarUIMode.NONE;
+	private Duration timeClickedOffset = null;
+	private TimeBlock timeBlockDragged = null;
+		
 	private TaskContainer taskContainer = null;
 	private View currentView =  new View(new LocalDate(), new LocalDate().plusDays(7), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59, 999));
 	
@@ -50,6 +71,7 @@ public class CalendarComposite extends Composite {
 		makeTimeLine();
 		makeCalendar();
 		makeCalendarScrollable();
+		makeCalendarBlocksDraggable();
 	}
 
 	public void fillTimeBlockTaskMap() {
@@ -135,6 +157,43 @@ public class CalendarComposite extends Composite {
 				currentView.setLastHour(new LocalTime(selection+currentView.getNumberOfHoursVisible(),59,59,999));
 				currentView.setFirstHour(new LocalTime(selection, 0, 0));
 				redrawAllCanvas();
+			}
+		});
+	}
+	
+	private void makeCalendarBlocksDraggable() {
+		calendarCanvas.addDragDetectListener(new DragDetectListener() {
+			@Override
+			public void dragDetected(DragDetectEvent e) {
+				for (Rectangle r: rectangleTimeBlockMap.keySet()){ //TODO: Use Entry set.
+					if (r.contains(e.x,e.y)) {
+						timeBlockDragged = rectangleTimeBlockMap.get(r);
+						timeClickedOffset  = new Duration(timeBlockDragged.getStart(), PixelsToDate.getTimeFromPosition(e.x, e.y, calendarCanvas.getClientArea(), currentView));
+						uiMode = CalendarUIMode.DRAG;
+					}
+				}
+			}
+		});
+		
+		calendarCanvas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				if (uiMode == CalendarUIMode.DRAG){
+					uiMode = CalendarUIMode.NONE;
+					eventBus.post(new TasksModifiedNotification());
+				}
+			}
+		});
+		
+		calendarCanvas.addMouseMoveListener(new MouseMoveListener() {
+			@Override
+			public void mouseMove(MouseEvent e) {
+				if (uiMode == CalendarUIMode.DRAG){
+					Duration duration = timeBlockDragged.getDuration();
+					timeBlockDragged.setStart(PixelsToDate.roundToMins(PixelsToDate.getTimeFromPosition(e.x, e.y, calendarCanvas.getClientArea(), currentView).minus(timeClickedOffset), 15));
+					timeBlockDragged.setEnd(timeBlockDragged.getStart().plus(duration));
+					calendarCanvas.redraw();
+				}
 			}
 		});
 	}
