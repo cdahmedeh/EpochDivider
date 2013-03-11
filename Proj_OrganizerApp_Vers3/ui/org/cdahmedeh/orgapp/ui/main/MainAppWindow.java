@@ -7,6 +7,7 @@ import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.cdahmedeh.orgapp.ui.calendar.CalendarComposite;
 import org.cdahmedeh.orgapp.ui.category.CategoryListComposite;
+import org.cdahmedeh.orgapp.ui.notify.ChangeTaskToCategoryRequest;
 import org.cdahmedeh.orgapp.ui.notify.TaskQuickAddNotification;
 import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;
 import org.cdahmedeh.orgapp.ui.task.TaskListComposite;
@@ -32,6 +33,10 @@ public class MainAppWindow {
 	class EventRecorder{
 		@Subscribe public void tasksModified(TaskQuickAddNotification notify){
 			taskContainer.addTask(new Task(notify.getName()));
+			eventBus.post(new TasksModifiedNotification());
+		}
+		@Subscribe public void taskModifyCategory(ChangeTaskToCategoryRequest notify){
+			taskContainer.getTaskFromId(notify.getId()).setCategory(notify.getCategory());
 			eventBus.post(new TasksModifiedNotification());
 		}
 	}
@@ -90,6 +95,7 @@ public class MainAppWindow {
 		
 		calendarComposite.setEventBus(eventBus);
 		taskListComposite.setEventBus(eventBus);
+		taskListComposite2.setEventBus(eventBus);
 		
 		eventBus.post(new TasksModifiedNotification());
 		
