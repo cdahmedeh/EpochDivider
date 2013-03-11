@@ -5,11 +5,13 @@
 	<classpathentry kind="src" path="run"/>
 	<classpathentry kind="src" path="ui"/>
 	<classpathentry kind="src" path="expr"/>
+	<classpathentry kind="src" path="data"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="elibs/joda-time-2.1.jar" sourcepath="slibs/joda-time-2.1-sources.jar"/>
 	<classpathentry kind="lib" path="elibs/rfc2445-4Mar2011.jar"/>
 	<classpathentry kind="lib" path="elibs/org.eclipse.swt.gtk.linux.x86_3.100.1.v4234e.jar"/>
 	<classpathentry kind="lib" path="elibs/swing2swt.jar"/>
+	<classpathentry kind="lib" path="elibs/guava-14.0-rc3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
