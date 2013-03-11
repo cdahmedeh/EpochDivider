@@ -132,6 +132,8 @@ public class CalendarComposite extends Composite {
 	        	e.gc.setAntialias(SWT.ON);
 	            GridRenderer.drawTimeGrid(e, calendarCanvas, currentView);
 	            
+	            rectangleTimeBlockMap.clear();
+	            	            
 	            for (Entry<TimeBlock, Task> entry : timeBlockTaskMap.entrySet()){
 	            	ArrayList<Rectangle> rectangles = TimeBlockRenderer.draw(entry.getKey(), entry.getValue(), currentView, e, calendarCanvas);
 	            	for (Rectangle rectangle: rectangles){
@@ -167,9 +169,13 @@ public class CalendarComposite extends Composite {
 			public void dragDetected(DragDetectEvent e) {
 				for (Rectangle r: rectangleTimeBlockMap.keySet()){ //TODO: Use Entry set.
 					if (r.contains(e.x,e.y)) {
+						if ((r.y+r.height)-e.y<=10) {
+							uiMode = CalendarUIMode.RESIZE_BOTTOM;
+						} else {
+							uiMode = CalendarUIMode.DRAG;
+						}
 						timeBlockDragged = rectangleTimeBlockMap.get(r);
 						timeClickedOffset  = new Duration(timeBlockDragged.getStart(), PixelsToDate.getTimeFromPosition(e.x, e.y, calendarCanvas.getClientArea(), currentView));
-						uiMode = CalendarUIMode.DRAG;
 					}
 				}
 			}
@@ -178,10 +184,9 @@ public class CalendarComposite extends Composite {
 		calendarCanvas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseUp(MouseEvent e) {
-				if (uiMode == CalendarUIMode.DRAG){
-					uiMode = CalendarUIMode.NONE;
-					eventBus.post(new TasksModifiedNotification());
-				}
+				uiMode = CalendarUIMode.NONE;
+				eventBus.post(new TasksModifiedNotification());
+				calendarCanvas.redraw();
 			}
 		});
 		
@@ -192,6 +197,9 @@ public class CalendarComposite extends Composite {
 					Duration duration = timeBlockDragged.getDuration();
 					timeBlockDragged.setStart(PixelsToDate.roundToMins(PixelsToDate.getTimeFromPosition(e.x, e.y, calendarCanvas.getClientArea(), currentView).minus(timeClickedOffset), 15));
 					timeBlockDragged.setEnd(timeBlockDragged.getStart().plus(duration));
+					calendarCanvas.redraw();
+				} else if (uiMode == CalendarUIMode.RESIZE_BOTTOM) {
+					timeBlockDragged.setEnd(PixelsToDate.roundToMins(PixelsToDate.getTimeFromPosition(e.x, e.y, calendarCanvas.getClientArea(), currentView), 15));
 					calendarCanvas.redraw();
 				}
 			}
