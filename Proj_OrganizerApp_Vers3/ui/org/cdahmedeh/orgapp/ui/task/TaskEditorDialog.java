@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.ui.task;
 
 import org.cdahmedeh.orgapp.types.category.Category;
 import org.cdahmedeh.orgapp.types.category.CategoryContainer;
+import org.cdahmedeh.orgapp.types.task.Mutability;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.ui.components.DateEntryWidget;
 import org.eclipse.swt.widgets.Dialog;
@@ -22,6 +23,8 @@ import org.eclipse.swt.widgets.Composite;
 import swing2swt.layout.BorderLayout;
 import org.eclipse.swt.layout.RowLayout;
 
+import com.google.common.collect.ImmutableBiMap;
+
 public class TaskEditorDialog extends Dialog {
 
 	protected Task result;
@@ -31,6 +34,7 @@ public class TaskEditorDialog extends Dialog {
 	private DateEntryWidget dueDateEntry;
 	
 	private CategoryContainer categoryContainer;
+	private Button immutableButton;
 
 	public TaskEditorDialog(Shell parent, int style, Task task, CategoryContainer categoryContainer) {
 		super(parent, style);
@@ -76,7 +80,7 @@ public class TaskEditorDialog extends Dialog {
 		categoryCombo = new Combo(fieldsComposite, SWT.BORDER);
 		categoryCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Button immutableButton = new Button(fieldsComposite, SWT.CHECK);
+		immutableButton = new Button(fieldsComposite, SWT.CHECK);
 		immutableButton.setText("Immutable");
 		
 		Label seperator1 = new Label(fieldsComposite, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -113,12 +117,14 @@ public class TaskEditorDialog extends Dialog {
 		titleText.setText(result.getTitle());
 		for (Category category: categoryContainer.getAllVisibleCategories()) categoryCombo.add(category.getName());
 		categoryCombo.setText(result.getCategory().getName());
+		immutableButton.setSelection(result.getMutability() == Mutability.IMMUTABLE);
 		dueDateEntry.setDateTime(result.getDueDate());
 	}
 	
 	public void saveFields(){
 		result.setTitle(titleText.getText());
 		result.setCategory(categoryContainer.getCategoryFromName(categoryCombo.getText()));
+		result.setMutability(immutableButton.getSelection() ? Mutability.IMMUTABLE : Mutability.MUTABLE);
 		result.setDueDate(dueDateEntry.getDateTime());
 	}
 }

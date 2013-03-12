@@ -3,6 +3,7 @@ package org.cdahmedeh.orgapp.ui.calendar;
 import java.util.ArrayList;
 
 import org.cdahmedeh.orgapp.types.calendar.View;
+import org.cdahmedeh.orgapp.types.task.Mutability;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.eclipse.swt.SWT;
@@ -71,8 +72,13 @@ public class TimeBlockRenderer {
 		}
 	
 		e.gc.setBackground(SWTResourceManager.getColor(task.getCategory().getColor()));
+	
+//		if (task.getMutability() == Mutability.IMMUTABLE){
+			e.gc.setAlpha(200);
+//		} else {
+//			e.gc.setAlpha(150);
+//		}
 		
-		e.gc.setAlpha(200);
 		
 		e.gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		

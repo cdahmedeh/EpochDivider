@@ -16,15 +16,24 @@ public class TaskContainer {
 		return null;
 	}
 	
-	public ArrayList<Task> getTasksWithCategory(Category category){
-		if (category instanceof AllCategories) return getAllTasks();
+	public TaskContainer getTasksWithCategory(Category category){
+		if (category instanceof AllCategories) return this;
 		else{
-			ArrayList<Task> taskC = new ArrayList<>();
+			TaskContainer taskC = new TaskContainer();
 			if (category instanceof NoCategory) {
-				for (Task task: tasks) if (task.getCategory() == null || task.getCategory() instanceof NoCategory) taskC.add(task);
+				for (Task task: tasks) if (task.getCategory() == null || task.getCategory() instanceof NoCategory) taskC.addTask(task);
 			} else {
-				for (Task task: tasks) if (task.getCategory() == category) taskC.add(task);
+				for (Task task: tasks) if (task.getCategory() == category) taskC.addTask(task);
 			}
+			return taskC;
+		}
+	}
+	
+	public TaskContainer getTasksImmutable(boolean withImmutable){
+		if (withImmutable) return this;
+		else{
+			TaskContainer taskC = new TaskContainer();
+			for (Task task: tasks) if (task.getMutability() == Mutability.MUTABLE) taskC.addTask(task);
 			return taskC;
 		}
 	}

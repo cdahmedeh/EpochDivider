@@ -70,6 +70,8 @@ public class TaskListComposite extends Composite {
 	private Category category = new NoCategory();
 	
 	private Tree treeTasksList;
+	
+	private boolean showImmutable = false;
 		
 	private HashMap<TreeItem, Task> mapTreeItemTask = new HashMap<>();
 	
@@ -111,7 +113,7 @@ public class TaskListComposite extends Composite {
 	
 	private void fillTaskTree() {
 		mapTreeItemTask.clear();
-		for (Task task: taskContainer.getTasksWithCategory(category)){
+		for (Task task: taskContainer.getTasksWithCategory(category).getTasksImmutable(showImmutable).getAllTasks()){
 			TreeItem itmTask = new TreeItem(treeTasksList, SWT.NONE);
 			itmTask.setText(new String[]{
 					task.getTitle(),
@@ -151,6 +153,18 @@ public class TaskListComposite extends Composite {
 				text.setText("");
 			}
 		});
+		
+		final ToolItem buttonImmutableTasks = new ToolItem(bottomBar, SWT.CHECK);
+		buttonImmutableTasks.setText("Show Immutable");
+		buttonImmutableTasks.setImage(SWTResourceManager.getImage(CategoryListComposite.class, Icons.IMMUTABLE));
+		buttonImmutableTasks.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				showImmutable = buttonImmutableTasks.getSelection();
+				eventBus.post(new TasksModifiedNotification()); //TODO: have a new refresh?
+			}
+		});
+		
 		return bottomBarComposite;
 	}
 	
