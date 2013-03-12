@@ -3,7 +3,7 @@ package org.cdahmedeh.orgapp.types.category;
 import org.eclipse.swt.graphics.RGB;
 
 public class Category {
-	public Category(String name) {this.setName(name); id = idCounter++;}
+	public Category(String name) {this.setName(name); id = idCounter++; color = new RGB((float)id*20%255, 0.10f, 1f);}
 
 	public boolean isVisible() {return true;}
 	
@@ -15,7 +15,7 @@ public class Category {
 	public String getName() {return name;}
 	public void setName(String name) {this.name = name != null ? name.trim() : "";}
 
-	private RGB color = new RGB((float)id*20%255, 0.10f, 1f);
+	private RGB color = null;
 	public RGB getColor(){return color;}
 	public void setColor(RGB color) {this.color = color;}
 }

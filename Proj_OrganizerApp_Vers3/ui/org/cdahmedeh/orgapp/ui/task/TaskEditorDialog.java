@@ -111,7 +111,7 @@ public class TaskEditorDialog extends Dialog {
 	
 	public void loadFields(){
 		titleText.setText(result.getTitle());
-		for (Category category: categoryContainer.getAllCategories()) categoryCombo.add(category.getName());
+		for (Category category: categoryContainer.getAllVisibleCategories()) categoryCombo.add(category.getName());
 		categoryCombo.setText(result.getCategory().getName());
 		dueDateEntry.setDateTime(result.getDueDate());
 	}
