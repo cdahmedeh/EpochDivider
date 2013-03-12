@@ -4,8 +4,10 @@ import java.util.HashMap;
 
 import org.cdahmedeh.orgapp.types.category.Category;
 import org.cdahmedeh.orgapp.types.category.NoCategory;
+import org.cdahmedeh.orgapp.types.task.Mutability;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
+import org.cdahmedeh.orgapp.ui.calendar.CalendarUIConstants;
 import org.cdahmedeh.orgapp.ui.category.CategoryListComposite;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
@@ -124,6 +126,10 @@ public class TaskListComposite extends Composite {
 					task.getTotalScheduledDuration().getStandardHours() + " hr",
 					task.getDurationToComplete().getStandardHours() + " hr"
 					});
+			if (task.getMutability() == Mutability.IMMUTABLE){
+				itmTask.setBackground(SWTResourceManager.getColor(TaskListConstants.taskImmutableDefaultBackgroundColor));
+				itmTask.setForeground(SWTResourceManager.getColor(TaskListConstants.taskImmutableDefaulForegroundColor));
+			}
 			mapTreeItemTask.put(itmTask, task);
 		}
 	}
@@ -164,6 +170,10 @@ public class TaskListComposite extends Composite {
 				eventBus.post(new TasksModifiedNotification()); //TODO: have a new refresh?
 			}
 		});
+		
+		final ToolItem buttonCompletedTasks = new ToolItem(bottomBar, SWT.CHECK);
+		buttonCompletedTasks.setText("Show Completed");
+		buttonCompletedTasks.setImage(SWTResourceManager.getImage(CategoryListComposite.class, Icons.COMPLETED));
 		
 		return bottomBarComposite;
 	}

@@ -147,7 +147,8 @@ public class CalendarComposite extends Composite {
 			
 		calendarCanvas.addPaintListener(new PaintListener() { 
 			public void paintControl(PaintEvent e) {
-	        	e.gc.setAntialias(SWT.ON);
+				//TODO: antialias is SLOW
+//	        	e.gc.setAntialias(SWT.ON);
 	            GridRenderer.drawTimeGrid(e, calendarCanvas, currentView);
 	            
 	            rectangleTimeBlockMap.clear();

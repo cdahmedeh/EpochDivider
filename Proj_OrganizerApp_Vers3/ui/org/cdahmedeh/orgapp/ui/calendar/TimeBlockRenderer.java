@@ -25,6 +25,10 @@ public class TimeBlockRenderer {
 		LocalDate taskEndDate = timeBlock.getEnd().toLocalDate();
 		LocalTime taskEndTime = timeBlock.getEnd().toLocalTime();
 		
+//		if (taskBeginTime.isAfter(view.getLastHour()) || taskEndTime.isBefore(view.getFirstHour())){
+//			return rectangles;
+//		}
+		
 		Rectangle clientArea = canvas.getClientArea();
 		int caWidth = clientArea.width;
 		int caHeight = clientArea.height;
@@ -74,11 +78,12 @@ public class TimeBlockRenderer {
 		e.gc.setBackground(SWTResourceManager.getColor(task.getCategory().getColor()));
 	
 //		if (task.getMutability() == Mutability.IMMUTABLE){
-			e.gc.setAlpha(200);
 //		} else {
 //			e.gc.setAlpha(150);
 //		}
 		
+		e.gc.setAlpha(200);
+//		e.gc.setAlpha(255);	
 		
 		e.gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		
@@ -87,12 +92,16 @@ public class TimeBlockRenderer {
 			e.gc.drawRoundRectangle(rect.x, rect.y, rect.width, rect.height, 2, 2);
 
 			if (rect.height > 40){
-				e.gc.drawText(task.getTitle() + "\n" + taskBeginTime.toString("HH:mm") + "\n" + taskEndTime.toString("HH:mm"), rect.x+5, rect.y+5, true);
+				e.gc.drawText(task.getTitle() + "\n" + taskBeginTime.toString("HH:mm") + "-" + taskEndTime.toString("HH:mm"), rect.x+5, rect.y+5, true);
 			} else {
 				e.gc.drawText(task.getTitle(), rect.x+5, rect.y+3, true);
 			}
+			
+//			if (task.getMutability() == Mutability.IMMUTABLE){
+//				e.gc.drawRoundRectangle(rect.x+1, rect.y+1, rect.width-2, rect.height-2, 2, 2);
+//			}
 		}
-
+		
 		e.gc.setAlpha(255);
 		
 		return rectangles;

@@ -165,20 +165,29 @@ public class MainAppWindow {
 //		drive1.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 11, 9, 00),
 //		new Duration(60*DateTimeConstants.MILLIS_PER_MINUTE)));
 //		task.addTask(drive1);
-//		
-		Task universityCourse1 = new Task("CSI2101 LEC");
-		universityCourse1.setCategory(university);
-		universityCourse1.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 11, 10, 00),
-		new Duration(90*DateTimeConstants.MILLIS_PER_MINUTE)));
-		universityCourse1.setMutability(Mutability.IMMUTABLE);
-		task.addTask(universityCourse1);
+//	
+		for (int i = 0; i< 400; i++){
+			Task universityCourse1 = new Task("Some Thing");
+			universityCourse1.setCategory(university);
+			universityCourse1.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 9, 0, 00).plusMinutes(30*i),
+			new Duration(30*DateTimeConstants.MILLIS_PER_MINUTE)));
+			universityCourse1.setMutability(Mutability.MUTABLE);
+			task.addTask(universityCourse1);
+			
+//		Task universityCourse1 = new Task("CSI2101 LEC");
+//		universityCourse1.setCategory(university);
+//		universityCourse1.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 11, 10, 00),
+//		new Duration(90*DateTimeConstants.MILLIS_PER_MINUTE)));
+//		universityCourse1.setMutability(Mutability.MUTABLE);
+//		task.addTask(universityCourse1);
 		
-		Task universityCourse2 = new Task("CSI2532 LAB");
-		universityCourse2.setCategory(university);
-		universityCourse2.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 11, 17, 00),
-		new Duration(180*DateTimeConstants.MILLIS_PER_MINUTE)));
-		universityCourse2.setMutability(Mutability.IMMUTABLE);
-		task.addTask(universityCourse2);
+//		Task universityCourse2 = new Task("CSI2532 LAB");
+//		universityCourse2.setCategory(university);
+//		universityCourse2.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 11, 17, 00),
+//		new Duration(180*DateTimeConstants.MILLIS_PER_MINUTE)));
+//		universityCourse2.setMutability(Mutability.MUTABLE);
+//		task.addTask(universityCourse2);
+		}
 //		
 //		Task drive2 = new Task("Drive");
 //		drive2.setCategory(transportation);
