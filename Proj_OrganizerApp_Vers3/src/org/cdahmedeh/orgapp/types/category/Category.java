@@ -14,6 +14,6 @@ public class Category {
 	public void setName(String name) {this.name = name != null ? name.trim() : "";}
 	
 	public RGB getColor(){
-		return new RGB((float)id*20%255, 0.50f, 1f);
+		return new RGB((float)id*20%255, 0.10f, 1f);
 	}
 }

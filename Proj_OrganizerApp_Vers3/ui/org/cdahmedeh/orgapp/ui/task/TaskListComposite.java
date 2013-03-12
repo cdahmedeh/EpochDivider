@@ -11,6 +11,8 @@ import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
 import org.cdahmedeh.orgapp.ui.icons.Icons;
 import org.cdahmedeh.orgapp.ui.notify.CategoryChangedNotification;
+import org.cdahmedeh.orgapp.ui.notify.TaskAddWithDialogRequest;
+import org.cdahmedeh.orgapp.ui.notify.TaskEditRequest;
 import org.cdahmedeh.orgapp.ui.notify.TaskQuickAddNotification;
 import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;
 import org.eclipse.swt.SWT;
@@ -33,6 +35,8 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.DragDetectEvent;
 import org.eclipse.swt.events.DragDetectListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridLayout;
@@ -96,6 +100,13 @@ public class TaskListComposite extends Composite {
 		TreeColumn clmTotalPassed = ComponentFactory.generateTreeColumn(treeTasksList, "Done", 40);
 		TreeColumn clmTotalScheduled = ComponentFactory.generateTreeColumn(treeTasksList, "Sched.", 40);
 		TreeColumn clmDuration = ComponentFactory.generateTreeColumn(treeTasksList, "Est.", 40);
+		
+		treeTasksList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				eventBus.post(new TaskEditRequest(mapTreeItemTask.get(treeTasksList.getSelection()[0])));
+			}
+		});
 	}
 	
 	private void fillTaskTree() {
@@ -132,7 +143,11 @@ public class TaskListComposite extends Composite {
 		buttonAddTask.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				eventBus.post(new TaskQuickAddNotification(text.getText()));
+				if (text.getText().equals("")) {
+					eventBus.post(new TaskAddWithDialogRequest());
+				} else {
+					eventBus.post(new TaskQuickAddNotification(text.getText()));
+				}
 				text.setText("");
 			}
 		});

@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="elibs/org.eclipse.swt.gtk.linux.x86_3.100.1.v4234e.jar" sourcepath="slibs/org.eclipse.swt.gtk.linux.x86.source_3.100.1.v4234e.jar"/>
 	<classpathentry kind="lib" path="elibs/swing2swt.jar"/>
 	<classpathentry kind="lib" path="elibs/guava-14.0-rc3.jar"/>
+	<classpathentry kind="lib" path="elibs/jchronic-0.2.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

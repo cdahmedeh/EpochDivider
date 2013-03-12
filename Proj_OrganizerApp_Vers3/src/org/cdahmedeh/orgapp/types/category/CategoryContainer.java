@@ -13,4 +13,9 @@ public class CategoryContainer {
 		for (Category category: categories) if (category.getId() == id) return category;
 		return null;
 	}
+	
+	public Category getCategoryFromName(String name){
+		for (Category category: categories) if (category.getName().equals(name)) return category;
+		return null;
+	}
 }

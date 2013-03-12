@@ -73,7 +73,7 @@ public class CalendarComposite extends Composite {
 	private TimeBlock timeBlockDragged = null;
 		
 	private TaskContainer taskContainer = null;
-	private View currentView =  new View(new LocalDate(), new LocalDate().plusDays(7), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59, 999));
+	private View currentView =  new View(new LocalDate(2013,3,10), new LocalDate(2013,3,10).plusDays(6), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59, 999));
 	
 	public CalendarComposite(Composite parent, int style, TaskContainer taskContainer) {
 		super(parent, style);
