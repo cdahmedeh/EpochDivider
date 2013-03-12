@@ -18,22 +18,14 @@ public class TaskContainer {
 	
 	public ArrayList<Task> getTasksWithCategory(Category category){
 		if (category instanceof AllCategories) return getAllTasks();
-		else if (category instanceof NoCategory) {
+		else{
 			ArrayList<Task> taskC = new ArrayList<>();
-			for (Task task: tasks){
-				if (task.getCategory() == null || task.getCategory() instanceof NoCategory) {
-					taskC.add(task);
-				}
+			if (category instanceof NoCategory) {
+				for (Task task: tasks) if (task.getCategory() == null || task.getCategory() instanceof NoCategory) taskC.add(task);
+			} else {
+				for (Task task: tasks) if (task.getCategory() == category) taskC.add(task);
 			}
 			return taskC;
-		} else {
-			ArrayList<Task> taskC = new ArrayList<>();
-			for (Task task: tasks){
-				if (task.getCategory() == category) {
-					taskC.add(task);
-				}
-			}
-			return taskC;	
 		}
 	}
 }

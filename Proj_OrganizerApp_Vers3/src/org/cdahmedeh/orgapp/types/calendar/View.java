@@ -7,6 +7,11 @@ import org.joda.time.Interval;
 import org.joda.time.LocalTime;
 
 public class View {
+	public View(LocalDate startDate, LocalDate endDate, LocalTime firstHour, LocalTime lastHour) {
+		this.startDate = startDate; this.endDate = endDate;
+		this.firstHour = firstHour;	this.lastHour = lastHour;
+	}
+	
 	private LocalDate startDate = null;
 	public LocalDate getStartDate() {return startDate;}
 	public void setStartDate(LocalDate start) {this.startDate = start;}
@@ -23,11 +28,6 @@ public class View {
 	public LocalTime getLastHour() {return lastHour;}
 	public void setLastHour(LocalTime last) {this.lastHour = last;}
 	
-	public View(LocalDate startDate, LocalDate endDate, LocalTime firstHour, LocalTime lastHour) {
-		this.startDate = startDate; this.endDate = endDate;
-		this.firstHour = firstHour;	this.lastHour = lastHour;
-	}
-	
 	public int getNumberOfDaysVisible(){
 		return 1 + Days.daysBetween(startDate, endDate).getDays();
 	}
@@ -43,9 +43,5 @@ public class View {
 	public void moveAmountOfDays(int days){
 		this.setStartDate(this.getStartDate().plusDays(days));
 		this.setEndDate(this.getEndDate().plusDays(days));
-	}
-	public void zoomInMinutes(int minutes) {
-		this.setFirstHour(this.getFirstHour().minusMinutes(minutes));
-		this.setLastHour(this.getLastHour().plusMinutes(minutes));
 	}
 }

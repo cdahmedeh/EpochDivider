@@ -9,6 +9,12 @@ public class CategoryContainer {
 	public void addCategory(Category category) {categories.add(category);}
 	public ArrayList<Category> getAllCategories() {return categories;}
 	
+	public ArrayList<Category> getAllVisibleCategories(){
+		ArrayList<Category> categories = new ArrayList<>();
+		for (Category category: categories)	if (category.isVisible()) categories.add(category);
+		return categories;
+	}
+	
 	public Category getCategoryFromId(int id){
 		for (Category category: categories) if (category.getId() == id) return category;
 		return null;

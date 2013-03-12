@@ -21,7 +21,7 @@ public class Task{
 	
 	private Category category = new NoCategory();
 	public Category getCategory() {return category;}
-	public void setCategory(Category category) {this.category = category;}
+	public void setCategory(Category category) {this.category = category == null ? new NoCategory() : category;}
 	
 	private Mutability mutability = TypeConstants.DEFAULT_MUTABILITY;
 	public Mutability getMutability() {return mutability;}
@@ -52,7 +52,7 @@ public class Task{
 	public Duration getTotalPassedDuration() {
 		Duration duration = Duration.ZERO;
 		for (TimeBlock timeBlock: timeBlocks) if (timeBlock.getEnd().isBefore(DateTime.now())) duration = duration.plus(timeBlock.getDuration()); 
-		return duration;	
+		return duration;
 	}
 	
 	public Duration getTotalScheduledDuration() {
