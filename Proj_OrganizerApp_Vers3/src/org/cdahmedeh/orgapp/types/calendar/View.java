@@ -1,9 +1,9 @@
 package org.cdahmedeh.orgapp.types.calendar;
 
-import org.joda.time.Hours;
-import org.joda.time.LocalDate;
 import org.joda.time.Days;
+import org.joda.time.Hours;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 public class View {

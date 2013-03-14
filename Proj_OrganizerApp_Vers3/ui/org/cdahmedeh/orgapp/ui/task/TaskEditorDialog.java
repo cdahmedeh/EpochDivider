@@ -1,29 +1,25 @@
 package org.cdahmedeh.orgapp.ui.task;
 
-import org.cdahmedeh.orgapp.types.category.Category;
 import org.cdahmedeh.orgapp.types.category.CategoryContainer;
-import org.cdahmedeh.orgapp.types.task.Mutability;
+import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.ui.components.DateEntryWidget;
-import org.eclipse.swt.widgets.Dialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Scale;
-import org.eclipse.swt.widgets.Composite;
-import swing2swt.layout.BorderLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Dialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
-import com.google.common.collect.ImmutableBiMap;
+import swing2swt.layout.BorderLayout;
 
 public class TaskEditorDialog extends Dialog {
 
@@ -81,7 +77,7 @@ public class TaskEditorDialog extends Dialog {
 		categoryCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		immutableButton = new Button(fieldsComposite, SWT.CHECK);
-		immutableButton.setText("Immutable");
+		immutableButton.setText("Event");
 		
 		Label seperator1 = new Label(fieldsComposite, SWT.SEPARATOR | SWT.HORIZONTAL);
 		seperator1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
@@ -115,16 +111,16 @@ public class TaskEditorDialog extends Dialog {
 	
 	public void loadFields(){
 		titleText.setText(result.getTitle());
-		for (Category category: categoryContainer.getAllVisibleCategories()) categoryCombo.add(category.getName());
-		categoryCombo.setText(result.getCategory().getName());
-		immutableButton.setSelection(result.getMutability() == Mutability.IMMUTABLE);
+		for (Context category: categoryContainer.getAllVisibleCategories()) categoryCombo.add(category.getName());
+		categoryCombo.setText(result.getContext().getName());
+		immutableButton.setSelection(result.isEvent());
 		dueDateEntry.setDateTime(result.getDueDate());
 	}
 	
 	public void saveFields(){
 		result.setTitle(titleText.getText());
-		result.setCategory(categoryContainer.getCategoryFromName(categoryCombo.getText()));
-		result.setMutability(immutableButton.getSelection() ? Mutability.IMMUTABLE : Mutability.MUTABLE);
+		result.setContext(categoryContainer.getCategoryFromName(categoryCombo.getText()));
+		result.setEvent(immutableButton.getSelection());
 		result.setDueDate(dueDateEntry.getDateTime());
 	}
 }

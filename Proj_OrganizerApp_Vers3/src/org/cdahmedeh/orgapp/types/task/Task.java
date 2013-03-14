@@ -2,8 +2,8 @@ package org.cdahmedeh.orgapp.types.task;
 
 import java.util.ArrayList;
 
-import org.cdahmedeh.orgapp.types.category.Category;
-import org.cdahmedeh.orgapp.types.category.NoCategory;
+import org.cdahmedeh.orgapp.types.category.Context;
+import org.cdahmedeh.orgapp.types.category.NoContext;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -19,21 +19,17 @@ public class Task{
 	public String getTitle() {return title;}
 	public void setTitle(String title) {this.title = title != null ? title.trim() : "";}
 	
-	private Category category = new NoCategory();
-	public Category getCategory() {return category;}
-	public void setCategory(Category category) {this.category = category == null ? new NoCategory() : category;}
+	private Context context = new NoContext();
+	public Context getContext() {return context;}
+	public void setContext(Context context) {this.context = context == null ? new NoContext() : context;}
 	
-	private Mutability mutability = TypeConstants.DEFAULT_MUTABILITY;
-	public Mutability getMutability() {return mutability;}
-	public void setMutability(Mutability mutability) {this.mutability = mutability != null ? mutability : TypeConstants.DEFAULT_MUTABILITY;}
+	private boolean event = false;
+	public boolean isEvent() {return event;}
+	public void setEvent(boolean event) {this.event = event;}
 	
-	private Priority priority = TypeConstants.DEFAULT_PRIORITY;
-	public Priority getPriority() {return priority;}
-	public void setPriority(Priority priority) {this.priority = priority != null ? priority : TypeConstants.DEFAULT_PRIORITY;}
-		
-	private Duration durationToComplete = new Duration(0);
-	public Duration getDurationToComplete() {return durationToComplete;}
-	public void setDurationToComplete(Duration durationToComplete) {this.durationToComplete = durationToComplete;}
+	private Duration estimate = new Duration(0);
+	public Duration getEstimate() {return estimate;}
+	public void setEstimate(Duration durationToComplete) {this.estimate = durationToComplete;}
 	
 	private DateTime dueDate = null;
 	public boolean hasDueDate() {return this.dueDate != null;}
@@ -42,9 +38,6 @@ public class Task{
 	
 	//TODO: Ordering
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
-	public boolean isAssignedToTimeBlock() {return !timeBlocks.isEmpty();}
-	public boolean hasOnlyOneTimeBlock() {return timeBlocks.size() == 1;}
-	public void clearAssignedTimeBlocks() {this.timeBlocks.clear();}
 	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
 	public TimeBlock getFirstTimeBlock() {return timeBlocks.isEmpty() ? null : timeBlocks.get(0);}
 	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}

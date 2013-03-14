@@ -2,9 +2,9 @@ package org.cdahmedeh.orgapp.types.task;
 
 import java.util.ArrayList;
 
-import org.cdahmedeh.orgapp.types.category.AllCategories;
-import org.cdahmedeh.orgapp.types.category.Category;
-import org.cdahmedeh.orgapp.types.category.NoCategory;
+import org.cdahmedeh.orgapp.types.category.AllContexts;
+import org.cdahmedeh.orgapp.types.category.Context;
+import org.cdahmedeh.orgapp.types.category.NoContext;
 
 public class TaskContainer {
 	public ArrayList<Task> tasks = new ArrayList<>();
@@ -16,24 +16,24 @@ public class TaskContainer {
 		return null;
 	}
 	
-	public TaskContainer getTasksWithCategory(Category category){
-		if (category instanceof AllCategories) return this;
+	public TaskContainer getTasksWithCategory(Context category){
+		if (category instanceof AllContexts) return this;
 		else{
 			TaskContainer taskC = new TaskContainer();
-			if (category instanceof NoCategory) {
-				for (Task task: tasks) if (task.getCategory() == null || task.getCategory() instanceof NoCategory) taskC.addTask(task);
+			if (category instanceof NoContext) {
+				for (Task task: tasks) if (task.getContext() == null || task.getContext() instanceof NoContext) taskC.addTask(task);
 			} else {
-				for (Task task: tasks) if (task.getCategory() == category) taskC.addTask(task);
+				for (Task task: tasks) if (task.getContext() == category) taskC.addTask(task);
 			}
 			return taskC;
 		}
 	}
 	
-	public TaskContainer getTasksImmutable(boolean withImmutable){
-		if (withImmutable) return this;
+	public TaskContainer getTasksWithEvents(boolean withEvents){
+		if (withEvents) return this;
 		else{
 			TaskContainer taskC = new TaskContainer();
-			for (Task task: tasks) if (task.getMutability() == Mutability.MUTABLE) taskC.addTask(task);
+			for (Task task: tasks) if (!task.isEvent()) taskC.addTask(task);
 			return taskC;
 		}
 	}

@@ -1,10 +1,8 @@
 package org.cdahmedeh.orgapp.ui.calendar;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import org.cdahmedeh.orgapp.types.calendar.View;
-import org.cdahmedeh.orgapp.types.task.Mutability;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.eclipse.swt.SWT;
@@ -76,11 +74,11 @@ public class TimeBlockRenderer {
 			}
 		}
 	
-		if (task.getMutability() == Mutability.IMMUTABLE){
-			RGB color = task.getCategory().getColor();
+		if (task.isEvent()){
+			RGB color = task.getContext().getColor();
 			e.gc.setBackground(SWTResourceManager.getColor(new RGB((color.getHSB()[0]), 0.1f, 0.9f)));
 		} else {
-			RGB color = task.getCategory().getColor();
+			RGB color = task.getContext().getColor();
 			e.gc.setBackground(SWTResourceManager.getColor(new RGB((color.getHSB()[0]), 0.5f, 1f)));
 			
 		}

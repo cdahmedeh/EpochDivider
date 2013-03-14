@@ -1,6 +1,6 @@
 package org.cdahmedeh.orgapp.types.category;
 
-public class NoCategory extends Category {
-	public NoCategory() {super("No Category");}
+public class NoContext extends Context {
+	public NoContext() {super("Unsorted");}
 	@Override public boolean isVisible() {return false;}
 }

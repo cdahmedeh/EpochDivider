@@ -1,8 +1,5 @@
 package org.cdahmedeh.orgapp.types.category;
 
-import static org.junit.Assert.*;
-
-import org.cdahmedeh.orgapp.types.category.Category;
 import org.junit.Test;
 
 public class CategoryTest {

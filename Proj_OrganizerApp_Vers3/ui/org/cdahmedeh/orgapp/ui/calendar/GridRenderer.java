@@ -7,7 +7,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 

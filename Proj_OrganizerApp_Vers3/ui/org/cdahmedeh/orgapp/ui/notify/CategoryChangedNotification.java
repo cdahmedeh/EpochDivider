@@ -1,14 +1,14 @@
 package org.cdahmedeh.orgapp.ui.notify;
 
-import org.cdahmedeh.orgapp.types.category.Category;
+import org.cdahmedeh.orgapp.types.category.Context;
 
 public class CategoryChangedNotification {
-	private Category category = null;
-	public Category getCategory() {
+	private Context category = null;
+	public Context getCategory() {
 		return category;
 	}
 	
-	public CategoryChangedNotification(Category category) {
+	public CategoryChangedNotification(Context category) {
 		this.category = category;
 	}
 }

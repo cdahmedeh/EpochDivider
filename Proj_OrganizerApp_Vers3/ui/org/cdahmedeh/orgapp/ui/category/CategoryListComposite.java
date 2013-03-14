@@ -2,28 +2,14 @@ package org.cdahmedeh.orgapp.ui.category;
 
 import java.util.HashMap;
 
-import org.cdahmedeh.orgapp.types.category.Category;
 import org.cdahmedeh.orgapp.types.category.CategoryContainer;
-import org.cdahmedeh.orgapp.types.task.Task;
-import org.cdahmedeh.orgapp.types.time.TimeBlock;
-import org.cdahmedeh.orgapp.ui.calendar.CalendarUIMode;
+import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
 import org.cdahmedeh.orgapp.ui.icons.Icons;
 import org.cdahmedeh.orgapp.ui.notify.CategoryChangedNotification;
 import org.cdahmedeh.orgapp.ui.notify.ChangeTaskToCategoryRequest;
-import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.swt.widgets.TreeItem;
-
-import swing2swt.layout.BorderLayout;
-
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.DropTargetAdapter;
@@ -32,14 +18,20 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.Duration;
+
+import swing2swt.layout.BorderLayout;
 
 import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 
 public class CategoryListComposite extends Composite {
 	@Override protected void checkSubclass() {}
@@ -55,7 +47,7 @@ public class CategoryListComposite extends Composite {
 	private CategoryContainer categoryContainer = null;
 	private Tree treeCategorysList;
 	
-	private HashMap<TreeItem, Category> mapTreeItemCategory = new HashMap<>();
+	private HashMap<TreeItem, Context> mapTreeItemCategory = new HashMap<>();
 	
 	public CategoryListComposite(Composite parent, int style, CategoryContainer categoryContainer) {
 		super(parent, style);
@@ -94,7 +86,7 @@ public class CategoryListComposite extends Composite {
 	}
 	
 	private void fillCategoryTree() {
-		for (Category category: categoryContainer.getAllCategories()){
+		for (Context category: categoryContainer.getAllCategories()){
 			TreeItem itmCategory = new TreeItem(treeCategorysList, SWT.NONE);
 			itmCategory.setText(new String[]{
 					category.getName()

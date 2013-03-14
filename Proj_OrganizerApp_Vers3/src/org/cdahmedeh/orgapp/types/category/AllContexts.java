@@ -1,6 +1,6 @@
 package org.cdahmedeh.orgapp.types.category;
 
-public class AllCategories extends Category {
-	public AllCategories() {super("All Categories");}
+public class AllContexts extends Context {
+	public AllContexts() {super("All Contexts");}
 	@Override public boolean isVisible() {return false;}	
 }

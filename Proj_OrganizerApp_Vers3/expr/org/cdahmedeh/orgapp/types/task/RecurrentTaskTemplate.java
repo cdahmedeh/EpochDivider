@@ -29,7 +29,7 @@ public class RecurrentTaskTemplate extends Task {
 			RecurrentTaskInstance rTaskI = new RecurrentTaskInstance("");
 			TimeBlock firstTimeBlock = this.getFirstTimeBlock();
 			TaskCopier.copy(this, rTaskI);
-			rTaskI.clearAssignedTimeBlocks();
+//			rTaskI.clearAssignedTimeBlocks();
 			rTaskI.setTemplate(this); //TODO: Make in constructor
 			rTaskI.assignToTimeBlock(new TimeBlock(date.toDateTime(firstTimeBlock.getStart().toLocalTime())));
 			rTasks.add(rTaskI);

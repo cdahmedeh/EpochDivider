@@ -1,6 +1,6 @@
 package org.cdahmedeh.orgapp.ui.notify;
 
-import org.cdahmedeh.orgapp.types.category.Category;
+import org.cdahmedeh.orgapp.types.category.Context;
 
 public class ChangeTaskToCategoryRequest {
 	private int id = 0;
@@ -8,12 +8,12 @@ public class ChangeTaskToCategoryRequest {
 		return id;
 	}
 	
-	private Category category = null;
-	public Category getCategory() {
+	private Context category = null;
+	public Context getCategory() {
 		return category;
 	}
 	
-	public ChangeTaskToCategoryRequest(int id, Category category) {
+	public ChangeTaskToCategoryRequest(int id, Context category) {
 		this.id = id;
 		this.category = category;
 	}

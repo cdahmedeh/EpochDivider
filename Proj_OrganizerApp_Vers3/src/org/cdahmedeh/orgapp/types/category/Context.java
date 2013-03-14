@@ -2,8 +2,8 @@ package org.cdahmedeh.orgapp.types.category;
 
 import org.eclipse.swt.graphics.RGB;
 
-public class Category {
-	public Category(String name) {this.setName(name); id = idCounter++; color = new RGB((float)id*20%255, 0.10f, 1f);}
+public class Context {
+	public Context(String name) {this.setName(name); id = idCounter++; color = new RGB((float)id*20%255, 0.10f, 1f);}
 
 	public boolean isVisible() {return true;}
 	

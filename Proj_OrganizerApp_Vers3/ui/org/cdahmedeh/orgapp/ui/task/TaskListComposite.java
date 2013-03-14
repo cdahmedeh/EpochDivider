@@ -2,12 +2,10 @@ package org.cdahmedeh.orgapp.ui.task;
 
 import java.util.HashMap;
 
-import org.cdahmedeh.orgapp.types.category.Category;
-import org.cdahmedeh.orgapp.types.category.NoCategory;
-import org.cdahmedeh.orgapp.types.task.Mutability;
+import org.cdahmedeh.orgapp.types.category.Context;
+import org.cdahmedeh.orgapp.types.category.NoContext;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
-import org.cdahmedeh.orgapp.ui.calendar.CalendarUIConstants;
 import org.cdahmedeh.orgapp.ui.category.CategoryListComposite;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
@@ -18,6 +16,18 @@ import org.cdahmedeh.orgapp.ui.notify.TaskEditRequest;
 import org.cdahmedeh.orgapp.ui.notify.TaskQuickAddNotification;
 import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSource;
+import org.eclipse.swt.dnd.DragSourceAdapter;
+import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
@@ -25,25 +35,9 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import swing2swt.layout.BorderLayout;
-
-import org.eclipse.swt.dnd.DND;
-import org.eclipse.swt.dnd.DragSource;
-import org.eclipse.swt.dnd.DragSourceAdapter;
-import org.eclipse.swt.dnd.DragSourceEvent;
-import org.eclipse.swt.dnd.DragSourceListener;
-import org.eclipse.swt.dnd.TextTransfer;
-import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.events.DragDetectEvent;
-import org.eclipse.swt.events.DragDetectListener;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -69,7 +63,7 @@ public class TaskListComposite extends Composite {
 	}
 	
 	private TaskContainer taskContainer = null;
-	private Category category = new NoCategory();
+	private Context category = new NoContext();
 	
 	private Tree treeTasksList;
 	
@@ -115,18 +109,18 @@ public class TaskListComposite extends Composite {
 	
 	private void fillTaskTree() {
 		mapTreeItemTask.clear();
-		for (Task task: taskContainer.getTasksWithCategory(category).getTasksImmutable(showImmutable).getAllTasks()){
+		for (Task task: taskContainer.getTasksWithCategory(category).getTasksWithEvents(showImmutable).getAllTasks()){
 			TreeItem itmTask = new TreeItem(treeTasksList, SWT.NONE);
 			itmTask.setText(new String[]{
 					task.getTitle(),
-					task.getCategory().getName(),
+					task.getContext().getName(),
 					task.getFirstTimeBlock() == null ? "" : task.getFirstTimeBlock().toString(),
 					task.getDueDate() == null ? "" : task.getDueDate().toString(),
 					task.getTotalPassedDuration().getStandardHours() + " hr",
 					task.getTotalScheduledDuration().getStandardHours() + " hr",
-					task.getDurationToComplete().getStandardHours() + " hr"
+					task.getEstimate().getStandardHours() + " hr"
 					});
-			if (task.getMutability() == Mutability.IMMUTABLE){
+			if (task.isEvent()){
 				itmTask.setBackground(SWTResourceManager.getColor(TaskListConstants.taskImmutableDefaultBackgroundColor));
 				itmTask.setForeground(SWTResourceManager.getColor(TaskListConstants.taskImmutableDefaulForegroundColor));
 			}
@@ -161,7 +155,7 @@ public class TaskListComposite extends Composite {
 		});
 		
 		final ToolItem buttonImmutableTasks = new ToolItem(bottomBar, SWT.CHECK);
-		buttonImmutableTasks.setText("Show Immutable");
+		buttonImmutableTasks.setText("Show Events");
 		buttonImmutableTasks.setImage(SWTResourceManager.getImage(CategoryListComposite.class, Icons.IMMUTABLE));
 		buttonImmutableTasks.addSelectionListener(new SelectionAdapter() {
 			@Override
