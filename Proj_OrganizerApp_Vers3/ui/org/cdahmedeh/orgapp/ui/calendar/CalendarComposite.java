@@ -31,6 +31,7 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -232,7 +233,23 @@ public class CalendarComposite extends Composite {
 				} else if (uiMode == CalendarUIMode.RESIZE_BOTTOM) {
 					timeBlockDragged.setEnd(PixelsToDate.roundToMins(PixelsToDate.getTimeFromPosition(e.x, e.y, calendarCanvas.getClientArea(), currentView), 15));
 					calendarCanvas.redraw();
-				}
+				} 
+				
+//				//TODO: temp cursor method
+//				if (uiMode == CalendarUIMode.NONE){
+//				for (Rectangle r: rectangleTimeBlockMap.keySet()){ //TODO: Use Entry set.
+//					if (r.contains(e.x,e.y)) {
+//						if ((r.y+r.height)-e.y<=10) {
+//							calendarCanvas.getShell().setCursor(new Cursor(Display.getCurrent(), SWT.CURSOR_SIZES));
+//							return;
+//						} else {
+//							calendarCanvas.getShell().setCursor(new Cursor(Display.getCurrent(), SWT.NONE));
+//						}
+//					} else {
+//					}
+//				}
+//				calendarCanvas.getShell().setCursor(new Cursor(Display.getCurrent(), SWT.NONE));
+//				}
 			}
 		});
 	}

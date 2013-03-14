@@ -1,5 +1,6 @@
 package org.cdahmedeh.orgapp.ui.calendar;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import org.cdahmedeh.orgapp.types.calendar.View;
@@ -75,8 +76,15 @@ public class TimeBlockRenderer {
 			}
 		}
 	
-		e.gc.setBackground(SWTResourceManager.getColor(task.getCategory().getColor()));
-	
+		if (task.getMutability() == Mutability.IMMUTABLE){
+			RGB color = task.getCategory().getColor();
+			e.gc.setBackground(SWTResourceManager.getColor(new RGB((color.getHSB()[0]), 0.1f, 0.9f)));
+		} else {
+			RGB color = task.getCategory().getColor();
+			e.gc.setBackground(SWTResourceManager.getColor(new RGB((color.getHSB()[0]), 0.5f, 1f)));
+			
+		}
+		
 //		if (task.getMutability() == Mutability.IMMUTABLE){
 //		} else {
 //			e.gc.setAlpha(150);
@@ -88,7 +96,7 @@ public class TimeBlockRenderer {
 		e.gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		
 		for (Rectangle rect: rectangles){
-			e.gc.fillRoundRectangle(rect.x, rect.y, rect.width, rect.height, 2, 0);
+			e.gc.fillRoundRectangle(rect.x, rect.y, rect.width, rect.height, 2, 2);
 			e.gc.drawRoundRectangle(rect.x, rect.y, rect.width, rect.height, 2, 2);
 
 			if (rect.height > 40){
@@ -96,10 +104,6 @@ public class TimeBlockRenderer {
 			} else {
 				e.gc.drawText(task.getTitle(), rect.x+5, rect.y+3, true);
 			}
-			
-//			if (task.getMutability() == Mutability.IMMUTABLE){
-//				e.gc.drawRoundRectangle(rect.x+1, rect.y+1, rect.width-2, rect.height-2, 2, 2);
-//			}
 		}
 		
 		e.gc.setAlpha(255);
