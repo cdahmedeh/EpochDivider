@@ -112,14 +112,16 @@ public class MainAppWindow {
 		fullSashForm.setWeights(new int[]{2,7});
 		
 		CalendarComposite calendarComposite = new CalendarComposite(rightSashForm, SWT.BORDER, taskContainer);
-		TaskListComposite taskListComposite = new TaskListComposite(rightSashForm, SWT.BORDER, taskContainer);
+		TaskListComposite eventListComposite = new TaskListComposite(rightSashForm, SWT.BORDER, taskContainer, true);
+		TaskListComposite taskListComposite = new TaskListComposite(rightSashForm, SWT.BORDER, taskContainer, false);
 		
 		calendarComposite.setEventBus(eventBus);
+		eventListComposite.setEventBus(eventBus);
 		taskListComposite.setEventBus(eventBus);
 		taskListComposite2.setEventBus(eventBus);
 	
 		leftSashForm.setWeights(new int[]{4,13});
-		rightSashForm.setWeights(new int[]{7,3});
+		rightSashForm.setWeights(new int[]{7,3,3});
 		
 		eventBus.post(new TasksModifiedNotification());
 		

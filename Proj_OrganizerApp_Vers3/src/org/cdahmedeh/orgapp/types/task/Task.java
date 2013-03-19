@@ -42,16 +42,26 @@ public class Task{
 	public TimeBlock getFirstTimeBlock() {return timeBlocks.isEmpty() ? null : timeBlocks.get(0);}
 	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}
 	
-	public Duration getTotalPassedDuration() {
+	public Duration getDurationPassed(DateTime until){
 		Duration duration = Duration.ZERO;
-		for (TimeBlock timeBlock: timeBlocks) if (timeBlock.getEnd().isBefore(DateTime.now())) duration = duration.plus(timeBlock.getDuration()); 
+		for (TimeBlock timeBlock: timeBlocks) {
+			if (timeBlock.getEnd().isBefore(until)) {
+				duration = duration.plus(timeBlock.getDuration());
+			}
+		}
 		return duration;
 	}
 	
-	public Duration getTotalScheduledDuration() {
+	public Duration getDurationScheduled(DateTime until){
 		Duration duration = Duration.ZERO;
-		for (TimeBlock timeBlock: timeBlocks) duration = duration.plus(timeBlock.getDuration()); 
-		return duration;	
+		for (TimeBlock timeBlock: timeBlocks) {
+			if (timeBlock.getEnd().isBefore(until)) {
+				duration = duration.plus(timeBlock.getDuration());
+			} else if (timeBlock.getStart().isBefore(until)) {
+				duration = duration.plus(new Duration(timeBlock.getStart(),until));
+			}
+		}
+		return duration;
 	}
 	
 	@Override

@@ -36,6 +36,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.joda.time.DateTime;
 
 import swing2swt.layout.BorderLayout;
 
@@ -67,14 +68,16 @@ public class TaskListComposite extends Composite {
 	
 	private Tree treeTasksList;
 	
-	private boolean showImmutable = false;
+	private boolean showEvents = false;
 		
 	private HashMap<TreeItem, Task> mapTreeItemTask = new HashMap<>();
 	
-	public TaskListComposite(Composite parent, int style, TaskContainer taskContainer) {
+	public TaskListComposite(Composite parent, int style, TaskContainer taskContainer, boolean showEvents) {
 		super(parent, style);
 		
 		this.taskContainer = taskContainer;
+		
+		this.showEvents = showEvents;
 		
 		this.setLayout(new BorderLayout());
 		
@@ -92,12 +95,9 @@ public class TaskListComposite extends Composite {
 		treeTasksList.setHeaderVisible(true);
 		
 		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Task", 210);
-		TreeColumn clmCategory = ComponentFactory.generateTreeColumn(treeTasksList, "Category", 80);
-		TreeColumn clmNextScheduled = ComponentFactory.generateTreeColumn(treeTasksList, "Next", 80);
 		TreeColumn clmDueDate = ComponentFactory.generateTreeColumn(treeTasksList, "Due Date", 100);
-		TreeColumn clmTotalPassed = ComponentFactory.generateTreeColumn(treeTasksList, "Done", 40);
-		TreeColumn clmTotalScheduled = ComponentFactory.generateTreeColumn(treeTasksList, "Sched.", 40);
-		TreeColumn clmDuration = ComponentFactory.generateTreeColumn(treeTasksList, "Est.", 40);
+		TreeColumn clmTotalPassed = ComponentFactory.generateTreeColumn(treeTasksList, "Progress", 100);
+		TreeColumn clmNextScheduled = ComponentFactory.generateTreeColumn(treeTasksList, "Next", 100);
 		
 		treeTasksList.addMouseListener(new MouseAdapter() {
 			@Override
@@ -109,16 +109,16 @@ public class TaskListComposite extends Composite {
 	
 	private void fillTaskTree() {
 		mapTreeItemTask.clear();
-		for (Task task: taskContainer.getTasksWithCategory(category).getTasksWithEvents(showImmutable).getAllTasks()){
+		for (Task task: taskContainer.getTasksWithCategory(category).getTasksWithEvents(showEvents).getAllTasks()){
 			TreeItem itmTask = new TreeItem(treeTasksList, SWT.NONE);
 			itmTask.setText(new String[]{
-					task.getTitle(),
-					task.getContext().getName(),
-					task.getFirstTimeBlock() == null ? "" : task.getFirstTimeBlock().toString(),
+					task.getTitle() + "(" +
+					task.getContext().getName() + ")",
 					task.getDueDate() == null ? "" : task.getDueDate().toString(),
-					task.getTotalPassedDuration().getStandardHours() + " hr",
-					task.getTotalScheduledDuration().getStandardHours() + " hr",
-					task.getEstimate().getStandardHours() + " hr"
+					task.getDurationPassed(DateTime.now()).getStandardHours() + " | " +
+					task.getDurationScheduled(DateTime.now()).getStandardHours() + " | " + //TODO: should be end of view
+					task.getEstimate().getStandardHours(),
+					task.getFirstTimeBlock() == null ? "" : task.getFirstTimeBlock().toString()
 					});
 			if (task.isEvent()){
 				itmTask.setBackground(SWTResourceManager.getColor(TaskListConstants.taskImmutableDefaultBackgroundColor));
@@ -151,17 +151,6 @@ public class TaskListComposite extends Composite {
 					eventBus.post(new TaskQuickAddNotification(text.getText()));
 				}
 				text.setText("");
-			}
-		});
-		
-		final ToolItem buttonImmutableTasks = new ToolItem(bottomBar, SWT.CHECK);
-		buttonImmutableTasks.setText("Show Events");
-		buttonImmutableTasks.setImage(SWTResourceManager.getImage(CategoryListComposite.class, Icons.IMMUTABLE));
-		buttonImmutableTasks.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				showImmutable = buttonImmutableTasks.getSelection();
-				eventBus.post(new TasksModifiedNotification()); //TODO: have a new refresh?
 			}
 		});
 		
