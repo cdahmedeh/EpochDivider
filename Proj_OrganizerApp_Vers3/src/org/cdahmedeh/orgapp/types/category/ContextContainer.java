@@ -7,9 +7,9 @@ public class ContextContainer {
 	public void addContext(Context context) {contexts.add(context);}
 	public ArrayList<Context> getAllContexts() {return contexts;}
 	
-	public ArrayList<Context> getAllVisibleContexts(){
+	public ArrayList<Context> getAllSelectableContexts(){
 		ArrayList<Context> con = new ArrayList<>();
-		for (Context context: contexts) if (context.isVisible()) con.add(context);
+		for (Context context: contexts) if (context.isSelectable()) con.add(context);
 		return con;
 	}
 	

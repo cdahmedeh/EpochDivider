@@ -111,7 +111,7 @@ public class TaskEditorDialog extends Dialog {
 	
 	public void loadFields(){
 		titleText.setText(result.getTitle());
-		for (Context category: categoryContainer.getAllVisibleContexts()) categoryCombo.add(category.getName());
+		for (Context category: categoryContainer.getAllSelectableContexts()) categoryCombo.add(category.getName());
 		categoryCombo.setText(result.getContext().getName());
 		immutableButton.setSelection(result.isEvent());
 		dueDateEntry.setDateTime(result.getDueDate());

@@ -14,7 +14,7 @@ import org.joda.time.LocalDate;
 public class Context {
 	public Context(String name) {this.setName(name); id = idCounter++; color = new RGB((float)id*20%255, 0.10f, 1f);}
 
-	public boolean isVisible() {return true;}
+	public boolean isSelectable() {return true;}
 	
 	private static int idCounter = 0;
 	private int id = -1;
