@@ -16,14 +16,14 @@ public class TaskContainer {
 		return null;
 	}
 	
-	public TaskContainer getTasksWithCategory(Context category){
-		if (category instanceof AllContexts) return this;
+	public TaskContainer getTasksWithContext(Context context){
+		if (context instanceof AllContexts) return this;
 		else{
 			TaskContainer taskC = new TaskContainer();
-			if (category instanceof NoContext) {
+			if (context instanceof NoContext) {
 				for (Task task: tasks) if (task.getContext() == null || task.getContext() instanceof NoContext) taskC.addTask(task);
 			} else {
-				for (Task task: tasks) if (task.getContext() == category) taskC.addTask(task);
+				for (Task task: tasks) if (task.getContext() == context) taskC.addTask(task);
 			}
 			return taskC;
 		}

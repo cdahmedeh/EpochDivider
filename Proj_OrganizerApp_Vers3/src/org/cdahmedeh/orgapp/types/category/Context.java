@@ -33,7 +33,7 @@ public class Context {
 	
 	public Duration getDurationPassedSince(DateTime since, DateTime until, TaskContainer taskContainer){
 		Duration duration = Duration.ZERO;
-		for (Task task: taskContainer.getTasksWithCategory(this).getAllTasks()){
+		for (Task task: taskContainer.getTasksWithContext(this).getAllTasks()){
 			duration = duration.plus(task.getDurationPassedSince(since, until));
 		}
 		return duration;

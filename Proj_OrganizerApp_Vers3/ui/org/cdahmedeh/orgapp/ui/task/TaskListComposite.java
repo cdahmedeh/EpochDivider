@@ -109,7 +109,7 @@ public class TaskListComposite extends Composite {
 	
 	private void fillTaskTree() {
 		mapTreeItemTask.clear();
-		for (Task task: taskContainer.getTasksWithCategory(category).getTasksWithEvents(showEvents).getAllTasks()){
+		for (Task task: taskContainer.getTasksWithContext(category).getTasksWithEvents(showEvents).getAllTasks()){
 			TreeItem itmTask = new TreeItem(treeTasksList, SWT.NONE);
 			itmTask.setText(new String[]{
 					task.getTitle() + " (" +
