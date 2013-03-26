@@ -1,7 +1,7 @@
 package org.cdahmedeh.orgapp.ui.main;
 
 import org.cdahmedeh.orgapp.types.category.AllContexts;
-import org.cdahmedeh.orgapp.types.category.CategoryContainer;
+import org.cdahmedeh.orgapp.types.category.ContextContainer;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.category.NoContext;
 import org.cdahmedeh.orgapp.types.task.Task;
@@ -32,7 +32,7 @@ public class MainAppWindow {
 	protected Shell shell;
 	private EventBus eventBus;
 	private TaskContainer taskContainer;
-	private CategoryContainer categoryContainer;
+	private ContextContainer categoryContainer;
 
 	class EventRecorder{
 		@Subscribe public void tasksModified(TaskQuickAddNotification notify){
@@ -85,7 +85,7 @@ public class MainAppWindow {
 
 		shell.setLayout(new FillLayout());
 		
-		categoryContainer = new CategoryContainer();
+		categoryContainer = new ContextContainer();
 		
 		
 		eventBus = new EventBus();
@@ -128,22 +128,22 @@ public class MainAppWindow {
 		this.eventBus.register(new EventRecorder());
 	}
 	
-	public void fill(CategoryContainer context, TaskContainer task){
-		context.addCategory(new AllContexts());
-		context.addCategory(new NoContext());
+	public void fill(ContextContainer context, TaskContainer task){
+		context.addContext(new AllContexts());
+		context.addContext(new NoContext());
 	
 		Context essentials = new Context("Essentials");
 		Context faith = new Context("Faith");
 		Context university = new Context("University");
 		Context transportation = new Context("Transportation");
 		
-		context.addCategory(essentials);
-		context.addCategory(faith);
-		context.addCategory(university);
-		context.addCategory(transportation);
-		context.addCategory(new Context("Projects"));
-		context.addCategory(new Context("Misc"));
-		context.addCategory(new Context("Gaming"));
+		context.addContext(essentials);
+		context.addContext(faith);
+		context.addContext(university);
+		context.addContext(transportation);
+		context.addContext(new Context("Projects"));
+		context.addContext(new Context("Misc"));
+		context.addContext(new Context("Gaming"));
 		
 		for (int i=0; i<8; i++){
 		Task sleep = new Task("Sleep");

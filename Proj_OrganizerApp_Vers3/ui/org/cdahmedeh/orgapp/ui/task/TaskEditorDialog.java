@@ -1,6 +1,6 @@
 package org.cdahmedeh.orgapp.ui.task;
 
-import org.cdahmedeh.orgapp.types.category.CategoryContainer;
+import org.cdahmedeh.orgapp.types.category.ContextContainer;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.ui.components.DateEntryWidget;
@@ -29,10 +29,10 @@ public class TaskEditorDialog extends Dialog {
 	private Combo categoryCombo;
 	private DateEntryWidget dueDateEntry;
 	
-	private CategoryContainer categoryContainer;
+	private ContextContainer categoryContainer;
 	private Button immutableButton;
 
-	public TaskEditorDialog(Shell parent, int style, Task task, CategoryContainer categoryContainer) {
+	public TaskEditorDialog(Shell parent, int style, Task task, ContextContainer categoryContainer) {
 		super(parent, style);
 		setText("SWT Dialog");
 		this.categoryContainer = categoryContainer;
@@ -111,7 +111,7 @@ public class TaskEditorDialog extends Dialog {
 	
 	public void loadFields(){
 		titleText.setText(result.getTitle());
-		for (Context category: categoryContainer.getAllVisibleCategories()) categoryCombo.add(category.getName());
+		for (Context category: categoryContainer.getAllVisibleContexts()) categoryCombo.add(category.getName());
 		categoryCombo.setText(result.getContext().getName());
 		immutableButton.setSelection(result.isEvent());
 		dueDateEntry.setDateTime(result.getDueDate());
@@ -119,7 +119,7 @@ public class TaskEditorDialog extends Dialog {
 	
 	public void saveFields(){
 		result.setTitle(titleText.getText());
-		result.setContext(categoryContainer.getCategoryFromName(categoryCombo.getText()));
+		result.setContext(categoryContainer.getContextFromName(categoryCombo.getText()));
 		result.setEvent(immutableButton.getSelection());
 		result.setDueDate(dueDateEntry.getDateTime());
 	}

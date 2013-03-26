@@ -2,7 +2,7 @@ package org.cdahmedeh.orgapp.ui.category;
 
 import java.util.HashMap;
 
-import org.cdahmedeh.orgapp.types.category.CategoryContainer;
+import org.cdahmedeh.orgapp.types.category.ContextContainer;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
@@ -44,12 +44,12 @@ public class CategoryListComposite extends Composite {
 	class EventRecorder{	
 	}
 	
-	private CategoryContainer categoryContainer = null;
+	private ContextContainer categoryContainer = null;
 	private Tree treeCategorysList;
 	
 	private HashMap<TreeItem, Context> mapTreeItemCategory = new HashMap<>();
 	
-	public CategoryListComposite(Composite parent, int style, CategoryContainer categoryContainer) {
+	public CategoryListComposite(Composite parent, int style, ContextContainer categoryContainer) {
 		super(parent, style);
 		
 		this.categoryContainer = categoryContainer;
@@ -86,7 +86,7 @@ public class CategoryListComposite extends Composite {
 	}
 	
 	private void fillCategoryTree() {
-		for (Context category: categoryContainer.getAllCategories()){
+		for (Context category: categoryContainer.getAllContexts()){
 			TreeItem itmCategory = new TreeItem(treeCategorysList, SWT.NONE);
 			itmCategory.setText(new String[]{
 					category.getName()
