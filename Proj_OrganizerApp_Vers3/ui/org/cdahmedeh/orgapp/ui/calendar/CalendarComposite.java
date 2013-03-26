@@ -75,7 +75,7 @@ public class CalendarComposite extends Composite {
 		super(parent, style);
 		
 		this.taskContainer = bigContainer.getTaskContainer();
-		this.currentView = bigContainer.getView();
+		this.currentView = bigContainer.getCurrentView();
 		
 		fillTimeBlockTaskMap();
 		prepareGridLayout();

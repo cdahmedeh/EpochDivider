@@ -80,7 +80,7 @@ public class TaskListComposite extends Composite {
 		super(parent, style);
 		
 		this.taskContainer = bigContainer.getTaskContainer();
-		this.view = bigContainer.getView();
+		this.view = bigContainer.getCurrentView();
 		
 		this.showEvents = showEvents;
 		
