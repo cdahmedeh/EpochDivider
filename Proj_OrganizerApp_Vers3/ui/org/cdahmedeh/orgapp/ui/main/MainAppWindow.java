@@ -1,9 +1,11 @@
 package org.cdahmedeh.orgapp.ui.main;
 
+import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.category.AllContexts;
 import org.cdahmedeh.orgapp.types.category.ContextContainer;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.category.NoContext;
+import org.cdahmedeh.orgapp.types.misc.BigContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
@@ -24,6 +26,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -111,9 +115,13 @@ public class MainAppWindow {
 
 		fullSashForm.setWeights(new int[]{2,7});
 		
-		CalendarComposite calendarComposite = new CalendarComposite(rightSashForm, SWT.BORDER, taskContainer);
-		TaskListComposite eventListComposite = new TaskListComposite(rightSashForm, SWT.BORDER, taskContainer, true);
-		TaskListComposite taskListComposite = new TaskListComposite(rightSashForm, SWT.BORDER, taskContainer, false);
+		View view =  new View(new LocalDate(2013,3,10), new LocalDate(2013,3,10).plusDays(6), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59, 999));
+		
+		BigContainer bigContainer = new BigContainer(taskContainer, categoryContainer, view);
+		
+		CalendarComposite calendarComposite = new CalendarComposite(rightSashForm, SWT.BORDER, bigContainer);
+		TaskListComposite eventListComposite = new TaskListComposite(rightSashForm, SWT.BORDER, bigContainer, true);
+		TaskListComposite taskListComposite = new TaskListComposite(rightSashForm, SWT.BORDER, bigContainer, false);
 		
 		calendarComposite.setEventBus(eventBus);
 		eventListComposite.setEventBus(eventBus);

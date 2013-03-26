@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.category.NoContext;
+import org.cdahmedeh.orgapp.types.misc.BigContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.ui.category.CategoryListComposite;
@@ -72,10 +73,10 @@ public class TaskListComposite extends Composite {
 		
 	private HashMap<TreeItem, Task> mapTreeItemTask = new HashMap<>();
 	
-	public TaskListComposite(Composite parent, int style, TaskContainer taskContainer, boolean showEvents) {
+	public TaskListComposite(Composite parent, int style, BigContainer bigContainer, boolean showEvents) {
 		super(parent, style);
 		
-		this.taskContainer = taskContainer;
+		this.taskContainer = bigContainer.getTaskContainer();
 		
 		this.showEvents = showEvents;
 		

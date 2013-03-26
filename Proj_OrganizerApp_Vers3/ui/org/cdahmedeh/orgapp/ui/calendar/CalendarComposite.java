@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.cdahmedeh.orgapp.types.calendar.View;
+import org.cdahmedeh.orgapp.types.misc.BigContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
@@ -68,13 +69,14 @@ public class CalendarComposite extends Composite {
 	private TimeBlock timeBlockDragged = null;
 		
 	private TaskContainer taskContainer = null;
-	private View currentView =  new View(new LocalDate(2013,3,10), new LocalDate(2013,3,10).plusDays(6), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59, 999));
+	private View currentView =  null;
 	
-	public CalendarComposite(Composite parent, int style, TaskContainer taskContainer) {
+	public CalendarComposite(Composite parent, int style, BigContainer bigContainer) {
 		super(parent, style);
 		
-		this.taskContainer = taskContainer;
-	
+		this.taskContainer = bigContainer.getTaskContainer();
+		this.currentView = bigContainer.getView();
+		
 		fillTimeBlockTaskMap();
 		prepareGridLayout();
 		makeSpacer();
