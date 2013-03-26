@@ -42,6 +42,20 @@ public class Task{
 	public TimeBlock getFirstTimeBlock() {return timeBlocks.isEmpty() ? null : timeBlocks.get(0);}
 	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}
 	
+	public Duration getDurationPassedSince(DateTime since, DateTime until){
+		Duration duration = Duration.ZERO;
+		for (TimeBlock timeBlock: timeBlocks) {
+			if (timeBlock.getEnd().isBefore(until)) {
+				if (timeBlock.getStart().isAfter(since)){
+					duration = duration.plus(timeBlock.getDuration());
+				} else if (timeBlock.getEnd().isAfter(since)){
+					duration = duration.plus(new Duration(since, timeBlock.getEnd()));
+				}
+			}
+		}
+		return duration;
+	}
+	
 	public Duration getDurationPassed(DateTime until){
 		Duration duration = Duration.ZERO;
 		for (TimeBlock timeBlock: timeBlocks) {
