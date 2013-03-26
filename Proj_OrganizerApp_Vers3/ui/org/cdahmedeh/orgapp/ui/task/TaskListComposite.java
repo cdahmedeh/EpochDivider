@@ -94,7 +94,7 @@ public class TaskListComposite extends Composite {
 		treeTasksList = new Tree(this, SWT.CHECK);
 		treeTasksList.setHeaderVisible(true);
 		
-		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Task", 210);
+		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Task", 290);
 		TreeColumn clmDueDate = ComponentFactory.generateTreeColumn(treeTasksList, "Due Date", 100);
 		TreeColumn clmTotalPassed = ComponentFactory.generateTreeColumn(treeTasksList, "Progress", 100);
 		TreeColumn clmNextScheduled = ComponentFactory.generateTreeColumn(treeTasksList, "Next", 100);
@@ -112,7 +112,7 @@ public class TaskListComposite extends Composite {
 		for (Task task: taskContainer.getTasksWithCategory(category).getTasksWithEvents(showEvents).getAllTasks()){
 			TreeItem itmTask = new TreeItem(treeTasksList, SWT.NONE);
 			itmTask.setText(new String[]{
-					task.getTitle() + "(" +
+					task.getTitle() + " (" +
 					task.getContext().getName() + ")",
 					task.getDueDate() == null ? "" : task.getDueDate().toString(),
 					task.getDurationPassed(DateTime.now()).getStandardHours() + " | " +
@@ -154,9 +154,15 @@ public class TaskListComposite extends Composite {
 			}
 		});
 		
-		final ToolItem buttonCompletedTasks = new ToolItem(bottomBar, SWT.CHECK);
-		buttonCompletedTasks.setText("Show Completed");
-		buttonCompletedTasks.setImage(SWTResourceManager.getImage(CategoryListComposite.class, Icons.COMPLETED));
+		if (showEvents == false) {
+			final ToolItem buttonCompletedTasks = new ToolItem(bottomBar, SWT.CHECK);
+			buttonCompletedTasks.setText("Show Completed");
+			buttonCompletedTasks.setImage(SWTResourceManager.getImage(CategoryListComposite.class, Icons.COMPLETED));
+		} else {
+			final ToolItem buttonCompletedTasks = new ToolItem(bottomBar, SWT.CHECK);
+			buttonCompletedTasks.setText("Show Passed");
+			buttonCompletedTasks.setImage(SWTResourceManager.getImage(CategoryListComposite.class, Icons.IMMUTABLE));
+		}
 		
 		return bottomBarComposite;
 	}
