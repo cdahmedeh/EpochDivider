@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.ui.task;
 
 import java.util.HashMap;
 
+import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.category.NoContext;
 import org.cdahmedeh.orgapp.types.misc.BigContainer;
@@ -38,6 +39,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 
 import swing2swt.layout.BorderLayout;
 
@@ -66,6 +68,7 @@ public class TaskListComposite extends Composite {
 	
 	private TaskContainer taskContainer = null;
 	private Context category = new NoContext();
+	private View view = null;
 	
 	private Tree treeTasksList;
 	
@@ -77,6 +80,7 @@ public class TaskListComposite extends Composite {
 		super(parent, style);
 		
 		this.taskContainer = bigContainer.getTaskContainer();
+		this.view = bigContainer.getView();
 		
 		this.showEvents = showEvents;
 		
@@ -117,7 +121,7 @@ public class TaskListComposite extends Composite {
 					" (" + task.getContext().getName() + ")",
 					task.getDueDate() == null ? "" : task.getDueDate().toString(),
 					task.getDurationPassed(DateTime.now()).getStandardHours() + " | " +
-					task.getDurationScheduled(DateTime.now()).getStandardHours() + " | " + //TODO: should be end of view
+					task.getDurationScheduled(view.getEndDate().plusDays(1).toDateTime(LocalTime.MIDNIGHT)).getStandardHours() + " | " + //TODO: should be end of view
 					task.getEstimate().getStandardHours(),
 					task.getFirstTimeBlock() == null ? "" : task.getFirstTimeBlock().toString()
 					});
