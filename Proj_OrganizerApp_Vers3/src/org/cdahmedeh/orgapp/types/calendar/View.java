@@ -44,4 +44,14 @@ public class View {
 		this.setStartDate(this.getStartDate().plusDays(days));
 		this.setEndDate(this.getEndDate().plusDays(days));
 	}
+	
+	@Override
+	public int hashCode() {
+		return (startDate.toString() + endDate.toString()).hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return this.hashCode() == obj.hashCode();
+	}
 }

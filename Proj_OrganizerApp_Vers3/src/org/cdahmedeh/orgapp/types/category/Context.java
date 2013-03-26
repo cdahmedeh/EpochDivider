@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.types.category;
 
 import java.util.HashMap;
 
+import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
@@ -27,9 +28,9 @@ public class Context {
 	public RGB getColor(){return color;}
 	public void setColor(RGB color) {this.color = color;}
 	
-	private HashMap<LocalDate, Duration> goals = new HashMap<>();
-	public Duration getGoal(LocalDate date){return goals.get(date);}
-	public void setGoal(LocalDate date, Duration duration) {goals.put(date, duration);}
+	private HashMap<View, Duration> goals = new HashMap<>();
+	public Duration getGoal(View view){return goals.get(view);}
+	public void setGoal(View date, Duration duration) {goals.put(date, duration);}
 	
 	public Duration getDurationPassedSince(DateTime since, DateTime until, TaskContainer taskContainer){
 		Duration duration = Duration.ZERO;

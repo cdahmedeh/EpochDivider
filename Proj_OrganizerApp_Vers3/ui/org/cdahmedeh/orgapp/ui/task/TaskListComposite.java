@@ -125,10 +125,10 @@ public class TaskListComposite extends Composite {
 					task.getEstimate().getStandardHours(),
 					task.getFirstTimeBlock() == null ? "" : task.getFirstTimeBlock().toString()
 					});
-			if (task.isEvent()){
-				itmTask.setBackground(SWTResourceManager.getColor(TaskListConstants.taskImmutableDefaultBackgroundColor));
-				itmTask.setForeground(SWTResourceManager.getColor(TaskListConstants.taskImmutableDefaulForegroundColor));
-			}
+//			if (task.isEvent()){
+//				itmTask.setBackground(SWTResourceManager.getColor(TaskListConstants.taskImmutableDefaultBackgroundColor));
+//				itmTask.setForeground(SWTResourceManager.getColor(TaskListConstants.taskImmutableDefaulForegroundColor));
+//			}
 			mapTreeItemTask.put(itmTask, task);
 		}
 	}
