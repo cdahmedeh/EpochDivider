@@ -112,8 +112,8 @@ public class TaskListComposite extends Composite {
 		for (Task task: taskContainer.getTasksWithContext(category).getTasksWithEvents(showEvents).getAllTasks()){
 			TreeItem itmTask = new TreeItem(treeTasksList, SWT.NONE);
 			itmTask.setText(new String[]{
-					task.getTitle() + " (" +
-					task.getContext().getName() + ")",
+					task.getTitle() + 
+					" (" + task.getContext().getName() + ")",
 					task.getDueDate() == null ? "" : task.getDueDate().toString(),
 					task.getDurationPassed(DateTime.now()).getStandardHours() + " | " +
 					task.getDurationScheduled(DateTime.now()).getStandardHours() + " | " + //TODO: should be end of view
