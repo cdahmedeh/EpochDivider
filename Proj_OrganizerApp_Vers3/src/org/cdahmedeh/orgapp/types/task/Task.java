@@ -12,11 +12,20 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 public class Task{
-	public Task(String title) {this.setTitle(title); id = idCounter++;}
+
+	/* ---- Identifier ---- */
 	
 	private static int idCounter = 0;
-	private int id = -1;
+	private int id = idCounter++;
 	public int getId() {return id;}
+
+	
+	/* ---- Constructs ---- */
+	
+	public Task(String title) {this.setTitle(title);}
+	
+	
+	/* ---- Main Data ---- */
 	
 	private	String title = "";
 	public String getTitle() {return title;}
@@ -30,7 +39,7 @@ public class Task{
 	public boolean isEvent() {return event;}
 	public void setEvent(boolean event) {this.event = event;}
 	
-	private Duration estimate = new Duration(0);
+	private Duration estimate = Duration.ZERO;
 	public Duration getEstimate() {return estimate;}
 	public void setEstimate(Duration durationToComplete) {this.estimate = durationToComplete;}
 	
@@ -39,21 +48,29 @@ public class Task{
 	public DateTime getDueDate() {return dueDate;}
 	public void setDueDate(DateTime dueDate) {this.dueDate = dueDate;}
 	
-	//TODO: Ordering
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
 	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
 	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}
+
 	
-	public TimeBlock getFirstTimeBlockFromNow() { //TODO: Add parameter for instance
+	/* ---- Reader Methods ---- */
+	
+	/**
+	 * Finds the earliest timeblock that starts after 'instant'. 
+	 * 
+	 * @param instant 
+	 * @return
+	 */
+	public TimeBlock getFirstTimeBlockAfterInstant(DateTime instant) {
 		if (timeBlocks.isEmpty()) {
 			return null;
 		}
 		Collections.sort(timeBlocks, new TimeBlockOrderer());
-		if (timeBlocks.get(0).getStart().isAfter(DateTime.now())) {
+		if (timeBlocks.get(0).getStart().isAfter(instant)) {
 			return timeBlocks.get(0);
 		} else {
 			for (TimeBlock timeBlock: timeBlocks){
-				if (timeBlock.getStart().isAfterNow()) {
+				if (timeBlock.getStart().isAfter(instant)) {
 					return timeBlock;
 				}
 			}
@@ -61,7 +78,17 @@ public class Task{
 		return null;
 	}
 
-	
+	/**
+	 * Gives the total duration of all timeblocks that end after 'since' and end
+	 * before 'until'. 
+	 * 
+	 * TimeBlocks that are within until are not counted.
+	 * TimeBlocks that are within since are counted partially
+	 * 
+	 * @param since
+	 * @param until
+	 * @return
+	 */
 	public Duration getDurationPassedSince(DateTime since, DateTime until){
 		Duration duration = Duration.ZERO;
 		for (TimeBlock timeBlock: timeBlocks) {
@@ -76,6 +103,15 @@ public class Task{
 		return duration;
 	}
 	
+	/**
+	 * Gives the total duration of all timeblocks that end before 'until'.
+	 * 
+	 * TimeBlocks that are within until are not counted.
+	 * 
+	 * @param since
+	 * @param until
+	 * @return
+	 */
 	public Duration getDurationPassed(DateTime until){
 		Duration duration = Duration.ZERO;
 		for (TimeBlock timeBlock: timeBlocks) {
@@ -86,6 +122,15 @@ public class Task{
 		return duration;
 	}
 	
+	/**
+	 * Gives the total duration of all timeblocks that end within 'until'.
+	 * 
+	 * TimeBlocks that are within until are counted partially.
+	 * 
+	 * @param since
+	 * @param until
+	 * @return
+	 */
 	public Duration getDurationScheduled(DateTime until){
 		Duration duration = Duration.ZERO;
 		for (TimeBlock timeBlock: timeBlocks) {
@@ -97,7 +142,4 @@ public class Task{
 		}
 		return duration;
 	}
-	
-	@Override
-	public String toString() {return this.getTitle();}
 }

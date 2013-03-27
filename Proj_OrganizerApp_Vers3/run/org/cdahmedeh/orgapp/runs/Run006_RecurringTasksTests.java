@@ -26,7 +26,7 @@ public class Run006_RecurringTasksTests {
 		
 		for (RecurrentTaskInstance task: rTaskI.generateRecurrentTasks(null, null)){
 			System.out.println(task.getTitle());
-			System.out.println(task.getFirstTimeBlockFromNow().getStart());
+//			System.out.println(task.getFirstTimeBlockAfterInstant().getStart());
 		}
 	}
 }

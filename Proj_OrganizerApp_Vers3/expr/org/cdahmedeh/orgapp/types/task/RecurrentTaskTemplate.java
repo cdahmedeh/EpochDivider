@@ -27,11 +27,11 @@ public class RecurrentTaskTemplate extends Task {
 		//TODO: Clean me up please.
 		for (LocalDate date: recurrence.generateRecurrenceDateIterable()){
 			RecurrentTaskInstance rTaskI = new RecurrentTaskInstance("");
-			TimeBlock firstTimeBlock = this.getFirstTimeBlockFromNow();
+//			TimeBlock firstTimeBlock = this.getFirstTimeBlockAfterInstant();
 			TaskCopier.copy(this, rTaskI);
 //			rTaskI.clearAssignedTimeBlocks();
 			rTaskI.setTemplate(this); //TODO: Make in constructor
-			rTaskI.assignToTimeBlock(new TimeBlock(date.toDateTime(firstTimeBlock.getStart().toLocalTime())));
+//			rTaskI.assignToTimeBlock(new TimeBlock(date.toDateTime(firstTimeBlock.getStart().toLocalTime())));
 			rTasks.add(rTaskI);
 			instances.add(rTaskI);
 		}
