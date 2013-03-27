@@ -11,6 +11,11 @@ import org.cdahmedeh.orgapp.types.time.TimeBlockOrderer;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
+/**
+ * Represents a task.
+ * 
+ * @author ahmed
+ */
 public class Task{
 
 	/* ---- Identifier ---- */
