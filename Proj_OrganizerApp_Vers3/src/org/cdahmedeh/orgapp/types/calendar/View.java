@@ -50,24 +50,46 @@ public class View {
 	
 	/* ---- Reader Methods ---- */
 	
+	/**
+	 * Calculates the number of days between the start and end date including
+	 * the last 24 hours on the end date.
+	 * 
+	 * For example, between Jan 24 and Jan 26, there are 2+1 = 3 days.
+	 * 
+	 * @return Number of days between startDate and endDate. 
+	 */
 	public int getNumberOfDaysVisible(){
 		return 1 + Days.daysBetween(startDate, endDate).getDays();
 	}
 
+	/**
+	 * Gives the number of hours between the first and last hour of the view.
+	 * Does not include the last hour in the calculation.
+	 * 
+	 * For example, between 12h and 16h, there are 5 hours.
+	 * 
+	 * @return Number of hours between 
+	 */
 	public int getNumberOfHoursVisible(){
 		return Hours.hoursBetween(firstHour, lastHour).getHours();
-	}
-	
-	public Interval getDateInterval() {
-		return new Interval(startDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay().plusDays(1));
 	}
 	
 	
 	/* ---- Manipulate Methods ---- */
 	
-	public void moveAmountOfDays(int days){
-		this.setStartDate(this.getStartDate().plusDays(days));
-		this.setEndDate(this.getEndDate().plusDays(days));
+	/**
+	 * Displaces the view 'n' days. If 'n' is positive, then it is forward.
+	 * Otherwise, if 'n' is negative, then move 'n' days backwards.
+	 * 
+	 * For example, if 'n' is 5 days, then
+	 * 		view before: 12 jan - 15 jan
+	 *      view after:  17 jan - 20 jan 
+	 * 
+	 * @param n Number of days to move forward. Negative n moves backwards.
+	 */
+	public void moveAmountOfDays(int n){
+		this.setStartDate(this.getStartDate().plusDays(n));
+		this.setEndDate(this.getEndDate().plusDays(n));
 	}
 
 }
