@@ -37,6 +37,7 @@ public class MainAppWindow {
 	private EventBus eventBus;
 	private TaskContainer taskContainer;
 	private ContextContainer categoryContainer;
+	private View view;
 
 	class EventRecorder{
 		@Subscribe public void tasksModified(TaskQuickAddNotification notify){
@@ -100,7 +101,8 @@ public class MainAppWindow {
 //		task.assignToTimeBlock(new TimeBlock(new DateTime(2013, 03, 12, 12, 00), new DateTime(2013, 03, 12, 14, 00)));
 //		taskContainer.addTask(task);
 //		taskContainer.addTask(new Task("Test"));
-		
+		view = new View(new LocalDate(2013,3,25), new LocalDate(2013,3,25).plusDays(6), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59, 999));
+
 		fill(categoryContainer, taskContainer);
 		
 		SashForm fullSashForm = new SashForm(shell, SWT.SMOOTH | SWT.HORIZONTAL);
@@ -109,15 +111,14 @@ public class MainAppWindow {
 		
 		org.eclipse.swt.widgets.DateTime dateTimeWidgetThing = new org.eclipse.swt.widgets.DateTime(leftSashForm, SWT.CALENDAR);
 		
-		CategoryListComposite taskListComposite2 = new CategoryListComposite(leftSashForm, SWT.BORDER, categoryContainer);
+		
+		BigContainer bigContainer = new BigContainer(taskContainer, categoryContainer, view);
+		
+		CategoryListComposite taskListComposite2 = new CategoryListComposite(leftSashForm, SWT.BORDER, bigContainer);
 		
 		SashForm rightSashForm = new SashForm(fullSashForm, SWT.SMOOTH | SWT.VERTICAL);
 
 		fullSashForm.setWeights(new int[]{2,7});
-		
-		View view =  new View(new LocalDate(2013,3,25), new LocalDate(2013,3,25).plusDays(6), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59, 999));
-		
-		BigContainer bigContainer = new BigContainer(taskContainer, categoryContainer, view);
 		
 		CalendarComposite calendarComposite = new CalendarComposite(rightSashForm, SWT.BORDER, bigContainer);
 		TaskListComposite eventListComposite = new TaskListComposite(rightSashForm, SWT.BORDER, bigContainer, true);
@@ -141,6 +142,7 @@ public class MainAppWindow {
 		context.addContext(new NoContext());
 	
 		Context essentials = new Context("Essentials");
+		essentials.setGoal(view, new Duration(20 * DateTimeConstants.MILLIS_PER_HOUR));
 		Context faith = new Context("Faith");
 		Context university = new Context("University");
 		Context transportation = new Context("Transportation");
@@ -149,9 +151,12 @@ public class MainAppWindow {
 		context.addContext(faith);
 		context.addContext(university);
 		context.addContext(transportation);
-		context.addContext(new Context("Projects"));
-		context.addContext(new Context("Misc"));
-		context.addContext(new Context("Gaming"));
+		Context context2 = new Context("Projects");
+		context.addContext(context2);
+		Context context3 = new Context("Misc");
+		context.addContext(context3);
+		Context context4 = new Context("Gaming");
+		context.addContext(context4);
 		
 		for (int i=0; i<8; i++){
 		Task sleep = new Task("Sleep");

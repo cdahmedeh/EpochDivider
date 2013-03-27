@@ -2,8 +2,11 @@ package org.cdahmedeh.orgapp.ui.category;
 
 import java.util.HashMap;
 
+import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.category.ContextContainer;
 import org.cdahmedeh.orgapp.types.category.Context;
+import org.cdahmedeh.orgapp.types.misc.BigContainer;
+import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
 import org.cdahmedeh.orgapp.ui.icons.Icons;
@@ -28,6 +31,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.joda.time.LocalTime;
 
 import swing2swt.layout.BorderLayout;
 
@@ -45,14 +49,18 @@ public class CategoryListComposite extends Composite {
 	}
 	
 	private ContextContainer categoryContainer = null;
+	private TaskContainer taskContainer = null;
+	private View currentView = null;
 	private Tree treeCategorysList;
 	
 	private HashMap<TreeItem, Context> mapTreeItemCategory = new HashMap<>();
 	
-	public CategoryListComposite(Composite parent, int style, ContextContainer categoryContainer) {
+	public CategoryListComposite(Composite parent, int style, BigContainer bigContainer) {
 		super(parent, style);
 		
-		this.categoryContainer = categoryContainer;
+		this.categoryContainer = bigContainer.getContextContainer();
+		this.currentView = bigContainer.getCurrentView();
+		this.taskContainer = bigContainer.getTaskContainer();
 		
 		this.setLayout(new BorderLayout());
 		
@@ -73,7 +81,8 @@ public class CategoryListComposite extends Composite {
 		treeCategorysList = new Tree(this, SWT.NONE);
 		treeCategorysList.setHeaderVisible(true);
 		
-		TreeColumn clmName = ComponentFactory.generateTreeColumn(treeCategorysList, "Category", 100);
+		TreeColumn clmName = ComponentFactory.generateTreeColumn(treeCategorysList, "Context", 100);
+		TreeColumn clmProgress = ComponentFactory.generateTreeColumn(treeCategorysList, "Progress", 100);
 	}
 	
 	private void makeCategoryTreeClickable(){
@@ -89,7 +98,9 @@ public class CategoryListComposite extends Composite {
 		for (Context category: categoryContainer.getAllContexts()){
 			TreeItem itmCategory = new TreeItem(treeCategorysList, SWT.NONE);
 			itmCategory.setText(new String[]{
-					category.getName()
+					category.getName(),
+					category.getDurationPassedSince(currentView.getStartDate().toDateTime(LocalTime.MIDNIGHT), currentView.getEndDate().toDateTime(LocalTime.MIDNIGHT), taskContainer).getStandardHours() + "|" +
+					category.getGoal(currentView).getStandardHours()
 					});
 			mapTreeItemCategory.put(itmCategory, category);
 		}

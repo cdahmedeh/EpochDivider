@@ -29,7 +29,7 @@ public class Context {
 	public void setColor(RGB color) {this.color = color;}
 	
 	private HashMap<View, Duration> goals = new HashMap<>();
-	public Duration getGoal(View view){return goals.get(view);}
+	public Duration getGoal(View view){return goals.get(view) == null ? Duration.ZERO : goals.get(view);}
 	public void setGoal(View date, Duration duration) {goals.put(date, duration);}
 	
 	public Duration getDurationPassedSince(DateTime since, DateTime until, TaskContainer taskContainer){
