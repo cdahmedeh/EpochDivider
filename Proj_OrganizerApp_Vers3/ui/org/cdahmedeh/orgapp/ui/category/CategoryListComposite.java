@@ -3,8 +3,10 @@ package org.cdahmedeh.orgapp.ui.category;
 import java.util.HashMap;
 
 import org.cdahmedeh.orgapp.types.calendar.View;
+import org.cdahmedeh.orgapp.types.category.AllContexts;
 import org.cdahmedeh.orgapp.types.category.ContextContainer;
 import org.cdahmedeh.orgapp.types.category.Context;
+import org.cdahmedeh.orgapp.types.category.NoContext;
 import org.cdahmedeh.orgapp.types.misc.BigContainer;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
@@ -48,7 +50,7 @@ public class CategoryListComposite extends Composite {
 	class EventRecorder{	
 	}
 	
-	private ContextContainer categoryContainer = null;
+	private ContextContainer contextContainer = null;
 	private TaskContainer taskContainer = null;
 	private View currentView = null;
 	private Tree treeCategorysList;
@@ -58,7 +60,7 @@ public class CategoryListComposite extends Composite {
 	public CategoryListComposite(Composite parent, int style, BigContainer bigContainer) {
 		super(parent, style);
 		
-		this.categoryContainer = bigContainer.getContextContainer();
+		this.contextContainer = bigContainer.getContextContainer();
 		this.currentView = bigContainer.getCurrentView();
 		this.taskContainer = bigContainer.getTaskContainer();
 		
@@ -95,13 +97,27 @@ public class CategoryListComposite extends Composite {
 	}
 	
 	private void fillCategoryTree() {
-		for (Context category: categoryContainer.getAllContexts()){
+		for (Context category: contextContainer.getAllContexts()){
 			TreeItem itmCategory = new TreeItem(treeCategorysList, SWT.NONE);
-			itmCategory.setText(new String[]{
-					category.getName(),
-					category.getDurationPassedSince(currentView.getStartDate().toDateTime(LocalTime.MIDNIGHT), currentView.getEndDate().toDateTime(LocalTime.MIDNIGHT), taskContainer).getStandardHours() + "|" +
-					category.getGoal(currentView).getStandardHours()
-					});
+			if (category instanceof AllContexts) {
+				itmCategory.setText(new String[]{
+						category.getName(),
+						category.getDurationPassedSince(currentView.getStartDate().toDateTime(LocalTime.MIDNIGHT), currentView.getEndDate().toDateTime(LocalTime.MIDNIGHT), taskContainer).getStandardHours() + "|" +
+								((AllContexts)category).getGoal(currentView, contextContainer).getStandardHours()
+				});
+			} else if (category instanceof NoContext) {
+				itmCategory.setText(new String[]{
+						category.getName(),
+						category.getDurationPassedSince(currentView.getStartDate().toDateTime(LocalTime.MIDNIGHT), currentView.getEndDate().toDateTime(LocalTime.MIDNIGHT), taskContainer).getStandardHours() + "|" +
+								((AllContexts)category).getGoal(currentView, contextContainer).getStandardHours()
+				});
+			} else {
+				itmCategory.setText(new String[]{
+						category.getName(),
+						category.getDurationPassedSince(currentView.getStartDate().toDateTime(LocalTime.MIDNIGHT), currentView.getEndDate().toDateTime(LocalTime.MIDNIGHT), taskContainer).getStandardHours() + "|" +
+								category.getGoal(currentView).getStandardHours()
+				});
+			}
 			mapTreeItemCategory.put(itmCategory, category);
 		}
 	}
