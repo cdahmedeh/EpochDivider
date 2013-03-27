@@ -2,10 +2,10 @@ package org.cdahmedeh.orgapp.types.category;
 
 import java.util.HashMap;
 
+import org.cdahmedeh.orgapp.containers.TaskContainer;
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.task.Task;
-import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.eclipse.swt.graphics.RGB;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;

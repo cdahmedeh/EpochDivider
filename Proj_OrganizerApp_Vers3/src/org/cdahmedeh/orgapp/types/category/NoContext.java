@@ -1,5 +1,6 @@
 package org.cdahmedeh.orgapp.types.category;
 
+import org.cdahmedeh.orgapp.containers.ContextContainer;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;

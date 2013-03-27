@@ -3,6 +3,7 @@ package org.cdahmedeh.orgapp.types.task;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.category.NoContext;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
@@ -19,7 +20,7 @@ public class Task{
 	
 	private	String title = "";
 	public String getTitle() {return title;}
-	public void setTitle(String title) {this.title = title != null ? title.trim() : "";}
+	public void setTitle(String title) {this.title = MiscHelper.safeTrim(title);}
 	
 	private Context context = new NoContext();
 	public Context getContext() {return context;}

@@ -1,13 +1,13 @@
 package org.cdahmedeh.orgapp.ui.main;
 
+import org.cdahmedeh.orgapp.containers.BigContainer;
+import org.cdahmedeh.orgapp.containers.ContextContainer;
+import org.cdahmedeh.orgapp.containers.TaskContainer;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.category.AllContexts;
-import org.cdahmedeh.orgapp.types.category.ContextContainer;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.category.NoContext;
-import org.cdahmedeh.orgapp.types.misc.BigContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
-import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.cdahmedeh.orgapp.ui.calendar.CalendarComposite;
 import org.cdahmedeh.orgapp.ui.category.CategoryListComposite;

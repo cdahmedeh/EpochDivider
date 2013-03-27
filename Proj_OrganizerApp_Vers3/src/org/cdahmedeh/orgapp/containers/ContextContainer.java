@@ -1,6 +1,8 @@
-package org.cdahmedeh.orgapp.types.category;
+package org.cdahmedeh.orgapp.containers;
 
 import java.util.ArrayList;
+
+import org.cdahmedeh.orgapp.types.category.Context;
 
 public class ContextContainer {
 	public ArrayList<Context> contexts = new ArrayList<>();

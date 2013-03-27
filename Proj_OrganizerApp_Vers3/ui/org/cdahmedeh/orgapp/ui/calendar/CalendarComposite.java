@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.cdahmedeh.orgapp.containers.BigContainer;
+import org.cdahmedeh.orgapp.containers.TaskContainer;
 import org.cdahmedeh.orgapp.types.calendar.View;
-import org.cdahmedeh.orgapp.types.misc.BigContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
-import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;
 import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;

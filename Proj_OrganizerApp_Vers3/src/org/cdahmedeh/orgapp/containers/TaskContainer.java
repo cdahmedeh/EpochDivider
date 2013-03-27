@@ -1,10 +1,11 @@
-package org.cdahmedeh.orgapp.types.task;
+package org.cdahmedeh.orgapp.containers;
 
 import java.util.ArrayList;
 
 import org.cdahmedeh.orgapp.types.category.AllContexts;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.category.NoContext;
+import org.cdahmedeh.orgapp.types.task.Task;
 
 public class TaskContainer {
 	public ArrayList<Task> tasks = new ArrayList<>();

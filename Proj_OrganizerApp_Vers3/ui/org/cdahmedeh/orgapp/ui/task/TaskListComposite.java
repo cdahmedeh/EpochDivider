@@ -2,12 +2,12 @@ package org.cdahmedeh.orgapp.ui.task;
 
 import java.util.HashMap;
 
+import org.cdahmedeh.orgapp.containers.BigContainer;
+import org.cdahmedeh.orgapp.containers.TaskContainer;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.category.NoContext;
-import org.cdahmedeh.orgapp.types.misc.BigContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
-import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.cdahmedeh.orgapp.ui.category.CategoryListComposite;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentFactory;
 import org.cdahmedeh.orgapp.ui.helpers.ComponentModifier;

@@ -1,6 +1,6 @@
 package org.cdahmedeh.orgapp.ui.task;
 
-import org.cdahmedeh.orgapp.types.category.ContextContainer;
+import org.cdahmedeh.orgapp.containers.ContextContainer;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.ui.components.DateEntryWidget;
