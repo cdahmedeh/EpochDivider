@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.types.category;
 
 import java.util.HashMap;
 
+import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskContainer;
@@ -20,7 +21,7 @@ public class Context {
 
 	private String name = "";
 	public String getName() {return name;}
-	public void setName(String name) {this.name = name != null ? name.trim() : "";}
+	public void setName(String name) {this.name = MiscHelper.safeTrim(name);}
 
 	private RGB color = null; //TODO: hue as int instead of RGB
 	public RGB getColor(){return color;}
