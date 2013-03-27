@@ -1,8 +1,6 @@
 package org.cdahmedeh.orgapp.types.category;
 
 import org.cdahmedeh.orgapp.types.calendar.View;
-import org.cdahmedeh.orgapp.types.task.Task;
-import org.cdahmedeh.orgapp.types.task.TaskContainer;
 import org.joda.time.Duration;
 
 public class AllContexts extends Context {

@@ -37,7 +37,6 @@ import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 import com.google.common.eventbus.EventBus;
@@ -143,6 +142,7 @@ public class CalendarComposite extends Composite {
 		calendarCanvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 			
 		calendarCanvas.addPaintListener(new PaintListener() { 
+			@Override
 			public void paintControl(PaintEvent e) {
 				//TODO: antialias is SLOW
 //	        	e.gc.setAntialias(SWT.ON);

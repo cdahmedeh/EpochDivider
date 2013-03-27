@@ -12,6 +12,9 @@ public class View {
 		this.firstHour = firstHour;	this.lastHour = lastHour;
 	}
 	
+	
+	/* -- -- DATA -- -- */
+	
 	private LocalDate startDate = null;
 	public LocalDate getStartDate() {return startDate;}
 	public void setStartDate(LocalDate start) {this.startDate = start;}
