@@ -123,7 +123,7 @@ public class TaskListComposite extends Composite {
 					task.getDurationPassed(DateTime.now()).getStandardHours() + " | " +
 					task.getDurationScheduled(view.getEndDate().plusDays(1).toDateTime(LocalTime.MIDNIGHT)).getStandardHours() + " | " + //TODO: should be end of view
 					task.getEstimate().getStandardHours(),
-					task.getFirstTimeBlock() == null ? "" : task.getFirstTimeBlock().toString()
+					task.getFirstTimeBlockFromNow() == null ? "" : task.getFirstTimeBlockFromNow().toString()
 					});
 //			if (task.isEvent()){
 //				itmTask.setBackground(SWTResourceManager.getColor(TaskListConstants.taskImmutableDefaultBackgroundColor));

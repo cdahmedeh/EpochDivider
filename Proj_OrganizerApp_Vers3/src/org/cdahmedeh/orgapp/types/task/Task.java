@@ -1,10 +1,12 @@
 package org.cdahmedeh.orgapp.types.task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.category.NoContext;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
+import org.cdahmedeh.orgapp.types.time.TimeBlockOrderer;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
@@ -39,8 +41,25 @@ public class Task{
 	//TODO: Ordering
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
 	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
-	public TimeBlock getFirstTimeBlock() {return timeBlocks.isEmpty() ? null : timeBlocks.get(0);}
 	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}
+	
+	public TimeBlock getFirstTimeBlockFromNow() { //TODO: Add parameter for instance
+		if (timeBlocks.isEmpty()) {
+			return null;
+		}
+		Collections.sort(timeBlocks, new TimeBlockOrderer());
+		if (timeBlocks.get(0).getStart().isAfter(DateTime.now())) {
+			return timeBlocks.get(0);
+		} else {
+			for (TimeBlock timeBlock: timeBlocks){
+				if (timeBlock.getStart().isAfterNow()) {
+					return timeBlock;
+				}
+			}
+		}
+		return null;
+	}
+
 	
 	public Duration getDurationPassedSince(DateTime since, DateTime until){
 		Duration duration = Duration.ZERO;

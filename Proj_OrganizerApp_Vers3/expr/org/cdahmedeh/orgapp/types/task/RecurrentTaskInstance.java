@@ -18,7 +18,7 @@ public class RecurrentTaskInstance extends Task{
 	}
 	
 	public void seperate(){
-		template.getRecurrence().addExceptions(this.getFirstTimeBlock().getStart().toLocalDate());
+		template.getRecurrence().addExceptions(this.getFirstTimeBlockFromNow().getStart().toLocalDate());
 		
 		FormerlyRecurrentTaskInstance taskInstance = new FormerlyRecurrentTaskInstance("");
 		
