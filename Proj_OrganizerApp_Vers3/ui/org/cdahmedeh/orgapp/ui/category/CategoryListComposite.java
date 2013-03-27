@@ -109,7 +109,7 @@ public class CategoryListComposite extends Composite {
 				itmCategory.setText(new String[]{
 						category.getName(),
 						category.getDurationPassedSince(currentView.getStartDate().toDateTime(LocalTime.MIDNIGHT), currentView.getEndDate().toDateTime(LocalTime.MIDNIGHT), taskContainer).getStandardHours() + "|" +
-								((AllContexts)category).getGoal(currentView, contextContainer).getStandardHours()
+								((NoContext)category).getGoal(currentView, contextContainer).getStandardHours()
 				});
 			} else {
 				itmCategory.setText(new String[]{
