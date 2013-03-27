@@ -4,6 +4,11 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Duration;
 
+/**
+ * A TimeBlock represents a scheduled time block for a task. 
+ * 
+ * @author ahmed
+ */
 public class TimeBlock {
 	
 	/* ---- Constructs ---- */
