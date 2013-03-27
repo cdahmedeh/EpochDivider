@@ -75,11 +75,9 @@ public class TimeBlockRenderer {
 		}
 	
 		if (task.isEvent()){
-			RGB color = task.getContext().getColor();
-			e.gc.setBackground(SWTResourceManager.getColor(new RGB((color.getHSB()[0]), 0.1f, 0.9f)));
+			e.gc.setBackground(SWTResourceManager.getColor(new RGB((task.getContext().getColor()), 0.1f, 0.9f)));
 		} else {
-			RGB color = task.getContext().getColor();
-			e.gc.setBackground(SWTResourceManager.getColor(new RGB((color.getHSB()[0]), 0.5f, 1f)));
+			e.gc.setBackground(SWTResourceManager.getColor(new RGB((task.getContext().getColor()), 0.5f, 1f)));
 			
 		}
 		

@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.types.category;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import org.cdahmedeh.orgapp.containers.TaskContainer;
 import org.cdahmedeh.orgapp.tools.MiscHelper;
@@ -11,21 +12,21 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 public class Context {
-	public Context(String name) {this.setName(name); id = idCounter++; color = new RGB((float)id*20%255, 0.10f, 1f);}
+	public Context(String name) {this.setName(name);}
 
-	public boolean isSelectable() {return true;}
-	
 	private static int idCounter = 0;
-	private int id = -1;
+	private int id = idCounter++;
 	public int getId() {return id;}
 
 	private String name = "";
 	public String getName() {return name;}
 	public void setName(String name) {this.name = MiscHelper.safeTrim(name);}
 
-	private RGB color = null; //TODO: hue as int instead of RGB
-	public RGB getColor(){return color;}
-	public void setColor(RGB color) {this.color = color;}
+	private int color = new Random().nextInt(255);
+	public int getColor(){return color;}
+	public void setColor(int color) {this.color = color;}
+	
+	public boolean isSelectable() {return true;}
 	
 	private HashMap<View, Duration> goals = new HashMap<>();
 	public Duration getGoal(View view){return goals.get(view) == null ? Duration.ZERO : goals.get(view);}
