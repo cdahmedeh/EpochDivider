@@ -24,7 +24,7 @@ public class Context {
 	public String getName() {return name;}
 	public void setName(String name) {this.name = name != null ? name.trim() : "";}
 
-	private RGB color = null;
+	private RGB color = null; //TODO: hue as int instead of RGB
 	public RGB getColor(){return color;}
 	public void setColor(RGB color) {this.color = color;}
 	
