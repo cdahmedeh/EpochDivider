@@ -5,6 +5,16 @@ import org.joda.time.Hours;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
+/**
+ * The View represents a time window that is viewable in a Calendar. It is 
+ * defined by the first day that is visible (startDate) and the last day that is
+ * visible (lastDate). 
+ * 
+ * In addition, the time window (such as between 7am and 10pm) that is visible
+ * is defined with firstHour and lastHour.
+ * 
+ * @author ahmed
+ */
 public class View {
 	
 	/* ---- Constructs ---- */
