@@ -13,7 +13,7 @@ import org.joda.time.LocalTime;
  * In addition, the time window (such as between 7am and 10pm) that is visible
  * is defined with firstHour and lastHour.
  * 
- * @author ahmed
+ * @author cdahmedeh
  */
 public class View {
 	
