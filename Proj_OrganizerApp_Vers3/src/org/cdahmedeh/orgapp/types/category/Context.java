@@ -12,12 +12,21 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 public class Context {
-	public Context(String name) {this.setName(name);}
+
+	/* ---- Identifier ---- */
 
 	private static int idCounter = 0;
 	private int id = idCounter++;
 	public int getId() {return id;}
 
+	
+	/* ---- Constructs ---- */
+	
+	public Context(String name) {this.setName(name);}
+	
+	
+	/* ---- Main Data ---- */
+	
 	private String name = "";
 	public String getName() {return name;}
 	public void setName(String name) {this.name = MiscHelper.safeTrim(name);}
@@ -31,7 +40,22 @@ public class Context {
 	private HashMap<View, Duration> goals = new HashMap<>();
 	public Duration getGoal(View view){return goals.get(view) == null ? Duration.ZERO : goals.get(view);}
 	public void setGoal(View date, Duration duration) {goals.put(date, duration);}
+
 	
+	/* ---- Reader Methods ---- */
+	
+	/**
+	 * Gives the total duration of all tasks that end after 'since' and end
+	 * before 'until'. 
+	 * 
+	 * TimeBlocks that are within until are not counted.
+	 * TimeBlocks that are within since are counted partially
+	 * 
+	 * @param since
+	 * @param until
+	 * @param taskContainer
+	 * @return
+	 */
 	public Duration getDurationPassedSince(DateTime since, DateTime until, TaskContainer taskContainer){
 		Duration duration = Duration.ZERO;
 		for (Task task: taskContainer.getTasksWithContext(this).getAllTasks()){
