@@ -113,7 +113,7 @@ public class CalendarComposite extends Composite {
 	}
 	
 	public void makeDayLine() {
-		daylineCanvas = new Canvas(this, SWT.V_SCROLL);
+		daylineCanvas = new Canvas(this, SWT.V_SCROLL | SWT.DOUBLE_BUFFERED);
 		daylineCanvas.setBackground(SWTResourceManager.getColor(CalendarUIConstants.lineBackgroundColor));
 		
 		GridData dayLineGl = new GridData(SWT.FILL, SWT.TOP, true, false);
@@ -125,7 +125,7 @@ public class CalendarComposite extends Composite {
 	}
 	
 	public void makeTimeLine() {
-		timelineCanvas = new Canvas(this, SWT.NONE);
+		timelineCanvas = new Canvas(this, SWT.DOUBLE_BUFFERED);
 		timelineCanvas.setBackground(SWTResourceManager.getColor(CalendarUIConstants.lineBackgroundColor));
 		
 		GridData timelineGL = new GridData(SWT.FILL, SWT.FILL, false, true);
@@ -137,7 +137,7 @@ public class CalendarComposite extends Composite {
 	}
 	
 	public void makeCalendar() {
-		calendarCanvas = new Canvas(this, SWT.V_SCROLL);
+		calendarCanvas = new Canvas(this, SWT.V_SCROLL | SWT.DOUBLE_BUFFERED);
 		calendarCanvas.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		calendarCanvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 			
