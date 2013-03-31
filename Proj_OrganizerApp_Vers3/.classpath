@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="elibs/guava-14.0-rc3.jar"/>
 	<classpathentry kind="lib" path="elibs/jchronic-0.2.6.jar"/>
 	<classpathentry kind="lib" path="elibs/org.eclipse.swt.win32.win32.x86_64_3.100.1.v4236b.jar"/>
+	<classpathentry kind="lib" path="elibs/swingx-all-1.6.4.jar" sourcepath="slibs/swingx-all-1.6.4-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

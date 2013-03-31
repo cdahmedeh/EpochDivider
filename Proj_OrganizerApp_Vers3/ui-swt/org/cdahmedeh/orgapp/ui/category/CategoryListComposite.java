@@ -83,8 +83,8 @@ public class CategoryListComposite extends Composite {
 		treeCategorysList = new Tree(this, SWT.NONE);
 		treeCategorysList.setHeaderVisible(true);
 		
-		TreeColumn clmName = ComponentFactory.generateTreeColumn(treeCategorysList, "Context", 100);
-		TreeColumn clmProgress = ComponentFactory.generateTreeColumn(treeCategorysList, "Progress", 100);
+		TreeColumn clmName = ComponentFactory.generateTreeColumn2(treeCategorysList, "Context", 100);
+		TreeColumn clmProgress = ComponentFactory.generateTreeColumn2(treeCategorysList, "Progress", 100);
 	}
 	
 	private void makeCategoryTreeClickable(){

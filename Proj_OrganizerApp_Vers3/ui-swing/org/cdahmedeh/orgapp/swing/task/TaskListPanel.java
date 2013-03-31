@@ -1,9 +1,8 @@
-package org.cdahmedeh.orgapp.swing.category;
+package org.cdahmedeh.orgapp.swing.task;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JTable;
@@ -15,9 +14,10 @@ import org.cdahmedeh.orgapp.containers.BigContainer;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
-public class ContextListPanel extends JPanel {
+public class TaskListPanel extends JPanel {
 	private BigContainer bigContainer;
 	
 	private JTable table;
@@ -25,9 +25,8 @@ public class ContextListPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ContextListPanel(final BigContainer bigContainer) {
+	public TaskListPanel(final BigContainer bigContainer) {
 		this.bigContainer = bigContainer;
-		this.setPreferredSize(new Dimension(200, 200));
 		
 		setLayout(new BorderLayout(0, 0));
 		
@@ -60,12 +59,18 @@ public class ContextListPanel extends JPanel {
 			
 			@Override
 			public Object getValueAt(int rowIndex, int columnIndex) {
-				Context context = bigContainer.getContextContainer().getAllContexts().get(rowIndex);
+				Task task = bigContainer.getTaskContainer().getAllTasks().get(rowIndex);
 				switch(columnIndex){
 				case 0:	
-					return context.getName();
+					return task.getTitle();
 				case 1:
-					return context.getDurationPassedSince(bigContainer.getCurrentView().getStartDate().toDateTime(LocalTime.MIDNIGHT), bigContainer.getCurrentView().getEndDate().toDateTime(LocalTime.MIDNIGHT), bigContainer.getTaskContainer()).getStandardHours() + " | " + context.getGoal(bigContainer.getCurrentView()).getStandardHours();
+					return task.getDueDate();
+				case 2:
+					return task.getDurationPassed(DateTime.now()) + " | " +
+						task.getDurationScheduled(bigContainer.getCurrentView().getEndDate().plusDays(1).toDateTime(LocalTime.MIDNIGHT)) + " | " +
+						task.getEstimate();
+				case 3:
+					return task.getFirstTimeBlockAfterInstant(DateTime.now());
 				default:
 					return "";
 				}
@@ -73,14 +78,16 @@ public class ContextListPanel extends JPanel {
 			
 			@Override
 			public int getRowCount() {
-				return bigContainer.getContextContainer().getAllContexts().size();
+				return bigContainer.getTaskContainer().getAllTasks().size();
 			}
 			
 			@Override
 			public String getColumnName(int columnIndex) {
 				switch(columnIndex){
-				case 0: return "Context";
-				case 1: return "Progress";
+				case 0: return "Task";
+				case 1: return "Due";
+				case 2: return "Progress";
+				case 3: return "Next Scheduled";
 				default: return "";
 				}
 			}
@@ -88,7 +95,7 @@ public class ContextListPanel extends JPanel {
 			@Override
 			public int getColumnCount() {
 				// TODO Auto-generated method stub
-				return 2;
+				return 4;
 			}
 			
 			@Override

@@ -31,6 +31,9 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
@@ -70,11 +73,11 @@ public class TaskListComposite extends Composite {
 	private Context category = new NoContext();
 	private View view = null;
 	
-	private Tree treeTasksList;
+	private Table treeTasksList;
 	
 	private boolean showEvents = false;
 		
-	private HashMap<TreeItem, Task> mapTreeItemTask = new HashMap<>();
+	private HashMap<TableItem, Task> mapTreeItemTask = new HashMap<>();
 	
 	public TaskListComposite(Composite parent, int style, BigContainer bigContainer, boolean showEvents) {
 		super(parent, style);
@@ -96,13 +99,13 @@ public class TaskListComposite extends Composite {
 	}
 
 	private void makeTaskTree() {
-		treeTasksList = new Tree(this, SWT.CHECK);
+		treeTasksList = new Table(this, SWT.CHECK);
 		treeTasksList.setHeaderVisible(true);
 		
-		TreeColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Task", 290);
-		TreeColumn clmDueDate = ComponentFactory.generateTreeColumn(treeTasksList, "Due Date", 100);
-		TreeColumn clmTotalPassed = ComponentFactory.generateTreeColumn(treeTasksList, "Progress", 100);
-		TreeColumn clmNextScheduled = ComponentFactory.generateTreeColumn(treeTasksList, "Next", 100);
+		TableColumn clmTitle = ComponentFactory.generateTreeColumn(treeTasksList, "Task", 290);
+		TableColumn clmDueDate = ComponentFactory.generateTreeColumn(treeTasksList, "Due Date", 100);
+		TableColumn clmTotalPassed = ComponentFactory.generateTreeColumn(treeTasksList, "Progress", 100);
+		TableColumn clmNextScheduled = ComponentFactory.generateTreeColumn(treeTasksList, "Next", 100);
 		
 		treeTasksList.addMouseListener(new MouseAdapter() {
 			@Override
@@ -115,7 +118,7 @@ public class TaskListComposite extends Composite {
 	private void fillTaskTree() {
 		mapTreeItemTask.clear();
 		for (Task task: taskContainer.getTasksWithContext(category).getTasksWithEvents(showEvents).getAllTasks()){
-			TreeItem itmTask = new TreeItem(treeTasksList, SWT.NONE);
+			TableItem itmTask = new TableItem(treeTasksList, SWT.NONE);
 			itmTask.setText(new String[]{
 					task.getTitle() + 
 					" (" + task.getContext().getName() + ")",
