@@ -24,6 +24,9 @@ import org.jdesktop.swingx.MultiSplitLayout.Leaf;
 import org.jdesktop.swingx.MultiSplitLayout.Split;
 import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import java.awt.BorderLayout;
@@ -83,7 +86,7 @@ public class MainSwingWindow {
 		
 		TaskContainer taskContainer = new TaskContainer();
 		Task task01 = new Task("Do Work");
-		task01.assignToTimeBlock(new TimeBlock());
+		task01.assignToTimeBlock(new TimeBlock(new DateTime(), new DateTime().plus(new Duration(DateTimeConstants.MILLIS_PER_DAY*3))));
 		Task task02 = new Task("Do More Work");
 		taskContainer.addTask(task01);
 		taskContainer.addTask(task02);

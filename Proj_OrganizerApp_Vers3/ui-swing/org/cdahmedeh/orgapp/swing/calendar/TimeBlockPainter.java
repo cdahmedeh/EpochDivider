@@ -9,12 +9,7 @@ import org.cdahmedeh.orgapp.swing.calendar.CalendarPanel;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
@@ -78,12 +73,14 @@ public class TimeBlockPainter {
 					));
 			}
 		}
-	
-//		if (task.isEvent()){
+
+		if (task.isEvent()){
 //			e.setColor(new Color((task.getContext().getColor()), 0.1f, 0.9f));
-//		} else {
+		} else {
 //			e.setColor(new Color((task.getContext().getColor()), 0.5f, 1f));
-//		}
+		}
+	
+		e.setColor(new Color(0.5f, 0.5f, 0.5f, 0.5f));
 		
 //		if (task.getMutability() == Mutability.IMMUTABLE){
 //		} else {
