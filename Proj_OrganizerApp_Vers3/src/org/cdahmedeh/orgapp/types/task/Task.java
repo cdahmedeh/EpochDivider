@@ -32,6 +32,10 @@ public class Task{
 	
 	/* ---- Main Data ---- */
 	
+	private boolean completed = false;
+	public boolean isCompleted() {return completed;}
+	public void setCompleted(boolean completed) {this.completed = completed;}
+	
 	private	String title = "";
 	public String getTitle() {return title;}
 	public void setTitle(String title) {this.title = MiscHelper.safeTrim(title);}

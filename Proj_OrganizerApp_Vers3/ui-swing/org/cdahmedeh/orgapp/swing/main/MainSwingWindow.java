@@ -9,19 +9,28 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.cdahmedeh.orgapp.containers.BigContainer;
 import org.cdahmedeh.orgapp.containers.ContextContainer;
 import org.cdahmedeh.orgapp.containers.TaskContainer;
+import org.cdahmedeh.orgapp.swing.calendar.CalendarPanel;
 import org.cdahmedeh.orgapp.swing.category.ContextListPanel;
 import org.cdahmedeh.orgapp.swing.task.TaskListPanel;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.cdahmedeh.orgapp.types.time.TimeBlock;
+import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.JXMultiSplitPane;
+import org.jdesktop.swingx.MultiSplitLayout.Divider;
 import org.jdesktop.swingx.MultiSplitLayout.Leaf;
 import org.jdesktop.swingx.MultiSplitLayout.Split;
+import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import javax.swing.JToolBar;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
 
 public class MainSwingWindow {
 
@@ -67,13 +76,14 @@ public class MainSwingWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JXMultiSplitPane jxMultiSplitPane = new JXMultiSplitPane();		
-		jxMultiSplitPane.setModel(new DefaultSplitPaneModel());
+		jxMultiSplitPane.setModel(new MySplitPlaneModel());
 		frame.getContentPane().add(jxMultiSplitPane);
 		
-		View currentView = new View(new LocalDate(2013,3,25), new LocalDate(2013,3,25).plusDays(6), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59, 999));
+		View currentView = new View(new LocalDate(2013,3,31), new LocalDate(2013,3,25).plusDays(12), new LocalTime(0, 0, 0), new LocalTime(23, 59, 59, 999));
 		
 		TaskContainer taskContainer = new TaskContainer();
 		Task task01 = new Task("Do Work");
+		task01.assignToTimeBlock(new TimeBlock());
 		Task task02 = new Task("Do More Work");
 		taskContainer.addTask(task01);
 		taskContainer.addTask(task02);
@@ -83,10 +93,28 @@ public class MainSwingWindow {
 		BigContainer bigContainer = new BigContainer(taskContainer, contextContainer, currentView);
 		
 		ContextListPanel contextListPanel = new ContextListPanel(bigContainer);
-		jxMultiSplitPane.add(contextListPanel, DefaultSplitPaneModel.LEFT);
+		jxMultiSplitPane.add(contextListPanel, DefaultSplitPaneModel.BOTTOM);
 		
 		TaskListPanel taskListPanel = new TaskListPanel(bigContainer);
-		jxMultiSplitPane.add(taskListPanel, DefaultSplitPaneModel.BOTTOM);
+		jxMultiSplitPane.add(taskListPanel, DefaultSplitPaneModel.LEFT);
+		
+		JXMonthView jxDatePicker = new JXMonthView();
+		jxDatePicker.setSelectionMode(SelectionMode.SINGLE_INTERVAL_SELECTION);
+		jxMultiSplitPane.add(jxDatePicker, DefaultSplitPaneModel.TOP);
+		
+		CalendarPanel calendarPanel = new CalendarPanel(bigContainer);
+		jxMultiSplitPane.add(calendarPanel, MySplitPlaneModel.RIGHT);
+		
+		JToolBar toolBar = new JToolBar();
+		frame.getContentPane().add(toolBar, BorderLayout.NORTH);
+		
+		JButton btnNPreviousButton = new JButton("Previous week");
+		btnNPreviousButton.setIcon(new ImageIcon(MainSwingWindow.class.getResource("/org/cdahmedeh/orgapp/ui/icons/previous.png")));
+		toolBar.add(btnNPreviousButton);
+		
+		JButton btnNextButton = new JButton("Next week");
+		btnNextButton.setIcon(new ImageIcon(MainSwingWindow.class.getResource("/org/cdahmedeh/orgapp/ui/icons/next.png")));
+		toolBar.add(btnNextButton);
 	}
 	
 	public static void setUIFont (javax.swing.plaf.FontUIResource f){
@@ -98,4 +126,24 @@ public class MainSwingWindow {
 	        UIManager.put (key, f);
 	      }
 	} 
+}
+
+class MySplitPlaneModel extends Split {
+    public static final String LEFT = "left";
+    public static final String TOP = "top";
+    public static final String BOTTOM = "bottom";
+    public static final String RIGHT = "right";
+    
+    /** Creates a new instance of DefaultSplitPaneLayout */
+    public MySplitPlaneModel() {
+        Split row = new Split();
+        Split col = new Split();
+        col.setRowLayout(false);
+        Split coltwo = new Split();
+        coltwo.setRowLayout(false);
+        setChildren(col, new Divider(), coltwo);
+        col.setChildren(new Leaf(TOP), new Divider(), new Leaf(BOTTOM));
+        coltwo.setChildren(new Leaf(RIGHT), new Divider(), new Leaf(LEFT));
+    }
+    
 }
