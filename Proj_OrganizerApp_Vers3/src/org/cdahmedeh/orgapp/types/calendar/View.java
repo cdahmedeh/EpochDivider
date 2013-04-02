@@ -75,7 +75,7 @@ public class View {
 	 * Gives the number of hours between the first and last hour of the view.
 	 * Does not include the last hour in the calculation.
 	 * 
-	 * For example, between 12h and 16h, there are 5 hours.
+	 * For example, between 12h and 16h, there are 4 hours.
 	 * 
 	 * @return Number of hours between 
 	 */
