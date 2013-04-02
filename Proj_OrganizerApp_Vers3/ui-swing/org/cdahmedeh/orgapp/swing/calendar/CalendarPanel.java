@@ -1,5 +1,6 @@
 package org.cdahmedeh.orgapp.swing.calendar;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +24,9 @@ public class CalendarPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public CalendarPanel(BigContainer bigContainer) {
+//		setBounds(0, 0, 800, 600);
+		setPreferredSize(new Dimension(300, 800));
+		
 		this.bigContainer = bigContainer;
 		
 		fillTimeBlockTaskMap();

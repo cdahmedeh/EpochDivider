@@ -31,9 +31,14 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.util.Calendar;
+
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
 
 public class MainSwingWindow {
 
@@ -82,17 +87,21 @@ public class MainSwingWindow {
 		jxMultiSplitPane.setModel(new MySplitPlaneModel());
 		frame.getContentPane().add(jxMultiSplitPane);
 		
-		View currentView = new View(new LocalDate(2013,3,31), new LocalDate(2013,3,25).plusDays(12), new LocalTime(0, 0, 0), new LocalTime(23, 59, 59, 999));
+		View currentView = new View(new LocalDate(2013,3,31), new LocalDate(2013,3,31).plusDays(7), new LocalTime(0, 0, 0), new LocalTime(23, 59, 59, 999));
+		
+		ContextContainer contextContainer = new ContextContainer();
+		Context context = new Context("Essentials");
+		contextContainer.addContext(context);
 		
 		TaskContainer taskContainer = new TaskContainer();
 		Task task01 = new Task("Do Work");
 		task01.assignToTimeBlock(new TimeBlock(new DateTime(), new DateTime().plus(new Duration(DateTimeConstants.MILLIS_PER_DAY*3))));
 		Task task02 = new Task("Do More Work");
+		task02.assignToTimeBlock(new TimeBlock(new DateTime().minus(DateTimeConstants.MILLIS_PER_DAY), new Duration(DateTimeConstants.MILLIS_PER_HOUR*2)));
+		task02.setContext(context);
 		taskContainer.addTask(task01);
 		taskContainer.addTask(task02);
-		
-		ContextContainer contextContainer = new ContextContainer();
-		contextContainer.addContext(new Context("Essentials"));
+
 		BigContainer bigContainer = new BigContainer(taskContainer, contextContainer, currentView);
 		
 		ContextListPanel contextListPanel = new ContextListPanel(bigContainer);
@@ -104,6 +113,9 @@ public class MainSwingWindow {
 		JXMonthView jxDatePicker = new JXMonthView();
 		jxDatePicker.setSelectionMode(SelectionMode.SINGLE_INTERVAL_SELECTION);
 		jxMultiSplitPane.add(jxDatePicker, DefaultSplitPaneModel.TOP);
+		
+		jxDatePicker.setSelectionInterval(currentView.getStartDate().toDate(), currentView.getEndDate().toDate());
+		jxDatePicker.setFirstDayOfWeek(Calendar.MONDAY);
 		
 		CalendarPanel calendarPanel = new CalendarPanel(bigContainer);
 		jxMultiSplitPane.add(calendarPanel, MySplitPlaneModel.RIGHT);
@@ -118,6 +130,15 @@ public class MainSwingWindow {
 		JButton btnNextButton = new JButton("Next week");
 		btnNextButton.setIcon(new ImageIcon(MainSwingWindow.class.getResource("/org/cdahmedeh/orgapp/ui/icons/next.png")));
 		toolBar.add(btnNextButton);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("File");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Exit");
+		mnNewMenu.add(mntmNewMenuItem);
 	}
 	
 	public static void setUIFont (javax.swing.plaf.FontUIResource f){

@@ -2,7 +2,10 @@ package org.cdahmedeh.orgapp.swing.calendar;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 
 import org.cdahmedeh.orgapp.swing.calendar.CalendarPanel;
@@ -17,6 +20,10 @@ public class TimeBlockPainter {
 	public static ArrayList<Rectangle> draw(TimeBlock timeBlock, Task task,
 			View view, Graphics e, CalendarPanel canvas) {
 
+        Graphics2D g2 = (Graphics2D) e;
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+          RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		
 		ArrayList<Rectangle> rectangles = new ArrayList<>();
 
 		LocalDate taskBeginDate = timeBlock.getStart().toLocalDate();
@@ -74,13 +81,8 @@ public class TimeBlockPainter {
 			}
 		}
 
-		if (task.isEvent()){
-//			e.setColor(new Color((task.getContext().getColor()), 0.1f, 0.9f));
-		} else {
-//			e.setColor(new Color((task.getContext().getColor()), 0.5f, 1f));
-		}
+
 	
-		e.setColor(new Color(0.5f, 0.5f, 0.5f, 0.5f));
 		
 //		if (task.getMutability() == Mutability.IMMUTABLE){
 //		} else {
@@ -93,13 +95,27 @@ public class TimeBlockPainter {
 //		e.gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		
 		for (Rectangle rect: rectangles){
-			e.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
-			e.drawRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
-
-			if (rect.height > 40){
-				e.drawString(task.getTitle() + "\n" + taskBeginTime.toString("HH:mm") + "-" + taskEndTime.toString("HH:mm"), rect.x+5, rect.y+5);
+			if (task.isEvent()){
+//				e.setColor(new Color((task.getContext().getColor()), 0.1f, 0.9f));
+				e.setColor(new Color(Color.HSBtoRGB(task.getContext().getColor(), 0.1f, 0.9f)));
 			} else {
-				e.drawString(task.getTitle(), rect.x+5, rect.y+3);
+//				e.setColor(new Color((task.getContext().getColor()), 0.5f, 1f));
+				e.setColor(new Color(Color.HSBtoRGB(task.getContext().getColor(), 0.5f, 1f)));
+			}
+			
+			e.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
+			
+			e.setColor(new Color(0f, 0f, 0f, 1f));
+			
+			e.drawRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
+	
+			e.setFont(new Font("Arial", Font.PLAIN, 12));
+			
+			if (rect.height > 40){
+				e.drawString(task.getTitle(), rect.x+5, rect.y+15);
+				e.drawString(taskBeginTime.toString("HH:mm") + "-" + taskEndTime.toString("HH:mm"), rect.x+5, rect.y+30);
+			} else {
+				e.drawString(task.getTitle(), rect.x+5, rect.y+15);
 			}
 		}
 		
