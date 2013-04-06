@@ -29,6 +29,7 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.util.Calendar;
@@ -39,6 +40,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class MainSwingWindow {
 
@@ -51,8 +55,14 @@ public class MainSwingWindow {
 		try {
 			setUIFont (new javax.swing.plaf.FontUIResource("Segoe UI",Font.PLAIN,12));
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | UnsupportedLookAndFeelException e1) {
+//		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//		        if ("Nimbus".equals(info.getName())) {
+//		            UIManager.setLookAndFeel(info.getClassName());
+//		            break;
+//		        }
+//		    }
+//			UIManager.setLookAndFeel(new SubstanceModerateLookAndFeel());
+		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -87,22 +97,7 @@ public class MainSwingWindow {
 		jxMultiSplitPane.setModel(new MySplitPlaneModel());
 		frame.getContentPane().add(jxMultiSplitPane);
 		
-		View currentView = new View(new LocalDate(2013,3,31), new LocalDate(2013,3,31).plusDays(7), new LocalTime(0, 0, 0), new LocalTime(23, 59, 59, 999));
-		
-		ContextContainer contextContainer = new ContextContainer();
-		Context context = new Context("Essentials");
-		contextContainer.addContext(context);
-		
-		TaskContainer taskContainer = new TaskContainer();
-		Task task01 = new Task("Do Work");
-		task01.assignToTimeBlock(new TimeBlock(new DateTime(), new DateTime().plus(new Duration(DateTimeConstants.MILLIS_PER_DAY*3))));
-		Task task02 = new Task("Do More Work");
-		task02.assignToTimeBlock(new TimeBlock(new DateTime().minus(DateTimeConstants.MILLIS_PER_DAY), new Duration(DateTimeConstants.MILLIS_PER_HOUR*2)));
-		task02.setContext(context);
-		taskContainer.addTask(task01);
-		taskContainer.addTask(task02);
-
-		BigContainer bigContainer = new BigContainer(taskContainer, contextContainer, currentView);
+		BigContainer bigContainer = generateSomeTestData();
 		
 		ContextListPanel contextListPanel = new ContextListPanel(bigContainer);
 		jxMultiSplitPane.add(contextListPanel, DefaultSplitPaneModel.BOTTOM);
@@ -111,16 +106,19 @@ public class MainSwingWindow {
 		jxMultiSplitPane.add(taskListPanel, DefaultSplitPaneModel.LEFT);
 		
 		JXMonthView jxDatePicker = new JXMonthView();
+		jxDatePicker.setBorder(UIManager.getBorder("Table.scrollPaneBorder"));
 		jxDatePicker.setSelectionMode(SelectionMode.SINGLE_INTERVAL_SELECTION);
 		jxMultiSplitPane.add(jxDatePicker, DefaultSplitPaneModel.TOP);
 		
-		jxDatePicker.setSelectionInterval(currentView.getStartDate().toDate(), currentView.getEndDate().toDate());
+		jxDatePicker.setSelectionInterval(bigContainer.getCurrentView().getStartDate().toDate(), bigContainer.getCurrentView().getEndDate().toDate());
 		jxDatePicker.setFirstDayOfWeek(Calendar.MONDAY);
 		
 		CalendarPanel calendarPanel = new CalendarPanel(bigContainer);
+		calendarPanel.setBorder(UIManager.getBorder("Table.scrollPaneBorder"));
 		jxMultiSplitPane.add(calendarPanel, MySplitPlaneModel.RIGHT);
 		
 		JToolBar toolBar = new JToolBar();
+		toolBar.setFloatable(false);
 		frame.getContentPane().add(toolBar, BorderLayout.NORTH);
 		
 		JButton btnNPreviousButton = new JButton("Previous week");
@@ -141,6 +139,25 @@ public class MainSwingWindow {
 		mnNewMenu.add(mntmNewMenuItem);
 	}
 	
+	private BigContainer generateSomeTestData() {
+		View currentView = new View(new LocalDate(2013,3,31), new LocalDate(2013,3,31).plusDays(7), new LocalTime(0, 0, 0), new LocalTime(23, 59, 59, 999));
+		
+		ContextContainer contextContainer = new ContextContainer();
+		Context context = new Context("Essentials");
+		contextContainer.addContext(context);
+		
+		TaskContainer taskContainer = new TaskContainer();
+		Task task01 = new Task("Do Work");
+		task01.assignToTimeBlock(new TimeBlock(new DateTime(), new DateTime().plus(new Duration(DateTimeConstants.MILLIS_PER_DAY*3))));
+		Task task02 = new Task("Do More Work");
+		task02.assignToTimeBlock(new TimeBlock(new DateTime().minus(DateTimeConstants.MILLIS_PER_DAY), new Duration(DateTimeConstants.MILLIS_PER_HOUR*2)));
+		task02.setContext(context);
+		taskContainer.addTask(task01);
+		taskContainer.addTask(task02);
+
+		return new BigContainer(taskContainer, contextContainer, currentView);
+	}
+
 	public static void setUIFont (javax.swing.plaf.FontUIResource f){
 	    java.util.Enumeration keys = UIManager.getDefaults().keys();
 	    while (keys.hasMoreElements()) {
