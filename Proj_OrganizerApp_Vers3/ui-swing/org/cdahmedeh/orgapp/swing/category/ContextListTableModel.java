@@ -4,7 +4,9 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import org.cdahmedeh.orgapp.containers.BigContainer;
+import org.cdahmedeh.orgapp.types.category.AllContexts;
 import org.cdahmedeh.orgapp.types.category.Context;
+import org.cdahmedeh.orgapp.types.category.NoContext;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.LocalTime;
@@ -27,8 +29,12 @@ public class ContextListTableModel implements TableModel {
 							bigContainer.getCurrentView().getEndDate().toDateTime(LocalTime.MIDNIGHT), 
 							bigContainer.getTaskContainer()
 						).getStandardHours();
-			progressInfo.third =
-						context.getGoal(bigContainer.getCurrentView()).getStandardHours();
+			if (context instanceof AllContexts)
+				progressInfo.third = ((AllContexts) context).getGoal(bigContainer.getCurrentView(), bigContainer.getContextContainer()).getStandardHours();
+			else if (context instanceof NoContext)
+				progressInfo.third = ((NoContext) context).getGoal(bigContainer.getCurrentView(), bigContainer.getContextContainer()).getStandardHours();
+			else
+				progressInfo.third = context.getGoal(bigContainer.getCurrentView()).getStandardHours();
 			progressInfo.color = context.getColor();
 			return progressInfo;
 		default:
