@@ -21,16 +21,18 @@ import org.cdahmedeh.orgapp.types.category.Context;
 public class ContextListPanel extends JPanel {
 	private static final long serialVersionUID = 4463133789121204761L;
 
+	//Data
 	private BigContainer bigContainer;
 	
+	//Components
 	private JScrollPane mainPane;
 	private JTable contextListTable;
 	
 	public ContextListPanel(final BigContainer bigContainer) {
 		this.bigContainer = bigContainer;
 		
-		this.setPreferredSize(new Dimension(SwingUIDefaults.CONTEXT_PANEL_WIDTH, 0));
-		this.setLayout(new BorderLayout(0, 0));
+		setPreferredSize(new Dimension(SwingUIDefaults.CONTEXT_PANEL_WIDTH, 0));
+		setLayout(new BorderLayout(0, 0));
 		
 		mainPane = new JScrollPane();
 		add(mainPane);
@@ -38,6 +40,19 @@ public class ContextListPanel extends JPanel {
 		createContextListTable();
 		mainPane.setViewportView(contextListTable);
 		
+		createBottomBar();
+	}
+
+	private void createContextListTable() {
+		contextListTable = new JTable();
+		contextListTable.setFillsViewportHeight(true);
+		contextListTable.setShowHorizontalLines(false);
+		contextListTable.setShowVerticalLines(false);
+		contextListTable.setModel(new ContextListTableModel(bigContainer));
+		contextListTable.getColumnModel().getColumn(1).setCellRenderer(new ProgressCellRenderer());
+	}
+	
+	private void createBottomBar() {
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		add(toolBar, BorderLayout.SOUTH);
@@ -46,11 +61,11 @@ public class ContextListPanel extends JPanel {
 		toolBar.add(textField);
 		textField.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Add");
-		btnNewButton.setIcon(new ImageIcon(TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/ui/icons/add.png")));
-		toolBar.add(btnNewButton);
+		JButton btnAddContextButton = new JButton("Add");
+		btnAddContextButton.setIcon(new ImageIcon(TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/ui/icons/add.png")));
+		toolBar.add(btnAddContextButton);
 		
-		btnNewButton.addActionListener(new ActionListener() {
+		btnAddContextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				bigContainer.getContextContainer().addContext(new Context(textField.getText()));
@@ -58,14 +73,5 @@ public class ContextListPanel extends JPanel {
 				contextListTable.repaint(); //TODO: Is there a better way for refresh?
 			}
 		});
-	}
-
-	private void createContextListTable() {
-		contextListTable = new JTable(){};
-		contextListTable.setFillsViewportHeight(true);
-		contextListTable.setShowHorizontalLines(false);
-		contextListTable.setShowVerticalLines(false);
-		contextListTable.setModel(new ContextListTableModel(bigContainer));
-		contextListTable.getColumnModel().getColumn(1).setCellRenderer(new ProgressCellRenderer());
 	}
 }
