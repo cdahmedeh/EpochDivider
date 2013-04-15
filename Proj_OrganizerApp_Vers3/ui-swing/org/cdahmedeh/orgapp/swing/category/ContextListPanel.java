@@ -32,7 +32,7 @@ public class ContextListPanel extends JPanel {
 	public ContextListPanel(final BigContainer bigContainer) {
 		this.bigContainer = bigContainer;
 		
-		setPreferredSize(new Dimension(SwingUIDefaults.CONTEXT_PANEL_WIDTH, 0));
+		setPreferredSize(new Dimension(SwingUIDefaults.CONTEXT_PANEL_WIDTH, SwingUIDefaults.CONTEXT_PANEL_HEIGHT));
 		setLayout(new BorderLayout(0, 0));
 		
 		mainPane = new JScrollPane();
@@ -49,7 +49,7 @@ public class ContextListPanel extends JPanel {
 		contextListTable.setFillsViewportHeight(true);
 		contextListTable.setShowHorizontalLines(false);
 		contextListTable.setShowVerticalLines(false);
-		contextListTable.setModel(new ContextListTableModel(bigContainer));
+//		contextListTable.setModel(new ContextListTableModel(bigContainer));
 		try {
 			contextListTable.getColumnModel().getColumn(1).setCellRenderer(new ProgressCellRenderer());
 		} catch (NullPointerException e){
