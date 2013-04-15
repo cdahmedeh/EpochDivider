@@ -4,6 +4,7 @@ public class ProgressInfo {
 	public double first = 0.0;
 	public double second = 0.0;
 	public double third = 0.0;
+	public int color = 0;
 	
 	@Override
 	public String toString() {

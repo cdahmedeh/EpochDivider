@@ -13,6 +13,8 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import org.cdahmedeh.orgapp.containers.BigContainer;
+import org.cdahmedeh.orgapp.swing.category.ProgressCellRenderer;
+import org.cdahmedeh.orgapp.swing.category.ProgressInfo;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
@@ -42,7 +44,7 @@ public class TaskListPanel extends JPanel {
 		table = new JTable();
 		table.setFillsViewportHeight(true);
 		table.setShowHorizontalLines(false);
-		
+
 		table.setModel(new TableModel() {
 			
 			@Override
@@ -76,9 +78,13 @@ public class TaskListPanel extends JPanel {
 				case 2:
 					return task.getDueDate();
 				case 3:
-					return task.getDurationPassed(DateTime.now()) + " | " +
-						task.getDurationScheduled(bigContainer.getCurrentView().getEndDate().plusDays(1).toDateTime(LocalTime.MIDNIGHT)) + " | " +
-						task.getEstimate();
+					ProgressInfo progressInfo = new ProgressInfo();
+					progressInfo.first = 					
+							task.getDurationPassed(DateTime.now()).getStandardHours();
+					progressInfo.second = task.getDurationScheduled(bigContainer.getCurrentView().getEndDate().plusDays(1).toDateTime(LocalTime.MIDNIGHT)).getStandardHours();
+					progressInfo.third = task.getEstimate().getStandardHours();
+					progressInfo.color = task.getContext().getColor();
+					return progressInfo;
 				case 4:
 					return task.getFirstTimeBlockAfterInstant(DateTime.now());
 				default:
@@ -130,7 +136,7 @@ public class TaskListPanel extends JPanel {
 		
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		
-		
+
 		
 		scrollPane.setViewportView(table);
 		
@@ -145,6 +151,9 @@ public class TaskListPanel extends JPanel {
 		JButton btnNewButton = new JButton("Add");
 		btnNewButton.setIcon(new ImageIcon(TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/ui/icons/add.png")));
 		toolBar.add(btnNewButton);
+		
+		table.getColumnModel().getColumn(3).setCellRenderer(new ProgressCellRenderer());
+
 
 	}
 }

@@ -153,9 +153,11 @@ public class MainSwingWindow {
 		
 		TaskContainer taskContainer = new TaskContainer();
 		Task task01 = new Task("Do Work");
+		task01.setContext(context);
 		task01.assignToTimeBlock(new TimeBlock(new DateTime(), new DateTime().plus(new Duration(DateTimeConstants.MILLIS_PER_DAY*3))));
 		Task task02 = new Task("Do More Work");
 		task02.assignToTimeBlock(new TimeBlock(new DateTime().minus(DateTimeConstants.MILLIS_PER_DAY), new Duration(DateTimeConstants.MILLIS_PER_HOUR*2)));
+		task02.setContext(context);
 		task02.setContext(context);
 		taskContainer.addTask(task01);
 		taskContainer.addTask(task02);

@@ -29,6 +29,7 @@ public class ContextListTableModel implements TableModel {
 						).getStandardHours();
 			progressInfo.third =
 						context.getGoal(bigContainer.getCurrentView()).getStandardHours();
+			progressInfo.color = context.getColor();
 			return progressInfo;
 		default:
 			return "";

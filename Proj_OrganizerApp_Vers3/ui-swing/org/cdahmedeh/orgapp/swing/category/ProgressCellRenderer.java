@@ -1,0 +1,55 @@
+package org.cdahmedeh.orgapp.swing.category;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+
+import javax.swing.table.DefaultTableCellRenderer;
+
+
+public class ProgressCellRenderer extends DefaultTableCellRenderer {
+	private ProgressInfo savedValue;
+
+	@Override
+	protected void setValue(Object value) {
+		this.savedValue = (ProgressInfo)value;
+	}
+
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g); //TODO: Is text still behind it?
+		
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+          RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		
+		
+		double start = savedValue.first;
+		double start2 = savedValue.second;
+//		double start2 = 100;
+		double total = savedValue.third;
+
+		g.setColor(new Color(Color.HSBtoRGB(savedValue.color/255f, 1f, 0.7f)));
+		g.fillRoundRect(1, 1, this.getBounds().width-3, this.getBounds().height-2, 2, 2);
+		g.setColor(new Color(Color.HSBtoRGB(savedValue.color/255f, 0.8f, 0.9f)));
+		g.fillRoundRect(1, 1, Math.min(this.getBounds().width-2, (int)(((start2/total))*this.getBounds().width)-3), this.getBounds().height-2, 2, 2);
+		g.setColor(new Color(Color.HSBtoRGB(savedValue.color/255f, 0.5f, 1f)));
+		g.fillRoundRect(1, 1, Math.min(this.getBounds().width-2, (int)(((start/total))*this.getBounds().width)-3), this.getBounds().height-2, 2, 2);
+		g.setColor(Color.BLACK);
+		g.drawRoundRect(1, 1, this.getBounds().width-3, this.getBounds().height-2, 2, 2);
+
+		g.setColor(Color.BLACK);
+		g.drawString(String.valueOf(start), 5, this.getBounds().height-2);
+	
+		int stringWidth = g.getFontMetrics().stringWidth(String.valueOf(total));
+		
+		int stringWidth2 = g.getFontMetrics().stringWidth(String.valueOf(start2));
+
+		g.drawString(String.valueOf(total), this.getBounds().width - stringWidth-5, this.getBounds().height-2);
+		g.drawString(String.valueOf(start2), this.getBounds().width/2 - stringWidth/2, this.getBounds().height-2);
+
+		
+		
+	}
+}

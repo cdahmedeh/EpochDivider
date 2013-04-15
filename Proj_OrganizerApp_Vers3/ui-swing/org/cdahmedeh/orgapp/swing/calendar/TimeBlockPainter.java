@@ -97,10 +97,10 @@ public class TimeBlockPainter {
 		for (Rectangle rect: rectangles){
 			if (task.isEvent()){
 //				e.setColor(new Color((task.getContext().getColor()), 0.1f, 0.9f));
-				e.setColor(new Color(Color.HSBtoRGB(task.getContext().getColor(), 0.1f, 0.9f)));
+				e.setColor(new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.1f, 0.9f)));
 			} else {
 //				e.setColor(new Color((task.getContext().getColor()), 0.5f, 1f));
-				e.setColor(new Color(Color.HSBtoRGB(task.getContext().getColor(), 0.5f, 1f)));
+				e.setColor(new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.5f, 1f)));
 			}
 			
 			e.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
