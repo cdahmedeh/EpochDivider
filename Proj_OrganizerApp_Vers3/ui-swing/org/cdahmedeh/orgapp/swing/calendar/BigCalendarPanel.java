@@ -1,10 +1,8 @@
 package org.cdahmedeh.orgapp.swing.calendar;
 
-import javax.swing.BoundedRangeModel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JScrollBar;
-import javax.swing.event.ChangeListener;
 
 import org.cdahmedeh.orgapp.containers.BigContainer;
 

@@ -33,21 +33,21 @@ public class ProgressCellRenderer extends DefaultTableCellRenderer {
 		g.setColor(new Color(Color.HSBtoRGB(savedValue.color/255f, 1f, 0.7f)));
 		g.fillRoundRect(1, 1, this.getBounds().width-3, this.getBounds().height-2, 10, 10);
 		g.setColor(new Color(Color.HSBtoRGB(savedValue.color/255f, 0.8f, 0.9f)));
-		g.fillRoundRect(1, 1, Math.min(this.getBounds().width-2, (int)(((start2/total))*this.getBounds().width)-3), this.getBounds().height-2, 10, 10);
+		g.fillRoundRect(1, 1, Math.min(this.getBounds().width-3, (int)(((start2/total))*this.getBounds().width)-3), this.getBounds().height-3, 10, 10);
 		g.setColor(new Color(Color.HSBtoRGB(savedValue.color/255f, 0.5f, 1f)));
-		g.fillRoundRect(1, 1, Math.min(this.getBounds().width-2, (int)(((start/total))*this.getBounds().width)-3), this.getBounds().height-2, 10, 10);
+		g.fillRoundRect(1, 1, Math.min(this.getBounds().width-3, (int)(((start/total))*this.getBounds().width)-3), this.getBounds().height-3, 10, 10);
 		g.setColor(Color.BLACK);
-		g.drawRoundRect(1, 1, this.getBounds().width-3, this.getBounds().height-2, 10, 10);
+		g.drawRoundRect(1, 1, this.getBounds().width-3, this.getBounds().height-3, 10, 10);
 
 		g.setColor(Color.BLACK);
-		g.drawString(String.valueOf(start), 5, this.getBounds().height-2);
+		g.drawString(String.valueOf(start), 5, this.getBounds().height-3);
 	
 		int stringWidth = g.getFontMetrics().stringWidth(String.valueOf(total));
 		
 		int stringWidth2 = g.getFontMetrics().stringWidth(String.valueOf(start2));
 
-		g.drawString(String.valueOf(total), this.getBounds().width - stringWidth-5, this.getBounds().height-2);
-		g.drawString(String.valueOf(start2), this.getBounds().width/2 - stringWidth/2, this.getBounds().height-2);
+		g.drawString(String.valueOf(total), this.getBounds().width - stringWidth-5, this.getBounds().height-3);
+		g.drawString(String.valueOf(start2), this.getBounds().width/2 - stringWidth2/2, this.getBounds().height-3);
 
 		
 		

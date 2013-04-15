@@ -75,14 +75,6 @@ public class TimeBlockPainter {
 			}
 		}
 
-
-	
-		
-//		if (task.getMutability() == Mutability.IMMUTABLE){
-//		} else {
-//			e.gc.setAlpha(150);
-//		}
-		
 //		e.gc.setAlpha(200);
 //		e.gc.setAlpha(255);	
 		
@@ -91,10 +83,12 @@ public class TimeBlockPainter {
 		for (Rectangle rect: rectangles){
 			if (task.isEvent()){
 //				e.setColor(new Color((task.getContext().getColor()), 0.1f, 0.9f));
-				e.setColor(new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.1f, 0.9f)));
+				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.1f, 0.9f));
+				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
 			} else {
 //				e.setColor(new Color((task.getContext().getColor()), 0.5f, 1f));
-				e.setColor(new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.5f, 1f)));
+				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.5f, 0.9f));
+				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
 			}
 			
 			e.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
@@ -103,7 +97,7 @@ public class TimeBlockPainter {
 			
 			e.drawRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
 	
-			e.setFont(new Font("Arial", Font.PLAIN, 12));
+			e.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 			
 			if (rect.height > 40){
 				e.drawString(task.getTitle(), rect.x+5, rect.y+15);
