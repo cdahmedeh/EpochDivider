@@ -13,8 +13,8 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import org.cdahmedeh.orgapp.containers.BigContainer;
-import org.cdahmedeh.orgapp.swing.category.ProgressCellRenderer;
 import org.cdahmedeh.orgapp.swing.category.ProgressInfo;
+import org.cdahmedeh.orgapp.swing.components.ProgressCellRenderer;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.task.Task;

@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
 import org.cdahmedeh.orgapp.containers.BigContainer;
+import org.cdahmedeh.orgapp.swing.components.ProgressCellRenderer;
 import org.cdahmedeh.orgapp.swing.main.SwingUIDefaults;
 import org.cdahmedeh.orgapp.swing.task.TaskListPanel;
 import org.cdahmedeh.orgapp.types.category.Context;

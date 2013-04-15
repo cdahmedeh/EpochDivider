@@ -1,4 +1,4 @@
-package org.cdahmedeh.orgapp.swing.category;
+package org.cdahmedeh.orgapp.swing.components;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import javax.swing.table.DefaultTableCellRenderer;
+
+import org.cdahmedeh.orgapp.swing.category.ProgressInfo;
 
 
 public class ProgressCellRenderer extends DefaultTableCellRenderer {
