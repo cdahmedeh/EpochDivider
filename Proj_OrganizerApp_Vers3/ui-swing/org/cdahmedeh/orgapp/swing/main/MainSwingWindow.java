@@ -9,6 +9,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.cdahmedeh.orgapp.containers.BigContainer;
 import org.cdahmedeh.orgapp.containers.ContextContainer;
 import org.cdahmedeh.orgapp.containers.TaskContainer;
+import org.cdahmedeh.orgapp.swing.calendar.BigCalendarPanel;
 import org.cdahmedeh.orgapp.swing.calendar.CalendarPanel;
 import org.cdahmedeh.orgapp.swing.category.ContextListPanel;
 import org.cdahmedeh.orgapp.swing.task.TaskListPanel;
@@ -117,7 +118,7 @@ public class MainSwingWindow {
 		jxDatePicker.setBoxPaddingX(1);
 		jxDatePicker.setBoxPaddingY(1);
 		
-		CalendarPanel calendarPanel = new CalendarPanel(bigContainer);
+		BigCalendarPanel calendarPanel = new BigCalendarPanel(bigContainer);
 		calendarPanel.setBorder(UIManager.getBorder("Table.scrollPaneBorder"));
 		jxMultiSplitPane.add(calendarPanel, MySplitPlaneModel.RIGHT);
 		
@@ -150,15 +151,21 @@ public class MainSwingWindow {
 		ContextContainer contextContainer = new ContextContainer();
 		Context context = new Context("Essentials");
 		contextContainer.addContext(context);
+		context.setGoal(currentView, new Duration(DateTimeConstants.MILLIS_PER_HOUR*150));
+		Context context2 = new Context("Fun");
+		contextContainer.addContext(context2);
+		context2.setGoal(currentView, new Duration(DateTimeConstants.MILLIS_PER_HOUR*35));
 		
 		TaskContainer taskContainer = new TaskContainer();
 		Task task01 = new Task("Do Work");
 		task01.setContext(context);
 		task01.assignToTimeBlock(new TimeBlock(new DateTime(), new DateTime().plus(new Duration(DateTimeConstants.MILLIS_PER_DAY*3))));
+		task01.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*200));
 		Task task02 = new Task("Do More Work");
 		task02.assignToTimeBlock(new TimeBlock(new DateTime().minus(DateTimeConstants.MILLIS_PER_DAY), new Duration(DateTimeConstants.MILLIS_PER_HOUR*2)));
 		task02.setContext(context);
-		task02.setContext(context);
+		task02.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*15));
+		task02.setContext(context2);
 		taskContainer.addTask(task01);
 		taskContainer.addTask(task02);
 
