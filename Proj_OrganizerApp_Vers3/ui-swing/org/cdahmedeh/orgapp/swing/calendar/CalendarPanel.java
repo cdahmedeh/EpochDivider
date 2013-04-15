@@ -1,5 +1,6 @@
 package org.cdahmedeh.orgapp.swing.calendar;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import javax.swing.JPanel;
 import org.cdahmedeh.orgapp.containers.BigContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
+import org.cdahmedeh.orgapp.ui.calendar.GridRenderer;
 import org.cdahmedeh.orgapp.ui.calendar.TimeBlockRenderer;
 import org.eclipse.swt.graphics.Rectangle;
 
@@ -28,6 +30,7 @@ public class CalendarPanel extends JPanel {
 		setPreferredSize(new Dimension(300, 800));
 		
 		this.bigContainer = bigContainer;
+		this.setBackground(Color.WHITE);
 		
 		fillTimeBlockTaskMap();
 
@@ -45,6 +48,8 @@ public class CalendarPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+        GridPainter.drawTimeGrid(g, this, bigContainer.getCurrentView());
+        		
         rectangleTimeBlockMap.clear();
         
         for (Entry<TimeBlock, Task> entry : timeBlockTaskMap.entrySet()){

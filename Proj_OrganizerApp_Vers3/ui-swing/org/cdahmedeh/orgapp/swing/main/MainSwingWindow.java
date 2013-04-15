@@ -52,6 +52,7 @@ public class MainSwingWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		System.out.println(System.currentTimeMillis());
 		try {
 			setUIFont (new javax.swing.plaf.FontUIResource("Segoe UI",Font.PLAIN,12));
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -89,6 +90,7 @@ public class MainSwingWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		System.out.println(System.currentTimeMillis());
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -112,6 +114,8 @@ public class MainSwingWindow {
 		
 		jxDatePicker.setSelectionInterval(bigContainer.getCurrentView().getStartDate().toDate(), bigContainer.getCurrentView().getEndDate().toDate());
 		jxDatePicker.setFirstDayOfWeek(Calendar.MONDAY);
+		jxDatePicker.setBoxPaddingX(1);
+		jxDatePicker.setBoxPaddingY(1);
 		
 		CalendarPanel calendarPanel = new CalendarPanel(bigContainer);
 		calendarPanel.setBorder(UIManager.getBorder("Table.scrollPaneBorder"));
@@ -137,10 +141,11 @@ public class MainSwingWindow {
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Exit");
 		mnNewMenu.add(mntmNewMenuItem);
+		System.out.println(System.currentTimeMillis());
 	}
 	
 	private BigContainer generateSomeTestData() {
-		View currentView = new View(new LocalDate(2013,3,31), new LocalDate(2013,3,31).plusDays(7), new LocalTime(0, 0, 0), new LocalTime(23, 59, 59, 999));
+		View currentView = new View(new LocalDate(), new LocalDate().plusDays(7), new LocalTime(0, 0, 0), new LocalTime(12, 59, 59, 999));
 		
 		ContextContainer contextContainer = new ContextContainer();
 		Context context = new Context("Essentials");
