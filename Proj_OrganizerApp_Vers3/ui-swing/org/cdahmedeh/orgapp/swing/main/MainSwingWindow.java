@@ -14,7 +14,9 @@ import org.cdahmedeh.orgapp.swing.calendar.CalendarPanel;
 import org.cdahmedeh.orgapp.swing.category.ContextListPanel;
 import org.cdahmedeh.orgapp.swing.task.TaskListPanel;
 import org.cdahmedeh.orgapp.types.calendar.View;
+import org.cdahmedeh.orgapp.types.category.AllContexts;
 import org.cdahmedeh.orgapp.types.category.Context;
+import org.cdahmedeh.orgapp.types.category.NoContext;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.jdesktop.swingx.JXDatePicker;
@@ -149,6 +151,9 @@ public class MainSwingWindow {
 		View currentView = new View(new LocalDate(), new LocalDate().plusDays(7), new LocalTime(0, 0, 0), new LocalTime(12, 59, 59, 999));
 		
 		ContextContainer contextContainer = new ContextContainer();
+		contextContainer.addContext(new AllContexts());
+		contextContainer.addContext(new NoContext());
+		
 		Context context = new Context("Essentials");
 		contextContainer.addContext(context);
 		context.setGoal(currentView, new Duration(DateTimeConstants.MILLIS_PER_HOUR*150));

@@ -74,7 +74,7 @@ public class TaskListPanel extends JPanel {
 				case 0:
 					return task.isCompleted();
 				case 1:	
-					return task.getTitle();
+					return task.getTitle() + " (" + task.getContext().getName() + ")";
 				case 2:
 					return task.getDueDate();
 				case 3:
