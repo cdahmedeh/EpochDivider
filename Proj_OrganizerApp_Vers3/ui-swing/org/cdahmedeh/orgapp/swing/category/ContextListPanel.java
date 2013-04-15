@@ -49,12 +49,8 @@ public class ContextListPanel extends JPanel {
 		contextListTable.setFillsViewportHeight(true);
 		contextListTable.setShowHorizontalLines(false);
 		contextListTable.setShowVerticalLines(false);
-//		contextListTable.setModel(new ContextListTableModel(bigContainer));
-		try {
-			contextListTable.getColumnModel().getColumn(1).setCellRenderer(new ProgressCellRenderer());
-		} catch (NullPointerException e){
-			
-		}
+		contextListTable.setModel(new ContextListTableModel(bigContainer));
+		contextListTable.getColumnModel().getColumn(1).setCellRenderer(new ProgressCellRenderer());
 	}
 	
 	private void createBottomBar() {
