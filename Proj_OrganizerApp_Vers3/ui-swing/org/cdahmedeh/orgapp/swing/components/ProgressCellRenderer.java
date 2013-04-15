@@ -8,6 +8,7 @@ import java.awt.RenderingHints;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.cdahmedeh.orgapp.swing.category.ProgressInfo;
+import org.cdahmedeh.orgapp.swing.helpers.GraphicsHelper;
 
 
 public class ProgressCellRenderer extends DefaultTableCellRenderer {
@@ -22,11 +23,8 @@ public class ProgressCellRenderer extends DefaultTableCellRenderer {
 	public void paint(Graphics g) {
 		super.paint(g); //TODO: Is text still behind it?
 		
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-          RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		
-		
+		GraphicsHelper.enableAntiAliasing(g);
+        
 		double start = savedValue.first;
 		double start2 = savedValue.second;
 //		double start2 = 100;

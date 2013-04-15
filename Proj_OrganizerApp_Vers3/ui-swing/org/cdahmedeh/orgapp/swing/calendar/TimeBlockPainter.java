@@ -9,6 +9,7 @@ import java.awt.RenderingHints;
 import java.util.ArrayList;
 
 import org.cdahmedeh.orgapp.swing.calendar.CalendarPanel;
+import org.cdahmedeh.orgapp.swing.helpers.GraphicsHelper;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
@@ -17,12 +18,9 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 public class TimeBlockPainter {
-	public static ArrayList<Rectangle> draw(TimeBlock timeBlock, Task task,
-			View view, Graphics e, CalendarPanel canvas) {
+	public static ArrayList<Rectangle> draw(TimeBlock timeBlock, Task task, View view, Graphics e, CalendarPanel canvas) {
 
-        Graphics2D g2 = (Graphics2D) e;
-        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-          RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		GraphicsHelper.enableAntiAliasing(e);
 		
 		ArrayList<Rectangle> rectangles = new ArrayList<>();
 
@@ -30,10 +28,6 @@ public class TimeBlockPainter {
 		LocalTime taskBeginTime = timeBlock.getStart().toLocalTime();
 		LocalDate taskEndDate = timeBlock.getEnd().toLocalDate();
 		LocalTime taskEndTime = timeBlock.getEnd().toLocalTime();
-		
-//		if (taskBeginTime.isAfter(view.getLastHour()) || taskEndTime.isBefore(view.getFirstHour())){
-//			return rectangles;
-//		}
 		
 		Dimension clientArea = canvas.getSize();
 		int caWidth = clientArea.width;
