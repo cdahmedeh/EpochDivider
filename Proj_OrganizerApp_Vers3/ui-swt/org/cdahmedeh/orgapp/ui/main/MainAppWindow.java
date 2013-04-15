@@ -101,7 +101,7 @@ public class MainAppWindow {
 //		task.assignToTimeBlock(new TimeBlock(new DateTime(2013, 03, 12, 12, 00), new DateTime(2013, 03, 12, 14, 00)));
 //		taskContainer.addTask(task);
 //		taskContainer.addTask(new Task("Test"));
-		view = new View(new LocalDate(2013,3,25), new LocalDate(2013,3,25).plusDays(6), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59, 999));
+		view = new View(new LocalDate(2013,4,14), new LocalDate(2013,4,14).plusDays(6), new LocalTime(12, 0, 0), new LocalTime(23, 59, 59, 999));
 
 		fill(categoryContainer, taskContainer);
 		
@@ -183,7 +183,7 @@ public class MainAppWindow {
 		
 		Task drive1 = new Task("Drive");
 		drive1.setContext(transportation);
-		drive1.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 11, 9, 00),
+		drive1.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 15, 9, 00),
 		new Duration(60*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(drive1);
 //	
@@ -197,14 +197,14 @@ public class MainAppWindow {
 			
 		Task universityCourse1 = new Task("CSI2101 LEC");
 		universityCourse1.setContext(university);
-		universityCourse1.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 11, 10, 00).plusDays(14),
+		universityCourse1.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 15, 10, 00).plusDays(14),
 		new Duration(90*DateTimeConstants.MILLIS_PER_MINUTE)));
 //		universityCourse1.setMutability(Mutability.IMMUTABLE);
 		task.addTask(universityCourse1);
 
 		Task universityCourse2 = new Task("CSI2532 LAB");
 		universityCourse2.setContext(university);
-		universityCourse2.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 11, 17, 00).plusDays(14),
+		universityCourse2.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 15, 17, 00).plusDays(14),
 		new Duration(180*DateTimeConstants.MILLIS_PER_MINUTE)));
 //		universityCourse2.setMutability(Mutability.IMMUTABLE);
 		task.addTask(universityCourse2);
@@ -212,121 +212,121 @@ public class MainAppWindow {
 //		
 		Task drive2 = new Task("Drive");
 		drive2.setContext(transportation);
-		drive2.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 11, 19, 30).plusDays(14),
+		drive2.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 15, 19, 30).plusDays(14),
 		new Duration(30*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(drive2);
 		
 		Task drive3 = new Task("Drive");
 		drive3.setContext(transportation);
-		drive3.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 12, 10, 30).plusDays(14),
+		drive3.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 16, 10, 30).plusDays(14),
 		new Duration(60*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(drive3);
 		
 		Task universityCourse3 = new Task("CSI2532 LEC");
 		universityCourse3.setContext(university);
-		universityCourse3.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 12, 11, 30).plusDays(14),
+		universityCourse3.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 16, 11, 30).plusDays(14),
 		new Duration(90*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(universityCourse3);
 		
 		Task universityCourse4 = new Task("PHI2794 LEC");
 		universityCourse4.setContext(university);
-		universityCourse4.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 12, 13, 00).plusDays(14),
+		universityCourse4.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 16, 13, 00).plusDays(14),
 		new Duration(90*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(universityCourse4);
 		
 		Task universityCourse5 = new Task("CSI2532 LEC");
 		universityCourse5.setContext(university);
-		universityCourse5.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 12, 14, 30).plusDays(14),
+		universityCourse5.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 16, 14, 30).plusDays(14),
 		new Duration(90*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(universityCourse5);
 		
 		Task universityCourse6 = new Task("CSI2101 TUT");
 		universityCourse6.setContext(university);
-		universityCourse6.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 12, 17, 30).plusDays(14),
+		universityCourse6.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 16, 17, 30).plusDays(14),
 		new Duration(90*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(universityCourse6);
 		
 		Task drive4 = new Task("Drive");
 		drive4.setContext(transportation);
-		drive4.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 12, 19, 00).plusDays(14),
+		drive4.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 16, 19, 00).plusDays(14),
 		new Duration(30*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(drive4);
 		
 		Task drive5 = new Task("Drive");
 		drive5.setContext(transportation);
-		drive5.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 13, 7, 30).plusDays(14),
+		drive5.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 17, 7, 30).plusDays(14),
 		new Duration(60*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(drive5);
 		
 		Task universityCourse7 = new Task("CSI2101 LEC");
 		universityCourse7.setContext(university);
-		universityCourse7.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 13, 8, 30).plusDays(14),
+		universityCourse7.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 17, 8, 30).plusDays(14),
 		new Duration(90*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(universityCourse7);
 		
 		Task drive6 = new Task("Drive");
 		drive6.setContext(transportation);
-		drive6.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 13, 10, 00).plusDays(14),
+		drive6.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 17, 10, 00).plusDays(14),
 		new Duration(30*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(drive6);
 		
 		Task drive7 = new Task("Drive");
 		drive7.setContext(transportation);
-		drive7.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 14, 10, 30).plusDays(14),
+		drive7.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 18, 10, 30).plusDays(14),
 		new Duration(60*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(drive7);
 		
 		Task universityCourse8 = new Task("CSI2532 LEC");
 		universityCourse8.setContext(university);
-		universityCourse8.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 14, 11, 30).plusDays(14),
+		universityCourse8.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 18, 11, 30).plusDays(14),
 		new Duration(90*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(universityCourse8);
 		
 		Task universityCourse9 = new Task("CSI2520 TUT");
 		universityCourse9.setContext(university);
-		universityCourse9.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 14, 14, 30).plusDays(14),
+		universityCourse9.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 18, 14, 30).plusDays(14),
 		new Duration(90*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(universityCourse9);
 		
 		Task universityCourse10 = new Task("CSI2520 LAB");
 		universityCourse10.setContext(university);
-		universityCourse10.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 14, 16, 00).plusDays(14),
+		universityCourse10.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 18, 16, 00).plusDays(14),
 		new Duration(90*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(universityCourse10);
 		
 		Task drive8 = new Task("Drive");
 		drive8.setContext(transportation);
-		drive8.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 14, 17, 30).plusDays(14),
+		drive8.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 18, 17, 30).plusDays(14),
 		new Duration(30*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(drive8);
 		
 		Task drive9 = new Task("Drive");
 		drive9.setContext(transportation);
-		drive9.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 15, 10, 30).plusDays(14),
+		drive9.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 19, 10, 30).plusDays(14),
 		new Duration(60*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(drive9);
 	
 		Task fridayPrayer = new Task("Friday Prayer");
 		fridayPrayer.setContext(faith);
-		fridayPrayer.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 15, 12, 00).plusDays(14),
+		fridayPrayer.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 19, 12, 00).plusDays(14),
 		new Duration(60*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(fridayPrayer);
 		
 		Task universityCourse11 = new Task("PHI2794 LEC");
 		universityCourse11.setContext(university);
-		universityCourse11.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 15, 13, 00).plusDays(14),
+		universityCourse11.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 19, 13, 00).plusDays(14),
 		new Duration(90*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(universityCourse11);
 		
 		Task universityCourse12 = new Task("CSI2520 LEC");
 		universityCourse12.setContext(university);
-		universityCourse12.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 15, 16, 00).plusDays(14),
+		universityCourse12.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 19, 16, 00).plusDays(14),
 		new Duration(90*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(universityCourse12);
 		
 		Task drive10 = new Task("Drive");
 		drive10.setContext(transportation);
-		drive10.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 15, 17, 30).plusDays(14),
+		drive10.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 19, 17, 30).plusDays(14),
 		new Duration(30*DateTimeConstants.MILLIS_PER_MINUTE)));
 		task.addTask(drive10);
 		

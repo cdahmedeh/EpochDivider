@@ -4,9 +4,12 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 
 import javax.swing.JTable;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -44,6 +47,7 @@ public class TaskListPanel extends JPanel {
 		table = new JTable();
 		table.setFillsViewportHeight(true);
 		table.setShowHorizontalLines(false);
+		table.setShowVerticalLines(false);
 
 		table.setModel(new TaskListTableModel(bigContainer));
 		
@@ -51,9 +55,7 @@ public class TaskListPanel extends JPanel {
 		table.getColumnModel().getColumn(0).setMaxWidth(30);
 		
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
-		
 
-		
 		scrollPane.setViewportView(table);
 		
 		JToolBar toolBar = new JToolBar();
