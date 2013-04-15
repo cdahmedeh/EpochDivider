@@ -11,6 +11,11 @@ import org.eclipse.swt.graphics.RGB;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
+/**
+ * Represents a Context.
+ * 
+ * @author cdahmedeh
+ */
 public class Context {
 
 	/* ---- Identifier ---- */
