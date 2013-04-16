@@ -34,6 +34,9 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.pushingpixels.substance.api.skin.SubstanceModerateLookAndFeel;
 
+import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
+import com.jgoodies.looks.windows.WindowsLookAndFeel;
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.util.Calendar;
@@ -58,8 +61,8 @@ public class MainSwingWindow {
 	public static void main(String[] args) {
 		System.out.println(System.currentTimeMillis());
 		try {
-			setUIFont (new javax.swing.plaf.FontUIResource("Segoe UI",Font.PLAIN,12));
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//			setUIFont (new javax.swing.plaf.FontUIResource("Segoe UI",Font.PLAIN,12));
+//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 //		        if ("Nimbus".equals(info.getName())) {
 //		            UIManager.setLookAndFeel(info.getClassName());
@@ -67,6 +70,7 @@ public class MainSwingWindow {
 //		        }
 //		    }
 //			UIManager.setLookAndFeel(new SubstanceModerateLookAndFeel());
+			UIManager.setLookAndFeel(new WindowsLookAndFeel());
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
