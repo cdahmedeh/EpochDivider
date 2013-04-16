@@ -53,7 +53,7 @@ public class TaskListPanel extends JPanel {
 		table = new JTable();
 		table.setFillsViewportHeight(true);
 		table.setShowHorizontalLines(false);
-		table.setShowVerticalLines(false);
+		table.setShowVerticalLines(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		table.setModel(new TaskListTableModel(bigContainer));
