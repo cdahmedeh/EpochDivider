@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="run"/>
-	<classpathentry kind="src" path="ui-swt"/>
 	<classpathentry kind="src" path="expr"/>
 	<classpathentry kind="src" path="data"/>
 	<classpathentry kind="src" path="ui-swing"/>

@@ -12,22 +12,15 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.swing.JPanel;
+import javax.swing.TransferHandler;
 
 import org.cdahmedeh.orgapp.containers.BigContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
-import org.cdahmedeh.orgapp.ui.calendar.CalendarUIMode;
-import org.cdahmedeh.orgapp.ui.calendar.PixelsToDate;
-import org.cdahmedeh.orgapp.ui.notify.TasksModifiedNotification;
-import org.eclipse.swt.events.DragDetectEvent;
-import org.eclipse.swt.events.DragDetectListener;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.joda.time.Duration;
 
-public class CalendarPanel extends JPanel implements DragGestureListener {
+public class CalendarPanel extends JPanel {
 	private static final long serialVersionUID = -4698663372347441273L;
 	
 	private HashMap<TimeBlock, Task> timeBlockTaskMap = new HashMap<>();
@@ -53,8 +46,14 @@ public class CalendarPanel extends JPanel implements DragGestureListener {
 		fillTimeBlockTaskMap();
 
 		makeCalendarBlocksDraggable();
+		
+		makeCalendarDrop();
 	}
 	
+	private void makeCalendarDrop() {
+		
+	}
+
 	public void fillTimeBlockTaskMap() {
 		for (Task task: bigContainer.getTaskContainer().getAllTasks()){
 			for (TimeBlock timeBlock: task.getAllTimeBlocks()){
@@ -174,9 +173,6 @@ public class CalendarPanel extends JPanel implements DragGestureListener {
 //			}
 //		});
 	}
-
-	@Override
-	public void dragGestureRecognized(DragGestureEvent dge) {
-
-	}
+	
+	
 }

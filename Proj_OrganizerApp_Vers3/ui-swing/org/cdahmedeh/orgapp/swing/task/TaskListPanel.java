@@ -5,6 +5,8 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.Insets;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.util.ArrayList;
 
 import javax.swing.JTable;
@@ -23,10 +25,14 @@ import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
+
+import javax.swing.JComponent;
 import javax.swing.JToolBar;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import javax.swing.ListSelectionModel;
+import javax.swing.TransferHandler;
 
 public class TaskListPanel extends JPanel {
 	private BigContainer bigContainer;
@@ -48,6 +54,7 @@ public class TaskListPanel extends JPanel {
 		table.setFillsViewportHeight(true);
 		table.setShowHorizontalLines(false);
 		table.setShowVerticalLines(false);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		table.setModel(new TaskListTableModel(bigContainer));
 		
@@ -72,6 +79,24 @@ public class TaskListPanel extends JPanel {
 		
 		table.getColumnModel().getColumn(3).setCellRenderer(new ProgressCellRenderer());
 
-
+		table.setDragEnabled(true);
+		
+		table.setTransferHandler(new TransferHandler(){
+			@Override
+			public int getSourceActions(JComponent c) {
+				return MOVE;
+			}
+						
+			@Override
+			protected Transferable createTransferable(JComponent c) {
+				if (c instanceof JTable){
+					Task selected = bigContainer.getTaskContainer().getAllTasks().get((((JTable) c).getSelectedRow()));
+					return new StringSelection("T" + String.valueOf(selected.getId()));
+				}
+//				return super.createTransferable(c);
+				return new StringSelection("");
+			}
+			
+		});
 	}
 }
