@@ -68,4 +68,22 @@ public class Context {
 		}
 		return duration;
 	}
+	
+	/**
+	 * Gives the total duration of all timeblocks that end within 'until'.
+	 * 
+	 * TimeBlocks that are within until are counted partially.
+	 * 
+	 * @param since
+	 * @param until
+	 * @param taskContainer
+	 * @return
+	 */
+	public Duration getDurationScheduled(DateTime until,  TaskContainer taskContainer){
+		Duration duration = Duration.ZERO;
+		for (Task task: taskContainer.getTasksWithContext(this).getAllTasks()){
+			duration = duration.plus(task.getDurationScheduled(until));
+		}
+		return duration;
+	}
 }

@@ -33,6 +33,10 @@ public class ContextListTableModel implements TableModel {
 									currentView.getEndDate().toDateTime(LocalTime.MIDNIGHT), 
 									bigContainer.getTaskContainer()
 								).getStandardHours();
+			progressInfo.second =  context.getDurationScheduled(
+									bigContainer.getCurrentView().getEndDate().plusDays(1).toDateTime(LocalTime.MIDNIGHT), 
+									bigContainer.getTaskContainer()
+								).getStandardHours();
 			if (context instanceof AllContexts)
 				progressInfo.third = ((AllContexts) context).getGoal(currentView, bigContainer.getContextContainer()).getStandardHours();
 			else if (context instanceof NoContext)

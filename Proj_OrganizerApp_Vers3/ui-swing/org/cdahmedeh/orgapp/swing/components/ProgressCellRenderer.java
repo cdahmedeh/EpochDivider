@@ -33,18 +33,6 @@ public class ProgressCellRenderer extends DefaultTableCellRenderer {
 		double start2 = savedValue.second;
 		double total = savedValue.third;
 
-//		double total = new Random().nextInt(40);
-//		double start2 = new Random().nextInt((int)total+1);
-//		double start = new Random().nextInt((int)start2+1);;
-//		double start2 = 100;
-
-        
-//		if (start == 0 && total == 0){
-//			start = 1;
-//			total = 1;
-//		}
-		
-
 		GradientPaint gp = new GradientPaint(0, 0, new Color(Color.HSBtoRGB(savedValue.color/255f, (-28+30)/255f, (0+252)/255f)), 0, 15, new Color(Color.HSBtoRGB(savedValue.color/255f, (-28+60)/255f, (0+252)/255f)), true);
 		g2d.setPaint(gp);
 		g.fillRoundRect(1, 1, this.getBounds().width-3, this.getBounds().height-2, 10, 10);
