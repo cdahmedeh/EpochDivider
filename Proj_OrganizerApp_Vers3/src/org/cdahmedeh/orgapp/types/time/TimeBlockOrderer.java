@@ -3,7 +3,7 @@ package org.cdahmedeh.orgapp.types.time;
 import java.util.Comparator;
 
 /**
- * Comporator for TimeBlock. TimeBlocks that start earlier are first. 
+ * Comparator for TimeBlock. TimeBlocks that start earlier are first. 
  * 
  * @author ahmed
  */
