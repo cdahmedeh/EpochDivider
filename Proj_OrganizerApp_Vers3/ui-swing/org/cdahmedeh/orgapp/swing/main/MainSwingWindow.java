@@ -111,10 +111,10 @@ public class MainSwingWindow {
 		final BigContainer bigContainer = generateSomeTestData();
 		fill(bigContainer.getContextContainer(), bigContainer.getTaskContainer(), bigContainer.getCurrentView());
 		
-		ContextListPanel contextListPanel = new ContextListPanel(bigContainer);
+		final ContextListPanel contextListPanel = new ContextListPanel(bigContainer);
 		jxMultiSplitPane.add(contextListPanel, DefaultSplitPaneModel.BOTTOM);
 		
-		TaskListPanel taskListPanel = new TaskListPanel(bigContainer);
+		final TaskListPanel taskListPanel = new TaskListPanel(bigContainer);
 		jxMultiSplitPane.add(taskListPanel, DefaultSplitPaneModel.LEFT);
 		
 		JXMonthView jxDatePicker = new JXMonthView();
@@ -144,6 +144,8 @@ public class MainSwingWindow {
 			public void actionPerformed(ActionEvent e) {
 				bigContainer.getCurrentView().moveAmountOfDays(-7);	
 				calendarPanel.repaint();
+				taskListPanel.repaint();
+				contextListPanel.repaint();
 			}
 		});
 		
@@ -156,6 +158,8 @@ public class MainSwingWindow {
 			public void actionPerformed(ActionEvent e) {
 				bigContainer.getCurrentView().moveAmountOfDays(7);	
 				calendarPanel.repaint();
+				taskListPanel.repaint();
+				contextListPanel.repaint();
 			}
 		});
 		
