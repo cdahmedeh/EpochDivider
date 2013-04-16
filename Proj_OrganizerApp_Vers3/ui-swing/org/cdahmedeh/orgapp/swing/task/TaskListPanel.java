@@ -27,6 +27,7 @@ import org.cdahmedeh.orgapp.ui.icons.Icons;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
+import javax.swing.DropMode;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
 import javax.swing.JTextField;
@@ -59,6 +60,7 @@ public class TaskListPanel extends JPanel {
 		scrollPane.setViewportView(taskListTable);
 
 		allowDragFromTaskListTable();
+		allowDragIntoTaskListTable();
 		
 		createBottomBar();
 	}
@@ -98,7 +100,29 @@ public class TaskListPanel extends JPanel {
 				return new StringSelection("");
 			}
 			
+			@Override
+			public boolean canImport(TransferSupport support) {
+			return true;
+			}
+			
+			@Override
+			public boolean importData(TransferSupport support) {
+				int row = ((JTable.DropLocation)support.getDropLocation()).getRow();
+				Task selected = bigContainer.getTaskContainer().getAllTasks().get((((JTable) support.getComponent()).getSelectedRow()));
+				bigContainer.getTaskContainer().getAllTasks().remove(selected);
+				bigContainer.getTaskContainer().getAllTasks().add(row, selected);
+				repaint();
+				return true;
+			}
+			
 		});
+	}
+	
+	private void allowDragIntoTaskListTable() {
+		taskListTable.setDragEnabled(true);
+		taskListTable.setDropMode(DropMode.INSERT_ROWS);
+		
+		//TODO: move into other
 	}
 	
 	private void createBottomBar() {

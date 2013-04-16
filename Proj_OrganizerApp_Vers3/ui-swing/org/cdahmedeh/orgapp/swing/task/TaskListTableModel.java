@@ -96,6 +96,5 @@ public class TaskListTableModel implements TableModel {
 	@Override
 	public void addTableModelListener(TableModelListener arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 }
