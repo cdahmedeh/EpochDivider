@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import javax.swing.JComponent;
+
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
@@ -46,19 +48,19 @@ public class GridPainter {
         }
 	}
 	
-	public static void drawDays(PaintEvent e, Canvas canvas, View view) {
-		Rectangle clientArea = canvas.getClientArea();
+	public static void drawDays(Graphics g, DayLinePanel dayLinePanel, View view) {
+		Rectangle clientArea = new Rectangle(0, 0, dayLinePanel.getWidth(), dayLinePanel.getHeight());
 		
-		e.gc.setAlpha(233);
+		g.setColor(new Color(0, 0, 0, 233));
 		
         for (int i = 0; i<=view.getNumberOfDaysVisible(); i++){
-        	e.gc.drawText(view.getStartDate().plusDays(i).toString("E d/M"), (clientArea.width)*i/view.getNumberOfDaysVisible()+5, 5, true);
+        	g.drawString(view.getStartDate().plusDays(i).toString("E d/M"), (clientArea.width)*i/view.getNumberOfDaysVisible()+5, 15);
         }
         
-		e.gc.setAlpha(50);
+		g.setColor(new Color(0, 0, 0, 50));
         
         for (int i = 0; i<=view.getNumberOfDaysVisible(); i++){
-            e.gc.drawLine(
+            g.drawLine(
             		(clientArea.width)*i/view.getNumberOfDaysVisible(), 
             		0, 
             		(clientArea.width)*i/view.getNumberOfDaysVisible(),
@@ -88,6 +90,28 @@ public class GridPainter {
         }
 	}
 
+	public static void drawHours(Graphics e, JComponent canvas, View view) {
+		int hours = view.getLastHour().getHourOfDay()-view.getFirstHour().getHourOfDay()+1;
+		
+		Rectangle clientArea = new Rectangle(0, 0, canvas.getWidth(), canvas.getHeight());
+		
+        for (double i = 0; i<hours; i=i+0.25){
+        	if ((i*4)%4!=0){
+        		e.setColor(new Color(0, 0, 0, 25));
+        	} else {
+        		e.setColor(new Color(0, 0, 0, 200));
+        		e.drawString((int)i+view.getFirstHour().getHourOfDay()+":00", 5, (int) ((clientArea.height)*i/hours) + 3);
+        		e.setColor(new Color(0, 0, 0, 50));
+        	}
+        	
+            e.drawLine(
+            		0, 
+            		(int) ((clientArea.height)*i/hours), 
+            		clientArea.width,
+            		(int) ((clientArea.height)*i/hours));
+        }
+	}
+	
 	public static void drawCurrentTime(Display display, Composite scheduleCanvas, View currentView, PaintEvent e){
         e.gc.setAlpha(255);
         e.gc.setForeground(display.getSystemColor(SWT.COLOR_RED));
