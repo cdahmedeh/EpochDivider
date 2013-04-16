@@ -184,8 +184,8 @@ public class MainSwingWindow {
 	}
 
 	public void fill(ContextContainer context, TaskContainer task, View view){
-		context.addContext(new AllContexts());
-		context.addContext(new NoContext());
+//		context.addContext(new AllContexts());
+//		context.addContext(new NoContext());
 	
 		Context essentials = new Context("Essentials");
 		essentials.setGoal(view, new Duration(20 * DateTimeConstants.MILLIS_PER_HOUR));
