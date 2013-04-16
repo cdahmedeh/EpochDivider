@@ -6,6 +6,7 @@
 	<classpathentry kind="src" path="expr"/>
 	<classpathentry kind="src" path="data"/>
 	<classpathentry kind="src" path="ui-swing"/>
+	<classpathentry kind="src" path="ui-swt"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="elibs/joda-time-2.1.jar" sourcepath="slibs/joda-time-2.1-sources.jar"/>
