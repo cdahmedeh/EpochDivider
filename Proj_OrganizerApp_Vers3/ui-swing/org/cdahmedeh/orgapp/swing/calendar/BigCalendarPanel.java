@@ -1,5 +1,6 @@
 package org.cdahmedeh.orgapp.swing.calendar;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -35,8 +36,15 @@ public class BigCalendarPanel extends JPanel {
 		add(mainPanel, BorderLayout.CENTER);
 		mainPanel.setLayout(new BorderLayout(0, 0));
 		
+		JPanel panel = new JPanel();
+		mainPanel.add(panel, BorderLayout.NORTH);
+		panel.setLayout(new BorderLayout(0, 0));
+		
 		JPanel panel_1 = new DayLinePanel(bigContainer);
-		mainPanel.add(panel_1, BorderLayout.NORTH);
+		panel.add(panel_1);
+		
+//		JScrollBar scrollBar = new JScrollBar();
+//		panel.add(scrollBar, BorderLayout.EAST);
 		
 		final JPanel timeLinePanel = new TimeLinePanel(bigContainer);
 	
@@ -48,6 +56,8 @@ public class BigCalendarPanel extends JPanel {
 		bigCalendarPanel.add(timeLinePanel, BorderLayout.WEST);
 		
 		final JScrollPane calendarPane = new JScrollPane(bigCalendarPanel);
+		calendarPane.setBorder(BorderFactory.createEmptyBorder());
+		calendarPane.setViewportBorder(null);
 		calendarPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		calendarPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		mainPanel.add(calendarPane);
