@@ -242,24 +242,24 @@ public class MainSwingWindow {
 		Context context4 = new Context("Gaming");
 		context.addContext(context4);
 		
-		for (int i=0; i<8; i++){
+		for (int i=0; i<10; i++){
 		Task sleep = new Task("Sleep");
 		sleep.setContext(essentials);
-		sleep.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 24+i, 23, 00),
+		sleep.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 14+i, 23, 00),
 		new Duration(7*DateTimeConstants.MILLIS_PER_HOUR)));
 		
 		task.addTask(sleep);
 
 		Task faithTask = new Task("Faith");
 		faithTask.setContext(faith);
-		faithTask.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 24+i, 6, 00),
+		faithTask.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 14+i, 6, 00),
 		new Duration(30*DateTimeConstants.MILLIS_PER_MINUTE)));
 		
 		task.addTask(faithTask);
 		
 		Task catchingUp = new Task("Catching Up");
 		catchingUp.setContext(essentials);
-		catchingUp.assignToTimeBlock(new TimeBlock(new DateTime(2013, 3, 24+i, 6, 30),
+		catchingUp.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 14+i, 6, 30),
 		new Duration(30*DateTimeConstants.MILLIS_PER_MINUTE)));
 		
 		task.addTask(catchingUp);
@@ -289,7 +289,7 @@ public class MainSwingWindow {
 		Task universityCourse2 = new Task("CSI2532 LAB");
 		universityCourse2.setContext(university);
 		universityCourse2.assignToTimeBlock(new TimeBlock(new DateTime(2013, 4, 15, 17, 00),
-		new Duration(180*DateTimeConstants.MILLIS_PER_MINUTE)));
+		new Duration(150*DateTimeConstants.MILLIS_PER_MINUTE)));
 //		universityCourse2.setMutability(Mutability.IMMUTABLE);
 		task.addTask(universityCourse2);
 		}

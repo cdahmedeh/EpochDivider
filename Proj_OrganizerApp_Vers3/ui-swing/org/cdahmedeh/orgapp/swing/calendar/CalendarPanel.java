@@ -46,7 +46,7 @@ public class CalendarPanel extends JPanel {
 	public CalendarPanel(BigContainer bigContainer) {
 		this.bigContainer = bigContainer;
 		
-		setPreferredSize(new Dimension(100, 1000));
+		setPreferredSize(new Dimension(100, 750));
 		setBackground(Color.WHITE);
 		
 		fillTimeBlockTaskMap();
