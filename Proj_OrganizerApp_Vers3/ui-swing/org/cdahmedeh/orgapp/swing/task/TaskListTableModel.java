@@ -4,7 +4,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import org.cdahmedeh.orgapp.containers.BigContainer;
-import org.cdahmedeh.orgapp.swing.category.ProgressInfo;
+import org.cdahmedeh.orgapp.swing.components.ProgressInfo;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;

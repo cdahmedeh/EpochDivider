@@ -1,4 +1,4 @@
-package org.cdahmedeh.orgapp.swing.category;
+package org.cdahmedeh.orgapp.swing.components;
 
 public class ProgressInfo {
 	public double first = 0.0;

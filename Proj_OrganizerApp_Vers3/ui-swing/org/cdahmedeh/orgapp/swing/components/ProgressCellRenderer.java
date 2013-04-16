@@ -10,7 +10,6 @@ import java.util.Random;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
-import org.cdahmedeh.orgapp.swing.category.ProgressInfo;
 import org.cdahmedeh.orgapp.swing.helpers.GraphicsHelper;
 
 

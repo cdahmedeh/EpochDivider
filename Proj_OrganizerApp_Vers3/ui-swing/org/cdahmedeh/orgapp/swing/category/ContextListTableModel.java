@@ -4,6 +4,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import org.cdahmedeh.orgapp.containers.BigContainer;
+import org.cdahmedeh.orgapp.swing.components.ProgressInfo;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.category.AllContexts;
 import org.cdahmedeh.orgapp.types.category.Context;

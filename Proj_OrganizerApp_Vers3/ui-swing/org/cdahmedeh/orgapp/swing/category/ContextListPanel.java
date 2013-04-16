@@ -22,6 +22,7 @@ import org.cdahmedeh.orgapp.swing.main.SwingUIDefaults;
 import org.cdahmedeh.orgapp.swing.task.TaskListPanel;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.cdahmedeh.orgapp.ui.icons.Icons;
 
 public class ContextListPanel extends JPanel {
 	private static final long serialVersionUID = 4463133789121204761L;
@@ -43,6 +44,7 @@ public class ContextListPanel extends JPanel {
 		add(mainPane);
 		
 		createContextListTable();
+		enableDropIntoContextListTable();
 		mainPane.setViewportView(contextListTable);
 		
 		createBottomBar();
@@ -50,26 +52,28 @@ public class ContextListPanel extends JPanel {
 
 	private void createContextListTable() {
 		contextListTable = new JTable();
+		
 		contextListTable.setFillsViewportHeight(true);
 		contextListTable.setShowHorizontalLines(false);
 		contextListTable.setShowVerticalLines(false);
 		contextListTable.setRowHeight(20);
+		
 		contextListTable.setModel(new ContextListTableModel(bigContainer));
 		contextListTable.getColumnModel().getColumn(ContextListColumns.PROGRESS).setCellRenderer(new ProgressCellRenderer());
 		contextListTable.getColumnModel().setColumnMargin(10);
-		
+	}
+
+	private void enableDropIntoContextListTable() {
 		contextListTable.setTransferHandler(new TransferHandler(){
 			@Override
 			public boolean canImport(TransferSupport support) {
-			return true;
+				return true;
 			}
 			
 			@Override
 			public boolean importData(TransferSupport support) {
-//				System.out.println("WE ARE HERE");
 				Transferable trans = support.getTransferable();
 				System.out.println(trans);
-//				if (trans instanceof StringSelection){
 					try {
 						System.out.println("WE ARE HERE");
 						Object transferData = trans.getTransferData(DataFlavor.stringFlavor);
@@ -84,23 +88,22 @@ public class ContextListPanel extends JPanel {
 	}
 	
 	private void createBottomBar() {
-		JToolBar toolBar = new JToolBar();
-		toolBar.setFloatable(false);
-		add(toolBar, BorderLayout.SOUTH);
+		JToolBar bottomBar = new JToolBar();
+		bottomBar.setFloatable(false);
+		add(bottomBar, BorderLayout.SOUTH);
 		
-		final JTextField textField = new JTextField();
-		toolBar.add(textField);
-		textField.setColumns(10);
+		final JTextField addContextTextField = new JTextField();
+		bottomBar.add(addContextTextField);
 		
-		JButton btnAddContextButton = new JButton("Add");
-		btnAddContextButton.setIcon(new ImageIcon(TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/ui/icons/add.png")));
-		toolBar.add(btnAddContextButton);
+		JButton addContextButton = new JButton("Add");
+		addContextButton.setIcon(new ImageIcon(TaskListPanel.class.getResource(Icons.ADD)));
+		bottomBar.add(addContextButton);
 		
-		btnAddContextButton.addActionListener(new ActionListener() {
+		addContextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				bigContainer.getContextContainer().addContext(new Context(textField.getText()));
-				textField.setText("");
+				bigContainer.getContextContainer().addContext(new Context(addContextTextField.getText()));
+				addContextTextField.setText("");
 				contextListTable.repaint(); //TODO: Is there a better way for refresh?
 			}
 		});
