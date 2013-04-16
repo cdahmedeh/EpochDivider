@@ -51,7 +51,7 @@ public class ContextListPanel extends JPanel {
 		contextListTable.setShowVerticalLines(false);
 		contextListTable.setRowHeight(20);
 		contextListTable.setModel(new ContextListTableModel(bigContainer));
-		contextListTable.getColumnModel().getColumn(1).setCellRenderer(new ProgressCellRenderer());
+		contextListTable.getColumnModel().getColumn(ContextListColumns.PROGRESS).setCellRenderer(new ProgressCellRenderer());
 		contextListTable.getColumnModel().setColumnMargin(10);
 	}
 	

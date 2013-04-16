@@ -12,12 +12,11 @@ import javax.swing.JPanel;
 import org.cdahmedeh.orgapp.containers.BigContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
-import org.cdahmedeh.orgapp.ui.calendar.GridRenderer;
-import org.cdahmedeh.orgapp.ui.calendar.TimeBlockRenderer;
 import org.eclipse.swt.graphics.Rectangle;
 
 public class CalendarPanel extends JPanel {
-
+	private static final long serialVersionUID = -4698663372347441273L;
+	
 	private HashMap<TimeBlock, Task> timeBlockTaskMap = new HashMap<>();
 	private HashMap<Rectangle, TimeBlock> rectangleTimeBlockMap = new HashMap<>();
 	private BigContainer bigContainer;
