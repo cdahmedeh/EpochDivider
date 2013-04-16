@@ -3,10 +3,15 @@ package org.cdahmedeh.orgapp.swing.calendar;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -18,6 +23,7 @@ import org.cdahmedeh.orgapp.containers.BigContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.eclipse.swt.graphics.Rectangle;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 
 public class CalendarPanel extends JPanel {
@@ -51,7 +57,45 @@ public class CalendarPanel extends JPanel {
 	}
 	
 	private void makeCalendarDrop() {
-		
+		this.setTransferHandler(new TransferHandler(){
+			@Override
+			public boolean canImport(TransferSupport support) {
+				return true;
+			}
+			
+			@Override
+			public boolean importData(TransferSupport support) {
+//				System.out.println("WE ARE HERE");
+				Transferable trans = support.getTransferable();
+				System.out.println(trans);
+//				if (trans instanceof StringSelection){
+					try {
+						System.out.println("WE ARE HERE");
+						Object transferData = trans.getTransferData(DataFlavor.stringFlavor);
+						
+						    Task selectedTask = bigContainer.getTaskContainer().getTaskFromId(Integer.valueOf((String) transferData));
+						    TimeBlock newTimeBlock = new TimeBlock();
+						    selectedTask.assignToTimeBlock(newTimeBlock);
+						    timeBlockDragged = newTimeBlock;
+						    timeClickedOffset = new Duration(15*DateTimeConstants.MILLIS_PER_MINUTE);
+						//        eventBus.post(new TasksModifiedNotification());
+						    //TODO: test only
+						    timeBlockTaskMap.clear();
+						    fillTimeBlockTaskMap();
+						    repaint();
+						    
+						    uiMode = CalendarUIMode.DRAG;
+						//        System.out.println(selectedTask.getTitle());
+						  
+						
+					} catch (UnsupportedFlavorException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+//				}
+				return true;
+			}
+		});
 	}
 
 	public void fillTimeBlockTaskMap() {
@@ -119,7 +163,15 @@ public class CalendarPanel extends JPanel {
 			
 			@Override
 			public void mouseMoved(java.awt.event.MouseEvent e) {
-
+				if (uiMode == CalendarUIMode.DRAG){
+					Duration duration = timeBlockDragged.getDuration();
+					timeBlockDragged.setStart(PixelsToDate.roundToMins(PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), new Rectangle(0, 0, getWidth(), getHeight()), bigContainer.getCurrentView()).minus(timeClickedOffset), 15));
+					timeBlockDragged.setEnd(timeBlockDragged.getStart().plus(duration));
+					repaint();
+				} else if (uiMode == CalendarUIMode.RESIZE_BOTTOM) {
+					timeBlockDragged.setEnd(PixelsToDate.roundToMins(PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), new Rectangle(0, 0, getWidth(), getHeight()), bigContainer.getCurrentView()), 15));
+					repaint();
+				} 
 			}
 			
 			@Override
