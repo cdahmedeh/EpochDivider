@@ -27,6 +27,8 @@ import org.cdahmedeh.orgapp.ui.icons.Icons;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
+
 import javax.swing.DropMode;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
@@ -108,9 +110,19 @@ public class TaskListPanel extends JPanel {
 			@Override
 			public boolean importData(TransferSupport support) {
 				int row = ((JTable.DropLocation)support.getDropLocation()).getRow();
-				Task selected = bigContainer.getTaskContainer().getAllTasks().get((((JTable) support.getComponent()).getSelectedRow()));
-				bigContainer.getTaskContainer().getAllTasks().remove(selected);
-				bigContainer.getTaskContainer().getAllTasks().add(row, selected);
+				int index = ((JTable) support.getComponent()).getSelectedRow();
+				Task selected = bigContainer.getTaskContainer().getAllTasks().get(index);
+				bigContainer.getTaskContainer().getAllTasks().remove(index);
+				if (index>row) {
+					bigContainer.getTaskContainer().getAllTasks().add(row, selected);
+					taskListTable.setRowSelectionInterval(row, row);
+				} else {
+					bigContainer.getTaskContainer().getAllTasks().add(row-1, selected);
+					taskListTable.setRowSelectionInterval(row-1, row-1);
+				}
+				
+				
+				//TODO: need to fire events on refreshing tables
 				repaint();
 				return true;
 			}

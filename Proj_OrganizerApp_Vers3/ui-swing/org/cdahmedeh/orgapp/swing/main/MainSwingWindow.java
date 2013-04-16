@@ -207,13 +207,16 @@ public class MainSwingWindow {
 		task01.setContext(context);
 //		task01.assignToTimeBlock(new TimeBlock(new DateTime(), new DateTime().plus(new Duration(DateTimeConstants.MILLIS_PER_DAY*3))));
 		task01.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*200));
-		Task task02 = new Task("Do More Work");
+		for (int i = 0; i<40; i++) {
+		Task task02 = new Task("Do More Work " + i);
 //		task02.assignToTimeBlock(new TimeBlock(new DateTime().minus(DateTimeConstants.MILLIS_PER_DAY), new Duration(DateTimeConstants.MILLIS_PER_HOUR*2)));
 		task02.setContext(context);
 		task02.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*15));
 		task02.setContext(context2);
-		taskContainer.addTask(task01);
 		taskContainer.addTask(task02);
+		}
+		taskContainer.addTask(task01);
+		
 
 		return new BigContainer(taskContainer, contextContainer, currentView);
 	}
