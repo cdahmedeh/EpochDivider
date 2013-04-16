@@ -43,6 +43,9 @@ public class BigCalendarPanel extends JPanel {
 		JPanel panel_1 = new DayLinePanel(bigContainer);
 		panel.add(panel_1);
 		
+		JPanel leftAdjust = new JPanel();
+		panel.add(leftAdjust, BorderLayout.WEST);
+		
 //		JScrollBar scrollBar = new JScrollBar();
 //		panel.add(scrollBar, BorderLayout.EAST);
 		
@@ -62,8 +65,14 @@ public class BigCalendarPanel extends JPanel {
 		calendarPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		mainPanel.add(calendarPane);
 
+		leftAdjust.setPreferredSize(new Dimension(40, 10)); //TODO: hard coded size
 		
-		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setEnabled(false);
+		scrollBar.setMaximum(0);
+		panel.add(scrollBar, BorderLayout.EAST);
+		scrollBar.setPreferredSize(new Dimension(17, 15));
+
 	}
 
 }
