@@ -49,6 +49,8 @@ import javax.swing.JMenu;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainSwingWindow {
 
@@ -106,7 +108,7 @@ public class MainSwingWindow {
 		jxMultiSplitPane.setModel(new MySplitPlaneModel());
 		frame.getContentPane().add(jxMultiSplitPane);
 		
-		BigContainer bigContainer = generateSomeTestData();
+		final BigContainer bigContainer = generateSomeTestData();
 		fill(bigContainer.getContextContainer(), bigContainer.getTaskContainer(), bigContainer.getCurrentView());
 		
 		ContextListPanel contextListPanel = new ContextListPanel(bigContainer);
@@ -125,7 +127,7 @@ public class MainSwingWindow {
 		jxDatePicker.setBoxPaddingX(1);
 		jxDatePicker.setBoxPaddingY(1);
 		
-		BigCalendarPanel calendarPanel = new BigCalendarPanel(bigContainer);
+		final BigCalendarPanel calendarPanel = new BigCalendarPanel(bigContainer);
 		calendarPanel.setBorder(UIManager.getBorder("Table.scrollPaneBorder"));
 		jxMultiSplitPane.add(calendarPanel, MySplitPlaneModel.RIGHT);
 		
@@ -137,9 +139,25 @@ public class MainSwingWindow {
 		btnNPreviousButton.setIcon(new ImageIcon(MainSwingWindow.class.getResource("/org/cdahmedeh/orgapp/ui/icons/previous.png")));
 		toolBar.add(btnNPreviousButton);
 		
+		btnNPreviousButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				bigContainer.getCurrentView().moveAmountOfDays(-7);	
+				calendarPanel.repaint();
+			}
+		});
+		
 		JButton btnNextButton = new JButton("Next week");
 		btnNextButton.setIcon(new ImageIcon(MainSwingWindow.class.getResource("/org/cdahmedeh/orgapp/ui/icons/next.png")));
 		toolBar.add(btnNextButton);
+		
+		btnNextButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				bigContainer.getCurrentView().moveAmountOfDays(7);	
+				calendarPanel.repaint();
+			}
+		});
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
