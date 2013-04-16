@@ -117,10 +117,12 @@ public class MainSwingWindow {
 		final TaskListPanel taskListPanel = new TaskListPanel(bigContainer);
 		jxMultiSplitPane.add(taskListPanel, DefaultSplitPaneModel.LEFT);
 		
-		JXMonthView jxDatePicker = new JXMonthView();
+		final JXMonthView jxDatePicker = new JXMonthView();
 		jxDatePicker.setBorder(UIManager.getBorder("Table.scrollPaneBorder"));
 		jxDatePicker.setSelectionMode(SelectionMode.SINGLE_INTERVAL_SELECTION);
 		jxMultiSplitPane.add(jxDatePicker, DefaultSplitPaneModel.TOP);
+		
+
 		
 		jxDatePicker.setSelectionInterval(bigContainer.getCurrentView().getStartDate().toDate(), bigContainer.getCurrentView().getEndDate().toDate());
 		jxDatePicker.setFirstDayOfWeek(Calendar.MONDAY);
@@ -168,6 +170,18 @@ public class MainSwingWindow {
 		
 		JMenu mnNewMenu = new JMenu("File");
 		menuBar.add(mnNewMenu);
+		
+		jxDatePicker.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				bigContainer.getCurrentView().setStartDate(new LocalDate(jxDatePicker.getFirstSelectionDate()));	
+				bigContainer.getCurrentView().setEndDate((new LocalDate(jxDatePicker.getLastSelectionDate())));	
+				calendarPanel.repaint();
+				taskListPanel.repaint();
+				contextListPanel.repaint();
+			}
+		});
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Exit");
 		mnNewMenu.add(mntmNewMenuItem);
