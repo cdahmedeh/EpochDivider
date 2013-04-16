@@ -60,12 +60,23 @@ public class CalendarPanel extends JPanel {
 		this.setTransferHandler(new TransferHandler(){
 			@Override
 			public boolean canImport(TransferSupport support) {
-				return true;
-			}
-			
-			@Override
-			public boolean importData(TransferSupport support) {
-//				System.out.println("WE ARE HERE");
+				
+				
+				
+				if (uiMode == CalendarUIMode.DRAG){
+					Duration duration = timeBlockDragged.getDuration();
+					timeBlockDragged.setStart(PixelsToDate.roundToMins(PixelsToDate.getTimeFromPosition(support.getDropLocation().getDropPoint().x, support.getDropLocation().getDropPoint().y, new Rectangle(0, 0, getWidth(), getHeight()), bigContainer.getCurrentView()).minus(timeClickedOffset), 15));
+					timeBlockDragged.setEnd(timeBlockDragged.getStart().plus(duration));
+					repaint();
+					return true;
+				} else if (uiMode == CalendarUIMode.RESIZE_BOTTOM) {
+					timeBlockDragged.setEnd(PixelsToDate.roundToMins(PixelsToDate.getTimeFromPosition(support.getDropLocation().getDropPoint().x, support.getDropLocation().getDropPoint().y, new Rectangle(0, 0, getWidth(), getHeight()), bigContainer.getCurrentView()), 15));
+					repaint();
+					return true;
+				} 
+				
+				
+				
 				Transferable trans = support.getTransferable();
 				System.out.println(trans);
 //				if (trans instanceof StringSelection){
@@ -86,13 +97,25 @@ public class CalendarPanel extends JPanel {
 						    
 						    uiMode = CalendarUIMode.DRAG;
 						//        System.out.println(selectedTask.getTitle());
+						    repaint();
 						  
 						
 					} catch (UnsupportedFlavorException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-//				}
+//				}			}
+					return true;
+			}
+			
+			@Override
+			public boolean importData(TransferSupport support) {
+//				System.out.println("WE ARE HERE");
+
+				System.out.println("MOUSE RELEASE");
+				uiMode = CalendarUIMode.NONE;
+//				eventBus.post(new TasksModifiedNotification());
+				repaint();
 				return true;
 			}
 		});
@@ -163,6 +186,8 @@ public class CalendarPanel extends JPanel {
 			
 			@Override
 			public void mouseMoved(java.awt.event.MouseEvent e) {
+//				System.out.println(e.getX());
+//				System.out.println(e.getY());
 				if (uiMode == CalendarUIMode.DRAG){
 					Duration duration = timeBlockDragged.getDuration();
 					timeBlockDragged.setStart(PixelsToDate.roundToMins(PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), new Rectangle(0, 0, getWidth(), getHeight()), bigContainer.getCurrentView()).minus(timeClickedOffset), 15));
@@ -176,6 +201,8 @@ public class CalendarPanel extends JPanel {
 			
 			@Override
 			public void mouseDragged(java.awt.event.MouseEvent e) {
+//				System.out.println(e.getX());
+//				System.out.println(e.getY());
 				if (uiMode == CalendarUIMode.NONE){
 				for (Rectangle r: rectangleTimeBlockMap.keySet()){ //TODO: Use Entry set.
 					if (r.contains(e.getX(),e.getY())) {
