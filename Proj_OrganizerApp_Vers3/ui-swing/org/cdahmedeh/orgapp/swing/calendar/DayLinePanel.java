@@ -18,7 +18,7 @@ public class DayLinePanel extends JPanel {
 	public DayLinePanel(BigContainer bigContainer) {
 		this.bigContainer = bigContainer;
 		
-		setPreferredSize(new Dimension(100, 70));
+		setPreferredSize(new Dimension(100, 20));
 	}
 
 	@Override

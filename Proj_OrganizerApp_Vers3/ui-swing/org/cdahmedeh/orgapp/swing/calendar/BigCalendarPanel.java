@@ -21,7 +21,7 @@ public class BigCalendarPanel extends JPanel {
 		
 		JPanel mainPanel = new JPanel();
 		add(mainPanel, BorderLayout.CENTER);
-		mainPanel.setLayout(new MigLayout("gap rel 0, insets 0", "[]0[grow,fill]", "[fill]0[grow,fill]"));
+		mainPanel.setLayout(new MigLayout("gap rel 0, insets 0", "[]0[grow,fill]", "[]0[grow,fill]"));
 		
 		JPanel panel_1 = new DayLinePanel(bigContainer);
 		mainPanel.add(panel_1, "cell 1 0,grow");
