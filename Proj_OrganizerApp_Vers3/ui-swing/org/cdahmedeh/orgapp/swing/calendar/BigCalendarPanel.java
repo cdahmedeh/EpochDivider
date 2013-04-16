@@ -1,8 +1,11 @@
 package org.cdahmedeh.orgapp.swing.calendar;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 
@@ -16,6 +19,7 @@ import org.eclipse.swt.widgets.ScrollBar;
 import org.joda.time.LocalTime;
 
 import net.miginfocom.swing.MigLayout;
+import javax.swing.ScrollPaneConstants;
 
 public class BigCalendarPanel extends JPanel {
 
@@ -29,35 +33,25 @@ public class BigCalendarPanel extends JPanel {
 		
 		JPanel mainPanel = new JPanel();
 		add(mainPanel, BorderLayout.CENTER);
-		mainPanel.setLayout(new MigLayout("gap rel 0, insets 0", "[]0[grow,fill]", "[]0[grow,fill]"));
+		mainPanel.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_1 = new DayLinePanel(bigContainer);
-		mainPanel.add(panel_1, "cell 1 0,grow");
+		mainPanel.add(panel_1, BorderLayout.NORTH);
 		
-		final JPanel panel = new TimeLinePanel(bigContainer);
-		mainPanel.add(panel, "cell 0 1,grow");
+		final JPanel timeLinePanel = new TimeLinePanel(bigContainer);
+	
+		final JPanel bigCalendarPanel = new JPanel();
+		bigCalendarPanel.setLayout(new BorderLayout(0,0));
 		
 		final JPanel calendarPanel = new CalendarPanel(bigContainer);
-		mainPanel.add(calendarPanel, "cell 1 1,alignx left,growy");
+		bigCalendarPanel.add(calendarPanel);
+		bigCalendarPanel.add(timeLinePanel, BorderLayout.WEST);
 		
-		final JScrollBar scrollBar = new JScrollBar();
-		add(scrollBar, BorderLayout.EAST);
-		
-		
-		final View currentView = bigContainer.getCurrentView();
-		scrollBar.setValues(currentView.getFirstHour().getHourOfDay(), 1, 0, 24 - currentView.getNumberOfHoursVisible());
-		
-		scrollBar.addAdjustmentListener(new AdjustmentListener() {
-			
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent e) {
-				int selection = scrollBar.getValue();
-				currentView.setLastHour(new LocalTime(selection+currentView.getNumberOfHoursVisible(),59,59,999));
-				currentView.setFirstHour(new LocalTime(selection, 0, 0));
-				calendarPanel.repaint();
-				panel.repaint();
-			}
-		});
+		final JScrollPane calendarPane = new JScrollPane(bigCalendarPanel);
+		calendarPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		calendarPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		mainPanel.add(calendarPane);
+
 		
 		
 	}

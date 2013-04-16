@@ -154,7 +154,7 @@ public class MainSwingWindow {
 	}
 	
 	private BigContainer generateSomeTestData() {
-		View currentView = new View(new LocalDate(2013, 4, 15), new LocalDate(2013, 4, 15).plusDays(7), new LocalTime(8, 30, 0), new LocalTime(20, 59, 59, 999));
+		View currentView = new View(new LocalDate(2013, 4, 15), new LocalDate(2013, 4, 15).plusDays(7), new LocalTime(0, 0, 0), new LocalTime(23, 59, 59, 999));
 		
 		ContextContainer contextContainer = new ContextContainer();
 		contextContainer.addContext(new AllContexts());

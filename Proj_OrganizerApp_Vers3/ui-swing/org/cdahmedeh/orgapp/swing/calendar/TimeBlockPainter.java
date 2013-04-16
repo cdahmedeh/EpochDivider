@@ -42,7 +42,6 @@ public class TimeBlockPainter {
 			rectangles.add(new Rectangle(
 				DateToPixels.getHorizontalPositionFromDate(taskBeginDate , caWidth , view), 
 				DateToPixels.getVerticalPositionFromTime(taskBeginTime , caHeight, view), 
-//				DateToPixels.getWidthBasedOnView(caWidth, view),
 				DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(taskBeginDate , caWidth , view), 
 				DateToPixels.getHeightFromInterval(taskBeginTime, taskEndTime, caHeight, view)
 				));
@@ -50,14 +49,12 @@ public class TimeBlockPainter {
 			rectangles.add(new Rectangle(
 					DateToPixels.getHorizontalPositionFromDate(taskBeginDate, caWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(taskBeginTime, caHeight, view), 
-//					DateToPixels.getWidthBasedOnView(caWidth, view), 
 					DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(taskBeginDate , caWidth , view), 
 					DateToPixels.getHeightFromInterval(taskBeginTime, endOfDay, caHeight, view)
 					));
 			rectangles.add( new Rectangle(
 					DateToPixels.getHorizontalPositionFromDate(taskEndDate, caWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(midnight, caHeight, view), 
-//					DateToPixels.getWidthBasedOnView(caWidth, view),
 					DateToPixels.getHorizontalPositionFromDate(taskEndDate.plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(taskEndDate, caWidth , view), 
 					DateToPixels.getHeightFromInterval(midnight, taskEndTime, caHeight, view)
 					));
@@ -68,25 +65,17 @@ public class TimeBlockPainter {
 			rectangles.add(new Rectangle(
 					DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(i) , caWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(midnight, caHeight, view), 
-//					DateToPixels.getWidthBasedOnView(caWidth, view), 
 					DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(i).plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(i) , caWidth , view), 
 					DateToPixels.getHeightFromInterval(midnight, endOfDay, caHeight, view)
 					));
 			}
 		}
 
-//		e.gc.setAlpha(200);
-//		e.gc.setAlpha(255);	
-		
-//		e.gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
-		
 		for (Rectangle rect: rectangles){
 			if (task.isEvent()){
-//				e.setColor(new Color((task.getContext().getColor()), 0.1f, 0.9f));
 				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.5f, 0.9f));
 				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
 			} else {
-//				e.setColor(new Color((task.getContext().getColor()), 0.5f, 1f));
 				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.8f, 0.9f));
 				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
 			}
