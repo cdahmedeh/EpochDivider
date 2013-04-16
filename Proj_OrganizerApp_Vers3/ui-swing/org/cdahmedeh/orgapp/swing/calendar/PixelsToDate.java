@@ -19,12 +19,12 @@ public class PixelsToDate {
 	}
 	
 	public static LocalTime getTimeFromVertical(int yPosition, int yArea, View view){
-		int numberOfMinutesInView = (view.getLastHour().getMillisOfDay()-view.getFirstHour().getMillisOfDay())/DateTimeConstants.MILLIS_PER_MINUTE;
+		int numberOfMinutesInView = DateTimeConstants.MINUTES_PER_DAY;
 		double relativeYPosition = (double)yPosition/yArea;
 		
 		int numberOfMinutesFromMidnight = (int)(relativeYPosition*numberOfMinutesInView);
 		
-		return new LocalTime(0, 0).plusMinutes(numberOfMinutesFromMidnight).plusMillis(view.getFirstHour().getMillisOfDay());
+		return new LocalTime(0, 0).plusMinutes(numberOfMinutesFromMidnight);
 	}
 	
 	public static DateTime getTimeFromPosition(int xPosition, int yPosition, int xArea, int yArea, View view){

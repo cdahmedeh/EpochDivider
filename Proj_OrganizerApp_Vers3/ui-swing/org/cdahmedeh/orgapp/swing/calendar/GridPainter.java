@@ -17,37 +17,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 public class GridPainter {
-	public static void drawTimeGrid(PaintEvent e, Canvas canvas, View view) {
-		Rectangle clientArea = canvas.getClientArea();
-		
-		int days = view.getNumberOfDaysVisible();
-		int hours = view.getLastHour().getHourOfDay()-view.getFirstHour().getHourOfDay()+1;
-		
-		e.gc.setAlpha(50);
-		
-        for (int i = 0; i<=days; i++){
-            e.gc.drawLine(
-            		(clientArea.width)*i/days, 
-            		0, 
-            		(clientArea.width)*i/days,
-            		clientArea.height);
-        }
-        
-        for (double i = 0; i<hours; i=i+0.25){
-        	if ((i*4)%4!=0){
-        		e.gc.setAlpha(10);
-        	} else {
-        		e.gc.setAlpha(50);
-        	}
-        	
-            e.gc.drawLine(
-            		0, 
-            		(int) ((clientArea.height)*i/hours), 
-            		clientArea.width,
-            		(int) ((clientArea.height)*i/hours));
-        }
-	}
-	
 	public static void drawDays(Graphics g, DayLinePanel dayLinePanel, View view) {
 		Rectangle clientArea = new Rectangle(0, 0, dayLinePanel.getWidth(), dayLinePanel.getHeight());
 		
@@ -69,7 +38,7 @@ public class GridPainter {
 	}
 	
 	public static void drawHours(PaintEvent e, Canvas canvas, View view) {
-		int hours = view.getLastHour().getHourOfDay()-view.getFirstHour().getHourOfDay()+1;
+		int hours = 24;
 		
 		Rectangle clientArea = canvas.getClientArea();
 		
@@ -78,7 +47,7 @@ public class GridPainter {
         		e.gc.setAlpha(25);
         	} else {
         		e.gc.setAlpha(200);
-        		e.gc.drawText((int)i+view.getFirstHour().getHourOfDay()+":00", 5, (int) ((clientArea.height)*i/hours) + 3, true);
+        		e.gc.drawText((int)i+":00", 5, (int) ((clientArea.height)*i/hours) + 3, true);
         		e.gc.setAlpha(50);
         	}
         	
@@ -91,7 +60,7 @@ public class GridPainter {
 	}
 
 	public static void drawHours(Graphics e, JComponent canvas, View view) {
-		int hours = view.getLastHour().getHourOfDay()-view.getFirstHour().getHourOfDay()+1;
+		int hours = 24;
 		
 		Rectangle clientArea = new Rectangle(0, 0, canvas.getWidth(), canvas.getHeight());
 		
@@ -100,7 +69,7 @@ public class GridPainter {
         		e.setColor(new Color(0, 0, 0, 25));
         	} else {
         		e.setColor(new Color(0, 0, 0, 200));
-        		e.drawString((int)i+view.getFirstHour().getHourOfDay()+":00", 5, (int) ((clientArea.height)*i/hours) + 3);
+        		e.drawString((int)i+":00", 5, (int) ((clientArea.height)*i/hours) + 3);
         		e.setColor(new Color(0, 0, 0, 50));
         	}
         	
@@ -129,7 +98,7 @@ public class GridPainter {
 		Dimension clientArea = calendarPanel.getSize();
 		
 		int days = currentView.getNumberOfDaysVisible();
-		int hours = currentView.getLastHour().getHourOfDay()-currentView.getFirstHour().getHourOfDay()+1;
+		int hours = 24;
 		
 		e.setColor(new Color(0,0, 0, 255/4));
 		

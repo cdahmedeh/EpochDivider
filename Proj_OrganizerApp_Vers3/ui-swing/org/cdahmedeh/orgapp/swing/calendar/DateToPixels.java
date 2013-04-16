@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.swing.calendar;
 
 import org.cdahmedeh.orgapp.types.calendar.View;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -19,9 +20,9 @@ public class DateToPixels {
 	}
 	
 	public static int getVerticalPositionFromTime(LocalTime time, int yArea, View view){
-		int millisInView = view.getLastHour().getMillisOfDay()-view.getFirstHour().getMillisOfDay(); 
+		int millisInView = DateTimeConstants.MILLIS_PER_DAY; 
 		
-		return (int) ((double)(time.getMillisOfDay() - view.getFirstHour().getMillisOfDay())/millisInView*yArea);
+		return (int) ((double)(time.getMillisOfDay())/millisInView*yArea);
 	}
 	
 	public static int getHeightFromInterval(LocalTime begin, LocalTime end, int yArea, View view){

@@ -31,7 +31,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.pushingpixels.substance.api.skin.SubstanceModerateLookAndFeel;
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
@@ -154,7 +153,7 @@ public class MainSwingWindow {
 	}
 	
 	private BigContainer generateSomeTestData() {
-		View currentView = new View(new LocalDate(2013, 4, 15), new LocalDate(2013, 4, 15).plusDays(7), new LocalTime(0, 0, 0), new LocalTime(23, 59, 59, 999));
+		View currentView = new View(new LocalDate(2013, 4, 15), new LocalDate(2013, 4, 15).plusDays(7));
 		
 		ContextContainer contextContainer = new ContextContainer();
 		contextContainer.addContext(new AllContexts());

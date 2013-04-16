@@ -1,9 +1,9 @@
 package org.cdahmedeh.orgapp.types.calendar;
 
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
 import org.joda.time.Hours;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 
 /**
  * The View represents a time window that is viewable in a Calendar. It is 
@@ -19,12 +19,9 @@ public class View {
 	
 	/* ---- Constructs ---- */
 	
-	public View(LocalDate startDate, LocalDate endDate, LocalTime firstHour, LocalTime lastHour) {
+	public View(LocalDate startDate, LocalDate endDate) {
 		this.startDate = startDate;
 		this.endDate = endDate;
-		
-		this.firstHour = firstHour;
-		this.lastHour = lastHour;
 	}
 	
 	
@@ -37,15 +34,6 @@ public class View {
 	private LocalDate endDate = null;
 	public LocalDate getEndDate() {return endDate;}
 	public void setEndDate(LocalDate end) {this.endDate = end;}
-	
-	private LocalTime firstHour = null;
-	public LocalTime getFirstHour() {return firstHour;}
-	public void setFirstHour(LocalTime first) {this.firstHour = first;}
-	
-	private LocalTime lastHour = null;
-	public LocalTime getLastHour() {return lastHour;}
-	public void setLastHour(LocalTime last) {this.lastHour = last;}
-	
 	
 	/* ---- Compare Methods ---- */
 	
@@ -83,7 +71,7 @@ public class View {
 	 * @return Number of hours between 
 	 */
 	public int getNumberOfHoursVisible(){
-		return Hours.hoursBetween(firstHour, lastHour).getHours();
+		return DateTimeConstants.HOURS_PER_DAY;
 	}
 	
 	
