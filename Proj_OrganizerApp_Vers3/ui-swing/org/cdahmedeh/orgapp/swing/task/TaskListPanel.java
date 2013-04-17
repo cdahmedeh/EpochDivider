@@ -112,7 +112,7 @@ public class TaskListPanel extends JPanel {
 			@Override
 			protected Transferable createTransferable(JComponent c) {
 				if (c instanceof JTable){
-					Task selected = bigContainer.getTaskContainer().getAllTasks().get((((JTable) c).getSelectedRow()));
+					Task selected = bigContainer.getTaskContainer().getTasksWithContext(bigContainer.getCurrentContext()).getAllTasks().get((((JTable) c).getSelectedRow()));
 					return new StringSelection(String.valueOf(selected.getId()));
 				}
 //				return super.createTransferable(c);
