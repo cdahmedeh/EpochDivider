@@ -196,35 +196,93 @@ public class MainSwingWindow {
 	}
 	
 	private BigContainer generateSomeTestData() {
-		View currentView = new View(new LocalDate(2013, 4, 15), new LocalDate(2013, 4, 15).plusDays(7));
+		View currentView = new View(new LocalDate(2013, 4, 15), new LocalDate(2013, 4, 15).plusDays(6));
 		
 		ContextContainer contextContainer = new ContextContainer();
 		contextContainer.addContext(new AllContexts());
 		contextContainer.addContext(new NoContext());
 		
-		Context context = new Context("Essentials 2");
-		contextContainer.addContext(context);
-		context.setGoal(currentView, new Duration(DateTimeConstants.MILLIS_PER_HOUR*150));
-		Context context2 = new Context("Fun");
-		contextContainer.addContext(context2);
-		context2.setGoal(currentView, new Duration(DateTimeConstants.MILLIS_PER_HOUR*35));
+//		Context context = new Context("Essentials 2");
+//		contextContainer.addContext(context);
+//		context.setGoal(currentView, new Duration(DateTimeConstants.MILLIS_PER_HOUR*150));
+//		Context context2 = new Context("Fun");
+//		contextContainer.addContext(context2);
+//		context2.setGoal(currentView, new Duration(DateTimeConstants.MILLIS_PER_HOUR*35));
 		
 		TaskContainer taskContainer = new TaskContainer();
-		Task task01 = new Task("Do Work");
-		task01.setContext(context);
 //		task01.assignToTimeBlock(new TimeBlock(new DateTime(), new DateTime().plus(new Duration(DateTimeConstants.MILLIS_PER_DAY*3))));
-		task01.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*200));
-		for (int i = 0; i<40; i++) {
-		Task task02 = new Task("Do More Work " + i);
-//		task02.assignToTimeBlock(new TimeBlock(new DateTime().minus(DateTimeConstants.MILLIS_PER_DAY), new Duration(DateTimeConstants.MILLIS_PER_HOUR*2)));
-		task02.setContext(context);
-		task02.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*15));
-		task02.setContext(context2);
-		taskContainer.addTask(task02);
-		}
+//		for (int i = 0; i<40; i++) {
+//		Task task02 = new Task("Do More Work " + i);
+////		task02.assignToTimeBlock(new TimeBlock(new DateTime().minus(DateTimeConstants.MILLIS_PER_DAY), new Duration(DateTimeConstants.MILLIS_PER_HOUR*2)));
+//		task02.setContext(context);
+//		task02.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*15));
+//		task02.setContext(context2);
+//		taskContainer.addTask(task02);
+//		}
+
+		
+		Context epochDivider = new Context("Epoch Divider");
+		contextContainer.addContext(epochDivider);
+		epochDivider.setGoal(currentView, Duration.standardHours(10));
+		Context misc = new Context("Misc");
+		contextContainer.addContext(misc);
+		misc.setGoal(currentView, Duration.standardHours(5));
+		Context gaming = new Context("Gaming");
+		contextContainer.addContext(gaming);
+		gaming.setGoal(currentView, Duration.standardHours(9));
+		
+		Context reading = new Context("Reading");
+		contextContainer.addContext(reading);
+		reading.setGoal(currentView, Duration.standardHours(6));
+		
+		Context assgnmt = new Context("Assignments");
+		contextContainer.addContext(assgnmt);
+		assgnmt.setGoal(currentView, Duration.standardHours(7));
+		
+		Task task01 = new Task("The Art of Unix Programming - Eric Raymond");
+		task01.setContext(reading);
+		task01.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*12));
 		taskContainer.addTask(task01);
 		
-
+		Task task02 = new Task("Implement SQL Subsystem");
+		task02.setContext(epochDivider);
+		task02.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*15));
+		taskContainer.addTask(task02);
+		
+		Task task03 = new Task("CSI2520 Assignment 4");
+		task03.setContext(assgnmt);
+		task03.setDueDate(new DateTime(2013, 4, 20, 15, 30));
+		task03.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*15));
+		taskContainer.addTask(task03);
+		
+		Task task04 = new Task("Pay Internet Bill");
+		task04.setContext(misc);
+		task04.setDueDate(new DateTime(2013, 4, 21, 23, 30));
+		task04.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*15));
+		taskContainer.addTask(task04);
+		
+		Task task05 = new Task("CSI2532 Final Report");
+		task05.setContext(assgnmt);
+		task05.setDueDate(new DateTime(2013, 4, 22, 23, 30));
+		task05.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*15));
+		taskContainer.addTask(task05);
+		
+		Task task07 = new Task("SEG4911 Write Presentation Slides");
+		task07.setContext(assgnmt);
+		task07.setDueDate(new DateTime(2013, 4, 30, 23, 30));
+		task07.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*10));
+		taskContainer.addTask(task07);
+		
+		Task task06 = new Task("Linux 101 Hacks - Book");
+		task06.setContext(reading);
+		task06.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*10));
+		taskContainer.addTask(task06);
+		
+		Task task08 = new Task("Clean Own Car");
+		task08.setContext(misc);
+		task08.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*15));
+		taskContainer.addTask(task08);
+		
 		return new BigContainer(taskContainer, contextContainer, currentView);
 	}
 
@@ -235,19 +293,17 @@ public class MainSwingWindow {
 		Context essentials = new Context("Essentials");
 		essentials.setGoal(view, new Duration(20 * DateTimeConstants.MILLIS_PER_HOUR));
 		Context faith = new Context("Faith");
+		faith.setGoal(view, Duration.standardHours(5));
 		Context university = new Context("University");
+		university.setGoal(view, Duration.standardHours(19));
 		Context transportation = new Context("Transportation");
+		transportation.setGoal(view, Duration.standardHours(13));
 		
 		context.addContext(essentials);
 		context.addContext(faith);
 		context.addContext(university);
 		context.addContext(transportation);
-		Context context2 = new Context("Projects");
-		context.addContext(context2);
-		Context context3 = new Context("Misc");
-		context.addContext(context3);
-		Context context4 = new Context("Gaming");
-		context.addContext(context4);
+
 		
 		for (int i=0; i<10; i++){
 		Task sleep = new Task("Sleep");
