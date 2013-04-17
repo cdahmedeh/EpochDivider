@@ -30,6 +30,8 @@ import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.ui.icons.Icons;
 
 import com.google.common.eventbus.EventBus;
+import java.awt.SystemColor;
+import javax.swing.UIManager;
 
 public class ContextListPanel extends JPanel {
 	private static final long serialVersionUID = 4463133789121204761L;
@@ -65,14 +67,17 @@ public class ContextListPanel extends JPanel {
 
 	private void createContextListTable() {
 		contextListTable = new JTable();
+		contextListTable.setForeground(SystemColor.inactiveCaptionText);
+		contextListTable.setBackground(UIManager.getColor("InternalFrame.inactiveTitleGradient"));
 		
 		contextListTable.setFillsViewportHeight(true);
-		contextListTable.setShowHorizontalLines(false);
+		contextListTable.setShowHorizontalLines(true);
 		contextListTable.setShowVerticalLines(false);
 		contextListTable.setRowHeight(20);
 		
-//		contextListTable.getTableHeader().setVisible(false);
-//		contextListTable.getTableHeader().setPreferredSize(new Dimension(-1, 0));
+		
+		contextListTable.getTableHeader().setVisible(false);
+		contextListTable.getTableHeader().setPreferredSize(new Dimension(-1, 0));
 		
 		contextListTable.setModel(new ContextListTableModel(bigContainer));
 		contextListTable.getColumnModel().getColumn(ContextListColumns.PROGRESS).setCellRenderer(new ProgressCellRenderer());

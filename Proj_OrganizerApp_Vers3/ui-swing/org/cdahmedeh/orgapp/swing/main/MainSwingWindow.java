@@ -16,6 +16,7 @@ import org.cdahmedeh.orgapp.swing.task.TaskListPanel;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.category.AllContexts;
 import org.cdahmedeh.orgapp.types.category.Context;
+import org.cdahmedeh.orgapp.types.category.DueTodayContext;
 import org.cdahmedeh.orgapp.types.category.NoContext;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
@@ -119,6 +120,8 @@ public class MainSwingWindow {
 		EventBus eventBus = new EventBus();
 		
 		JXMultiSplitPane jxMultiSplitPane = new JXMultiSplitPane();
+		jxMultiSplitPane.setBorder(null);
+		jxMultiSplitPane.setDividerSize(2);
 		jxMultiSplitPane.setModel(new MySplitPlaneModel(attemptedCompactMode));
 		frame.getContentPane().add(jxMultiSplitPane);
 		
@@ -216,6 +219,10 @@ public class MainSwingWindow {
 		contextContainer.addContext(new AllContexts());
 		contextContainer.addContext(new NoContext());
 		
+		contextContainer.addContext(new DueTodayContext());
+		contextContainer.addContext(new Context("due tomorrow"));
+		contextContainer.addContext(new Context("due this view"));
+		
 //		Context context = new Context("Essentials 2");
 //		contextContainer.addContext(context);
 //		context.setGoal(currentView, new Duration(DateTimeConstants.MILLIS_PER_HOUR*150));
@@ -261,6 +268,7 @@ public class MainSwingWindow {
 		Task task02 = new Task("Implement SQL Subsystem");
 		task02.setContext(epochDivider);
 		task02.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*15));
+		task02.setDueDate(DateTime.now());
 		taskContainer.addTask(task02);
 		
 		Task task03 = new Task("CSI2520 Assignment 4");

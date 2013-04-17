@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import org.cdahmedeh.orgapp.types.category.AllContexts;
 import org.cdahmedeh.orgapp.types.category.Context;
+import org.cdahmedeh.orgapp.types.category.DueTodayContext;
+import org.cdahmedeh.orgapp.types.category.DueTomorrowContext;
 import org.cdahmedeh.orgapp.types.category.NoContext;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.joda.time.LocalDate;
 
 public class TaskContainer {
 	public ArrayList<Task> tasks = new ArrayList<>();
@@ -19,6 +22,23 @@ public class TaskContainer {
 	
 	public TaskContainer getTasksWithContext(Context context){
 		if (context instanceof AllContexts) return this;
+		else if (context instanceof DueTodayContext) {
+			TaskContainer taskC = new TaskContainer();
+			for (Task task: tasks){
+				if (task.getDueDate() != null && task.getDueDate().toLocalDate().isEqual(LocalDate.now())){
+					taskC.addTask(task);
+				}
+			}
+			return taskC;
+		} else if (context instanceof DueTomorrowContext) {
+			TaskContainer taskC = new TaskContainer();
+			for (Task task: tasks){
+				if (task.getDueDate() != null && (task.getDueDate().toLocalDate().isEqual(LocalDate.now()) || task.getDueDate().toLocalDate().isEqual(LocalDate.now().plusDays(1)))){
+					taskC.addTask(task);
+				}
+			}
+			return taskC;
+		}
 		else{
 			TaskContainer taskC = new TaskContainer();
 			if (context instanceof NoContext) {
