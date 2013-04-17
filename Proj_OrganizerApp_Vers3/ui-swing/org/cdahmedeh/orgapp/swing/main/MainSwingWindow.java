@@ -33,9 +33,13 @@ import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.pushingpixels.substance.api.skin.SubstanceModerateLookAndFeel;
 
+import com.alee.laf.WebLookAndFeel;
 import com.google.common.eventbus.EventBus;
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
+import com.jgoodies.looks.plastic.PlasticLookAndFeel;
+import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -73,6 +77,11 @@ public class MainSwingWindow {
 //		    }
 //			UIManager.setLookAndFeel(new SubstanceModerateLookAndFeel());
 			UIManager.setLookAndFeel(new WindowsLookAndFeel());
+//			UIManager.setLookAndFeel(new PlasticLookAndFeel());
+//			UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
+//			UIManager.setLookAndFeel(new WebLookAndFeel());
+//			WebLookAndFeel.install();	
+//		    UIManager.setLookAndFeel ( WebLookAndFeel.class.getCanonicalName () );
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -109,7 +118,7 @@ public class MainSwingWindow {
 		
 		EventBus eventBus = new EventBus();
 		
-		JXMultiSplitPane jxMultiSplitPane = new JXMultiSplitPane();		
+		JXMultiSplitPane jxMultiSplitPane = new JXMultiSplitPane();
 		jxMultiSplitPane.setModel(new MySplitPlaneModel(attemptedCompactMode));
 		frame.getContentPane().add(jxMultiSplitPane);
 		
@@ -263,7 +272,7 @@ public class MainSwingWindow {
 		Task task04 = new Task("Pay Internet Bill");
 		task04.setContext(misc);
 		task04.setDueDate(new DateTime(2013, 4, 21, 23, 30));
-		task04.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*15));
+		task04.setEstimate(new Duration(DateTimeConstants.MILLIS_PER_HOUR*1));
 		taskContainer.addTask(task04);
 		
 		Task task05 = new Task("CSI2532 Final Report");

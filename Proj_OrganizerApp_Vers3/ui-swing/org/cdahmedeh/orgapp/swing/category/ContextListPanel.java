@@ -60,7 +60,7 @@ public class ContextListPanel extends JPanel {
 		enableDropIntoContextListTable();
 		mainPane.setViewportView(contextListTable);
 		
-		createBottomBar();
+//		createBottomBar();
 	}
 
 	private void createContextListTable() {
