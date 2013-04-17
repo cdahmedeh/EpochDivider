@@ -1,17 +1,12 @@
 package org.cdahmedeh.orgapp.types.calendar;
 
-import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
-import org.joda.time.Hours;
 import org.joda.time.LocalDate;
 
 /**
  * The View represents a time window that is viewable in a Calendar. It is 
  * defined by the first day that is visible (startDate) and the last day that is
  * visible (lastDate). 
- * 
- * In addition, the time window (such as between 7am and 10pm) that is visible
- * is defined with firstHour and lastHour.
  * 
  * @author cdahmedeh
  */
@@ -60,18 +55,6 @@ public class View {
 	 */
 	public int getNumberOfDaysVisible(){
 		return 1 + Days.daysBetween(startDate, endDate).getDays();
-	}
-
-	/**
-	 * Gives the number of hours between the first and last hour of the view.
-	 * Does not include the last hour in the calculation.
-	 * 
-	 * For example, between 12h and 16h, there are 4 hours.
-	 * 
-	 * @return Number of hours between 
-	 */
-	public int getNumberOfHoursVisible(){
-		return DateTimeConstants.HOURS_PER_DAY;
 	}
 	
 	
