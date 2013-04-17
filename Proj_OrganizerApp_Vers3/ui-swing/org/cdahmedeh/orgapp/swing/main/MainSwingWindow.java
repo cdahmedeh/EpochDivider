@@ -33,6 +33,7 @@ import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.pushingpixels.substance.api.skin.SubstanceModerateLookAndFeel;
 
+import com.google.common.eventbus.EventBus;
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
 
@@ -104,6 +105,8 @@ public class MainSwingWindow {
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		EventBus eventBus = new EventBus();
+		
 		JXMultiSplitPane jxMultiSplitPane = new JXMultiSplitPane();		
 		jxMultiSplitPane.setModel(new MySplitPlaneModel());
 		frame.getContentPane().add(jxMultiSplitPane);
@@ -122,7 +125,7 @@ public class MainSwingWindow {
 		jxDatePicker.setSelectionMode(SelectionMode.SINGLE_INTERVAL_SELECTION);
 		jxMultiSplitPane.add(jxDatePicker, DefaultSplitPaneModel.TOP);
 		
-
+		contextListPanel.setEventBus(eventBus);
 		
 		jxDatePicker.setSelectionInterval(bigContainer.getCurrentView().getStartDate().toDate(), bigContainer.getCurrentView().getEndDate().toDate());
 		jxDatePicker.setFirstDayOfWeek(Calendar.MONDAY);
@@ -183,9 +186,13 @@ public class MainSwingWindow {
 			}
 		});
 		
+		taskListPanel.setEventBus(eventBus);
+		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Exit");
 		mnNewMenu.add(mntmNewMenuItem);
 		System.out.println(System.currentTimeMillis());
+		
+		
 	}
 	
 	private BigContainer generateSomeTestData() {

@@ -81,14 +81,13 @@ public class GridPainter {
         }
 	}
 	
-	public static void drawCurrentTime(Display display, Composite scheduleCanvas, View currentView, PaintEvent e){
-        e.gc.setAlpha(255);
-        e.gc.setForeground(display.getSystemColor(SWT.COLOR_RED));
+	public static void drawCurrentTime(JComponent scheduleCanvas, View currentView, Graphics e){
+        e.setColor(Color.RED);
         
         if (true){
-        	e.gc.drawRectangle(DateToPixels.getHorizontalPositionFromDate(new LocalDate(), scheduleCanvas.getClientArea().width, currentView),
-        						DateToPixels.getVerticalPositionFromTime(new LocalTime(), scheduleCanvas.getClientArea().height, currentView),
-        						DateToPixels.getWidthBasedOnView(scheduleCanvas.getClientArea().width, currentView),
+        	e.drawRect(DateToPixels.getHorizontalPositionFromDate(new LocalDate(), scheduleCanvas.getWidth(), currentView),
+        						DateToPixels.getVerticalPositionFromTime(new LocalTime(), scheduleCanvas.getHeight(), currentView),
+        						DateToPixels.getWidthBasedOnView(scheduleCanvas.getWidth(), currentView),
         						1);
         }
 	}

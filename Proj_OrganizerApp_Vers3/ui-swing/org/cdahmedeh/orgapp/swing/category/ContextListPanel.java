@@ -6,6 +6,8 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,14 +17,19 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.TransferHandler;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.cdahmedeh.orgapp.containers.BigContainer;
 import org.cdahmedeh.orgapp.swing.components.ProgressCellRenderer;
 import org.cdahmedeh.orgapp.swing.main.SwingUIDefaults;
+import org.cdahmedeh.orgapp.swing.notifications.DataChangedNotification;
 import org.cdahmedeh.orgapp.swing.task.TaskListPanel;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.ui.icons.Icons;
+
+import com.google.common.eventbus.EventBus;
 
 public class ContextListPanel extends JPanel {
 	private static final long serialVersionUID = 4463133789121204761L;
@@ -33,6 +40,12 @@ public class ContextListPanel extends JPanel {
 	//Components
 	private JScrollPane mainPane;
 	private JTable contextListTable;
+	
+	private EventBus eventBus = null;
+	public void setEventBus(EventBus eventBus) {
+		this.eventBus = eventBus;
+//		this.eventBus.register(new EventRecorder());
+	}
 	
 	public ContextListPanel(final BigContainer bigContainer) {
 		this.bigContainer = bigContainer;
@@ -61,6 +74,16 @@ public class ContextListPanel extends JPanel {
 		contextListTable.setModel(new ContextListTableModel(bigContainer));
 		contextListTable.getColumnModel().getColumn(ContextListColumns.PROGRESS).setCellRenderer(new ProgressCellRenderer());
 		contextListTable.getColumnModel().setColumnMargin(10);
+
+		//TODO: using mouse click to different from dragging in
+		contextListTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+					bigContainer.setCurrentContext((bigContainer.getContextContainer().getContextFromName((String)contextListTable.getModel().getValueAt(contextListTable.getSelectedRow(), 0))));
+					eventBus.post(new DataChangedNotification());
+
+			}
+		});
 	}
 
 	private void enableDropIntoContextListTable() {

@@ -68,6 +68,8 @@ public class CalendarPanel extends JPanel {
         		rectangleTimeBlockMap.put(rectangle, entry.getKey());
         	}
 		}
+        
+        GridPainter.drawCurrentTime(this, bigContainer.getCurrentView(), g);
 	}
 	
 	private void allowDropToCalendar() {

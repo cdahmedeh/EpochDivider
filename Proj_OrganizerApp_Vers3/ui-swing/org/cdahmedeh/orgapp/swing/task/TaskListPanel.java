@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
@@ -20,6 +21,7 @@ import javax.swing.table.TableModel;
 import org.cdahmedeh.orgapp.containers.BigContainer;
 import org.cdahmedeh.orgapp.swing.components.ProgressCellRenderer;
 import org.cdahmedeh.orgapp.swing.components.ProgressInfo;
+import org.cdahmedeh.orgapp.swing.notifications.DataChangedNotification;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.category.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
@@ -27,6 +29,8 @@ import org.cdahmedeh.orgapp.ui.icons.Icons;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 import javax.swing.DropMode;
@@ -41,6 +45,19 @@ import javax.swing.TransferHandler;
 public class TaskListPanel extends JPanel {
 	private static final long serialVersionUID = -8836485029464886832L;
 
+	class EventRecorder{
+		@Subscribe public void refreshData(DataChangedNotification notification){
+			taskListTable.repaint();
+			//TODO: do events properly, fire data changed, etc.
+		}
+	}
+
+	private EventBus eventBus = null;
+	public void setEventBus(EventBus eventBus) {
+		this.eventBus = eventBus;
+		this.eventBus.register(new EventRecorder());
+	}
+	
 	//Data
 	private BigContainer bigContainer;
 	
