@@ -492,7 +492,13 @@ public class MainSwingWindow {
 		task.addTask(drive10);
 		
 		for (Task task3: task.getAllTasks()){
-			task3.setEvent(true);
+			if (task3.getContext() == essentials || 
+					task3.getContext() == faith || 
+					task3.getContext() == university || 
+					task3.getContext() == transportation){
+				task3.setEvent(true);	
+			}
+			
 		}
 	}
 	

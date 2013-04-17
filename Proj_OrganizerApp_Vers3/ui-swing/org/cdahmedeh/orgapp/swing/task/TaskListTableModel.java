@@ -10,6 +10,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
 public class TaskListTableModel implements TableModel {
+	private boolean showEvents = false;
 	private final BigContainer bigContainer;
 
 	public TaskListTableModel(BigContainer bigContainer) {
@@ -18,7 +19,7 @@ public class TaskListTableModel implements TableModel {
 
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		Task task = bigContainer.getTaskContainer().getTasksWithContext(bigContainer.getCurrentContext()).getAllTasks().get(rowIndex);
+		Task task = bigContainer.getTaskContainer().getTasksWithContext(bigContainer.getCurrentContext()).getTasksWithEvents(showEvents).getAllTasks().get(rowIndex);
 		if (columnIndex == 0) {
 			task.setCompleted((boolean) aValue);
 		}
@@ -38,7 +39,7 @@ public class TaskListTableModel implements TableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Task task = bigContainer.getTaskContainer().getTasksWithContext(bigContainer.getCurrentContext()).getAllTasks().get(rowIndex);
+		Task task = bigContainer.getTaskContainer().getTasksWithContext(bigContainer.getCurrentContext()).getTasksWithEvents(showEvents).getAllTasks().get(rowIndex);
 		switch(columnIndex){
 		case 0:
 			return task.isCompleted();
@@ -63,7 +64,7 @@ public class TaskListTableModel implements TableModel {
 
 	@Override
 	public int getRowCount() {
-		return bigContainer.getTaskContainer().getTasksWithContext(bigContainer.getCurrentContext()).getAllTasks().size();
+		return bigContainer.getTaskContainer().getTasksWithContext(bigContainer.getCurrentContext()).getTasksWithEvents(showEvents).getAllTasks().size();
 	}
 
 	@Override
