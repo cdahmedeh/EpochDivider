@@ -23,7 +23,7 @@ public class ProgressCellRenderer extends DefaultTableCellRenderer {
 
 	@Override
 	public void paint(Graphics g) {
-		super.paint(g); //TODO: Is text still behind it?
+//		super.paint(g); //TODO: Is text still behind it?
 		
 		GraphicsHelper.enableAntiAliasing(g);
         
