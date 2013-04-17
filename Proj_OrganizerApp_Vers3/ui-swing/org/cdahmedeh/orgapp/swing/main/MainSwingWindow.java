@@ -96,6 +96,8 @@ public class MainSwingWindow {
 		initialize();
 	}
 
+	boolean attemptedCompactMode = true;
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -108,7 +110,7 @@ public class MainSwingWindow {
 		EventBus eventBus = new EventBus();
 		
 		JXMultiSplitPane jxMultiSplitPane = new JXMultiSplitPane();		
-		jxMultiSplitPane.setModel(new MySplitPlaneModel());
+		jxMultiSplitPane.setModel(new MySplitPlaneModel(attemptedCompactMode));
 		frame.getContentPane().add(jxMultiSplitPane);
 		
 		final BigContainer bigContainer = generateSomeTestData();
@@ -123,7 +125,10 @@ public class MainSwingWindow {
 		final JXMonthView jxDatePicker = new JXMonthView();
 		jxDatePicker.setBorder(UIManager.getBorder("Table.scrollPaneBorder"));
 		jxDatePicker.setSelectionMode(SelectionMode.SINGLE_INTERVAL_SELECTION);
+		
+		if (attemptedCompactMode == false) {
 		jxMultiSplitPane.add(jxDatePicker, DefaultSplitPaneModel.TOP);
+		}
 		
 		contextListPanel.setEventBus(eventBus);
 		
@@ -500,14 +505,18 @@ class MySplitPlaneModel extends Split {
     public static final String RIGHT = "right";
     
     /** Creates a new instance of DefaultSplitPaneLayout */
-    public MySplitPlaneModel() {
+    public MySplitPlaneModel(boolean compactMode) {
         Split row = new Split();
         Split col = new Split();
         col.setRowLayout(false);
         Split coltwo = new Split();
         coltwo.setRowLayout(false);
-        setChildren(col, new Divider(), coltwo);
-        col.setChildren(new Leaf(TOP), new Divider(), new Leaf(BOTTOM));
+        if (compactMode) {
+            setChildren(new Leaf(BOTTOM), new Divider(), coltwo);
+        } else {
+            setChildren(col, new Divider(), coltwo);
+            col.setChildren(new Leaf(TOP), new Divider(), new Leaf(BOTTOM));
+        }
         coltwo.setChildren(new Leaf(RIGHT), new Divider(), new Leaf(LEFT));
     }
     
