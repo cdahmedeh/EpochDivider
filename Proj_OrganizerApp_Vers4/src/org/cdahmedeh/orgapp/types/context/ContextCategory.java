@@ -1,5 +1,7 @@
 package org.cdahmedeh.orgapp.types.context;
 
+import java.util.ArrayList;
+
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 
 /**
@@ -22,4 +24,6 @@ public class ContextCategory {
 	public String getName() {return name;}
 	public void setName(String name) {this.name = MiscHelper.safeTrim(name);}
 	
+	private ArrayList<Context> contexts = new ArrayList<>();
+	public ArrayList<Context> getContexts() {return contexts;}
 }

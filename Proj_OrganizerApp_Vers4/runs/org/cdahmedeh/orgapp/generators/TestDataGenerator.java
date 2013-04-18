@@ -11,36 +11,32 @@ import org.cdahmedeh.orgapp.types.context.ContextCategory;
  * @author Ahmed El-Hajjar
  */
 public class TestDataGenerator {
-	public static ArrayList<Context> generateListOfContexts(){
-		ArrayList<Context> contextList = new ArrayList<>();
+	public static ArrayList<ContextCategory> generateListOfContextCategories(){
+		ArrayList<ContextCategory> contextList = new ArrayList<>();
 		
 		ContextCategory essentialsContextCategory = new ContextCategory("Essentials");
+		contextList.add(essentialsContextCategory);
 		
 		Context faithContext = new Context("Faith");
-		faithContext.setCategory(essentialsContextCategory);
-		contextList.add(faithContext);
+		essentialsContextCategory.getContexts().add(faithContext);
 		
 		Context sleepContext = new Context("Sleep");
-		sleepContext.setCategory(essentialsContextCategory);
-		contextList.add(sleepContext);
+		essentialsContextCategory.getContexts().add(sleepContext);
 		
 		Context relaxingContext = new Context("Relaxing");
-		relaxingContext.setCategory(essentialsContextCategory);
-		contextList.add(relaxingContext);
+		essentialsContextCategory.getContexts().add(relaxingContext);
 		
 		Context exerciseContext = new Context("Exercise");
-		exerciseContext.setCategory(essentialsContextCategory);
-		contextList.add(exerciseContext);
+		essentialsContextCategory.getContexts().add(exerciseContext);
 		
 		ContextCategory universityContextCategory = new ContextCategory("University");
+		contextList.add(universityContextCategory);
 		
 		Context studyContext = new Context("Study");
-		studyContext.setCategory(universityContextCategory);
-		contextList.add(studyContext);
-		
+		universityContextCategory.getContexts().add(studyContext);
+	
 		Context coursesContext = new Context("Courses");
-		coursesContext.setCategory(universityContextCategory);
-		contextList.add(coursesContext);
+		universityContextCategory.getContexts().add(coursesContext);
 		
 		return contextList;
 	}

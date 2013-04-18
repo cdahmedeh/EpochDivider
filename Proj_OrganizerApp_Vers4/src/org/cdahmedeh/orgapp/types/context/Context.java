@@ -21,8 +21,4 @@ public class Context {
 	private String name = "";
 	public String getName() {return name;}
 	public void setName(String name) {this.name = MiscHelper.safeTrim(name);}
-	
-	private ContextCategory category = null;
-	public ContextCategory getCategory() {return category;}
-	public void setCategory(ContextCategory category) {this.category = category;}
 }
