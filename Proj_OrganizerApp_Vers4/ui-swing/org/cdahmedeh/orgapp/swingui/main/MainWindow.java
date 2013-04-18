@@ -3,6 +3,11 @@ package org.cdahmedeh.orgapp.swingui.main;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JButton;
+
+import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
+
+import java.awt.BorderLayout;
 
 public class MainWindow {
 
@@ -38,6 +43,9 @@ public class MainWindow {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		ContextListPanel contextListPanel = new ContextListPanel();
+		frame.getContentPane().add(contextListPanel, BorderLayout.WEST);
 	}
 
 }
