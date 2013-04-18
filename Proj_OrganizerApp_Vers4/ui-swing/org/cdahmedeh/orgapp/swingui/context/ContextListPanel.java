@@ -4,7 +4,6 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
 import org.cdahmedeh.orgapp.generators.TestDataGenerator;
