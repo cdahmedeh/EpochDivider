@@ -221,7 +221,7 @@ public class MainSwingWindow {
 		
 		contextContainer.addContext(new DueTodayContext());
 		contextContainer.addContext(new Context("due tomorrow"));
-		contextContainer.addContext(new Context("due this view"));
+		contextContainer.addContext(new Context("due this week"));
 		
 //		Context context = new Context("Essentials 2");
 //		contextContainer.addContext(context);
