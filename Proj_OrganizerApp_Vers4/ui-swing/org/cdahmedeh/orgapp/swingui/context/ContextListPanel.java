@@ -41,5 +41,6 @@ public class ContextListPanel extends JPanel {
 	 */
 	private void prepareContextListTreeTableModel() {
 		contextListTreeTable.setTreeTableModel(new ContextListTreeTableModel(TestDataGenerator.generateListOfContextCategories()));
+		contextListTreeTable.expandAll();
 	}
 }
