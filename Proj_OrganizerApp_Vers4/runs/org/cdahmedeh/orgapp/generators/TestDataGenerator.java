@@ -10,7 +10,7 @@ import org.cdahmedeh.orgapp.types.context.Context;
  * @author Ahmed El-Hajjar
  */
 public class TestDataGenerator {
-	public ArrayList<Context> generateListOfContexts(){
+	public static ArrayList<Context> generateListOfContexts(){
 		ArrayList<Context> contextList = new ArrayList<>();
 		
 		contextList.add(new Context("Faith"));
