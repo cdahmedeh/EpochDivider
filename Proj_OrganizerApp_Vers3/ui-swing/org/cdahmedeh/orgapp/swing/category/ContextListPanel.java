@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.swing.category;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -82,6 +83,8 @@ public class ContextListPanel extends JPanel {
 		contextListTable.setModel(new ContextListTableModel(bigContainer));
 		contextListTable.getColumnModel().getColumn(ContextListColumns.PROGRESS).setCellRenderer(new ProgressCellRenderer());
 		contextListTable.getColumnModel().setColumnMargin(10);
+		
+		contextListTable.setGridColor(new Color(204, 204, 204));
 
 		//TODO: using mouse click to different from dragging in
 		contextListTable.addMouseListener(new MouseAdapter() {
