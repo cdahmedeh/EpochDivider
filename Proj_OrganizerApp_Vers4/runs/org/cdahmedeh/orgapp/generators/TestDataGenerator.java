@@ -38,6 +38,9 @@ public class TestDataGenerator {
 		Context coursesContext = new Context("Courses");
 		universityContextCategory.getContexts().add(coursesContext);
 		
+		ContextCategory blankContextCategory = new ContextCategory("Blank");
+		contextList.add(blankContextCategory);
+		
 		return contextList;
 	}
 }
