@@ -10,33 +10,46 @@ import org.cdahmedeh.orgapp.types.context.ContextCategory;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
 public class ContextListTreeTableModel implements TreeTableModel {
+	/* As a reminder, the structure of this Tree looks like this:
+	 * 
+	 * ArrayList<ContextCategory> (root)
+	 *  |
+	 *  |- ContextCategory("University")
+	 *  |   |
+	 *  |   |- Context("Study")
+	 *  |   |- Context("Course")
+	 *  |
+	 *  |- ContextCategory("Projects")
+	 *  |- ContextCategory("Essentials")
+	 */
+
 	private ArrayList<ContextCategory> contextCategoriesList;
 
 	public ContextListTreeTableModel(ArrayList<ContextCategory> contextCategoriesList) {
 		this.contextCategoriesList = contextCategoriesList;
 	}
 
-	@Override
+	@Override 
 	public Object getRoot() {
 		return contextCategoriesList;
 	}
 
 	@Override
 	public Object getChild(Object parent, int index) {
-		if(parent instanceof ContextCategory){
-			return ((ContextCategory) parent).getContexts().get(index);
-		} else if(parent instanceof ArrayList<?>){
+		if(parent instanceof ArrayList<?>){
 			return ((ArrayList<Context>) parent).get(index);
-		}
+		} else if(parent instanceof ContextCategory){
+			return ((ContextCategory) parent).getContexts().get(index);
+		} 
 		return "";
 	}
 
 	@Override
 	public int getChildCount(Object parent) {
-		if(parent instanceof ContextCategory){
-			return ((ContextCategory) parent).getContexts().size();
-		} else if(parent instanceof ArrayList<?>){
+		if(parent instanceof ArrayList<?>){
 			return ((ArrayList<Context>) parent).size();
+		} else if(parent instanceof ContextCategory){
+			return ((ContextCategory) parent).getContexts().size();
 		}
 		return 0;
 	}
@@ -66,8 +79,7 @@ public class ContextListTreeTableModel implements TreeTableModel {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		return String.class;
 	}
 
 	@Override
@@ -78,7 +90,7 @@ public class ContextListTreeTableModel implements TreeTableModel {
 	@Override
 	public String getColumnName(int column) {
 		switch(column){
-		case ContextListPanelDefaults.COLUMN_NAME:
+		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
 			return "Context";
 		default:
 			return "";
@@ -92,20 +104,18 @@ public class ContextListTreeTableModel implements TreeTableModel {
 
 	@Override
 	public Object getValueAt(Object node, int column) {
-		if (node instanceof Context){
-			Context context = (Context)node;
-			switch(column){
-			case ContextListPanelDefaults.COLUMN_NAME:
-				return context.getName();
-			}
-		} else if(node instanceof ContextCategory){
+		if(node instanceof ContextCategory){
 			ContextCategory contextCategory = (ContextCategory)node;
 			switch(column){
-			case ContextListPanelDefaults.COLUMN_NAME: //TODO
+			case ContextListPanelDefaults.COLUMN_CONTEXTCATEGORY_NAME:
 				return contextCategory.getName();
 			}
-		} else if(node instanceof ArrayList<?>){
-			return "";
+		} else if (node instanceof Context){
+			Context context = (Context)node;
+			switch(column){
+			case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
+				return context.getName();
+			}
 		}
 		return "";
 	}
@@ -118,5 +128,4 @@ public class ContextListTreeTableModel implements TreeTableModel {
 	@Override
 	public void setValueAt(Object value, Object node, int column) {
 	}
-
 }
