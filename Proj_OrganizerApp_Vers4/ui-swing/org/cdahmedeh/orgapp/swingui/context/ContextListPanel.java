@@ -1,14 +1,21 @@
 package org.cdahmedeh.orgapp.swingui.context;
 
+import javax.swing.DropMode;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.TransferHandler;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 
 import javax.swing.JScrollPane;
 
 import org.cdahmedeh.orgapp.generators.TestDataGenerator;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListRequest;
 import org.jdesktop.swingx.JXTreeTable;
+import org.jdesktop.swingx.plaf.basic.core.BasicTransferable;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -41,6 +48,8 @@ public class ContextListPanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		createContextListTreeTable();
+		
+		enableDragRearrange();
 	}
 
 	private void createContextListTreeTable() {
@@ -58,5 +67,28 @@ public class ContextListPanel extends JPanel {
 	private void prepareContextListTreeTableModel() {
 		contextListTreeTable.setTreeTableModel(new ContextListTreeTableModel(TestDataGenerator.generateListOfContextCategories()));
 		contextListTreeTable.expandAll();
+	}
+	
+	private void enableDragRearrange() {
+//		contextListTreeTable.setDragEnabled(true);
+//		contextListTreeTable.setDropMode(DropMode.INSERT_ROWS);
+//		contextListTreeTable.setTransferHandler(new TransferHandler(){
+//			@Override
+//			public boolean canImport(TransferSupport support) {
+//				return true;
+//			}
+//			@Override
+//			public boolean importData(TransferSupport support) {
+//				return true;
+//			}
+//			@Override
+//			public int getSourceActions(JComponent c) {
+//				return MOVE;
+//			}
+//			@Override
+//			protected Transferable createTransferable(JComponent c) {
+//				return new StringSelection("");
+//			}
+//		});
 	}
 }
