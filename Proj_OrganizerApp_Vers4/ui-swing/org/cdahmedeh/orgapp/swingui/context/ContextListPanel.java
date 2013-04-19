@@ -7,10 +7,27 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 
 import org.cdahmedeh.orgapp.generators.TestDataGenerator;
+import org.cdahmedeh.orgapp.swingui.notification.LoadContextListRequest;
 import org.jdesktop.swingx.JXTreeTable;
+
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 public class ContextListPanel extends JPanel {
 	private static final long serialVersionUID = -8250528552031443184L;
+	
+	// - EventBus -
+	private EventBus eventBus;
+	public void setEventBus(EventBus eventBus) {
+		this.eventBus = eventBus;
+		this.eventBus.register(new EventRecorder());
+	}
+	
+	class EventRecorder{
+		@Subscribe public void loadContextList(LoadContextListRequest request) {
+			prepareContextListTreeTableModel();
+		}
+	}
 	
 	// - Components -
 	private JScrollPane contextListPane;
@@ -24,7 +41,6 @@ public class ContextListPanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		createContextListTreeTable();
-		prepareContextListTreeTableModel();
 	}
 
 	private void createContextListTreeTable() {

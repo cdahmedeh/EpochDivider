@@ -6,11 +6,15 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
+import org.cdahmedeh.orgapp.swingui.notification.LoadContextListRequest;
+
+import com.google.common.eventbus.EventBus;
 
 import java.awt.BorderLayout;
 
 public class MainWindow {
-
+	private EventBus eventBus;
+	
 	private JFrame frame;
 
 	/**
@@ -21,7 +25,6 @@ public class MainWindow {
 			public void run() {
 				try {
 					MainWindow window = new MainWindow();
-					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -33,7 +36,10 @@ public class MainWindow {
 	 * Create the application.
 	 */
 	public MainWindow() {
+		eventBus = new EventBus();
 		initialize();
+		this.frame.setVisible(true);
+		eventBus.post(new LoadContextListRequest());
 	}
 
 	/**
@@ -45,6 +51,7 @@ public class MainWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		ContextListPanel contextListPanel = new ContextListPanel();
+		contextListPanel.setEventBus(eventBus);
 		frame.getContentPane().add(contextListPanel, BorderLayout.WEST);
 	}
 
