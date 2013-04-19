@@ -3,6 +3,7 @@ package org.cdahmedeh.orgapp.swingui.context;
 import javax.swing.DropMode;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 import javax.swing.TransferHandler;
 
 import java.awt.BorderLayout;
@@ -72,6 +73,7 @@ public class ContextListPanel extends JPanel {
 	private void prepareContextListTreeTableModel() {
 		contextListTreeTable.setTreeTableModel(new ContextListTreeTableModel(dataContainer.getContextCategories()));
 		contextListTreeTable.expandAll();
+		contextListTreeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 	
 	private void enableDragRearrange() {
