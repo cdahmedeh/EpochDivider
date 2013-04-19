@@ -43,14 +43,7 @@ public class ContextListTreeTableModel implements TreeTableModel {
 
 	@Override
 	public boolean isLeaf(Object node) {
-		if (node instanceof Context){
-			return true;
-		} else if(node instanceof ContextCategory){
-			return ((ContextCategory) node).getContexts().isEmpty();
-		} else if(node instanceof ArrayList<?>){
-			return ((ArrayList<Context>) node).isEmpty();
-		}
-		return false;
+		return (node instanceof Context);
 	}
 
 	@Override
