@@ -3,7 +3,6 @@ package org.cdahmedeh.orgapp.swingui.main;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JButton;
 
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListRequest;
@@ -13,7 +12,7 @@ import com.google.common.eventbus.EventBus;
 import java.awt.BorderLayout;
 
 public class MainWindow {
-	private EventBus eventBus;
+	public EventBus eventBus;
 	
 	private JFrame frame;
 
@@ -24,7 +23,7 @@ public class MainWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainWindow window = new MainWindow();
+					new MainWindow();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -35,11 +34,16 @@ public class MainWindow {
 	/**
 	 * Create the application.
 	 */
-	public MainWindow() {
+	public MainWindow() throws Exception {
 		eventBus = new EventBus();
 		initialize();
 		this.frame.setVisible(true);
-		eventBus.post(new LoadContextListRequest());
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				eventBus.post(new LoadContextListRequest());
+			}
+		});
 	}
 
 	/**
