@@ -3,11 +3,13 @@ package org.cdahmedeh.orgapp.swingui.main;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListRequest;
 
 import com.google.common.eventbus.EventBus;
+import com.jgoodies.looks.windows.WindowsLookAndFeel;
 
 import java.awt.BorderLayout;
 
@@ -34,7 +36,9 @@ public class MainWindow {
 	/**
 	 * Create the application.
 	 */
-	public MainWindow() throws Exception {
+	public MainWindow() throws Exception { //TODO: Remove throws
+		UIManager.setLookAndFeel(new WindowsLookAndFeel());
+		
 		eventBus = new EventBus();
 		initialize();
 		this.frame.setVisible(true);
