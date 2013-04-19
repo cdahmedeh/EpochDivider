@@ -122,10 +122,24 @@ public class ContextListTreeTableModel implements TreeTableModel {
 
 	@Override
 	public boolean isCellEditable(Object node, int column) {
-		return false;
+		return true;
 	}
 
 	@Override
 	public void setValueAt(Object value, Object node, int column) {
+		if (!(value instanceof String)) return;
+		if(node instanceof ContextCategory){
+			ContextCategory contextCategory = (ContextCategory)node;
+			switch(column){
+			case ContextListPanelDefaults.COLUMN_CONTEXTCATEGORY_NAME:
+				contextCategory.setName((String)value);
+			}
+		} else if (node instanceof Context){
+			Context context = (Context)node;
+			switch(column){
+			case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
+				context.setName((String)value);
+			}
+		}
 	}
 }
