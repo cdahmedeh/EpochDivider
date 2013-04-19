@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListRequest;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
-import org.jdesktop.swingx.JXTreeTable;
+import org.jdesktop.swingx.CTreeTable;
 import org.jdesktop.swingx.plaf.basic.core.BasicTransferable;
 
 import com.google.common.eventbus.EventBus;
@@ -38,7 +38,7 @@ public class ContextListPanel extends JPanel {
 	
 	// - Components -
 	private JScrollPane contextListPane;
-	private JXTreeTable contextListTreeTable;
+	private CTreeTable contextListTreeTable;
 
 	// - Data -
 	private DataContainer dataContainer;
@@ -61,7 +61,7 @@ public class ContextListPanel extends JPanel {
 		contextListPane = new JScrollPane();
 		add(contextListPane, BorderLayout.CENTER);
 		
-		contextListTreeTable = new JXTreeTable();
+		contextListTreeTable = new CTreeTable();
 		contextListTreeTable.setFillsViewportHeight(true);
 		contextListPane.setViewportView(contextListTreeTable);
 	}
