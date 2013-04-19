@@ -50,7 +50,7 @@ public class ContextListPanel extends JPanel {
 	public ContextListPanel(DataContainer dataContainer) {
 		this.dataContainer = dataContainer;
 		
-		setPreferredSize(new Dimension(ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_WIDTH, -1));
+		setPreferredSize(new Dimension(ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_WIDTH, ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_HEIGHT));
 		setLayout(new BorderLayout());
 		
 		createContextListTreeTable();
@@ -77,25 +77,25 @@ public class ContextListPanel extends JPanel {
 	}
 	
 	private void enableDragRearrange() {
-//		contextListTreeTable.setDragEnabled(true);
-//		contextListTreeTable.setDropMode(DropMode.INSERT_ROWS);
-//		contextListTreeTable.setTransferHandler(new TransferHandler(){
-//			@Override
-//			public boolean canImport(TransferSupport support) {
-//				return true;
-//			}
-//			@Override
-//			public boolean importData(TransferSupport support) {
-//				return true;
-//			}
-//			@Override
-//			public int getSourceActions(JComponent c) {
-//				return MOVE;
-//			}
-//			@Override
-//			protected Transferable createTransferable(JComponent c) {
-//				return new StringSelection("");
-//			}
-//		});
+		contextListTreeTable.setDragEnabled(true);
+		contextListTreeTable.setDropMode(DropMode.INSERT_ROWS);
+		contextListTreeTable.setTransferHandler(new TransferHandler(){
+			@Override
+			public boolean canImport(TransferSupport support) {
+				return true;
+			}
+			@Override
+			public boolean importData(TransferSupport support) {
+				return true;
+			}
+			@Override
+			public int getSourceActions(JComponent c) {
+				return MOVE;
+			}
+			@Override
+			protected Transferable createTransferable(JComponent c) {
+				return new StringSelection("");
+			}
+		});
 	}
 }
