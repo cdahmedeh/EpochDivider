@@ -6,8 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.cdahmedeh.orgapp.generators.TestDataGenerator;
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListRequest;
+import org.cdahmedeh.orgapp.types.container.DataContainer;
 
 import com.google.common.eventbus.EventBus;
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
@@ -15,10 +17,15 @@ import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import java.awt.BorderLayout;
 
 public class MainWindow {
+	// - Events -
 	public EventBus eventBus;
 	
+	// - Components -
 	private JFrame frame;
 
+	// - Data -
+	private DataContainer dataContainer;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -44,7 +51,9 @@ public class MainWindow {
 			e.printStackTrace();
 		}
 		
+		dataContainer = TestDataGenerator.generateDataContainer();
 		eventBus = new EventBus();
+		
 		initialize();
 		this.frame.setVisible(true);
 		
@@ -65,7 +74,7 @@ public class MainWindow {
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		ContextListPanel contextListPanel = new ContextListPanel();
+		ContextListPanel contextListPanel = new ContextListPanel(dataContainer);
 		contextListPanel.setEventBus(eventBus);
 		frame.getContentPane().add(contextListPanel, BorderLayout.WEST);
 	}

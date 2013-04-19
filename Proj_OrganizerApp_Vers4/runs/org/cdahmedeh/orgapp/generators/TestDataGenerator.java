@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.generators;
 
 import java.util.ArrayList;
 
+import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.context.ContextCategory;
 
@@ -11,7 +12,13 @@ import org.cdahmedeh.orgapp.types.context.ContextCategory;
  * @author Ahmed El-Hajjar
  */
 public class TestDataGenerator {
-	public static ArrayList<ContextCategory> generateListOfContextCategories(){
+	public static DataContainer generateDataContainer(){
+		DataContainer dataContainer = new DataContainer();
+		dataContainer.setContextCategories(generateListOfContextCategories());
+		return dataContainer;
+	}
+	
+	private static ArrayList<ContextCategory> generateListOfContextCategories(){
 		ArrayList<ContextCategory> contextList = new ArrayList<>();
 		
 		ContextCategory essentialsContextCategory = new ContextCategory("Essentials");
