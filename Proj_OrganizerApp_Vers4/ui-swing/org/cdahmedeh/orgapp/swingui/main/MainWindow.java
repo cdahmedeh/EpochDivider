@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListRequest;
@@ -36,8 +37,12 @@ public class MainWindow {
 	/**
 	 * Create the application.
 	 */
-	public MainWindow() throws Exception { //TODO: Remove throws
-		UIManager.setLookAndFeel(new WindowsLookAndFeel());
+	public MainWindow() {
+		try {
+			UIManager.setLookAndFeel(new WindowsLookAndFeel());
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 		
 		eventBus = new EventBus();
 		initialize();
