@@ -57,7 +57,6 @@ public class ContextListPanelTransferHandler extends TransferHandler {
 		}
 		
 		ContextCategory categoryFromRow = getContextCategoryFromRow(row-1);
-		System.out.println(categoryFromRow);
 		if (categoryFromRow != null && transferContextData != null && transferContextCategoryData != null){
 			transferContextCategoryData.getContexts().remove(transferContextData);
 			int indexOf = categoryFromRow.getContexts().indexOf(getContextFromRow(row));
