@@ -8,7 +8,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.cdahmedeh.orgapp.generators.TestDataGenerator;
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
-import org.cdahmedeh.orgapp.swingui.notification.LoadContextListRequest;
+import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 
 import com.google.common.eventbus.EventBus;
@@ -59,7 +59,7 @@ public class MainWindow {
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				eventBus.post(new LoadContextListRequest());
+				eventBus.post(new LoadContextListPanelRequest());
 			}
 		});
 	}

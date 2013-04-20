@@ -3,20 +3,26 @@ package org.cdahmedeh.orgapp.swingui.context;
 import javax.swing.DropMode;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.TransferHandler;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 
 import javax.swing.JScrollPane;
+import javax.swing.tree.TreePath;
 
-import org.cdahmedeh.orgapp.swingui.notification.LoadContextListRequest;
+import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
+import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
+import org.cdahmedeh.orgapp.types.context.Context;
+import org.cdahmedeh.orgapp.types.context.ContextCategory;
 import org.jdesktop.swingx.CTreeTable;
-import org.jdesktop.swingx.plaf.basic.core.BasicTransferable;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -32,8 +38,11 @@ public class ContextListPanel extends JPanel {
 	}
 	
 	class EventRecorder{
-		@Subscribe public void loadContextList(LoadContextListRequest request) {
-			prepareContextListTreeTableModel();
+		@Subscribe public void loadContextListPanel(LoadContextListPanelRequest request) {
+			postInit();
+		}
+		@Subscribe public void refreshContextList(RefreshContextListRequest request) {
+			refreshContextListTreeTable();
 		}
 	}
 	
@@ -53,8 +62,11 @@ public class ContextListPanel extends JPanel {
 		setPreferredSize(new Dimension(ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_WIDTH, ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_HEIGHT));
 		setLayout(new BorderLayout());
 		
-		createContextListTreeTable();
-		
+		createContextListTreeTable();		
+	}
+	
+	private void postInit() {
+		prepareContextListTreeTableModel();
 		enableDragRearrange();
 	}
 
@@ -72,31 +84,18 @@ public class ContextListPanel extends JPanel {
 	 * Set the TreeTable Model for the Context List Table.
 	 */
 	private void prepareContextListTreeTableModel() {
+		refreshContextListTreeTable();
+		contextListTreeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	}
+
+	private void refreshContextListTreeTable() {
 		contextListTreeTable.setTreeTableModel(new ContextListTreeTableModel(dataContainer.getContextCategories()));
 		contextListTreeTable.expandAll();
-		contextListTreeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 	
 	private void enableDragRearrange() {
 		contextListTreeTable.setDragEnabled(true);
 		contextListTreeTable.setDropMode(DropMode.INSERT_ROWS);
-		contextListTreeTable.setTransferHandler(new TransferHandler(){
-			@Override
-			public boolean canImport(TransferSupport support) {
-				return true;
-			}
-			@Override
-			public boolean importData(TransferSupport support) {
-				return true;
-			}
-			@Override
-			public int getSourceActions(JComponent c) {
-				return MOVE;
-			}
-			@Override
-			protected Transferable createTransferable(JComponent c) {
-				return new StringSelection("");
-			}
-		});
+		contextListTreeTable.setTransferHandler(new ContextListPanelTransferHandler(contextListTreeTable, eventBus));
 	}
 }
