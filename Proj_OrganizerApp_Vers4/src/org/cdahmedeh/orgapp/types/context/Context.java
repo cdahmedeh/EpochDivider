@@ -1,11 +1,15 @@
 package org.cdahmedeh.orgapp.types.context;
 
+import java.util.ArrayList;
+
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 
 /**
  * A context represents a category that tasks can be assigned to. For example,
  * there can be a "Study" context that is assigned to every task is related to
  * studying. The idea is to help the user categorize their tasks.
+ * 
+ * In addition, a context, can have multiple sub-contexts.
  * 
  * @author Ahmed El-Hajjar
  */
@@ -21,4 +25,7 @@ public class Context {
 	private String name = "";
 	public String getName() {return name;}
 	public void setName(String name) {this.name = MiscHelper.safeTrim(name);}
+	
+	private ArrayList<Context> subContexts = new ArrayList<>();
+	public ArrayList<Context> getSubContexts() {return subContexts;}
 }

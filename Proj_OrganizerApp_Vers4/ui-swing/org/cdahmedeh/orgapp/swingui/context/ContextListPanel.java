@@ -21,7 +21,6 @@ import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
-import org.cdahmedeh.orgapp.types.context.ContextCategory;
 import org.jdesktop.swingx.CTreeTable;
 
 import com.google.common.eventbus.EventBus;
@@ -67,7 +66,7 @@ public class ContextListPanel extends JPanel {
 	
 	private void postInit() {
 		prepareContextListTreeTableModel();
-		enableDragRearrange();
+//		enableDragRearrange();
 	}
 
 	private void createContextListTreeTable() {
@@ -89,13 +88,13 @@ public class ContextListPanel extends JPanel {
 	}
 
 	private void refreshContextListTreeTable() {
-		contextListTreeTable.setTreeTableModel(new ContextListTreeTableModel(dataContainer.getContextCategories()));
+		contextListTreeTable.setTreeTableModel(new ContextListTreeTableModel(dataContainer.getRootContext()));
 		contextListTreeTable.expandAll();
 	}
 	
-	private void enableDragRearrange() {
-		contextListTreeTable.setDragEnabled(true);
-		contextListTreeTable.setDropMode(DropMode.INSERT_ROWS);
-		contextListTreeTable.setTransferHandler(new ContextListPanelTransferHandler(contextListTreeTable, eventBus));
-	}
+//	private void enableDragRearrange() {
+//		contextListTreeTable.setDragEnabled(true);
+//		contextListTreeTable.setDropMode(DropMode.INSERT_ROWS);
+//		contextListTreeTable.setTransferHandler(new ContextListPanelTransferHandler(contextListTreeTable, eventBus));
+//	}
 }

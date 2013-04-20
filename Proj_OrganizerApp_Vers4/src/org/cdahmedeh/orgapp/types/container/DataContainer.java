@@ -1,8 +1,6 @@
 package org.cdahmedeh.orgapp.types.container;
 
-import java.util.ArrayList;
-
-import org.cdahmedeh.orgapp.types.context.ContextCategory;
+import org.cdahmedeh.orgapp.types.context.Context;
 
 /**
  * In memory version of data references used by main UI. 
@@ -10,7 +8,7 @@ import org.cdahmedeh.orgapp.types.context.ContextCategory;
  * @author Ahmed El-Hajjar
  */
 public class DataContainer {
-	ArrayList<ContextCategory> contextCategories = new ArrayList<>();
-	public ArrayList<ContextCategory> getContextCategories() {return contextCategories;}
-	public void setContextCategories(ArrayList<ContextCategory> contextCategories) {this.contextCategories = contextCategories;}
+	private Context rootContext;
+	public Context getRootContext() {return rootContext;}
+	public void setRootContext(Context rootContext) {this.rootContext = rootContext;}
 }

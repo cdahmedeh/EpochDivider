@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
-import org.cdahmedeh.orgapp.types.context.ContextCategory;
 
 /**
  * Contains method to generate some test data.
@@ -14,39 +13,39 @@ import org.cdahmedeh.orgapp.types.context.ContextCategory;
 public class TestDataGenerator {
 	public static DataContainer generateDataContainer(){
 		DataContainer dataContainer = new DataContainer();
-		dataContainer.setContextCategories(generateListOfContextCategories());
+		dataContainer.setRootContext(generateContextTree());
 		return dataContainer;
 	}
 	
-	private static ArrayList<ContextCategory> generateListOfContextCategories(){
-		ArrayList<ContextCategory> contextList = new ArrayList<>();
+	private static Context generateContextTree(){
+		Context contextList = new Context("Root");
 		
-		ContextCategory essentialsContextCategory = new ContextCategory("Essentials");
-		contextList.add(essentialsContextCategory);
+		Context essentialsContext = new Context("Essentials");
+		contextList.getSubContexts().add(essentialsContext);
 		
 		Context faithContext = new Context("Faith");
-		essentialsContextCategory.getContexts().add(faithContext);
+		essentialsContext.getSubContexts().add(faithContext);
 		
 		Context sleepContext = new Context("Sleep");
-		essentialsContextCategory.getContexts().add(sleepContext);
+		essentialsContext.getSubContexts().add(sleepContext);
 		
 		Context relaxingContext = new Context("Relaxing");
-		essentialsContextCategory.getContexts().add(relaxingContext);
+		essentialsContext.getSubContexts().add(relaxingContext);
 		
 		Context exerciseContext = new Context("Exercise");
-		essentialsContextCategory.getContexts().add(exerciseContext);
+		essentialsContext.getSubContexts().add(exerciseContext);
 		
-		ContextCategory universityContextCategory = new ContextCategory("University");
-		contextList.add(universityContextCategory);
+		Context universityContext = new Context("University");
+		contextList.getSubContexts().add(universityContext);
 		
 		Context studyContext = new Context("Study");
-		universityContextCategory.getContexts().add(studyContext);
+		universityContext.getSubContexts().add(studyContext);
 	
 		Context coursesContext = new Context("Courses");
-		universityContextCategory.getContexts().add(coursesContext);
+		universityContext.getSubContexts().add(coursesContext);
 		
-		ContextCategory blankContextCategory = new ContextCategory("Blank");
-		contextList.add(blankContextCategory);
+		Context blankContext = new Context("Blank");
+		contextList.getSubContexts().add(blankContext);
 		
 		return contextList;
 	}
