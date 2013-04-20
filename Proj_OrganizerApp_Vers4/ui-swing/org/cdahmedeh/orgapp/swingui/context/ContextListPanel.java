@@ -63,6 +63,7 @@ public class ContextListPanel extends JPanel {
 		add(contextListPane, BorderLayout.CENTER);
 		
 		contextListTreeTable = new CTreeTable();
+		contextListTreeTable.setShowGrid(true, true);
 		contextListTreeTable.setFillsViewportHeight(true);
 		contextListPane.setViewportView(contextListTreeTable);
 	}
