@@ -9,6 +9,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.cdahmedeh.orgapp.generators.TestDataGenerator;
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
+import org.cdahmedeh.orgapp.swingui.notification.LoadTaskListPanelRequest;
+import org.cdahmedeh.orgapp.swingui.task.TaskListPanel;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 
 import com.google.common.eventbus.EventBus;
@@ -60,6 +62,7 @@ public class MainWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				eventBus.post(new LoadContextListPanelRequest());
+				eventBus.post(new LoadTaskListPanelRequest());
 			}
 		});
 	}
@@ -77,6 +80,10 @@ public class MainWindow {
 		ContextListPanel contextListPanel = new ContextListPanel(dataContainer);
 		contextListPanel.setEventBus(eventBus);
 		frame.getContentPane().add(contextListPanel, BorderLayout.WEST);
+		
+		TaskListPanel taskListPanel = new TaskListPanel(dataContainer);
+		taskListPanel.setEventBus(eventBus);
+		frame.getContentPane().add(taskListPanel, BorderLayout.SOUTH);
 	}
 
 }
