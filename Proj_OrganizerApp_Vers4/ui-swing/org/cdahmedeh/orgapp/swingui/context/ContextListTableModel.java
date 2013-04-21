@@ -76,4 +76,7 @@ public class ContextListTableModel implements TableModel {
 		
 	}
 
+	public Context getContextAtRow(int rowIndex){
+		return contexts.get(rowIndex);
+	}
 }

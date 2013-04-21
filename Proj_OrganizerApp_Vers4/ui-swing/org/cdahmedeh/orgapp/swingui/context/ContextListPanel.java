@@ -83,7 +83,7 @@ public class ContextListPanel extends JPanel {
 	
 	private void enableDragRearrange() {
 		contextListTable.setDragEnabled(true);
-		contextListTable.setDropMode(DropMode.ON_OR_INSERT_ROWS);
-		contextListTable.setTransferHandler(new ContextListPanelTransferHandler());
+		contextListTable.setDropMode(DropMode.INSERT_ROWS);
+		contextListTable.setTransferHandler(new ContextListPanelTransferHandler(dataContainer.getContexts()));
 	}
 }
