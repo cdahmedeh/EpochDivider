@@ -13,39 +13,33 @@ import org.cdahmedeh.orgapp.types.context.Context;
 public class TestDataGenerator {
 	public static DataContainer generateDataContainer(){
 		DataContainer dataContainer = new DataContainer();
-		dataContainer.setRootContext(generateContextTree());
+		dataContainer.setContexts(generateContextTree());
 		return dataContainer;
 	}
 	
-	private static Context generateContextTree(){
-		Context contextList = new Context("Root");
-		
-		Context essentialsContext = new Context("Essentials");
-		contextList.getSubContexts().add(essentialsContext);
+	private static ArrayList<Context> generateContextTree(){
+		ArrayList<Context> contextList = new ArrayList<>();
 		
 		Context faithContext = new Context("Faith");
-		essentialsContext.getSubContexts().add(faithContext);
+		contextList.add(faithContext);
 		
 		Context sleepContext = new Context("Sleep");
-		essentialsContext.getSubContexts().add(sleepContext);
+		contextList.add(sleepContext);
 		
 		Context relaxingContext = new Context("Relaxing");
-		essentialsContext.getSubContexts().add(relaxingContext);
+		contextList.add(relaxingContext);
 		
 		Context exerciseContext = new Context("Exercise");
-		essentialsContext.getSubContexts().add(exerciseContext);
-		
-		Context universityContext = new Context("University");
-		contextList.getSubContexts().add(universityContext);
+		contextList.add(exerciseContext);
 		
 		Context studyContext = new Context("Study");
-		universityContext.getSubContexts().add(studyContext);
+		contextList.add(studyContext);
 	
 		Context coursesContext = new Context("Courses");
-		universityContext.getSubContexts().add(coursesContext);
+		contextList.add(coursesContext);
 		
 		Context blankContext = new Context("Blank");
-		contextList.getSubContexts().add(blankContext);
+		contextList.add(blankContext);
 		
 		return contextList;
 	}

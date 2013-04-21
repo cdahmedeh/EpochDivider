@@ -1,5 +1,7 @@
 package org.cdahmedeh.orgapp.types.container;
 
+import java.util.ArrayList;
+
 import org.cdahmedeh.orgapp.types.context.Context;
 
 /**
@@ -8,7 +10,7 @@ import org.cdahmedeh.orgapp.types.context.Context;
  * @author Ahmed El-Hajjar
  */
 public class DataContainer {
-	private Context rootContext;
-	public Context getRootContext() {return rootContext;}
-	public void setRootContext(Context rootContext) {this.rootContext = rootContext;}
+	private ArrayList<Context> contexts;
+	public ArrayList<Context> getContexts() {return contexts;}
+	public void setContexts(ArrayList<Context> contexts) {this.contexts = contexts;}
 }

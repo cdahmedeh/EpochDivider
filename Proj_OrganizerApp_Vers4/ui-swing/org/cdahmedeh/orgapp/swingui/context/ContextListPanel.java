@@ -1,27 +1,18 @@
 package org.cdahmedeh.orgapp.swingui.context;
 
 import javax.swing.DropMode;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.TransferHandler;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
 
 import javax.swing.JScrollPane;
-import javax.swing.tree.TreePath;
 
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
-import org.cdahmedeh.orgapp.types.context.Context;
-import org.jdesktop.swingx.CTreeTable;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -47,7 +38,7 @@ public class ContextListPanel extends JPanel {
 	
 	// - Components -
 	private JScrollPane contextListPane;
-	private CTreeTable contextListTreeTable;
+	private JTable contextListTable;
 
 	// - Data -
 	private DataContainer dataContainer;
@@ -61,40 +52,38 @@ public class ContextListPanel extends JPanel {
 		setPreferredSize(new Dimension(ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_WIDTH, ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_HEIGHT));
 		setLayout(new BorderLayout());
 		
-		createContextListTreeTable();		
+		createContextListTable();		
 	}
 	
 	private void postInit() {
-		prepareContextListTreeTableModel();
-//		enableDragRearrange();
+		prepareContextListTableModel();
+		enableDragRearrange();
 	}
 
-	private void createContextListTreeTable() {
+	private void createContextListTable() {
 		contextListPane = new JScrollPane();
 		add(contextListPane, BorderLayout.CENTER);
 		
-		contextListTreeTable = new CTreeTable();
-		contextListTreeTable.setShowGrid(true, true);
-		contextListTreeTable.setFillsViewportHeight(true);
-		contextListPane.setViewportView(contextListTreeTable);
+		contextListTable = new JTable();
+		contextListTable.setFillsViewportHeight(true);
+		contextListPane.setViewportView(contextListTable);
 	}
 
 	/**
-	 * Set the TreeTable Model for the Context List Table.
+	 * Set the Table Model for the Context List Table.
 	 */
-	private void prepareContextListTreeTableModel() {
+	private void prepareContextListTableModel() {
 		refreshContextListTreeTable();
-		contextListTreeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		contextListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 
 	private void refreshContextListTreeTable() {
-		contextListTreeTable.setTreeTableModel(new ContextListTreeTableModel(dataContainer.getRootContext()));
-		contextListTreeTable.expandAll();
+		contextListTable.setModel(new ContextListTableModel(dataContainer.getContexts()));
 	}
 	
-//	private void enableDragRearrange() {
-//		contextListTreeTable.setDragEnabled(true);
-//		contextListTreeTable.setDropMode(DropMode.INSERT_ROWS);
-//		contextListTreeTable.setTransferHandler(new ContextListPanelTransferHandler(contextListTreeTable, eventBus));
-//	}
+	private void enableDragRearrange() {
+		contextListTable.setDragEnabled(true);
+		contextListTable.setDropMode(DropMode.ON_OR_INSERT_ROWS);
+		contextListTable.setTransferHandler(new ContextListPanelTransferHandler());
+	}
 }
