@@ -23,4 +23,12 @@ public class Context {
 	private String name = "";
 	public String getName() {return name;}
 	public void setName(String name) {this.name = MiscHelper.safeTrim(name);}
+	
+	
+	/* ---- Object methods ---- */
+	
+	@Override
+	public String toString() {
+		return this.getName();
+	}
 }

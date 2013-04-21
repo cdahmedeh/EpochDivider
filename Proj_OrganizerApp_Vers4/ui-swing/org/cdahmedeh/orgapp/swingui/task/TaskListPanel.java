@@ -7,15 +7,19 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JScrollPane;
+import javax.swing.table.TableColumn;
 
 import org.cdahmedeh.orgapp.swingui.notification.LoadTaskListPanelRequest;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
+import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.swing.AdvancedTableModel;
+import ca.odell.glazedlists.swing.AutoCompleteSupport;
+import ca.odell.glazedlists.swing.AutoCompleteSupport.AutoCompleteCellEditor;
 import ca.odell.glazedlists.swing.GlazedListsSwing;
 
 import com.google.common.eventbus.EventBus;
@@ -79,6 +83,15 @@ public class TaskListPanel extends JPanel {
 		
 		AdvancedTableModel<Task> taskListTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(taskEventList, taskTableFormat);
 		taskListTable.setModel(taskListTableModel);
+
+		//Context edit autocomplete support
+		final EventList<Context> contextEventList = new BasicEventList<>();
+		contextEventList.addAll(dataContainer.getContexts());
+		
+		AutoCompleteCellEditor<Context> contextTableCellEditor = AutoCompleteSupport.createTableCellEditor(contextEventList);
+		
+		TableColumn contextColumn = taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_CONTEXT);
+		contextColumn.setCellEditor(contextTableCellEditor);
 	}
 
 }
