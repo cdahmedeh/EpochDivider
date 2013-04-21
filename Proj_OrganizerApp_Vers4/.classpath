@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="elibs/guava-14.0.1.jar" sourcepath="slibs/guava-14.0.1-sources.jar"/>
 	<classpathentry kind="lib" path="elibs/jgoodies-common-1.6.0.jar" sourcepath="slibs/jgoodies-common-1.6.0-sources.jar"/>
 	<classpathentry kind="lib" path="elibs/jgoodies-looks-2.5.3.jar" sourcepath="slibs/jgoodies-looks-2.5.3-sources.jar"/>
+	<classpathentry kind="lib" path="elibs/glazedlists_java15-1.9.0.jar" sourcepath="slibs/glazedlists_java15-1.9.0-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
