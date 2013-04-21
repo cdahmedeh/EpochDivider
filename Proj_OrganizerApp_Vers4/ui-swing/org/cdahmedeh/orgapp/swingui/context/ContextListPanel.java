@@ -1,8 +1,10 @@
 package org.cdahmedeh.orgapp.swingui.context;
 
 import javax.swing.DropMode;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 
 import java.awt.BorderLayout;
@@ -13,9 +15,16 @@ import javax.swing.JScrollPane;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
+import org.cdahmedeh.orgapp.types.context.Context;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import javax.swing.ImageIcon;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Box;
 
 public class ContextListPanel extends JPanel {
 	private static final long serialVersionUID = -8250528552031443184L;
@@ -42,7 +51,7 @@ public class ContextListPanel extends JPanel {
 
 	// - Data -
 	private DataContainer dataContainer;
-
+	
 	/**
 	 * Create the panel.
 	 */
@@ -52,7 +61,8 @@ public class ContextListPanel extends JPanel {
 		setPreferredSize(new Dimension(ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_WIDTH, ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_HEIGHT));
 		setLayout(new BorderLayout());
 		
-		createContextListTable();		
+		createContextListTable();
+		createToolbar();
 	}
 	
 	private void postInit() {
@@ -69,21 +79,60 @@ public class ContextListPanel extends JPanel {
 		contextListPane.setViewportView(contextListTable);
 	}
 
+	private void createToolbar() {
+		JToolBar toolbar = new JToolBar();
+		toolbar.setFloatable(false);
+		add(toolbar, BorderLayout.SOUTH);
+		
+		Component horizontalGlue = Box.createHorizontalGlue();
+		toolbar.add(horizontalGlue);
+				
+		JButton addContextButton = new JButton("Add");
+		addContextButton.setIcon(new ImageIcon(ContextListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.png")));
+		toolbar.add(addContextButton);
+		
+		addContextButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addNewContextToContextListTable();
+			}
+		});
+	}
+	
 	/**
 	 * Set the Table Model for the Context List Table.
 	 */
 	private void prepareContextListTableModel() {
-		refreshContextListTreeTable();
+		contextListTable.setModel(new ContextListTableModel(dataContainer.getContexts()));
 		contextListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 
 	private void refreshContextListTreeTable() {
-		contextListTable.setModel(new ContextListTableModel(dataContainer.getContexts()));
+		contextListTable.repaint();
 	}
 	
 	private void enableDragRearrange() {
 		contextListTable.setDragEnabled(true);
 		contextListTable.setDropMode(DropMode.INSERT_ROWS);
 		contextListTable.setTransferHandler(new ContextListPanelTransferHandler(dataContainer.getContexts()));
+	}
+
+	//non-sequential methods 
+	private void addNewContextToContextListTable() {
+		//make sure that we are not already editing something
+		if (contextListTable.isEditing()){
+			contextListTable.getEditorComponent().requestFocus();
+			return;
+		}
+		
+		dataContainer.getContexts().add(new Context(""));
+		refreshContextListTreeTable();
+		
+		contextListTable.editCellAt(contextListTable.getRowCount()-1, ContextListPanelDefaults.COLUMN_CONTEXT_NAME);
+		
+		Component editorComponent = contextListTable.getEditorComponent();
+		if (editorComponent != null) {
+			editorComponent.requestFocus();
+		}
 	}
 }
