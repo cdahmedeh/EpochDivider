@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.types.task;
 
 import org.cdahmedeh.orgapp.tools.MiscHelper;
+import org.cdahmedeh.orgapp.types.context.Context;
 
 /**
  * Data type class for Tasks. 
@@ -19,4 +20,8 @@ public class Task {
 	private String title = "";
 	public String getTitle() {return title;}
 	public void setTitle(String title) {this.title = MiscHelper.safeTrim(title);}
+	
+	private Context context = null;
+	public void setContext(Context context) {this.context = context;}
+	public Context getContext() {return context;}
 }

@@ -14,12 +14,7 @@ import org.cdahmedeh.orgapp.types.task.Task;
 public class TestDataGenerator {
 	public static DataContainer generateDataContainer(){
 		DataContainer dataContainer = new DataContainer();
-		dataContainer.setContexts(generateContextList());
-		dataContainer.setTasks(generateTaskList());
-		return dataContainer;
-	}
 	
-	private static ArrayList<Context> generateContextList(){
 		ArrayList<Context> contextList = new ArrayList<>();
 		
 		Context faithContext = new Context("Faith");
@@ -40,24 +35,32 @@ public class TestDataGenerator {
 		Context coursesContext = new Context("Courses");
 		contextList.add(coursesContext);
 		
-		Context blankContext = new Context("Blank");
-		contextList.add(blankContext);
-		
-		return contextList;
-	}
+		Context miscContext = new Context("Misc");
+		contextList.add(miscContext);
 	
-	private static ArrayList<Task> generateTaskList(){
+		Context projectContext = new Context("Projects");
+		contextList.add(projectContext);
+		
+		Context readingContext = new Context("Reading");
+		contextList.add(readingContext);
+		
 		ArrayList<Task> taskList = new ArrayList<>();
 		
 		Task task01 = new Task("Clean car");
+		task01.setContext(miscContext);
 		taskList.add(task01);
 		
 		Task task02 = new Task("Data persistence prototype for Epoch Divider");
+		task02.setContext(projectContext);
 		taskList.add(task02);
 		
 		Task task03 = new Task("Read - Art of Unix Programming");
+		task03.setContext(readingContext);
 		taskList.add(task03);
 		
-		return taskList;
+		dataContainer.setContexts(contextList);
+		dataContainer.setTasks(taskList);
+		
+		return dataContainer;
 	}
 }
