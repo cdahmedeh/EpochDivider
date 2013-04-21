@@ -1,8 +1,10 @@
 package org.cdahmedeh.orgapp.swingui.main;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -15,6 +17,7 @@ import org.cdahmedeh.orgapp.types.container.DataContainer;
 
 import com.google.common.eventbus.EventBus;
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
+import com.jidesoft.swing.JideSplitPane;
 
 import java.awt.BorderLayout;
 
@@ -77,13 +80,25 @@ public class MainWindow {
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		JideSplitPane mainSplitPane = new JideSplitPane();
+		mainSplitPane.setContinuousLayout(true);
+		frame.getContentPane().add(mainSplitPane, BorderLayout.CENTER);
+		
 		ContextListPanel contextListPanel = new ContextListPanel(dataContainer);
 		contextListPanel.setEventBus(eventBus);
-		frame.getContentPane().add(contextListPanel, BorderLayout.WEST);
+		mainSplitPane.addPane(contextListPanel);
+		
+		JideSplitPane rightSplitPane = new JideSplitPane(JideSplitPane.VERTICAL_SPLIT);
+		rightSplitPane.setContinuousLayout(true);
+		mainSplitPane.addPane(rightSplitPane);
+		
+		JPanel emptyPanel = new JPanel();
+		emptyPanel.setPreferredSize(new Dimension(500, 500));
+		rightSplitPane.addPane(emptyPanel);
 		
 		TaskListPanel taskListPanel = new TaskListPanel(dataContainer);
 		taskListPanel.setEventBus(eventBus);
-		frame.getContentPane().add(taskListPanel, BorderLayout.SOUTH);
+		rightSplitPane.addPane(taskListPanel);
 	}
 
 }
