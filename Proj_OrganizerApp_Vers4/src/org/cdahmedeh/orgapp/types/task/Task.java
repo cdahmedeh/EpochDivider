@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.types.task;
 
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.context.Context;
+import org.joda.time.DateTime;
 
 /**
  * Data type class for Tasks. 
@@ -24,4 +25,8 @@ public class Task {
 	private Context context = null;
 	public void setContext(Context context) {this.context = context;}
 	public Context getContext() {return context;}
+	
+	private DateTime due = null;
+	public DateTime getDue() {return due;}
+	public void setDue(DateTime due) {this.due = due;}
 }
