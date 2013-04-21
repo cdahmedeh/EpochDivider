@@ -108,6 +108,7 @@ public class ContextListPanel extends JPanel {
 	}
 
 	private void refreshContextListTreeTable() {
+		//TODO: This is not how we should refresh the table.
 		contextListTable.repaint();
 	}
 	
