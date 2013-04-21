@@ -13,11 +13,11 @@ import org.cdahmedeh.orgapp.types.context.Context;
 public class TestDataGenerator {
 	public static DataContainer generateDataContainer(){
 		DataContainer dataContainer = new DataContainer();
-		dataContainer.setContexts(generateContextTree());
+		dataContainer.setContexts(generateContextList());
 		return dataContainer;
 	}
 	
-	private static ArrayList<Context> generateContextTree(){
+	private static ArrayList<Context> generateContextList(){
 		ArrayList<Context> contextList = new ArrayList<>();
 		
 		Context faithContext = new Context("Faith");
