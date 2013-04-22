@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.AllContextsContext;
 import org.cdahmedeh.orgapp.types.context.Context;
+import org.cdahmedeh.orgapp.types.context.NoContextContext;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.joda.time.DateTime;
 
@@ -20,6 +21,7 @@ public class TestDataGenerator {
 		ArrayList<Context> contextList = new ArrayList<>();
 		
 		contextList.add(new AllContextsContext());
+		contextList.add(new NoContextContext());
 		
 		Context faithContext = new Context("Faith");
 		contextList.add(faithContext);
@@ -63,6 +65,10 @@ public class TestDataGenerator {
 		Task task03 = new Task("Read - Art of Unix Programming");
 		task03.setContext(readingContext);
 		taskList.add(task03);
+		
+		Task task04 = new Task("Test Contexts with No Contexts");
+		task04.setContext(null);
+		taskList.add(task04);
 		
 		dataContainer.setContexts(contextList);
 		dataContainer.setTasks(taskList);

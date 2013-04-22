@@ -30,7 +30,7 @@ public class ContextMatcherEditor extends AbstractMatcherEditor<Task>{
 	private final class MatcherImplementation implements Matcher<Task> {
 		@Override
 		public boolean matches(Task item) {
-			return context instanceof AllContextsContext || item.getContext() == context;
+			return context instanceof AllContextsContext || item.getContext().equals(context);
 		}
 	}
 }

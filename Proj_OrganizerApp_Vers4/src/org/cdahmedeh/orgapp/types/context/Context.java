@@ -32,4 +32,14 @@ public class Context {
 	public String toString() {
 		return this.getName();
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		//TODO: For now, contexts are the same, if they have the same name.
+		if (obj instanceof Context){
+			return this.getName().equals(((Context) obj).getName());	
+		} else {
+			return false;
+		}
+	}
 }
