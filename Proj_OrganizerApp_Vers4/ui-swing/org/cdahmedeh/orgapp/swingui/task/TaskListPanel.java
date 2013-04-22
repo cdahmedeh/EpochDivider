@@ -1,12 +1,18 @@
 package org.cdahmedeh.orgapp.swingui.task;
 
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
-import java.nio.file.DirectoryStream.Filter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JScrollPane;
 import javax.swing.table.TableColumn;
@@ -23,8 +29,6 @@ import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.FilterList;
 import ca.odell.glazedlists.gui.TableFormat;
-import ca.odell.glazedlists.matchers.Matcher;
-import ca.odell.glazedlists.matchers.MatcherEditor;
 import ca.odell.glazedlists.swing.AdvancedTableModel;
 import ca.odell.glazedlists.swing.AutoCompleteSupport;
 import ca.odell.glazedlists.swing.AutoCompleteSupport.AutoCompleteCellEditor;
@@ -63,6 +67,7 @@ public class TaskListPanel extends JPanel {
 	
 	// - Listeners -
 	private ContextMatcherEditor contextMatcherEditor;
+	private EventList<Task> taskEventList;
 	
 	/**
 	 * Create the panel.
@@ -74,6 +79,7 @@ public class TaskListPanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		createTaskListTable();
+		createToolbar();
 	}
 	
 	private void postInit() {
@@ -94,7 +100,7 @@ public class TaskListPanel extends JPanel {
 	 */
 	private void prepareTaskListTableModel() {
 		TableFormat<Task> taskTableFormat = new TaskListTableFormat();
-		EventList<Task> taskEventList = new BasicEventList<>();
+		taskEventList = new BasicEventList<>();
 		taskEventList.addAll(dataContainer.getTasks());
 		
 		contextMatcherEditor = new ContextMatcherEditor();
@@ -118,5 +124,55 @@ public class TaskListPanel extends JPanel {
 		dueDateColumn.setCellRenderer(new DateEntryCellRenderer());
 		dueDateColumn.setCellEditor(new DateEntryCellEditor(new JTextField()));
 	}
+	
+	private void createToolbar() {
+		JToolBar toolbar = new JToolBar();
+		toolbar.setFloatable(false);
+		add(toolbar, BorderLayout.SOUTH);
+		
+		Component horizontalGlue = Box.createHorizontalGlue();
+		toolbar.add(horizontalGlue);
+				
+		JButton addContextButton = new JButton("Add");
+		addContextButton.setIcon(new ImageIcon(TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.png")));
+		toolbar.add(addContextButton);
+		
+		addContextButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addNewTaskToTaskListTable();
+			}
+		});
+	}
 
+	//non-sequential methods 
+	private void addNewTaskToTaskListTable() {
+		//make sure that we are not already editing something
+		if (taskListTable.isEditing()){
+			taskListTable.getEditorComponent().requestFocus();
+			return;
+		}
+		
+		Task newTask = new Task("");
+		//TODO: stop hacking
+		if (contextMatcherEditor.getContext().isSelectable()){
+			newTask.setContext(contextMatcherEditor.getContext());
+		}
+		dataContainer.getTasks().add(newTask);
+		refreshContextListTreeTable();
+		
+		taskListTable.editCellAt(taskListTable.getRowCount()-1, TaskListPanelDefaults.COLUMN_TASK_TITLE);
+		
+		Component editorComponent = taskListTable.getEditorComponent();
+		if (editorComponent != null) {
+			editorComponent.requestFocus();
+		}
+	}
+
+	private void refreshContextListTreeTable() {
+		//TODO: investigate method to refresh
+		taskEventList.clear();
+		taskEventList.addAll(dataContainer.getTasks());
+	}
+	
 }
