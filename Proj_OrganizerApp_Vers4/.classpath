@@ -15,5 +15,8 @@
 	<classpathentry kind="lib" path="elibs/jide-oss-3.5.4.jar" sourcepath="slibs/jide-oss-3.5.4-sources.jar"/>
 	<classpathentry kind="lib" path="elibs/joda-time-2.2.jar" sourcepath="slibs/joda-time-2.2-sources.jar"/>
 	<classpathentry kind="lib" path="elibs/natty-0.7.jar" sourcepath="slibs/natty-0.7-sources.jar"/>
+	<classpathentry kind="lib" path="elibs/ical4j-1.0.4.jar" sourcepath="slibs/ical4j-1.0.4-sources.jar"/>
+	<classpathentry kind="lib" path="elibs/antlr-2.7.7.jar"/>
+	<classpathentry kind="lib" path="elibs/antlr-runtime-3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
