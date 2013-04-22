@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.swingui.task;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -9,6 +10,8 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.table.TableColumn;
 
+import org.cdahmedeh.orgapp.swingui.components.DateEntryCellEditor;
+import org.cdahmedeh.orgapp.swingui.components.DateEntryCellRenderer;
 import org.cdahmedeh.orgapp.swingui.notification.LoadTaskListPanelRequest;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
@@ -92,6 +95,11 @@ public class TaskListPanel extends JPanel {
 		
 		TableColumn contextColumn = taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_CONTEXT);
 		contextColumn.setCellEditor(contextTableCellEditor);
+		
+		//Setup renderer and editor for due date column
+		TableColumn dueDateColumn = taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_DUE);
+		dueDateColumn.setCellRenderer(new DateEntryCellRenderer());
+		dueDateColumn.setCellEditor(new DateEntryCellEditor(new JTextField()));
 	}
 
 }

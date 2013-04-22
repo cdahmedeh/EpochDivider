@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.joda.time.DateTime;
 
 /**
  * Contains method to generate some test data.
@@ -48,10 +49,12 @@ public class TestDataGenerator {
 		
 		Task task01 = new Task("Clean car");
 		task01.setContext(miscContext);
+		task01.setDue(DateTime.now().toDateMidnight().plusDays(1).toDateTime());
 		taskList.add(task01);
 		
 		Task task02 = new Task("Data persistence prototype for Epoch Divider");
 		task02.setContext(projectContext);
+		task02.setDue(new DateTime(2013, 04, 30, 15, 00));
 		taskList.add(task02);
 		
 		Task task03 = new Task("Read - Art of Unix Programming");

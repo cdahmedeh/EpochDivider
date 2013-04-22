@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.swingui.task;
 
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.joda.time.DateTime;
 
 import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.gui.WritableTableFormat;
@@ -19,7 +20,14 @@ public class TaskListTableFormat implements TableFormat<Task>, WritableTableForm
 				//toString() used to show value.
 				return context;				
 			}
+		case TaskListPanelDefaults.COLUMN_TASK_DUE:
+			DateTime dueDate = baseObject.getDue();
+			if (dueDate != null){
+				//Renderer does the parsing
+				return dueDate;				
+			}
 		}
+		
 		return "";
 	}
 	
@@ -30,14 +38,15 @@ public class TaskListTableFormat implements TableFormat<Task>, WritableTableForm
 			return "Task";
 		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
 			return "Context";
+		case TaskListPanelDefaults.COLUMN_TASK_DUE:
+			return "Due";
 		}
 		return "";
 	}
 	
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -53,6 +62,10 @@ public class TaskListTableFormat implements TableFormat<Task>, WritableTableForm
 		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
 			if (editedValue instanceof Context){
 				baseObject.setContext((Context)editedValue);
+			}
+		case TaskListPanelDefaults.COLUMN_TASK_DUE:
+			if (editedValue instanceof DateTime){
+				baseObject.setDue((DateTime)editedValue);
 			}
 		}
 		
