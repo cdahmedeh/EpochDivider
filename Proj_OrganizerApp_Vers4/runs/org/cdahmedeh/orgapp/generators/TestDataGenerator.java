@@ -3,6 +3,7 @@ package org.cdahmedeh.orgapp.generators;
 import java.util.ArrayList;
 
 import org.cdahmedeh.orgapp.types.container.DataContainer;
+import org.cdahmedeh.orgapp.types.context.AllContextsContext;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.joda.time.DateTime;
@@ -17,6 +18,8 @@ public class TestDataGenerator {
 		DataContainer dataContainer = new DataContainer();
 	
 		ArrayList<Context> contextList = new ArrayList<>();
+		
+		contextList.add(new AllContextsContext());
 		
 		Context faithContext = new Context("Faith");
 		contextList.add(faithContext);

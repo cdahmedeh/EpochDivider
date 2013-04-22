@@ -1,8 +1,6 @@
 package org.cdahmedeh.orgapp.swingui.task;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import org.cdahmedeh.orgapp.types.context.AllContextsContext;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 
@@ -32,7 +30,7 @@ public class ContextMatcherEditor extends AbstractMatcherEditor<Task>{
 	private final class MatcherImplementation implements Matcher<Task> {
 		@Override
 		public boolean matches(Task item) {
-			return item.getContext() == context;
+			return context instanceof AllContextsContext || item.getContext() == context;
 		}
 	}
 }

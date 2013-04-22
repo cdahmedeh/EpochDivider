@@ -24,6 +24,7 @@ public class Context {
 	public String getName() {return name;}
 	public void setName(String name) {this.name = MiscHelper.safeTrim(name);}
 	
+	public boolean isSelectable() {return true;}
 	
 	/* ---- Object methods ---- */
 	

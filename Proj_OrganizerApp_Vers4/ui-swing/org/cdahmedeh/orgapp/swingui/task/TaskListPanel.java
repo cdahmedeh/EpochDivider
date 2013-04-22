@@ -106,7 +106,7 @@ public class TaskListPanel extends JPanel {
 		
 		//Context edit autocomplete support
 		final EventList<Context> contextEventList = new BasicEventList<>();
-		contextEventList.addAll(dataContainer.getContexts());
+		contextEventList.addAll(dataContainer.getSelectableContexts());
 		
 		AutoCompleteCellEditor<Context> contextTableCellEditor = AutoCompleteSupport.createTableCellEditor(contextEventList);
 		
