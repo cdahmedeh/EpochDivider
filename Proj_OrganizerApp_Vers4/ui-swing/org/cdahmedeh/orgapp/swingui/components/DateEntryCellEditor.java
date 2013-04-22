@@ -27,41 +27,53 @@ public class DateEntryCellEditor extends DefaultCellEditor{
 	private String datePreviewText = "";
 	private DateTime dateValue;
 
+	private JTextField editorTextField;
 	private JidePopup datePreviewPopup;
-	
+	private JTextField popupTextField;
+
 	public DateEntryCellEditor(final JTextField editorTextField) {
 		super(editorTextField);
+		this.editorTextField = editorTextField;
+		setupDelegate();
+        setupDatePreviewPopup();
+        setupDatePreviewUpdates(editorTextField);
+	}
 
+	private void setupDatePreviewPopup() {
+		datePreviewPopup = new JidePopup();
+        datePreviewPopup.getContentPane().setLayout(new BorderLayout());
+        popupTextField = new JTextField("");
+        datePreviewPopup.add(popupTextField, BorderLayout.CENTER);
+	}
+
+	private void setupDelegate() {
 		//Setup delegate, remove old one, and put new one in with date parsing.
         editorTextField.removeActionListener(delegate);
 		delegate = new DateParsedDeligateExtension(editorTextField);
         editorTextField.addActionListener(delegate);
-
-        datePreviewPopup = new JidePopup();
-        datePreviewPopup.getContentPane().setLayout(new BorderLayout());
-        final JTextField popupTextField = new JTextField("");
-        datePreviewPopup.add(popupTextField, BorderLayout.CENTER);
-		datePreviewPopup.setOwner(editorTextField);
-        
-        //When editor field is updated, try parsing the date, and show it in the preview
-        //TODO: Reuse old popup
-        editorTextField.addCaretListener(new CaretListener() {
-        	@Override
-        	public void caretUpdate(CaretEvent e) {
-        		//Do parsing in seperate thread.
-        		new Thread(new Runnable() {	public void run() {
-					DateTime dateFromParser = FuzzyDateParser.fuzzyStringToDateTime(editorTextField.getText());
-					if (dateFromParser != null) {
-						dateValue = dateFromParser;
-						datePreviewText = dateValue.toString("EEEE, MMMM d, YYYY 'at' HH:mm");
-	        		}
-	        		popupTextField.setText(datePreviewText);
-	        		datePreviewPopup.showPopup();
-				}}).start();
-        	}
-        });
 	}
-	
+
+	private void setupDatePreviewUpdates(final JTextField editorTextField) {
+		//When editor field is updated, try parsing the date, and show it in the preview
+        editorTextField.addCaretListener(new CaretListener() {@Override	public void caretUpdate(CaretEvent e) {
+    		//Do parsing in separate thread. TODO: Disabled for now to fix broken positioning
+//    		new Thread(new Runnable() {	public void run() {
+			DateTime dateFromParser = FuzzyDateParser.fuzzyStringToDateTime(editorTextField.getText());
+			if (dateFromParser != null) {
+				dateValue = dateFromParser;
+				datePreviewText = dateValue.toString("EEEE, MMMM d, YYYY 'at' HH:mm");
+    		} else if (editorTextField.getText().equals("")) {
+    			dateValue = null;
+    			datePreviewText = "Never";
+    		}
+    		popupTextField.setText(datePreviewText);
+    		datePreviewPopup.setOwner(editorTextField);
+    		datePreviewPopup.showPopup();
+    		datePreviewPopup.packPopup();
+//			}}).start();
+       	}});
+	}
+
 	@Override
 	public Object getCellEditorValue() {
 		return dateValue;
@@ -88,7 +100,7 @@ public class DateEntryCellEditor extends DefaultCellEditor{
 		}
 
 		public void setValue(Object value) {
-		    editorTextField.setText((value != null) ? (FuzzyDateParser.dateTimeToFuzzyString(((DateTime)value))) : "");
+		    editorTextField.setText((value != null && !value.equals("")) ? (FuzzyDateParser.dateTimeToFuzzyString(((DateTime)value))) : "");
 		}
 
 		public Object getCellEditorValue() {

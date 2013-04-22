@@ -64,7 +64,9 @@ public class TaskListTableFormat implements TableFormat<Task>, WritableTableForm
 				baseObject.setContext((Context)editedValue);
 			}
 		case TaskListPanelDefaults.COLUMN_TASK_DUE:
-			if (editedValue instanceof DateTime){
+			if (editedValue == null){
+				baseObject.setDue(null);
+			} else if (editedValue instanceof DateTime){
 				baseObject.setDue((DateTime)editedValue);
 			}
 		}
