@@ -10,22 +10,38 @@ import org.joda.time.LocalTime;
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
 
+/**
+ * Helper class for dealing with fuzzy date displays and parsing. 
+ * 
+ * @author Ahmed El-Hajjar
+ */
 public class FuzzyDateParser {
-	public static String dateTimeToFuzzyString(DateTime localDate){
+	/**
+	 * Returns a human readable string for a certain date.
+	 */
+	public static String dateTimeToFuzzyString(DateTime dateTime){
 		DateTime today = DateTime.now();
 
-		Duration diff = new Duration(today.toDateMidnight(), localDate.toDateMidnight());
+		//Get number of days between today and 'dateTime'.
+		Duration diff = new Duration(today.toDateMidnight(), dateTime.toDateMidnight());
 		long days = diff.getStandardDays();
 		
-		String time = localDate.toLocalTime().isEqual(LocalTime.MIDNIGHT) ? "" : localDate.toString(" @ HH:mm");
-		if (days == 0) return "Today" + time;
+		//The time of the day is only shown if it is not midnight.
+		String time = dateTime.toLocalTime().isEqual(LocalTime.MIDNIGHT) ? "" : dateTime.toString(" @ HH:mm");
+		
+		if (days < -1) return -days + " days ago"  + time;
+		else if (days == -1) return "Yesterday" + time;
+		else if (days == 0) return "Today" + time;
 		else if (days == 1) return "Tomorrow"  + time;
 		else if (days > 1 && days <= 7) return "In " + days + " days"  + time;
-		else if (days > 7) return localDate.toString("d MMM") + time;
-		
-		return "unknown";
+		else if (dateTime.getYear() == today.getYear()) return dateTime.toString("d MMM") + time;
+		else return dateTime.toString("d MMM YYYY") + time;
 	}
-	
+
+	/**
+	 * Given a human readable date, converts it to a DateTime object. If parsing
+	 * fails, then a null value is returned.
+	 */
 	public static DateTime fuzzyStringToDateTime(String fuzzy){
 		Parser parser = new Parser();
 		List<DateGroup> parsed = parser.parse(fuzzy);
