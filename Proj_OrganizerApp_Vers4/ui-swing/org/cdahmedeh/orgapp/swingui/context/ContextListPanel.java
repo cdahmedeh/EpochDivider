@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
+import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 
@@ -25,6 +26,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class ContextListPanel extends JPanel {
 	private static final long serialVersionUID = -8250528552031443184L;
@@ -63,6 +66,8 @@ public class ContextListPanel extends JPanel {
 		
 		createContextListTable();
 		createToolbar();
+		
+		addNotificationWhenChangingContexts();
 	}
 	
 	private void postInit() {
@@ -118,6 +123,17 @@ public class ContextListPanel extends JPanel {
 		contextListTable.setTransferHandler(new ContextListPanelTransferHandler(dataContainer.getContexts()));
 	}
 
+	private void addNotificationWhenChangingContexts() {
+		contextListTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				int selectedIndex = contextListTable.getSelectedRow();
+				Context selectedContext = dataContainer.getContexts().get(selectedIndex);
+				eventBus.post(new SelectedContextChangedNotification(selectedContext));
+			}
+		});
+	}
+	
 	//non-sequential methods 
 	private void addNewContextToContextListTable() {
 		//make sure that we are not already editing something
@@ -136,4 +152,5 @@ public class ContextListPanel extends JPanel {
 			editorComponent.requestFocus();
 		}
 	}
+	
 }

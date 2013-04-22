@@ -6,6 +6,7 @@ import javax.swing.JTextField;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.nio.file.DirectoryStream.Filter;
 
 import javax.swing.JScrollPane;
 import javax.swing.table.TableColumn;
@@ -13,13 +14,17 @@ import javax.swing.table.TableColumn;
 import org.cdahmedeh.orgapp.swingui.components.DateEntryCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.DateEntryCellRenderer;
 import org.cdahmedeh.orgapp.swingui.notification.LoadTaskListPanelRequest;
+import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.FilterList;
 import ca.odell.glazedlists.gui.TableFormat;
+import ca.odell.glazedlists.matchers.Matcher;
+import ca.odell.glazedlists.matchers.MatcherEditor;
 import ca.odell.glazedlists.swing.AdvancedTableModel;
 import ca.odell.glazedlists.swing.AutoCompleteSupport;
 import ca.odell.glazedlists.swing.AutoCompleteSupport.AutoCompleteCellEditor;
@@ -42,6 +47,11 @@ public class TaskListPanel extends JPanel {
 		@Subscribe public void loadTaskListPanel(LoadTaskListPanelRequest request) {
 			postInit();
 		}
+		@Subscribe public void changedSelectedContext(SelectedContextChangedNotification notification){
+			contextMatcherEditor.setContext(notification.getContext());
+			contextMatcherEditor.contextChangedNotify();
+			taskListTable.repaint(); //TODO: temp. to fix redraw bug.
+		}
 	}
 	
 	// - Components -
@@ -50,6 +60,9 @@ public class TaskListPanel extends JPanel {
 
 	// - Data -
 	private DataContainer dataContainer;
+	
+	// - Listeners -
+	private ContextMatcherEditor contextMatcherEditor;
 	
 	/**
 	 * Create the panel.
@@ -84,9 +97,13 @@ public class TaskListPanel extends JPanel {
 		EventList<Task> taskEventList = new BasicEventList<>();
 		taskEventList.addAll(dataContainer.getTasks());
 		
-		AdvancedTableModel<Task> taskListTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(taskEventList, taskTableFormat);
+		contextMatcherEditor = new ContextMatcherEditor();
+		FilterList<Task> filteredByContextList = new FilterList<>(taskEventList, contextMatcherEditor);
+		contextMatcherEditor.contextChangedNotify(); //TODO: ensure that list is filtered the first time
+		
+		AdvancedTableModel<Task> taskListTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(filteredByContextList, taskTableFormat);
 		taskListTable.setModel(taskListTableModel);
-
+		
 		//Context edit autocomplete support
 		final EventList<Context> contextEventList = new BasicEventList<>();
 		contextEventList.addAll(dataContainer.getContexts());
