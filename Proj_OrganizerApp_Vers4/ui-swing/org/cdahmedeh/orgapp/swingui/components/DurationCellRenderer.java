@@ -1,5 +1,9 @@
 package org.cdahmedeh.orgapp.swingui.components;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.Random;
+
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.cdahmedeh.orgapp.tools.FuzzyDateParser;
@@ -16,5 +20,21 @@ public class DurationCellRenderer extends DefaultTableCellRenderer {
 			super.setValue(value);
 			setText((String) value);
 		}
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		double totalProgress = 10.0;
+		double secondProgress = new Random().nextDouble()*totalProgress;
+		double firstProgress = new Random().nextDouble()*secondProgress;
+		
+		Color brighter = new Color(0, 0, 0, 50);
+		
+		g.setColor(brighter);
+		g.fillRect(0, 0, (int)(this.getWidth()*(secondProgress/totalProgress)), this.getHeight());
+		
+		g.fillRect(0, 0, (int)(this.getWidth()*(firstProgress/totalProgress)), this.getHeight());
+		
+		super.paint(g);
 	}
 }
