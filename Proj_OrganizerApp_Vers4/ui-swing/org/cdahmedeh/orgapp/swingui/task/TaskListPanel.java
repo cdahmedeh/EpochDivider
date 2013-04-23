@@ -85,6 +85,7 @@ public class TaskListPanel extends JPanel {
 	
 	private void postInit() {
 		prepareTaskListTableModel();
+		adjustTaskListTableColumnWidths();
 	}
 
 	private void createTaskListTable() {
@@ -128,6 +129,14 @@ public class TaskListPanel extends JPanel {
 		//Setup renderer and editor for estimate column
 		TableColumn estimateColumn = taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_ESTIMATE);
 		estimateColumn.setCellRenderer(new DurationCellRenderer());
+	}
+	
+	private void adjustTaskListTableColumnWidths() {
+		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_TITLE).setPreferredWidth(200);
+		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_CONTEXT).setPreferredWidth(50);
+		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_DUE).setPreferredWidth(50);
+		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_ESTIMATE).setPreferredWidth(50);
+		
 	}
 	
 	private void createToolbar() {
