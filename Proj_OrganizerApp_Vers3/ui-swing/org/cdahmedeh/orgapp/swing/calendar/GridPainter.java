@@ -6,6 +6,7 @@ import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
+import org.cdahmedeh.orgapp.swing.helpers.GraphicsHelper;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
@@ -19,7 +20,8 @@ import org.joda.time.LocalTime;
 public class GridPainter {
 	public static void drawDays(Graphics g, DayLinePanel dayLinePanel, View view) {
 		Rectangle clientArea = new Rectangle(0, 0, dayLinePanel.getWidth(), dayLinePanel.getHeight());
-		
+		GraphicsHelper.enableAntiAliasing(g);
+
 		g.setColor(new Color(0, 0, 0, 233));
 		
         for (int i = 0; i<=view.getNumberOfDaysVisible(); i++){
@@ -61,7 +63,8 @@ public class GridPainter {
 
 	public static void drawHours(Graphics e, JComponent canvas, View view) {
 		int hours = 24;
-		
+		GraphicsHelper.enableAntiAliasing(e);
+
 		Rectangle clientArea = new Rectangle(0, 0, canvas.getWidth(), canvas.getHeight());
 		
         for (double i = 0; i<hours; i=i+0.25){
@@ -95,7 +98,8 @@ public class GridPainter {
 	public static void drawTimeGrid(Graphics e, CalendarPanel calendarPanel,
 			View currentView) {
 		Dimension clientArea = calendarPanel.getSize();
-		
+		GraphicsHelper.enableAntiAliasing(e);
+
 		int days = currentView.getNumberOfDaysVisible();
 		int hours = 24;
 		

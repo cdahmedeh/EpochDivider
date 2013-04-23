@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
 import org.cdahmedeh.orgapp.containers.BigContainer;
+import org.cdahmedeh.orgapp.swing.helpers.GraphicsHelper;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.eclipse.swt.graphics.Rectangle;
@@ -57,7 +58,8 @@ public class CalendarPanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+		GraphicsHelper.enableAntiAliasing(g);
+
         GridPainter.drawTimeGrid(g, this, bigContainer.getCurrentView());
       		
         rectangleTimeBlockMap.clear();
