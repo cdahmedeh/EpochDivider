@@ -1,11 +1,8 @@
 package org.cdahmedeh.orgapp.swingui.main;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -13,6 +10,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.cdahmedeh.orgapp.generators.TestDataGenerator;
+import org.cdahmedeh.orgapp.swingui.calendar.CalendarPanel;
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
 import org.cdahmedeh.orgapp.swingui.notification.LoadTaskListPanelRequest;
@@ -24,7 +22,6 @@ import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import com.jidesoft.swing.JideSplitPane;
 
 import java.awt.BorderLayout;
-import javax.swing.border.LineBorder;
 
 public class MainWindow {
 	// - Events and Logging -
@@ -102,10 +99,8 @@ public class MainWindow {
 		rightSplitPane.setContinuousLayout(true);
 		mainSplitPane.addPane(rightSplitPane);
 		
-		JPanel emptyPanel = new JPanel();
-		emptyPanel.setPreferredSize(new Dimension(500, 500));
-		emptyPanel.setBackground(Color.WHITE);
-		emptyPanel.setBorder(new LineBorder(new Color(130, 135, 144)));
+		CalendarPanel emptyPanel = new CalendarPanel(dataContainer);
+		emptyPanel.setEventBus(eventBus);
 		rightSplitPane.addPane(emptyPanel);
 		
 		TaskListPanel taskListPanel = new TaskListPanel(dataContainer);
