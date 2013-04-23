@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.LocalTime;
 
+import com.joestelmach.natty.CalendarSource;
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
 
@@ -44,6 +45,8 @@ public class FuzzyDateParser {
 	 */
 	public static DateTime fuzzyStringToDateTime(String fuzzy){
 		Parser parser = new Parser();
+		Date baseDate = DateTime.now().toDateMidnight().toDate();
+		CalendarSource.setBaseDate(baseDate);
 		List<DateGroup> parsed = parser.parse(fuzzy);
 		
 		if (parsed.size() > 0){
