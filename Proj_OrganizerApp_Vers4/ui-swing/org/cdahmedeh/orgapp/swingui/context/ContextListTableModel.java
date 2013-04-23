@@ -21,7 +21,7 @@ public class ContextListTableModel implements TableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 1;
+		return 2;
 	}
 
 	@Override
@@ -47,6 +47,8 @@ public class ContextListTableModel implements TableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Context context = contexts.get(rowIndex);
 		switch(columnIndex){
+		case ContextListPanelDefaults.COLUMN_CONTEXT_COLOR:
+			return context.getColor();
 		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
 			return context.getName();
 		}

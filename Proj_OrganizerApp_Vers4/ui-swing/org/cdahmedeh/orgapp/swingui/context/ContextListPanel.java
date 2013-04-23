@@ -12,6 +12,7 @@ import java.awt.Dimension;
 
 import javax.swing.JScrollPane;
 
+import org.cdahmedeh.orgapp.swingui.components.ColorHueCellRenderer;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
 import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
@@ -28,6 +29,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableColumn;
 
 public class ContextListPanel extends JPanel {
 	private static final long serialVersionUID = -8250528552031443184L;
@@ -72,6 +74,7 @@ public class ContextListPanel extends JPanel {
 	
 	private void postInit() {
 		prepareContextListTableModel();
+		adjustTaskListTableColumnWidths();
 		enableDragRearrange();
 	}
 
@@ -105,13 +108,20 @@ public class ContextListPanel extends JPanel {
 	}
 	
 	/**
-	 * Set the Table Model for the Context List Table.
+	 * Set the Table Model and Renderers for the Context List Table.
 	 */
 	private void prepareContextListTableModel() {
 		contextListTable.setModel(new ContextListTableModel(dataContainer.getContexts()));
 		contextListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		TableColumn dueDateColumn = contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR);
+		dueDateColumn.setCellRenderer(new ColorHueCellRenderer());
 	}
 
+	private void adjustTaskListTableColumnWidths() {
+		contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR).setMaxWidth(1);
+	}
+	
 	private void refreshContextListTreeTable() {
 		//TODO: This is not how we should refresh the table.
 		contextListTable.repaint();

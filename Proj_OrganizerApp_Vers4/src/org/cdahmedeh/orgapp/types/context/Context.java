@@ -1,5 +1,7 @@
 package org.cdahmedeh.orgapp.types.context;
 
+import java.util.Random;
+
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 
 /**
@@ -23,6 +25,11 @@ public class Context {
 	public void setName(String name) {this.name = MiscHelper.safeTrim(name);}
 	
 	public boolean isSelectable() {return true;}
+	
+	private int color = new Random().nextInt(255);
+	public int getColor() {return color;}
+	public void setColor(int color) {this.color = color;}
+	
 	
 	/* ---- Object methods ---- */
 	
