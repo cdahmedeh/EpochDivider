@@ -69,6 +69,10 @@ public class FuzzyDateParser {
 		return new DecimalFormat("#0.0").format((double)minutes/DateTimeConstants.MINUTES_PER_HOUR); 
 	}
 	
+	/**
+	 * Given a human readable duration, converts it to a Duration object. 
+	 * If parsing fails, then Duration.ZERO is returned.
+	 */
 	public static Duration fuzzyStringToDuration(String fuzzy){
 		try {
 			double parseDouble = Double.parseDouble(fuzzy);

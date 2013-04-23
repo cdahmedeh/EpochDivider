@@ -11,18 +11,24 @@ import org.cdahmedeh.orgapp.types.task.Task;
  * @author Ahmed El-Hajjar
  */
 public class DataContainer {
+	// --- contexts ---
 	private ArrayList<Context> contexts;
-	public ArrayList<Context> getContexts() {return contexts;}
-	public void setContexts(ArrayList<Context> contexts) {this.contexts = contexts;}
-	
+	public void loadContexts(ArrayList<Context> contexts) {this.contexts = contexts;}
+
+	public ArrayList<Context> getContexts() {
+		return contexts;
+	}
 	public ArrayList<Context> getSelectableContexts() {
 		ArrayList<Context> contextsList = new ArrayList<>();
 		for (Context context: contexts) if (context.isSelectable()) contextsList.add(context);
 		return contextsList;
 	}
 	
+	// --- tasks ---	
 	private ArrayList<Task> tasks;
-	public ArrayList<Task> getTasks() {return tasks;}
-	public void setTasks(ArrayList<Task> tasks) {this.tasks = tasks;}
-	
+	public void loadTasks(ArrayList<Task> tasks) {this.tasks = tasks;}
+
+	public ArrayList<Task> getTasks() {
+		return tasks;
+	}
 }

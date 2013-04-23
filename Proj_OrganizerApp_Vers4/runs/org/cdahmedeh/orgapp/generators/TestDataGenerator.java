@@ -70,8 +70,8 @@ public class TestDataGenerator {
 		task04.setContext(null);
 		taskList.add(task04);
 		
-		dataContainer.setContexts(contextList);
-		dataContainer.setTasks(taskList);
+		dataContainer.loadContexts(contextList);
+		dataContainer.loadTasks(taskList);
 		
 		return dataContainer;
 	}
