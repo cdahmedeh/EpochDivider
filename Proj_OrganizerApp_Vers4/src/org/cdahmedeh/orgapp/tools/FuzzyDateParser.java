@@ -1,9 +1,11 @@
 package org.cdahmedeh.orgapp.tools;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.LocalTime;
 
@@ -53,6 +55,28 @@ public class FuzzyDateParser {
 			List<Date> dates = parsed.get(0).getDates();
 			if (dates.size() > 0){
 				return new DateTime(dates.get(0));
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Returns a human readable string for a certain duration.
+	 */
+	public static String durationToFuzzyString(Duration duration){
+		long minutes = duration.getStandardMinutes();
+		return new DecimalFormat("#0.0").format((double)minutes/DateTimeConstants.MINUTES_PER_HOUR); 
+	}
+	
+	public static Duration fuzzyStringToDuration(String fuzzy){
+		Parser parser = new Parser();
+		List<DateGroup> parsed = parser.parse(fuzzy);
+		
+		if (parsed.size() > 0){
+			List<Date> dates = parsed.get(0).getDates();
+			if (dates.size() > 0){
+				return new Duration(DateTime.now(), new DateTime(dates.get(0)));
 			}
 		}
 		

@@ -4,6 +4,7 @@ import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.context.NoContextContext;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 /**
  * Data type class for Tasks. 
@@ -31,4 +32,7 @@ public class Task {
 	public DateTime getDue() {return due;}
 	public void setDue(DateTime due) {this.due = due;}
 
+	private Duration estimate = Duration.ZERO;
+	public Duration getEstimate() {return estimate;}
+	public void setEstimate(Duration estimate) {this.estimate = estimate;}
 }

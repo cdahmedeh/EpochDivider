@@ -3,6 +3,7 @@ package org.cdahmedeh.orgapp.swingui.task;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.gui.WritableTableFormat;
@@ -20,12 +21,21 @@ public class TaskListTableFormat implements TableFormat<Task>, WritableTableForm
 				//toString() used to show value.
 				return context;				
 			}
+			break;
 		case TaskListPanelDefaults.COLUMN_TASK_DUE:
 			DateTime dueDate = baseObject.getDue();
 			if (dueDate != null){
 				//Renderer does the parsing
 				return dueDate;				
 			}
+			break;
+		case TaskListPanelDefaults.COLUMN_TASK_ESTIMATE:
+			Duration estimate = baseObject.getEstimate();
+			if (estimate != null){
+				//Renderer does the parsing
+				return estimate;				
+			}
+			break;
 		}
 		
 		return "";
@@ -40,13 +50,15 @@ public class TaskListTableFormat implements TableFormat<Task>, WritableTableForm
 			return "Context";
 		case TaskListPanelDefaults.COLUMN_TASK_DUE:
 			return "Due";
+		case TaskListPanelDefaults.COLUMN_TASK_ESTIMATE:
+			return "Estimate";
 		}
 		return "";
 	}
 	
 	@Override
 	public int getColumnCount() {
-		return 3;
+		return 4;
 	}
 
 	@Override
