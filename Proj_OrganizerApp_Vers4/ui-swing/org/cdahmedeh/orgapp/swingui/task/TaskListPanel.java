@@ -19,6 +19,7 @@ import javax.swing.table.TableColumn;
 
 import org.cdahmedeh.orgapp.swingui.components.DateEntryCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.DateEntryCellRenderer;
+import org.cdahmedeh.orgapp.swingui.components.DurationCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.DurationCellRenderer;
 import org.cdahmedeh.orgapp.swingui.notification.LoadTaskListPanelRequest;
 import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
@@ -129,6 +130,7 @@ public class TaskListPanel extends JPanel {
 		//Setup renderer and editor for estimate column
 		TableColumn estimateColumn = taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_ESTIMATE);
 		estimateColumn.setCellRenderer(new DurationCellRenderer());
+		estimateColumn.setCellEditor(new DurationCellEditor(new JTextField()));
 	}
 	
 	private void adjustTaskListTableColumnWidths() {

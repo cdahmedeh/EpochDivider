@@ -71,16 +71,26 @@ public class TaskListTableFormat implements TableFormat<Task>, WritableTableForm
 		switch(column){
 		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
 			baseObject.setTitle((String) editedValue);
+			break;
 		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
 			if (editedValue instanceof Context){
 				baseObject.setContext((Context)editedValue);
 			}
+			break;
 		case TaskListPanelDefaults.COLUMN_TASK_DUE:
 			if (editedValue == null){
 				baseObject.setDue(null);
 			} else if (editedValue instanceof DateTime){
 				baseObject.setDue((DateTime)editedValue);
 			}
+			break;
+		case TaskListPanelDefaults.COLUMN_TASK_ESTIMATE:
+			if (editedValue == null){
+				baseObject.setEstimate(Duration.ZERO);
+			} else if (editedValue instanceof Duration){
+				baseObject.setEstimate((Duration)editedValue);
+			}
+			break;
 		}
 		
 		return baseObject;

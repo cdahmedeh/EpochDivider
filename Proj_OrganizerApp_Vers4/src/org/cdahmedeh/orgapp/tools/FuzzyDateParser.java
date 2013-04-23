@@ -70,16 +70,13 @@ public class FuzzyDateParser {
 	}
 	
 	public static Duration fuzzyStringToDuration(String fuzzy){
-		Parser parser = new Parser();
-		List<DateGroup> parsed = parser.parse(fuzzy);
-		
-		if (parsed.size() > 0){
-			List<Date> dates = parsed.get(0).getDates();
-			if (dates.size() > 0){
-				return new Duration(DateTime.now(), new DateTime(dates.get(0)));
-			}
+		try {
+			double parseDouble = Double.parseDouble(fuzzy);
+			return new Duration((long)(parseDouble*DateTimeConstants.MILLIS_PER_HOUR));
+		} catch (NumberFormatException e){
+			
 		}
-		
-		return null;
+				
+		return Duration.ZERO;
 	}
 }
