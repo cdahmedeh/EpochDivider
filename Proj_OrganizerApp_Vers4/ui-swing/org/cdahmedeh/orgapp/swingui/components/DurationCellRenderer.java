@@ -24,6 +24,8 @@ public class DurationCellRenderer extends DefaultTableCellRenderer {
 	
 	@Override
 	public void paint(Graphics g) {
+		super.paint(g);
+		
 		double totalProgress = 10.0;
 		double secondProgress = new Random().nextDouble()*totalProgress;
 		double firstProgress = new Random().nextDouble()*secondProgress;
@@ -34,7 +36,5 @@ public class DurationCellRenderer extends DefaultTableCellRenderer {
 		g.fillRect(0, 0, (int)(this.getWidth()*(secondProgress/totalProgress)), this.getHeight());
 		
 		g.fillRect(0, 0, (int)(this.getWidth()*(firstProgress/totalProgress)), this.getHeight());
-		
-		super.paint(g);
 	}
 }
