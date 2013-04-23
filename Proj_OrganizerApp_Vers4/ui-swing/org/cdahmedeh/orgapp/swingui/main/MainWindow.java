@@ -1,12 +1,18 @@
 package org.cdahmedeh.orgapp.swingui.main;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Insets;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.Border;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
@@ -23,6 +29,8 @@ import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import com.jidesoft.swing.JideSplitPane;
 
 import java.awt.BorderLayout;
+import javax.swing.border.LineBorder;
+import java.awt.SystemColor;
 
 public class MainWindow {
 	// - Events and Logging -
@@ -102,6 +110,8 @@ public class MainWindow {
 		
 		JPanel emptyPanel = new JPanel();
 		emptyPanel.setPreferredSize(new Dimension(500, 500));
+		emptyPanel.setBackground(Color.WHITE);
+		emptyPanel.setBorder(new LineBorder(new Color(130, 135, 144)));
 		rightSplitPane.addPane(emptyPanel);
 		
 		TaskListPanel taskListPanel = new TaskListPanel(dataContainer);
