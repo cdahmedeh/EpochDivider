@@ -18,5 +18,6 @@
 	<classpathentry kind="lib" path="elibs/ical4j-1.0.4.jar" sourcepath="slibs/ical4j-1.0.4-sources.jar"/>
 	<classpathentry kind="lib" path="elibs/antlr-2.7.7.jar"/>
 	<classpathentry kind="lib" path="elibs/antlr-runtime-3.2.jar"/>
+	<classpathentry kind="lib" path="elibs/log4j-1.2.17.jar" sourcepath="slibs/log4j-1.2.17-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

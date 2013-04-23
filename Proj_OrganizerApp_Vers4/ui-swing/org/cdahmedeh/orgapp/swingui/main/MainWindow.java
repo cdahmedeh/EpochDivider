@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.cdahmedeh.orgapp.generators.TestDataGenerator;
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
@@ -22,8 +25,9 @@ import com.jidesoft.swing.JideSplitPane;
 import java.awt.BorderLayout;
 
 public class MainWindow {
-	// - Events -
-	public EventBus eventBus;
+	// - Events and Logging -
+	private EventBus eventBus;
+	private Logger logger = Logger.getLogger(this.getClass());
 	
 	// - Components -
 	private JFrame frame;
@@ -50,6 +54,10 @@ public class MainWindow {
 	 * Create the application.
 	 */
 	public MainWindow() {
+		BasicConfigurator.configure();
+		logger.setLevel(Level.INFO);
+		logger.info("Starting application...");
+		
 		try {
 			UIManager.setLookAndFeel(new WindowsLookAndFeel());
 		} catch (UnsupportedLookAndFeelException e) {
