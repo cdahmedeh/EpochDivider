@@ -1,6 +1,5 @@
 package org.cdahmedeh.orgapp.swingui.context;
 
-import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;

@@ -3,7 +3,6 @@ package org.cdahmedeh.orgapp.swingui.components;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.cdahmedeh.orgapp.tools.FuzzyDateParser;
-import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 public class DurationCellRenderer extends DefaultTableCellRenderer {

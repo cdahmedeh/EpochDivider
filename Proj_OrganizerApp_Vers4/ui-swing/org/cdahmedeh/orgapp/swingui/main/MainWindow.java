@@ -3,16 +3,11 @@ package org.cdahmedeh.orgapp.swingui.main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Insets;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.Border;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
@@ -30,7 +25,6 @@ import com.jidesoft.swing.JideSplitPane;
 
 import java.awt.BorderLayout;
 import javax.swing.border.LineBorder;
-import java.awt.SystemColor;
 
 public class MainWindow {
 	// - Events and Logging -
