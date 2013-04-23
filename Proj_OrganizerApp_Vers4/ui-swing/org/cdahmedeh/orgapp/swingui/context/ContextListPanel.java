@@ -92,7 +92,7 @@ public class ContextListPanel extends JPanel {
 		Component horizontalGlue = Box.createHorizontalGlue();
 		toolbar.add(horizontalGlue);
 				
-		JButton addContextButton = new JButton("Add");
+		JButton addContextButton = new JButton("Add Context");
 		addContextButton.setIcon(new ImageIcon(ContextListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.png")));
 		toolbar.add(addContextButton);
 		
