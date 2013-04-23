@@ -18,17 +18,17 @@ public class DateEntryCellEditor extends AbstractParserEntryCellEditor<DateTime>
 	}
 
 	@Override
-	protected String reparse(Object value) {
+	protected String parseTypeToString(Object value) {
 		return FuzzyDateParser.dateTimeToFuzzyString((DateTime)value);
 	}
 
 	@Override
-	protected DateTime parse(String context) {
+	protected DateTime parseStringToType(String context) {
 		return FuzzyDateParser.fuzzyStringToDateTime(context);
 	}
 
 	@Override
-	protected String preview(DateTime dateValue) {
+	protected String previewParseToString(DateTime dateValue) {
 		return dateValue.toString("EEEE, MMMM d, YYYY 'at' HH:mm");
 	}
 

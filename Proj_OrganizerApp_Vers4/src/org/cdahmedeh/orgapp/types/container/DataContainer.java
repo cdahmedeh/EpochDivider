@@ -18,11 +18,13 @@ public class DataContainer {
 	public ArrayList<Context> getContexts() {
 		return contexts;
 	}
+	
 	public ArrayList<Context> getSelectableContexts() {
 		ArrayList<Context> contextsList = new ArrayList<>();
 		for (Context context: contexts) if (context.isSelectable()) contextsList.add(context);
 		return contextsList;
 	}
+	
 	
 	// --- tasks ---	
 	private ArrayList<Task> tasks;

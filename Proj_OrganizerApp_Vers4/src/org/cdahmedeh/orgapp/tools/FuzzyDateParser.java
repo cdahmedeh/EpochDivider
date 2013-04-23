@@ -32,13 +32,13 @@ public class FuzzyDateParser {
 		//The time of the day is only shown if it is not midnight.
 		String time = dateTime.toLocalTime().isEqual(LocalTime.MIDNIGHT) ? "" : dateTime.toString(" @ HH:mm");
 		
-		if (days < -1) return -days + " days ago"  + time;
-		else if (days == -1) return "Yesterday" + time;
-		else if (days == 0) return "Today" + time;
-		else if (days == 1) return "Tomorrow"  + time;
-		else if (days > 1 && days <= 7) return "In " + days + " days"  + time;
-		else if (dateTime.getYear() == today.getYear()) return dateTime.toString("d MMM") + time;
-		else return dateTime.toString("d MMM YYYY") + time;
+		if (days < -1) return -days + " days ago"  + time;											//if before today, then just give how many days ago it ways
+		else if (days == -1) return "Yesterday" + time;												//yesterday
+		else if (days == 0) return "Today" + time;													//today
+		else if (days == 1) return "Tomorrow"  + time;												//tomorrow
+		else if (days > 1 && days <= 7) return "In " + days + " days"  + time;						//if within 7 days, then say, in n days
+		else if (dateTime.getYear() == today.getYear()) return dateTime.toString("d MMM") + time;	//if within this year, just give date without year
+		else return dateTime.toString("d MMM YYYY") + time;											//otherwise, give date with year
 	}
 
 	/**
@@ -46,6 +46,7 @@ public class FuzzyDateParser {
 	 * fails, then a null value is returned.
 	 */
 	public static DateTime fuzzyStringToDateTime(String fuzzy){
+		//Let natty do the parsing
 		Parser parser = new Parser();
 		Date baseDate = DateTime.now().toDateMidnight().toDate();
 		CalendarSource.setBaseDate(baseDate);
@@ -63,6 +64,10 @@ public class FuzzyDateParser {
 	
 	/**
 	 * Returns a human readable string for a certain duration.
+	 *
+	 * Just gives the numbers of hours with one decimal precision.
+	 * (ie. 3 hours 30 mins is 3.5)
+	 * 
 	 */
 	public static String durationToFuzzyString(Duration duration){
 		long minutes = duration.getStandardMinutes();

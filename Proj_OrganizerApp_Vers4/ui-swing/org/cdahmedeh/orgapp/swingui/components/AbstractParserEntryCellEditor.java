@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.swingui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -17,7 +18,7 @@ import com.jidesoft.hints.AbstractListIntelliHints;
 
 /**
  * Editor for parsed types, still slightly buggy. At least now, it's reusable 
- * buggy code that will only need to fixed once. 
+ * buggy code that will only need to be fixed once. 
  * 
  * @author Ahmed El-Hajjar
  */
@@ -29,12 +30,17 @@ public abstract class AbstractParserEntryCellEditor<T> extends DefaultCellEditor
 
 	//Components
 	private JTextField editorTextField;
-
 	private IntelliHintsTextPreview intelliHintsTextPreview;
 
+	//Interface methods
+	protected abstract String parseTypeToString(Object value);
+	protected abstract T parseStringToType(String value);
+	protected abstract String previewParseToString(T dateValue);
+	protected abstract String getParseEmptyText();
+	
+	//Constructs
 	public AbstractParserEntryCellEditor(final JTextField editorTextField) {
 		super(editorTextField);
-		
 		this.editorTextField = editorTextField;
 		
 		setupDelegate();
@@ -42,7 +48,7 @@ public abstract class AbstractParserEntryCellEditor<T> extends DefaultCellEditor
 	}
 
 	private void setupDelegate() {
-		//Setup delegate, remove old one, and put new one in with date parsing.
+		//Setup delegate, remove old one, and put new one in with parsing support.
         editorTextField.removeActionListener(delegate);
 		delegate = new DateParsedDeligateExtension(editorTextField);
         editorTextField.addActionListener(delegate);
@@ -54,22 +60,20 @@ public abstract class AbstractParserEntryCellEditor<T> extends DefaultCellEditor
 	}
 
 	
-	private final class IntelliHintsTextPreview extends
-			AbstractListIntelliHints {
+	@Override
+	public Object getCellEditorValue() {
+		return objectValue;
+	}
+
+	private final class IntelliHintsTextPreview extends AbstractListIntelliHints {
 		protected JLabel previewLabel;
-		String previewText = "";
+		protected String previewText = "";
 
 		private IntelliHintsTextPreview(JTextComponent textComponent) {
 			super(textComponent);
 			
-			textComponent.addFocusListener(new FocusListener() {
-				
-				@Override
-				public void focusLost(FocusEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
+			//Show hints as soon as the text field is focused, don't wait for typing.
+			textComponent.addFocusListener(new FocusAdapter() {
 				@Override
 				public void focusGained(FocusEvent e) {
 					showHints();
@@ -77,6 +81,7 @@ public abstract class AbstractParserEntryCellEditor<T> extends DefaultCellEditor
 			});
 		}
 
+		//We're just using a label in the intellihints component
 		@Override
 		public JComponent createHintsComponent() {
 		    JPanel panel = (JPanel) super.createHintsComponent();
@@ -88,10 +93,10 @@ public abstract class AbstractParserEntryCellEditor<T> extends DefaultCellEditor
 		@Override
 		public boolean updateHints(Object context) {
 			if (context instanceof String){
-				T valueFromParser = parse((String)context);
+				T valueFromParser = parseStringToType((String)context);
 				if (valueFromParser != null) {
 					objectValue = valueFromParser;
-					previewText = preview(objectValue);
+					previewText = previewParseToString(objectValue);
 				} else if (context.equals("")) {
 					objectValue = null;
 					previewText = getParseEmptyText();
@@ -103,10 +108,6 @@ public abstract class AbstractParserEntryCellEditor<T> extends DefaultCellEditor
 		}
 	}
 
-	@Override
-	public Object getCellEditorValue() {
-		return objectValue;
-	}
 	
 	private final class DateParsedDeligateExtension extends EditorDelegate {
 		private static final long serialVersionUID = 7646999407630619180L;
@@ -117,16 +118,11 @@ public abstract class AbstractParserEntryCellEditor<T> extends DefaultCellEditor
 		}
 
 		public void setValue(Object value) {
-		    editorTextField.setText((value != null && !value.equals("")) ? (reparse(value)) : "");
+		    editorTextField.setText((value != null && !value.equals("")) ? (parseTypeToString(value)) : "");
 		}
 
 		public Object getCellEditorValue() {
 		    return editorTextField.getText();
 		}
 	}
-	
-	protected abstract String reparse(Object value);
-	protected abstract T parse(String value);
-	protected abstract String preview(T dateValue);
-	protected abstract String getParseEmptyText();
 }

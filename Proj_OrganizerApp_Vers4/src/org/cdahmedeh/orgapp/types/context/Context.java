@@ -1,7 +1,5 @@
 package org.cdahmedeh.orgapp.types.context;
 
-import java.util.ArrayList;
-
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 
 /**

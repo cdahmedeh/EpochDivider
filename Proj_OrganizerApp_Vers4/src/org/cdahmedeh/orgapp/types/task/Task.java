@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 /**
- * Data type class for Tasks. 
+ * Data type class for one Task. 
  * 
  * @author Ahmed El-Hajjar
  */

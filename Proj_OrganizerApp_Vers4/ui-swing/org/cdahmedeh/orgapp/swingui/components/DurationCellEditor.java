@@ -19,17 +19,17 @@ public class DurationCellEditor extends AbstractParserEntryCellEditor<Duration>{
 	}
 
 	@Override
-	protected String reparse(Object value) {
+	protected String parseTypeToString(Object value) {
 		return FuzzyDateParser.durationToFuzzyString((Duration)value);
 	}
 
 	@Override
-	protected Duration parse(String context) {
+	protected Duration parseStringToType(String context) {
 		return FuzzyDateParser.fuzzyStringToDuration(context);
 	}
 
 	@Override
-	protected String preview(Duration dateValue) {
+	protected String previewParseToString(Duration dateValue) {
 		return FuzzyDateParser.durationToFuzzyString(dateValue) + " hours";
 	}
 
