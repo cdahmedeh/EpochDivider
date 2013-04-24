@@ -12,6 +12,7 @@ import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 
+import com.google.common.eventbus.EventBus;
 import com.jidesoft.swing.JideScrollPane;
 
 import javax.swing.ScrollPaneConstants;
@@ -19,7 +20,7 @@ import javax.swing.border.LineBorder;
 
 public class CalendarPanel extends CPanel {
 	private static final long serialVersionUID = -4789321610128363432L;
-	public CalendarPanel(DataContainer dataContainer) {super(dataContainer);}
+	public CalendarPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
 	
 	@Override protected Object getEventRecorder() {return new Object(){};}
 	

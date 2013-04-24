@@ -14,20 +14,19 @@ public abstract class CPanel extends JPanel {
 	// - Data -
 	protected DataContainer dataContainer;
 
-	public CPanel(DataContainer dataContainer) {
+	public CPanel(DataContainer dataContainer, EventBus eventBus) {
 		this.dataContainer = dataContainer;
+		
+		this.eventBus = eventBus;
+		this.eventBus.register(new DefaultEventRecorder());
+		this.eventBus.register(getEventRecorder());
+		
 		windowInit();
 	}
 	
 	// - EventBus -
-	private EventBus eventBus;
+	protected EventBus eventBus;
 
-	public void setEventBus(EventBus eventBus) {
-		this.eventBus = eventBus;
-		this.eventBus.register(new DefaultEventRecorder());
-		this.eventBus.register(getEventRecorder());
-	}
-	
 	protected abstract Object getEventRecorder();
 	
 	class DefaultEventRecorder{

@@ -34,11 +34,12 @@ import ca.odell.glazedlists.swing.AutoCompleteSupport;
 import ca.odell.glazedlists.swing.AutoCompleteSupport.AutoCompleteCellEditor;
 import ca.odell.glazedlists.swing.GlazedListsSwing;
 
+import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 public class TaskListPanel extends CPanel {
 	private static final long serialVersionUID = -8250528552031443184L;
-	public TaskListPanel(DataContainer dataContainer) {super(dataContainer);}
+	public TaskListPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
 	
 	@Override
 	protected Object getEventRecorder() {

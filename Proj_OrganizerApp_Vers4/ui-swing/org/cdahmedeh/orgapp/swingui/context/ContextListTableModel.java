@@ -63,6 +63,7 @@ public class ContextListTableModel implements TableModel {
 			if (aValue instanceof String){
 				context.setName((String) aValue);	
 			}
+			break;
 		}
 	}
 

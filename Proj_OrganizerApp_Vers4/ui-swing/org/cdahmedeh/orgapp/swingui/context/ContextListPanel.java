@@ -2,7 +2,6 @@ package org.cdahmedeh.orgapp.swingui.context;
 
 import javax.swing.DropMode;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
@@ -13,7 +12,8 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 
 import org.cdahmedeh.orgapp.swingui.components.ColorHueCellRenderer;
-import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
+import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
+import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
 import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
@@ -31,50 +31,37 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
-public class ContextListPanel extends JPanel {
+public class ContextListPanel extends CPanel {
 	private static final long serialVersionUID = -8250528552031443184L;
-	
-	// - EventBus -
-	private EventBus eventBus;
-	public void setEventBus(EventBus eventBus) {
-		this.eventBus = eventBus;
-		this.eventBus.register(new EventRecorder());
+	public ContextListPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
+
+	@Override
+	protected Object getEventRecorder() {
+		return new Object(){
+			@Subscribe public void refreshContextList(RefreshContextListRequest request) {
+				refreshContextListTreeTable();
+			}
+		};
 	}
-	
-	class EventRecorder{
-		@Subscribe public void loadContextListPanel(LoadContextListPanelRequest request) {
-			postInit();
-		}
-		@Subscribe public void refreshContextList(RefreshContextListRequest request) {
-			refreshContextListTreeTable();
-		}
-	}
-	
+
 	// - Components -
 	private JScrollPane contextListPane;
 	private JTable contextListTable;
-
-	// - Data -
-	private DataContainer dataContainer;
 	
-	/**
-	 * Create the panel.
-	 */
-	public ContextListPanel(DataContainer dataContainer) {
-		this.dataContainer = dataContainer;
-		
+	@Override
+	protected void windowInit() {
 		setPreferredSize(new Dimension(ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_WIDTH, ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_HEIGHT));
 		setLayout(new BorderLayout());
 		
 		createContextListTable();
 		createToolbar();
-		
-		addNotificationWhenChangingContexts();
 	}
-	
-	private void postInit() {
+
+	@Override
+	protected void postWindowInit() {
+		addNotificationWhenChangingContexts();		
 		prepareContextListTableModel();
-		adjustTaskListTableColumnWidths();
+		adjustContextListTableColumnWidths();
 		enableDragRearrange();
 	}
 
@@ -92,12 +79,8 @@ public class ContextListPanel extends JPanel {
 		toolbar.setFloatable(false);
 		add(toolbar, BorderLayout.SOUTH);
 		
-		Component horizontalGlue = Box.createHorizontalGlue();
-		toolbar.add(horizontalGlue);
-				
-		JButton addContextButton = new JButton("Add Context");
-		addContextButton.setIcon(new ImageIcon(ContextListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.png")));
-		toolbar.add(addContextButton);
+		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
+		JButton addContextButton = ToolbarHelper.createToolbarButton(toolbar, "Add", ContextListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.png"));
 		
 		addContextButton.addActionListener(new ActionListener() {
 			@Override
@@ -107,9 +90,6 @@ public class ContextListPanel extends JPanel {
 		});
 	}
 	
-	/**
-	 * Set the Table Model and Renderers for the Context List Table.
-	 */
 	private void prepareContextListTableModel() {
 		contextListTable.setModel(new ContextListTableModel(dataContainer.getContexts()));
 		contextListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -118,13 +98,8 @@ public class ContextListPanel extends JPanel {
 		dueDateColumn.setCellRenderer(new ColorHueCellRenderer());
 	}
 
-	private void adjustTaskListTableColumnWidths() {
+	private void adjustContextListTableColumnWidths() {
 		contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR).setMaxWidth(1);
-	}
-	
-	private void refreshContextListTreeTable() {
-		//TODO: This is not how we should refresh the table.
-		contextListTable.repaint();
 	}
 	
 	private void enableDragRearrange() {
@@ -145,17 +120,26 @@ public class ContextListPanel extends JPanel {
 		});
 	}
 	
-	//non-sequential methods 
+	
+	// -- non-sequential methods --
+	
+	private void refreshContextListTreeTable() {
+		//TODO: Correctly refresh table.
+		contextListTable.repaint();
+	}
+	
 	private void addNewContextToContextListTable() {
-		//make sure that we are not already editing something
+		//If we are already editing a task, then just set focus to the editor.
 		if (contextListTable.isEditing()){
 			contextListTable.getEditorComponent().requestFocus();
 			return;
 		}
 		
+		//Create a new context, add it to the data container, and refresh the context list table.
 		dataContainer.getContexts().add(new Context(""));
 		refreshContextListTreeTable();
 		
+		//Init. editing the title of the new tasks and focus the editor.
 		contextListTable.editCellAt(contextListTable.getRowCount()-1, ContextListPanelDefaults.COLUMN_CONTEXT_NAME);
 		
 		Component editorComponent = contextListTable.getEditorComponent();
@@ -163,5 +147,4 @@ public class ContextListPanel extends JPanel {
 			editorComponent.requestFocus();
 		}
 	}
-	
 }

@@ -25,19 +25,6 @@ import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import java.awt.BorderLayout;
 
 public class MainWindow {
-	// - Events and Logging -
-	private EventBus eventBus;
-	private Logger logger = Logger.getLogger(this.getClass());
-	
-	// - Components -
-	private JFrame frame;
-
-	// - Data -
-	private DataContainer dataContainer;
-	
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -49,27 +36,39 @@ public class MainWindow {
 			}
 		});
 	}
+	
+	// - Events and Logging -
+	private EventBus eventBus;
+	private Logger logger = Logger.getLogger(this.getClass());
+	
+	// - Components -
+	private JFrame frame;
 
-	/**
-	 * Create the application.
-	 */
+	// - Data -
+	private DataContainer dataContainer;
+	
 	public MainWindow() {
+		//Prepare logger
 		BasicConfigurator.configure();
 		logger.setLevel(Level.INFO);
 		logger.info("Starting application...");
 		
+		//Set look and feel
 		try {
 			UIManager.setLookAndFeel(new WindowsLookAndFeel());
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
 		
+		//Prepare some test date, and prepare eventBus.
 		dataContainer = TestDataGenerator.generateDataContainer();
 		eventBus = new EventBus();
 		
+		//Show the application window
 		initialize();
 		this.frame.setVisible(true);
 		
+		//Let components do post-window load tasks.
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				eventBus.post(new WindowLoadedNotification());
@@ -78,31 +77,29 @@ public class MainWindow {
 		});
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setTitle("Epoch Divider");
+		frame.setTitle(UIConstants.WINDOW_TITLE);
 
-		frame.setBounds(100, 100, 800, 600);
+		frame.setBounds(UIConstants.DEFAULT_WINDOW_XPOS, UIConstants.DEFAULT_WINDOW_YPOS, UIConstants.DEFAULT_WINDOW_WIDTH, UIConstants.DEFAULT_WINDOW_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		//Split pane
 		JXMultiSplitPane mainSplitPane = new JXMultiSplitPane();
 		mainSplitPane.setModel(new DefaultSplitPaneModel());
 		mainSplitPane.setContinuousLayout(true);
 		frame.getContentPane().add(mainSplitPane, BorderLayout.CENTER);
 		
-		ContextListPanel contextListPanel = new ContextListPanel(dataContainer);
-		contextListPanel.setEventBus(eventBus);
+		//Context list
+		ContextListPanel contextListPanel = new ContextListPanel(dataContainer, eventBus);
 		mainSplitPane.add(contextListPanel, DefaultSplitPaneModel.LEFT);
 		
-		CalendarPanel emptyPanel = new CalendarPanel(dataContainer);
-		emptyPanel.setEventBus(eventBus);
-		mainSplitPane.add(emptyPanel, DefaultSplitPaneModel.TOP);
+		//Calendar 
+		CalendarPanel calendarPanel = new CalendarPanel(dataContainer, eventBus);
+		mainSplitPane.add(calendarPanel, DefaultSplitPaneModel.TOP);
 		
-		TaskListPanel taskListPanel = new TaskListPanel(dataContainer);
-		taskListPanel.setEventBus(eventBus);
+		//Task list
+		TaskListPanel taskListPanel = new TaskListPanel(dataContainer, eventBus);
 		mainSplitPane.add(taskListPanel, DefaultSplitPaneModel.BOTTOM);
 	}
 
