@@ -51,7 +51,7 @@ public class MainWindow {
 		//Prepare logger
 		BasicConfigurator.configure();
 		logger.setLevel(Level.INFO);
-		logger.info("Starting application...");
+		logger.info("Epoch Divider has started!");
 		
 		//Set look and feel
 		try {
@@ -59,14 +59,17 @@ public class MainWindow {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
+		logger.info("Configured Look and Feel");
 		
 		//Prepare some test data, and prepare eventBus.
 		dataContainer = TestDataGenerator.generateDataContainer();
 		eventBus = new EventBus();
+		logger.info("Test Data Generated");
 		
 		//Show the application window
 		initialize();
 		this.frame.setVisible(true);
+		logger.info("Window initialized");
 		
 		//Let components do post-window load tasks.
 		EventQueue.invokeLater(new Runnable() {
@@ -75,6 +78,7 @@ public class MainWindow {
 				eventBus.post(new LoadContextListPanelRequest());
 			}
 		});
+		logger.info("Post-load events sent");
 	}
 
 	private void initialize() {
