@@ -7,6 +7,7 @@ import org.cdahmedeh.orgapp.types.context.AllContextsContext;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.context.NoContextContext;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTime;
 
 /**
@@ -55,6 +56,7 @@ public class TestDataGenerator {
 		Task task01 = new Task("Clean car");
 		task01.setContext(miscContext);
 		task01.setDue(DateTime.now().toDateMidnight().plusDays(1).toDateTime());
+		task01.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,25,13,30)));
 		taskList.add(task01);
 		
 		Task task02 = new Task("Data persistence prototype for Epoch Divider");

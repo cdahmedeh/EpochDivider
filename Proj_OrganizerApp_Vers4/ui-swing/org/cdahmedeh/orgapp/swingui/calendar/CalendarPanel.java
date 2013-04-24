@@ -15,7 +15,10 @@ import javax.swing.JToolBar;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 
 import com.google.common.eventbus.EventBus;
+import com.jidesoft.swing.JideScrollPane;
+
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.LineBorder;
 
 public class CalendarPanel extends JPanel {
 	private static final long serialVersionUID = -4789321610128363432L;
@@ -43,7 +46,8 @@ public class CalendarPanel extends JPanel {
 		setPreferredSize(new Dimension(600, 500));
 		setLayout(new BorderLayout());
 		
-		JScrollPane calendarPane = new JScrollPane();
+		JideScrollPane calendarPane = new JideScrollPane();
+		calendarPane.setBorder(new LineBorder(Color.BLACK));
 		calendarPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		add(calendarPane, BorderLayout.CENTER);
 		
@@ -52,11 +56,14 @@ public class CalendarPanel extends JPanel {
 		JPanel calendarHeader = new DaylineHeaderPanel();
 		calendarPane.setColumnHeaderView(calendarHeader);
 		
+		JPanel calendarSubHeader = new DayBlocksHeaderPanel();
+		calendarPane.setSubColumnHeaderView(calendarSubHeader);
+		
 		JPanel timeLine = new TimelinePanel();
 		timeLine.setPreferredSize(new Dimension(40, 1000));
 		calendarPane.setRowHeaderView(timeLine);
 		
-		JPanel mainView = new SchedulerPanel();
+		JPanel mainView = new SchedulerPanel(dataContainer);
 		mainView.setPreferredSize(new Dimension(1, 1000));
 		calendarPane.setViewportView(mainView);
 	}

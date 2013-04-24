@@ -1,8 +1,11 @@
 package org.cdahmedeh.orgapp.types.task;
 
+import java.util.ArrayList;
+
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.context.NoContextContext;
+import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
@@ -39,4 +42,8 @@ public class Task {
 	private boolean completed = false;
 	public boolean isCompleted() {return completed;}
 	public void setCompleted(boolean completed) {this.completed = completed;}
+	
+	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
+	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
+	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}
 }

@@ -27,7 +27,6 @@ public class TimelinePanel extends JPanel {
 		super.paint(g);
 		GraphicsHelper.enableDefaultAASettings(g);
 		
-		GridPainter.drawTimeLines(g, new Color(200,200,200), new Color(220,220,220), this.getWidth(), this.getHeight(), 24, 1);
-		GridPainter.drawTimeLineText(g, this.getWidth(), this.getHeight(), new Color(100,100,100));
+		GridPainter.drawTimeLines(g, new Color(200,200,200), new Color(220,220,220), this.getWidth(), this.getHeight(), 60, true);
 	}
 }
