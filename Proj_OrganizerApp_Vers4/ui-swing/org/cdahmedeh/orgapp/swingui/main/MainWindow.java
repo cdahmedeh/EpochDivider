@@ -60,7 +60,7 @@ public class MainWindow {
 			e.printStackTrace();
 		}
 		
-		//Prepare some test date, and prepare eventBus.
+		//Prepare some test data, and prepare eventBus.
 		dataContainer = TestDataGenerator.generateDataContainer();
 		eventBus = new EventBus();
 		

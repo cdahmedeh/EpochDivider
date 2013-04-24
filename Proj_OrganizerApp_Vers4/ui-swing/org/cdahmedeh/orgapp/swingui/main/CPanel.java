@@ -8,11 +8,18 @@ import org.cdahmedeh.orgapp.types.container.DataContainer;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
+/**
+ * Extension of JPanel with built-in support for a dataContainer reference
+ * and an eventBus reference.
+ * 
+ * @author Ahmed El-Hajjar
+ */
 public abstract class CPanel extends JPanel {
 	private static final long serialVersionUID = 5507618755169356983L;
 	
-	// - Data -
+	// - Data and EventBus -
 	protected DataContainer dataContainer;
+	protected EventBus eventBus;
 
 	public CPanel(DataContainer dataContainer, EventBus eventBus) {
 		this.dataContainer = dataContainer;
@@ -23,18 +30,29 @@ public abstract class CPanel extends JPanel {
 		
 		windowInit();
 	}
-	
-	// - EventBus -
-	protected EventBus eventBus;
 
-	protected abstract Object getEventRecorder();
-	
 	class DefaultEventRecorder{
 		@Subscribe public void changedSelectedContext(WindowLoadedNotification notification){
 			postWindowInit();
 		}
 	}
 	
+	/**
+	 * This method is run right after the window is created. 
+	 */
 	protected abstract void windowInit();
+	
+	/**
+	 * This method is run after the window is rendered. Usually, data is loaded
+	 * here. It is called by the WindowLoadedNotification notification.
+	 */
 	protected abstract void postWindowInit();
+	
+	/**
+	 * Should return an object with methods for responding to EventBus
+	 * notifications.
+	 * 
+	 * @return
+	 */
+	protected abstract Object getEventRecorder();
 }
