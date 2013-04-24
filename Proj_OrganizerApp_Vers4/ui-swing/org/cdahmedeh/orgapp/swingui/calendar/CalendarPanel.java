@@ -5,68 +5,54 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 
-import javax.swing.Box;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 
+import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
+import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 
-import com.google.common.eventbus.EventBus;
 import com.jidesoft.swing.JideScrollPane;
 
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
-public class CalendarPanel extends JPanel {
+public class CalendarPanel extends CPanel {
 	private static final long serialVersionUID = -4789321610128363432L;
-
-	// - Data -
-	private DataContainer dataContainer;
+	public CalendarPanel(DataContainer dataContainer) {super(dataContainer);}
 	
-	// - EventBus -
-	private EventBus eventBus;
-
-	public void setEventBus(EventBus eventBus) {
-		this.eventBus = eventBus;
-		this.eventBus.register(new EventRecorder());
-	}
+	@Override protected Object getEventRecorder() {return new Object(){};}
 	
-	class EventRecorder{
-	}
-	
-	/**
-	 * Create the panel.
-	 * @param dataContainer 
-	 */
-	public CalendarPanel(DataContainer dataContainer) {
-		this.dataContainer = dataContainer;
+	@Override
+	protected void preInit() {
 		setPreferredSize(new Dimension(600, 500));
 		setLayout(new BorderLayout());
 		
 		createToolbar();
-		createCalendarPane();
+		createCalendarPane();		
 	}
 
+	@Override
+	protected void postInit() {
+	}
+	
 	private void createCalendarPane() {
 		JideScrollPane calendarPane = new JideScrollPane();
 		calendarPane.setBorder(new LineBorder(Color.BLACK));
 		calendarPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		add(calendarPane, BorderLayout.CENTER);
 		
-		JPanel calendarHeader = new DaylineHeaderPanel();
+		DaylineHeaderPanel calendarHeader = new DaylineHeaderPanel();
 		calendarPane.setColumnHeaderView(calendarHeader);
 		
-		JPanel calendarSubHeader = new DayBlocksHeaderPanel();
+		DayBlocksHeaderPanel calendarSubHeader = new DayBlocksHeaderPanel();
 		calendarPane.setSubColumnHeaderView(calendarSubHeader);
 		
-		JPanel timeLine = new TimelinePanel();
+		TimelinePanel timeLine = new TimelinePanel();
 		timeLine.setPreferredSize(new Dimension(40, 1000));
 		calendarPane.setRowHeaderView(timeLine);
 		
-		JPanel mainView = new SchedulerPanel(dataContainer);
+		SchedulerPanel mainView = new SchedulerPanel(dataContainer);
 		mainView.setPreferredSize(new Dimension(1, 1000));
 		calendarPane.setViewportView(mainView);
 	}
@@ -76,16 +62,13 @@ public class CalendarPanel extends JPanel {
 		toolbar.setFloatable(false);
 		add(toolbar, BorderLayout.NORTH);
 		
-		Component horizontalGlue = Box.createHorizontalGlue();
-		toolbar.add(horizontalGlue);
-		
-		JButton previousWeekButton = new JButton("Previous Week");
-		previousWeekButton.setIcon(new ImageIcon(CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/previous.png")));
-		toolbar.add(previousWeekButton);
-		
-		JButton nextWeekButton = new JButton("Next Week");
-		nextWeekButton.setIcon(new ImageIcon(CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/next.png")));
-		toolbar.add(nextWeekButton);
+		Component horizontalGlue = ToolbarHelper.createToolbarHorizontalGlue(toolbar);
+		JButton previousWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Previous Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/previous.png"));
+		JButton nextWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Next Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/next.png"));
 	}
+
+
+
+
 
 }

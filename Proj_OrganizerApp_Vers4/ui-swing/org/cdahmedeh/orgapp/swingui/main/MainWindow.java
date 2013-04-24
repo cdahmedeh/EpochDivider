@@ -13,7 +13,7 @@ import org.cdahmedeh.orgapp.generators.TestDataGenerator;
 import org.cdahmedeh.orgapp.swingui.calendar.CalendarPanel;
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
-import org.cdahmedeh.orgapp.swingui.notification.LoadTaskListPanelRequest;
+import org.cdahmedeh.orgapp.swingui.notification.WindowLoadedNotification;
 import org.cdahmedeh.orgapp.swingui.task.TaskListPanel;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.jdesktop.swingx.JXMultiSplitPane;
@@ -72,8 +72,8 @@ public class MainWindow {
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				eventBus.post(new WindowLoadedNotification());
 				eventBus.post(new LoadContextListPanelRequest());
-				eventBus.post(new LoadTaskListPanelRequest());
 			}
 		});
 	}

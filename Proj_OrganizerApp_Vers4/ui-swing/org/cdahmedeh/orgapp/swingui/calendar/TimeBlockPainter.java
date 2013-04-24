@@ -17,7 +17,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 public class TimeBlockPainter {
-	public static ArrayList<Rectangle> draw(TimeBlock timeBlock, Task task, View view, Graphics e, JPanel canvas) {
+	public static RendereredTask draw(Graphics g, Task task, TimeBlock timeBlock, View view, JPanel canvas) {
 		ArrayList<Rectangle> rectangles = new ArrayList<>();
 
 		LocalDate taskBeginDate = timeBlock.getStart().toLocalDate();
@@ -74,7 +74,7 @@ public class TimeBlockPainter {
 //				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
 //			} else {
 				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.8f, 0.9f));
-				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
+				g.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
 			}
 			
 			//task before now should be very transparent
@@ -83,29 +83,34 @@ public class TimeBlockPainter {
 //				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.1f));
 //			}
 			
-			e.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
+			g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
 			
-			e.setColor(new Color(0f, 0f, 0f, 1f));
+			g.setColor(new Color(0f, 0f, 0f, 1f));
 			
 //			if (timeBlock.getEnd().isBeforeNow()){
 //				Color color = e.getColor();
 //				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.4f));
 //			}
 			
-			e.drawRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
+			g.drawRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
 	
 //			e.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 			
 			if (rect.height > 40){
-				e.drawString(task.getTitle().substring(0, Math.min(13, task.getTitle().length())), rect.x+5, rect.y+15);
-				e.drawString(taskBeginTime.toString("HH:mm") + "-" + taskEndTime.toString("HH:mm"), rect.x+5, rect.y+30);
+				g.drawString(task.getTitle().substring(0, Math.min(13, task.getTitle().length())), rect.x+5, rect.y+15);
+				g.drawString(taskBeginTime.toString("HH:mm") + "-" + taskEndTime.toString("HH:mm"), rect.x+5, rect.y+30);
 			} else {
-				e.drawString(task.getTitle(), rect.x+5, rect.y+15);
+				g.drawString(task.getTitle(), rect.x+5, rect.y+15);
 			}
 		}
 		
 //		e.gc.setAlpha(255);
 		
-		return rectangles;
+		RendereredTask rt = new RendereredTask();
+		rt.setRectangles(rectangles);
+		rt.setTask(task);
+		rt.setTimeBlock(timeBlock);
+		
+		return rt;
 	}
 }

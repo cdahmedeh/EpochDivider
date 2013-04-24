@@ -3,6 +3,7 @@ package org.cdahmedeh.orgapp.swingui.calendar;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import org.cdahmedeh.orgapp.types.calendar.View;
 import org.joda.time.LocalTime;
 
 public class GridPainter {
@@ -29,5 +30,15 @@ public class GridPainter {
 		g.setColor(colorOfText);
 		int stringWidth = g.getFontMetrics().stringWidth(time);
 		g.drawString(time, width - stringWidth - 5, height + g.getFontMetrics().getHeight());
+	}
+	
+	public static void drawDateLines(Graphics g, int width, int height, Color color, View view){
+		for (int i = 0; i < view.getNumberOfDaysVisible(); i++){
+			g.setColor(color);
+			
+			int lineXPosition = (int) ((width-1) * i/(double)7);
+			g.drawLine(lineXPosition, 0, lineXPosition, height);
+		}
+		g.drawLine(width-1, 0, width-1, height);
 	}
 }

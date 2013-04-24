@@ -1,11 +1,8 @@
 package org.cdahmedeh.orgapp.swingui.task;
 
 import javax.swing.Box;
-import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
@@ -17,14 +14,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import org.cdahmedeh.orgapp.swingui.components.DateEntryCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.DateEntryCellRenderer;
 import org.cdahmedeh.orgapp.swingui.components.DurationCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.DurationCellRenderer;
-import org.cdahmedeh.orgapp.swingui.notification.LoadTaskListPanelRequest;
+import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
+import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
@@ -39,55 +36,42 @@ import ca.odell.glazedlists.swing.AutoCompleteSupport;
 import ca.odell.glazedlists.swing.AutoCompleteSupport.AutoCompleteCellEditor;
 import ca.odell.glazedlists.swing.GlazedListsSwing;
 
-import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
-public class TaskListPanel extends JPanel {
+public class TaskListPanel extends CPanel {
 	private static final long serialVersionUID = -8250528552031443184L;
+	public TaskListPanel(DataContainer dataContainer) {super(dataContainer);}
 	
-	// - EventBus -
-	private EventBus eventBus;
-	public void setEventBus(EventBus eventBus) {
-		this.eventBus = eventBus;
-		this.eventBus.register(new EventRecorder());
-	}
-	
-	class EventRecorder{
-		@Subscribe public void loadTaskListPanel(LoadTaskListPanelRequest request) {
-			postInit();
-		}
-		@Subscribe public void changedSelectedContext(SelectedContextChangedNotification notification){
-			contextMatcherEditor.setContext(notification.getContext());
-			contextMatcherEditor.contextChangedNotify();
-			taskListTable.repaint(); //TODO: temp. to fix redraw bug.
-		}
+	@Override
+	protected Object getEventRecorder() {
+		return new Object(){
+			@Subscribe public void changedSelectedContext(SelectedContextChangedNotification notification){
+				contextMatcherEditor.setContext(notification.getContext());
+				contextMatcherEditor.contextChangedNotify();
+				taskListTable.repaint(); //TODO: temp. to fix redraw bug.
+			}
+		};
 	}
 	
 	// - Components -
 	private JScrollPane taskListPane;
 	private JTable taskListTable;
 
-	// - Data -
-	private DataContainer dataContainer;
-	
 	// - Listeners -
 	private ContextMatcherEditor contextMatcherEditor;
 	private EventList<Task> taskEventList;
 	
-	/**
-	 * Create the panel.
-	 */
-	public TaskListPanel(DataContainer dataContainer) {
-		this.dataContainer = dataContainer;
-		
+	@Override
+	protected void preInit() {
 		setPreferredSize(new Dimension(TaskListPanelDefaults.DEFAULT_TASK_PANEL_WIDTH, TaskListPanelDefaults.DEFAULT_TASK_PANEL_HEIGHT));
 		setLayout(new BorderLayout());
 		
 		createTaskListTable();
 		createToolbar();
 	}
-	
-	private void postInit() {
+
+	@Override
+	protected void postInit() {
 		prepareTaskListTableModel();
 		adjustTaskListTableColumnWidths();
 	}
@@ -151,14 +135,10 @@ public class TaskListPanel extends JPanel {
 		toolbar.setFloatable(false);
 		add(toolbar, BorderLayout.SOUTH);
 		
-		Component horizontalGlue = Box.createHorizontalGlue();
-		toolbar.add(horizontalGlue);
-				
-		JButton addContextButton = new JButton("Add Task");
-		addContextButton.setIcon(new ImageIcon(TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.png")));
-		toolbar.add(addContextButton);
+		Component horizontalGlue = ToolbarHelper.createToolbarHorizontalGlue(toolbar);
+		JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, "Add", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.png")); 
 		
-		addContextButton.addActionListener(new ActionListener() {
+		addTaskButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				addNewTaskToTaskListTable();
@@ -195,5 +175,8 @@ public class TaskListPanel extends JPanel {
 		taskEventList.clear();
 		taskEventList.addAll(dataContainer.getTasks());
 	}
+
+
+
 	
 }

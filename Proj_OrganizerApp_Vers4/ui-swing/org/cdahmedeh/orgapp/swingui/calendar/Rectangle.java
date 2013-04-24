@@ -1,7 +1,6 @@
 package org.cdahmedeh.orgapp.swingui.calendar;
 
 public class Rectangle {
-
 	public int x;
 	public int y;
 	public int width;
@@ -13,5 +12,4 @@ public class Rectangle {
 		this.width = width;
 		this.height = height;
 	}
-
 }

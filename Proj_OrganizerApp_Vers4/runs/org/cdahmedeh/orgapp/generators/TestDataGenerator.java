@@ -18,11 +18,17 @@ import org.joda.time.LocalDate;
  * @author Ahmed El-Hajjar
  */
 public class TestDataGenerator {
+	
+	/**
+	 * Generates an instance of DataContainer with some example data.
+	 */
 	public static DataContainer generateDataContainer(){
 		DataContainer dataContainer = new DataContainer();
 	
+		//Generate some contexts
 		ArrayList<Context> contextList = new ArrayList<>();
 		
+		//Default contexts
 		contextList.add(new AllContextsContext());
 		contextList.add(new NoContextContext());
 		
@@ -53,6 +59,7 @@ public class TestDataGenerator {
 		Context readingContext = new Context("Reading");
 		contextList.add(readingContext);
 		
+		//Generate some tasks
 		ArrayList<Task> taskList = new ArrayList<>();
 		
 		Task task01 = new Task("Clean car");
@@ -76,9 +83,11 @@ public class TestDataGenerator {
 		task04.setContext(null);
 		taskList.add(task04);
 		
+		//Put the task and context lists into the container.
 		dataContainer.loadContexts(contextList);
 		dataContainer.loadTasks(taskList);
 		
+		//Set the view for the calendar.
 		dataContainer.setView(new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27)));
 		
 		return dataContainer;
