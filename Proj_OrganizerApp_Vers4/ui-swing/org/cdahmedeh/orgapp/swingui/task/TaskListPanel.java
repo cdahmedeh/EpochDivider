@@ -1,7 +1,5 @@
 package org.cdahmedeh.orgapp.swingui.task;
 
-import javax.swing.Box;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -46,9 +44,9 @@ public class TaskListPanel extends CPanel {
 	protected Object getEventRecorder() {
 		return new Object(){
 			@Subscribe public void changedSelectedContext(SelectedContextChangedNotification notification){
-				contextMatcherEditor.setContext(notification.getContext());
-				contextMatcherEditor.contextChangedNotify();
-				taskListTable.repaint(); //TODO: temp. to fix redraw bug.
+				taskListMatcherEditor.setSelectedContext(dataContainer.getSelectedContext());
+				taskListMatcherEditor.contextChangedNotify();
+				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
 		};
 	}
@@ -58,11 +56,11 @@ public class TaskListPanel extends CPanel {
 	private JTable taskListTable;
 
 	// - Listeners -
-	private ContextMatcherEditor contextMatcherEditor;
+	private TaskListMatcherEditor taskListMatcherEditor;
 	private EventList<Task> taskEventList;
 	
 	@Override
-	protected void preInit() {
+	protected void windowInit() {
 		setPreferredSize(new Dimension(TaskListPanelDefaults.DEFAULT_TASK_PANEL_WIDTH, TaskListPanelDefaults.DEFAULT_TASK_PANEL_HEIGHT));
 		setLayout(new BorderLayout());
 		
@@ -71,8 +69,9 @@ public class TaskListPanel extends CPanel {
 	}
 
 	@Override
-	protected void postInit() {
+	protected void postWindowInit() {
 		prepareTaskListTableModel();
+		prepareTaskListTableRendersAndEditors();
 		adjustTaskListTableColumnWidths();
 	}
 
@@ -85,28 +84,30 @@ public class TaskListPanel extends CPanel {
 		taskListPane.setViewportView(taskListTable);
 	}
 
-	/**
-	 * Set the Table Model for the Task List Table.
-	 */
 	private void prepareTaskListTableModel() {
+		//Fill Event list with Tasks
 		TableFormat<Task> taskTableFormat = new TaskListTableFormat();
 		taskEventList = new BasicEventList<>();
 		taskEventList.addAll(dataContainer.getTasks());
 		
-		contextMatcherEditor = new ContextMatcherEditor();
-		FilterList<Task> filteredByContextList = new FilterList<>(taskEventList, contextMatcherEditor);
-		contextMatcherEditor.contextChangedNotify(); //TODO: ensure that list is filtered the first time
-		
+		//Prepare Matcher for filtering by the Context that is selected by the user
+		taskListMatcherEditor = new TaskListMatcherEditor();
+		FilterList<Task> filteredByContextList = new FilterList<>(taskEventList, taskListMatcherEditor);
+
+		//Create Table Model based on TableFormat and Filtered List
 		AdvancedTableModel<Task> taskListTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(filteredByContextList, taskTableFormat);
 		taskListTable.setModel(taskListTableModel);
 		
-		//Context edit autocomplete support
+	}
+
+	private void prepareTaskListTableRendersAndEditors() {
+		//Prepare context cell editor auto-complete support
 		final EventList<Context> contextEventList = new BasicEventList<>();
 		contextEventList.addAll(dataContainer.getSelectableContexts());
 		
 		AutoCompleteCellEditor<Context> contextTableCellEditor = AutoCompleteSupport.createTableCellEditor(contextEventList);
 		
-		//Context cell editor
+		//Setup context cell editor
 		TableColumn contextColumn = taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_CONTEXT);
 		contextColumn.setCellEditor(contextTableCellEditor);
 		
@@ -135,7 +136,7 @@ public class TaskListPanel extends CPanel {
 		toolbar.setFloatable(false);
 		add(toolbar, BorderLayout.SOUTH);
 		
-		Component horizontalGlue = ToolbarHelper.createToolbarHorizontalGlue(toolbar);
+		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
 		JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, "Add", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.png")); 
 		
 		addTaskButton.addActionListener(new ActionListener() {
@@ -146,22 +147,35 @@ public class TaskListPanel extends CPanel {
 		});
 	}
 
-	//non-sequential methods 
+	
+	// -- non-sequential methods --
+	
+	private void refreshContextListTreeTable() {
+		//TODO: Investigate proper method to refresh GlazedLists tables.
+		taskEventList.clear();
+		taskEventList.addAll(dataContainer.getTasks());
+	}
+	
 	private void addNewTaskToTaskListTable() {
-		//make sure that we are not already editing something
+		//If we are already editing a task, then just set focus to the editor.
 		if (taskListTable.isEditing()){
 			taskListTable.getEditorComponent().requestFocus();
 			return;
 		}
 		
+		//Create a new task.
 		Task newTask = new Task("");
-		//TODO: stop hacking
-		if (contextMatcherEditor.getContext().isSelectable()){
-			newTask.setContext(contextMatcherEditor.getContext());
+		
+		//Set the context to the currently selected Context.
+		if (dataContainer.getSelectedContext().isSelectable()){
+			newTask.setContext(dataContainer.getSelectedContext());
 		}
+		
+		//Add new task to the dataContainer and refresh task list table.
 		dataContainer.getTasks().add(newTask);
 		refreshContextListTreeTable();
 		
+		//Init. editing the title of the new tasks and focus the editor.
 		taskListTable.editCellAt(taskListTable.getRowCount()-1, TaskListPanelDefaults.COLUMN_TASK_TITLE);
 		
 		Component editorComponent = taskListTable.getEditorComponent();
@@ -170,13 +184,5 @@ public class TaskListPanel extends CPanel {
 		}
 	}
 
-	private void refreshContextListTreeTable() {
-		//TODO: investigate method to refresh
-		taskEventList.clear();
-		taskEventList.addAll(dataContainer.getTasks());
-	}
 
-
-
-	
 }

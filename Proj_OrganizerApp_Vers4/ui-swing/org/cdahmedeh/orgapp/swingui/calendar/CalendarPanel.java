@@ -24,7 +24,7 @@ public class CalendarPanel extends CPanel {
 	@Override protected Object getEventRecorder() {return new Object(){};}
 	
 	@Override
-	protected void preInit() {
+	protected void windowInit() {
 		setPreferredSize(new Dimension(600, 500));
 		setLayout(new BorderLayout());
 		
@@ -33,7 +33,7 @@ public class CalendarPanel extends CPanel {
 	}
 
 	@Override
-	protected void postInit() {
+	protected void postWindowInit() {
 	}
 	
 	private void createCalendarPane() {

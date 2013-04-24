@@ -29,9 +29,12 @@ public class ContextTransferable implements Transferable {
 
 	@Override
 	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+		if (context == null) throw new IOException("Context is null in ContextTransferable");
+		
 		if (flavor.getHumanPresentableName().equals("Context")){
 			return context;
+		} else {
+			throw new UnsupportedFlavorException(flavor);
 		}
-		return null;
 	}
 }

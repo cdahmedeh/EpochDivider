@@ -8,7 +8,6 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 import ca.odell.glazedlists.gui.AdvancedTableFormat;
-import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.gui.WritableTableFormat;
 
 public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableTableFormat<Task> {
@@ -23,21 +22,21 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
 			Context context = baseObject.getContext();
 			if (context != null){
-				//toString() used to show value.
+				//toString() used to show title of Context.
 				return context;				
 			}
 			break;
 		case TaskListPanelDefaults.COLUMN_TASK_DUE:
 			DateTime dueDate = baseObject.getDue();
 			if (dueDate != null){
-				//Renderer does the parsing
+				//Cell Renderer parses the date. 
 				return dueDate;				
 			}
 			break;
 		case TaskListPanelDefaults.COLUMN_TASK_ESTIMATE:
 			Duration estimate = baseObject.getEstimate();
 			if (estimate != null){
-				//Renderer does the parsing
+				//Cell Renderer parses the duration. 
 				return estimate;				
 			}
 			break;
@@ -46,33 +45,6 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 		return "";
 	}
 	
-	@Override
-	public String getColumnName(int column) {
-		switch(column){
-		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED:
-			return "";
-		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
-			return "Task";
-		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
-			return "Context";
-		case TaskListPanelDefaults.COLUMN_TASK_DUE:
-			return "Due";
-		case TaskListPanelDefaults.COLUMN_TASK_ESTIMATE:
-			return "Estimate";
-		}
-		return "";
-	}
-	
-	@Override
-	public int getColumnCount() {
-		return 5;
-	}
-
-	@Override
-	public boolean isEditable(Task baseObject, int column) {
-		return true;
-	}
-
 	@Override
 	public Task setColumnValue(Task baseObject, Object editedValue, int column) {
 		switch(column){
@@ -105,7 +77,24 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 		
 		return baseObject;
 	}
-
+	
+	@Override
+	public String getColumnName(int column) {
+		switch(column){
+		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED:
+			return "";
+		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
+			return "Task";
+		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
+			return "Context";
+		case TaskListPanelDefaults.COLUMN_TASK_DUE:
+			return "Due";
+		case TaskListPanelDefaults.COLUMN_TASK_ESTIMATE:
+			return "Estimate";
+		}
+		return "";
+	}
+	
 	@Override
 	public Class<?> getColumnClass(int column) {
 		switch(column){
@@ -122,11 +111,19 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 		}
 		return null;
 	}
+	
+	@Override
+	public boolean isEditable(Task baseObject, int column) {
+		return true;
+	}
+	
+	@Override
+	public int getColumnCount() {
+		return 5;
+	}
 
 	@Override
 	public Comparator<Task> getColumnComparator(int column) {
 		return null;
 	}
-
-		
 }

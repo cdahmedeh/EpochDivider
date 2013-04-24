@@ -139,7 +139,8 @@ public class ContextListPanel extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 				int selectedIndex = contextListTable.getSelectedRow();
 				Context selectedContext = dataContainer.getContexts().get(selectedIndex);
-				eventBus.post(new SelectedContextChangedNotification(selectedContext));
+				dataContainer.setSelectedContext(selectedContext);
+				eventBus.post(new SelectedContextChangedNotification());
 			}
 		});
 	}

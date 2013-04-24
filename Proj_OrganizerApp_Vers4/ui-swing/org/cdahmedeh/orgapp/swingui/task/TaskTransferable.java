@@ -9,10 +9,7 @@ import org.cdahmedeh.orgapp.types.task.Task;
 
 public class TaskTransferable implements Transferable {
 	private Task task;
-	
-	public TaskTransferable(Task task) {
-		this.task = task;
-	}
+	public TaskTransferable(Task task) {this.task = task;}
 	
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
@@ -29,9 +26,12 @@ public class TaskTransferable implements Transferable {
 
 	@Override
 	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+		if (task == null) throw new IOException("Task is null in TaskTransferable");
+		
 		if (flavor.getHumanPresentableName().equals("Task")){
 			return task;
+		} else {
+			throw new UnsupportedFlavorException(flavor);
 		}
-		return null;
 	}
 }

@@ -3,6 +3,7 @@ package org.cdahmedeh.orgapp.types.container;
 import java.util.ArrayList;
 
 import org.cdahmedeh.orgapp.types.calendar.View;
+import org.cdahmedeh.orgapp.types.context.AllContextsContext;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 
@@ -26,6 +27,9 @@ public class DataContainer {
 		return contextsList;
 	}
 	
+	private Context selectedContext = new AllContextsContext();
+	public Context getSelectedContext() {return selectedContext;}
+	public void setSelectedContext(Context selectedContext) {this.selectedContext = selectedContext;}
 	
 	// --- tasks ---	
 	private ArrayList<Task> tasks;

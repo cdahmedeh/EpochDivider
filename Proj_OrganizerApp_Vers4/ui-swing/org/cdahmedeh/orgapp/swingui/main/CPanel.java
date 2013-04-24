@@ -16,7 +16,7 @@ public abstract class CPanel extends JPanel {
 
 	public CPanel(DataContainer dataContainer) {
 		this.dataContainer = dataContainer;
-		preInit();
+		windowInit();
 	}
 	
 	// - EventBus -
@@ -32,10 +32,10 @@ public abstract class CPanel extends JPanel {
 	
 	class DefaultEventRecorder{
 		@Subscribe public void changedSelectedContext(WindowLoadedNotification notification){
-			postInit();
+			postWindowInit();
 		}
 	}
 	
-	protected abstract void preInit();
-	protected abstract void postInit();
+	protected abstract void windowInit();
+	protected abstract void postWindowInit();
 }

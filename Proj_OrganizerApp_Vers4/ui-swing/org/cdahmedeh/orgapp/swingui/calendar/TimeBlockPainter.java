@@ -73,7 +73,7 @@ public class TimeBlockPainter {
 //				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.3f, 0.6f));
 //				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
 //			} else {
-				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.8f, 0.9f));
+				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.6f, 0.8f));
 				g.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
 			}
 			
