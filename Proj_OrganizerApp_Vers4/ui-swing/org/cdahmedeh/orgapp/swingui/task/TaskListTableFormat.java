@@ -1,18 +1,23 @@
 package org.cdahmedeh.orgapp.swingui.task;
 
+import java.util.Comparator;
+
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
+import ca.odell.glazedlists.gui.AdvancedTableFormat;
 import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.gui.WritableTableFormat;
 
-public class TaskListTableFormat implements TableFormat<Task>, WritableTableFormat<Task> {
+public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableTableFormat<Task> {
 
 	@Override
 	public Object getColumnValue(Task baseObject, int column) {
 		switch(column){
+		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED:
+			return baseObject.isCompleted();
 		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
 			return baseObject.getTitle();
 		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
@@ -44,6 +49,8 @@ public class TaskListTableFormat implements TableFormat<Task>, WritableTableForm
 	@Override
 	public String getColumnName(int column) {
 		switch(column){
+		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED:
+			return "";
 		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
 			return "Task";
 		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
@@ -58,7 +65,7 @@ public class TaskListTableFormat implements TableFormat<Task>, WritableTableForm
 	
 	@Override
 	public int getColumnCount() {
-		return 4;
+		return 5;
 	}
 
 	@Override
@@ -69,6 +76,9 @@ public class TaskListTableFormat implements TableFormat<Task>, WritableTableForm
 	@Override
 	public Task setColumnValue(Task baseObject, Object editedValue, int column) {
 		switch(column){
+		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED:
+			baseObject.setCompleted((boolean) editedValue);
+			break;
 		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
 			baseObject.setTitle((String) editedValue);
 			break;
@@ -96,4 +106,27 @@ public class TaskListTableFormat implements TableFormat<Task>, WritableTableForm
 		return baseObject;
 	}
 
+	@Override
+	public Class<?> getColumnClass(int column) {
+		switch(column){
+		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED:
+			return Boolean.class;
+		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
+			return String.class;
+		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
+			return String.class;
+		case TaskListPanelDefaults.COLUMN_TASK_DUE:
+			return String.class;
+		case TaskListPanelDefaults.COLUMN_TASK_ESTIMATE:
+			return String.class;
+		}
+		return null;
+	}
+
+	@Override
+	public Comparator<Task> getColumnComparator(int column) {
+		return null;
+	}
+
+		
 }

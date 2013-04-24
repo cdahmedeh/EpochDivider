@@ -1,8 +1,10 @@
 package org.cdahmedeh.orgapp.swingui.task;
 
 import javax.swing.Box;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -15,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import org.cdahmedeh.orgapp.swingui.components.DateEntryCellEditor;
@@ -119,6 +122,7 @@ public class TaskListPanel extends JPanel {
 		
 		AutoCompleteCellEditor<Context> contextTableCellEditor = AutoCompleteSupport.createTableCellEditor(contextEventList);
 		
+		//Context cell editor
 		TableColumn contextColumn = taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_CONTEXT);
 		contextColumn.setCellEditor(contextTableCellEditor);
 		
@@ -134,6 +138,7 @@ public class TaskListPanel extends JPanel {
 	}
 	
 	private void adjustTaskListTableColumnWidths() {
+		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_COMPLETED).setMaxWidth(20);
 		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_TITLE).setPreferredWidth(200);
 		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_CONTEXT).setPreferredWidth(50);
 		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_DUE).setPreferredWidth(50);

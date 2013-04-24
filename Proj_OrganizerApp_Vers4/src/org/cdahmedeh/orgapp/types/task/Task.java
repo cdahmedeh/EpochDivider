@@ -35,4 +35,8 @@ public class Task {
 	private Duration estimate = Duration.ZERO;
 	public Duration getEstimate() {return estimate;}
 	public void setEstimate(Duration estimate) {this.estimate = estimate;}
+	
+	private boolean completed = false;
+	public boolean isCompleted() {return completed;}
+	public void setCompleted(boolean completed) {this.completed = completed;}
 }
