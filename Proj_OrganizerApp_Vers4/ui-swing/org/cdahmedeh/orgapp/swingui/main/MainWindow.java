@@ -16,10 +16,11 @@ import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
 import org.cdahmedeh.orgapp.swingui.notification.LoadTaskListPanelRequest;
 import org.cdahmedeh.orgapp.swingui.task.TaskListPanel;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
+import org.jdesktop.swingx.JXMultiSplitPane;
+import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 
 import com.google.common.eventbus.EventBus;
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
-import com.jidesoft.swing.JideSplitPane;
 
 import java.awt.BorderLayout;
 
@@ -87,25 +88,22 @@ public class MainWindow {
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JideSplitPane mainSplitPane = new JideSplitPane();
+		JXMultiSplitPane mainSplitPane = new JXMultiSplitPane();
+		mainSplitPane.setModel(new DefaultSplitPaneModel());
 		mainSplitPane.setContinuousLayout(true);
 		frame.getContentPane().add(mainSplitPane, BorderLayout.CENTER);
 		
 		ContextListPanel contextListPanel = new ContextListPanel(dataContainer);
 		contextListPanel.setEventBus(eventBus);
-		mainSplitPane.addPane(contextListPanel);
-		
-		JideSplitPane rightSplitPane = new JideSplitPane(JideSplitPane.VERTICAL_SPLIT);
-		rightSplitPane.setContinuousLayout(true);
-		mainSplitPane.addPane(rightSplitPane);
+		mainSplitPane.add(contextListPanel, DefaultSplitPaneModel.LEFT);
 		
 		CalendarPanel emptyPanel = new CalendarPanel(dataContainer);
 		emptyPanel.setEventBus(eventBus);
-		rightSplitPane.addPane(emptyPanel);
+		mainSplitPane.add(emptyPanel, DefaultSplitPaneModel.TOP);
 		
 		TaskListPanel taskListPanel = new TaskListPanel(dataContainer);
 		taskListPanel.setEventBus(eventBus);
-		rightSplitPane.addPane(taskListPanel);
+		mainSplitPane.add(taskListPanel, DefaultSplitPaneModel.BOTTOM);
 	}
 
 }
