@@ -43,17 +43,13 @@ public class CalendarPanel extends JPanel {
 
 		add(calendarPane, BorderLayout.CENTER);
 		
-		JPanel calendarHeader = new JPanel();
-		calendarHeader.setBackground(Color.GRAY);
-		calendarHeader.setPreferredSize(new Dimension(1, 50));
+		JPanel calendarHeader = new DaylineHeaderPanel();
 		calendarPane.setColumnHeaderView(calendarHeader);
 		
-		JPanel timeLine = new JPanel();
-		timeLine.setBackground(Color.GRAY);
-		timeLine.setPreferredSize(new Dimension(50, 1));
+		JPanel timeLine = new TimelinePanel();
 		calendarPane.setRowHeaderView(timeLine);
 		
-		JPanel mainView = new JPanel();
+		JPanel mainView = new SchedulerPanel();
 		mainView.setPreferredSize(new Dimension(1, 1000));
 		calendarPane.setViewportView(mainView);
 	}

@@ -97,7 +97,7 @@ public class TimeBlockPainter {
 			
 			e.drawRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
 	
-			e.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+//			e.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 			
 			if (rect.height > 40){
 				e.drawString(task.getTitle(), rect.x+5, rect.y+15);
