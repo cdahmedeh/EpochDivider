@@ -2,10 +2,12 @@ package org.cdahmedeh.orgapp.swingui.components;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.text.DecimalFormat;
 import java.util.Random;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
+import org.cdahmedeh.orgapp.swingui.helpers.GraphicsHelper;
 import org.cdahmedeh.orgapp.tools.FuzzyDateParser;
 import org.joda.time.Duration;
 
@@ -35,7 +37,7 @@ public class DurationCellRenderer extends DefaultTableCellRenderer {
 		double secondProgress = new Random().nextDouble()*totalProgress;
 		double firstProgress = new Random().nextDouble()*secondProgress;
 		
-		Color brighter = new Color(0, 0, 0, 50);
+		Color brighter = new Color(0, 0, 0, 30);
 		
 		g.setColor(brighter);
 		g.fillRect(0, 0, (int)(this.getWidth()*(secondProgress/totalProgress)), this.getHeight());
@@ -45,7 +47,11 @@ public class DurationCellRenderer extends DefaultTableCellRenderer {
 	
 	@Override
 	public void setText(String text) {
-//		super.setText("2.3 | 5.0 | " + text)
-		super.setText(text);
+		switch(new Random().nextInt(3)){
+			case 0: super.setText("2.3 / 5.0 / " + text); break;
+			case 1: super.setText("1.5 / 12.0 / " + text); break;
+			case 2: super.setText("5.55 / 100.0 / " + text); break;
+		}
+//		super.setText(text);
 	}
 }
