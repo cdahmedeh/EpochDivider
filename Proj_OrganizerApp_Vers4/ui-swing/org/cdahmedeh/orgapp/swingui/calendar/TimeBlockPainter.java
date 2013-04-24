@@ -70,34 +70,34 @@ public class TimeBlockPainter {
 		for (Rectangle rect: rectangles){
 //			if (task.isEvent()){
 			if (true) {
-				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.3f, 0.6f));
-				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
-//			} else {
-//				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.8f, 0.9f));
+//				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.3f, 0.6f));
 //				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
+//			} else {
+				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.8f, 0.9f));
+				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
 			}
 			
 			//task before now should be very transparent
-			if (timeBlock.getEnd().isBeforeNow()){
-				Color color = e.getColor();
-				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.1f));
-			}
+//			if (timeBlock.getEnd().isBeforeNow()){
+//				Color color = e.getColor();
+//				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.1f));
+//			}
 			
 			e.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
 			
 			e.setColor(new Color(0f, 0f, 0f, 1f));
 			
-			if (timeBlock.getEnd().isBeforeNow()){
-				Color color = e.getColor();
-				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.4f));
-			}
+//			if (timeBlock.getEnd().isBeforeNow()){
+//				Color color = e.getColor();
+//				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.4f));
+//			}
 			
 			e.drawRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
 	
 //			e.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 			
 			if (rect.height > 40){
-				e.drawString(task.getTitle(), rect.x+5, rect.y+15);
+				e.drawString(task.getTitle().substring(0, Math.min(13, task.getTitle().length())), rect.x+5, rect.y+15);
 				e.drawString(taskBeginTime.toString("HH:mm") + "-" + taskEndTime.toString("HH:mm"), rect.x+5, rect.y+30);
 			} else {
 				e.drawString(task.getTitle(), rect.x+5, rect.y+15);

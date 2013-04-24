@@ -62,6 +62,8 @@ public class TestDataGenerator {
 		Task task02 = new Task("Data persistence prototype for Epoch Divider");
 		task02.setContext(projectContext);
 		task02.setDue(new DateTime(2013, 04, 30, 15, 00));
+		task02.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,17,00)));
+		task02.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,23,00),new DateTime(2013,04,23,15,15)));
 		taskList.add(task02);
 		
 		Task task03 = new Task("Read - Art of Unix Programming");
