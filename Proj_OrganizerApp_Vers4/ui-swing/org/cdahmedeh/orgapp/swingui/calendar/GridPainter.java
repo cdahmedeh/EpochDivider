@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class GridPainter {
-	public static void drawTimeLines(Graphics g, Color darkColor, Color lightColor, int width, int height) {
-		for (int i = 0; i<24*4; i++){
-			int y1 = (int) (i/(double)(24*4)*(height-1));
-			if (i%4 == 0){
+	public static void drawTimeLines(Graphics g, Color darkColor, Color lightColor, int width, int height, int hoursToShow, int hoursPrecision) {
+		for (int i = 0; i<hoursToShow*hoursPrecision; i++){
+			int y1 = (int) (i/(double)(hoursToShow*hoursPrecision)*(height-1));
+			if (i%hoursPrecision == 0){
 				g.setColor(darkColor);	
 			} else {
 				g.setColor(lightColor);

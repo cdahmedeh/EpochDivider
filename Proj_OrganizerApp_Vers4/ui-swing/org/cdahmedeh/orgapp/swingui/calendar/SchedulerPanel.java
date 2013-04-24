@@ -22,7 +22,7 @@ public class SchedulerPanel extends JPanel {
 		super.paint(g);
 		GraphicsHelper.enableDefaultAASettings(g);
 		
-		GridPainter.drawTimeLines(g, new Color(230,230,230), new Color(250,250,250), this.getWidth(), this.getHeight());
+		GridPainter.drawTimeLines(g, new Color(230,230,230), new Color(250,250,250), this.getWidth(), this.getHeight(), 24, 4);
 		
 		for (int i = 0; i < 7; i++){
 			g.setColor(new Color(230, 230, 230));
