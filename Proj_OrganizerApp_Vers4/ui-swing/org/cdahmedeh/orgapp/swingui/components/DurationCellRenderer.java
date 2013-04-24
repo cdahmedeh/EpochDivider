@@ -12,6 +12,11 @@ import org.joda.time.Duration;
 public class DurationCellRenderer extends DefaultTableCellRenderer {
 	private static final long serialVersionUID = 7478775633982677184L;
 
+	public DurationCellRenderer() {
+		super();
+		super.setHorizontalAlignment(RIGHT);
+	}
+	
 	protected void setValue(Object value) {
 		if (value instanceof Duration){
 			super.setValue(value);
@@ -36,5 +41,11 @@ public class DurationCellRenderer extends DefaultTableCellRenderer {
 		g.fillRect(0, 0, (int)(this.getWidth()*(secondProgress/totalProgress)), this.getHeight());
 		
 		g.fillRect(0, 0, (int)(this.getWidth()*(firstProgress/totalProgress)), this.getHeight());
+	}
+	
+	@Override
+	public void setText(String text) {
+//		super.setText("2.3 | 5.0 | " + text)
+		super.setText(text);
 	}
 }
