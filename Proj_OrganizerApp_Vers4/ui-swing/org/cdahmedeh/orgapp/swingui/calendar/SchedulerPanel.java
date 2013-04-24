@@ -46,8 +46,8 @@ public class SchedulerPanel extends JPanel {
 		super.paint(g);
 		GraphicsHelper.enableDefaultAASettings(g);
 		
-		GridPainter.drawTimeLines(g, new Color(230,230,230), new Color(245,245,245), this.getWidth(), this.getHeight(), 15, false);
-		GridPainter.drawDateLines(g, this.getWidth(), this.getHeight(), new Color(230,230,230), view);
+		GridPainter.drawTimeLines(g, this.getWidth(), this.getHeight(), new Color(230,230,230), new Color(245,245,245), 15, false);
+		GridPainter.drawDateLines(g, this.getWidth(), this.getHeight(), new Color(230,230,230), view, false);
 		
 		rendersTask.clear();
 		for (Task task: dataContainer.getTasks()){

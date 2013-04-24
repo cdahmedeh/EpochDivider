@@ -43,7 +43,7 @@ public class CalendarPanel extends CPanel {
 		calendarPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		add(calendarPane, BorderLayout.CENTER);
 		
-		DaylineHeaderPanel calendarHeader = new DaylineHeaderPanel();
+		DaylineHeaderPanel calendarHeader = new DaylineHeaderPanel(dataContainer);
 		calendarPane.setColumnHeaderView(calendarHeader);
 		
 		DayBlocksHeaderPanel calendarSubHeader = new DayBlocksHeaderPanel();
@@ -67,9 +67,4 @@ public class CalendarPanel extends CPanel {
 		JButton previousWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Previous Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/previous.png"));
 		JButton nextWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Next Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/next.png"));
 	}
-
-
-
-
-
 }
