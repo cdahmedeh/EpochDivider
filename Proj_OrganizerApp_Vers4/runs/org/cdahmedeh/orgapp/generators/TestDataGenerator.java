@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.generators;
 
 import java.util.ArrayList;
 
+import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.AllContextsContext;
 import org.cdahmedeh.orgapp.types.context.Context;
@@ -9,6 +10,7 @@ import org.cdahmedeh.orgapp.types.context.NoContextContext;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 /**
  * Contains method to generate some test data.
@@ -76,6 +78,8 @@ public class TestDataGenerator {
 		
 		dataContainer.loadContexts(contextList);
 		dataContainer.loadTasks(taskList);
+		
+		dataContainer.setView(new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27)));
 		
 		return dataContainer;
 	}

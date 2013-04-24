@@ -46,12 +46,15 @@ public class CalendarPanel extends JPanel {
 		setPreferredSize(new Dimension(600, 500));
 		setLayout(new BorderLayout());
 		
+		createToolbar();
+		createCalendarPane();
+	}
+
+	private void createCalendarPane() {
 		JideScrollPane calendarPane = new JideScrollPane();
 		calendarPane.setBorder(new LineBorder(Color.BLACK));
 		calendarPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		add(calendarPane, BorderLayout.CENTER);
-		
-		createToolbar();
 		
 		JPanel calendarHeader = new DaylineHeaderPanel();
 		calendarPane.setColumnHeaderView(calendarHeader);

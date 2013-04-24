@@ -80,6 +80,6 @@ public class SchedulerPanel extends JPanel {
 	
 	private HashMap<TimeBlock, Task> timeBlockTaskMap = new HashMap<>();
 	private HashMap<Rectangle, TimeBlock> rectangleTimeBlockMap = new HashMap<>();
-	private View 		view = new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27));
+	private View 		view = dataContainer.getView();
 
 }

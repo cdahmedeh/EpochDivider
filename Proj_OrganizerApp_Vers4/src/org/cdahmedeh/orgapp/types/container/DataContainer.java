@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.types.container;
 
 import java.util.ArrayList;
 
+import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 
@@ -33,4 +34,10 @@ public class DataContainer {
 	public ArrayList<Task> getTasks() {
 		return tasks;
 	}
+
+	
+	// --- view ---
+	private View view;
+	public View getView() {return view;}
+	public void setView(View view) {this.view = view;}
 }
