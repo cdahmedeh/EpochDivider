@@ -26,7 +26,8 @@ public class Context {
 	
 	public boolean isSelectable() {return true;}
 	
-	private int color = new Random().nextInt(255);
+	private static int colorCounter = 0;
+	private int color = 25*colorCounter++ % 255;
 	public int getColor() {return color;}
 	public void setColor(int color) {this.color = color;}
 	
