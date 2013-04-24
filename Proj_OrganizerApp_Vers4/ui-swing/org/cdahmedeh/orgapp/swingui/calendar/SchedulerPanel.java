@@ -3,60 +3,54 @@ package org.cdahmedeh.orgapp.swingui.calendar;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
-import javax.swing.JPanel;
 
 import org.cdahmedeh.orgapp.swingui.helpers.GraphicsHelper;
-import org.cdahmedeh.orgapp.types.calendar.View;
+import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 
-public class SchedulerPanel extends JPanel {
-	private DataContainer dataContainer;
+import com.google.common.eventbus.EventBus;
 
-	/**
-	 * Create the panel.
-	 */
-	public SchedulerPanel(DataContainer dataContainer) {
-		this.dataContainer = dataContainer;
-		view = dataContainer.getView();
-		
+public class SchedulerPanel extends CPanel {
+	private static final long serialVersionUID = 3673536421097243610L;
+	public SchedulerPanel(final DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
+	@Override protected Object getEventRecorder() {return new Object(){};}
+
+	// -- Data --
+	private boolean drawTasks = false;
+	private ArrayList<RendereredTask> rendersTask = new ArrayList<>();
+	
+	@Override
+	protected void windowInit() {
 		setPreferredSize(new Dimension(50, 1000));
 		setBackground(new Color(255, 255, 255));
-		
-		this.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				DateTime date = PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, view);
-				System.out.println(date.toString("dd, MMM, YYYY @ HH:mm"));
-			}
-		});
 	}
 
+	@Override
+	protected void postWindowInit() {
+		drawTasks = true;
+		repaint();
+	}
+	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		GraphicsHelper.enableDefaultAASettings(g);
 		
+		//Draw grid in the background
 		GridPainter.drawTimeLines(g, this.getWidth(), this.getHeight(), new Color(230,230,230), new Color(245,245,245), 15, false);
-		GridPainter.drawDateLines(g, this.getWidth(), this.getHeight(), new Color(230,230,230), view, false);
+		GridPainter.drawDateLines(g, this.getWidth(), this.getHeight(), new Color(230,230,230), dataContainer.getView(), false);
 		
-		rendersTask.clear();
-		for (Task task: dataContainer.getTasks()){
-			for (TimeBlock timeBlock: task.getAllTimeBlocks())
-			rendersTask.add(TimeBlockPainter.draw(g, task, timeBlock, view, this));
+		//Draw the time-blocks for all tasks.
+		//TODO: Optimization, draw only those within view.
+		if (drawTasks){
+			rendersTask.clear();
+			for (Task task: dataContainer.getTasks()){
+				for (TimeBlock timeBlock: task.getAllTimeBlocks())
+					rendersTask.add(TimeBlockPainter.draw(g, task, timeBlock, dataContainer.getView(), this));
+			}
 		}
 	}
-	
-	private ArrayList<RendereredTask> rendersTask = new ArrayList<>();
-	private View 		view = null;
-
 }

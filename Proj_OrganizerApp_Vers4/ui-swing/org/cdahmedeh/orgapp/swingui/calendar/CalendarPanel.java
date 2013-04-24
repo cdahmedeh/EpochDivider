@@ -38,22 +38,27 @@ public class CalendarPanel extends CPanel {
 	}
 	
 	private void createCalendarPane() {
+		//Setup scroll-pane
 		JideScrollPane calendarPane = new JideScrollPane();
 		calendarPane.setBorder(new LineBorder(Color.BLACK));
 		calendarPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		add(calendarPane, BorderLayout.CENTER);
 		
+		//Days header
 		DaylineHeaderPanel calendarHeader = new DaylineHeaderPanel(dataContainer);
 		calendarPane.setColumnHeaderView(calendarHeader);
 		
+		//Due dates header
 		DayBlocksHeaderPanel calendarSubHeader = new DayBlocksHeaderPanel();
 		calendarPane.setSubColumnHeaderView(calendarSubHeader);
 		
+		//Left time-line.
 		TimelinePanel timeLine = new TimelinePanel();
 		timeLine.setPreferredSize(new Dimension(40, 1000));
 		calendarPane.setRowHeaderView(timeLine);
 		
-		SchedulerPanel mainView = new SchedulerPanel(dataContainer);
+		//Calendar with Timeblocks
+		SchedulerPanel mainView = new SchedulerPanel(dataContainer, eventBus);
 		mainView.setPreferredSize(new Dimension(1, 1000));
 		calendarPane.setViewportView(mainView);
 	}
