@@ -22,17 +22,23 @@ public class TaskListMatcherEditor extends AbstractMatcherEditor<Task>{
 	public View getSelectedView() {return selectedView;}
 	public void setSelectedView(View selectedView) {this.selectedView = selectedView;}
 	
-	public void contextChangedNotify() {this.fireChanged(matcher);}
+	private boolean showEvents = false;;
+	public boolean getShowEvents() {return showEvents;}
+	public void setShowEvents(boolean showEvents) {this.showEvents = showEvents;}
+	
+	public void matcherChangedNotify() {this.fireChanged(matcher);}
 	
 	private Matcher<Task> matcher;
 	public TaskListMatcherEditor() {matcher = new MatcherImplementation();}
-
-
 
 	private final class MatcherImplementation implements Matcher<Task> {
 		@Override
 		public boolean matches(Task item) {
 			//If the selected context is All Contexts, then don't filter anything.
+			return matchByContext(item) && matchByIsEvent(item);
+		}
+
+		private boolean matchByContext(Task item) {
 			if (selectedContext instanceof AllContextsContext) return true;
 			if (selectedContext instanceof NoDueDateContext) return !item.isDue();
 			if (selectedContext instanceof DueTodayContext) return item.isDueToday();
@@ -40,6 +46,10 @@ public class TaskListMatcherEditor extends AbstractMatcherEditor<Task>{
 			if (selectedContext instanceof DueThisViewContext) return item.isDueWithinView(selectedView);
 			if (item.getContext().equals(selectedContext)) return true;
 			return false;
+		}
+		
+		private boolean matchByIsEvent(Task item){
+			return item.isEvent() == showEvents;
 		}
 	}
 }

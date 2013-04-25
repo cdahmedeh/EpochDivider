@@ -153,9 +153,15 @@ public class TestDataGenerator {
 		for (int i = 0; i < 2000; i++) {
 			Task task = new Task("Task " + i);
 			task.setEstimate(Duration.standardMinutes(new Random().nextInt(20*60)));
-			task.setContext(contextList.get(new Random().nextInt(contextList.size())));
+			while (task.getContext().equals(new NoContextContext()) || !task.getContext().isSelectable()){
+				task.setContext(contextList.get(new Random().nextInt(contextList.size())));
+			}
 			if (new Random().nextInt(5) == 0) {
 				task.setDue(DateTime.now().plusMinutes(new Random().nextInt(1000)*30));
+			}
+			if (new Random().nextInt(3) == 0) {
+				task.setTitle("Event " + i);
+				task.setEvent(true);
 			}
 			task.setCompleted(new Random().nextBoolean());
 			taskList.add(task);

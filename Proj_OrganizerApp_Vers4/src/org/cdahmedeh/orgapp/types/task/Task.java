@@ -46,6 +46,10 @@ public class Task {
 	public boolean isCompleted() {return completed;}
 	public void setCompleted(boolean completed) {this.completed = completed;}
 	
+	private boolean event = false;
+	public boolean isEvent() {return event;}
+	public void setEvent(boolean event) {this.event = event;}
+	
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
 	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
 	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}

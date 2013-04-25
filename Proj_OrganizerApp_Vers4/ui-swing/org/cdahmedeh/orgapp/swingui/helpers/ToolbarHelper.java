@@ -21,4 +21,10 @@ public class ToolbarHelper {
 		toolbar.add(toolbarButton);
 		return toolbarButton;
 	}
+
+	public static Component createToolbarSeperator(JToolBar toolbar) {
+		Component seperator = new JToolBar.Separator();
+		toolbar.add(seperator);
+		return seperator;		
+	}
 }

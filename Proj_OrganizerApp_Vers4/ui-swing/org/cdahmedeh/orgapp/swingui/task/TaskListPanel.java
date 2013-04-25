@@ -1,5 +1,6 @@
 package org.cdahmedeh.orgapp.swingui.task;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JTable;
@@ -54,7 +55,7 @@ public class TaskListPanel extends CPanel {
 			@Subscribe public void changedSelectedContext(SelectedContextChangedNotification notification){
 				taskListMatcherEditor.setSelectedContext(dataContainer.getSelectedContext());
 				taskListMatcherEditor.setSelectedView(dataContainer.getView());
-				taskListMatcherEditor.contextChangedNotify();
+				taskListMatcherEditor.matcherChangedNotify();
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
 			@Subscribe public void refreshTaskList(RefreshTaskListRequest request) {
@@ -165,13 +166,31 @@ public class TaskListPanel extends CPanel {
 		});
 	}
 
+	int showEvents = 0;
+	
 	private void createToolbar() {
 		JToolBar toolbar = new JToolBar();
 		toolbar.setFloatable(false);
 		add(toolbar, BorderLayout.SOUTH);
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
+		final JButton switchBetweenTasksAndEventsButton = ToolbarHelper.createToolbarButton(toolbar, "Switch to Events", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/events.png")); 
+		ToolbarHelper.createToolbarSeperator(toolbar);
 		JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, "Add", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.png")); 
+		
+		final String[] labels = new String[]{"Switch to Events", "Switch back to Tasks"};
+		final String[] icons = new String[]{"/org/cdahmedeh/orgapp/imt/icons/events.png", "/org/cdahmedeh/orgapp/imt/icons/tasks.png"};
+		
+		switchBetweenTasksAndEventsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showEvents = showEvents == 0 ? 1 : 0;
+				switchBetweenTasksAndEventsButton.setText(labels[showEvents]);
+				switchBetweenTasksAndEventsButton.setIcon(new ImageIcon(TaskListPanel.class.getResource(icons[showEvents])));
+				taskListMatcherEditor.setShowEvents(showEvents == 1);
+				taskListMatcherEditor.matcherChangedNotify();
+			}
+		});
 		
 		addTaskButton.addActionListener(new ActionListener() {
 			@Override
