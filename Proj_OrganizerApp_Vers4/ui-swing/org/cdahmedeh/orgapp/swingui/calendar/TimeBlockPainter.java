@@ -17,7 +17,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 public class TimeBlockPainter {
-	public static RendereredTask draw(Graphics g, Task task, TimeBlock timeBlock, View view, JPanel canvas) {
+	public static ArrayList<RendereredTask> draw(Graphics g, Task task, TimeBlock timeBlock, View view, JPanel canvas) {
 		ArrayList<Rectangle> rectangles = new ArrayList<>();
 
 		LocalDate taskBeginDate = timeBlock.getStart().toLocalDate();
@@ -106,10 +106,14 @@ public class TimeBlockPainter {
 		
 //		e.gc.setAlpha(255);
 		
-		RendereredTask rt = new RendereredTask();
-		rt.setRectangles(rectangles);
-		rt.setTask(task);
-		rt.setTimeBlock(timeBlock);
+		ArrayList<RendereredTask> rt = new ArrayList<>();
+		for (Rectangle r: rectangles){
+			RendereredTask rtt = new RendereredTask();
+			rtt.setRectangle(r);
+			rtt.setTask(task);
+			rtt.setTimeBlock(timeBlock);
+			rt.add(rtt);
+		}
 		
 		return rt;
 	}

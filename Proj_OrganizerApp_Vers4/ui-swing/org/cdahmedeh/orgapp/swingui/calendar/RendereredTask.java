@@ -6,9 +6,13 @@ import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 
 public class RendereredTask {
-	private ArrayList<Rectangle> rectangles = null; 
-	public void setRectangles(ArrayList<Rectangle> rectangles) {this.rectangles = rectangles;}
-	public ArrayList<Rectangle> getRectangles() {return rectangles;}
+//	private ArrayList<Rectangle> rectangles = null; 
+//	public void setRectangles(ArrayList<Rectangle> rectangles) {this.rectangles = rectangles;}
+//	public ArrayList<Rectangle> getRectangles() {return rectangles;}
+	
+	private Rectangle rectangle = null;
+	public Rectangle getRectangle() {return rectangle;}
+	public void setRectangle(Rectangle rectangle) {this.rectangle = rectangle;}
 	
 	private Task task;
 	public Task getTask() {return task;}
@@ -19,9 +23,7 @@ public class RendereredTask {
 	public void setTimeBlock(TimeBlock timeBlock) {this.timeBlock = timeBlock;}
 	
 	public boolean clickedWithin(int x, int y) {
-		for (Rectangle rect: rectangles) {
-			if (rect.contains(x, y)) return true;
-		}
+		if (rectangle.contains(x, y)) return true;
 		return false;
 	}
 }

@@ -51,7 +51,7 @@ public class SchedulerPanel extends CPanel {
 			rendersTask.clear();
 			for (Task task: dataContainer.getTasks()){
 				for (TimeBlock timeBlock: task.getAllTimeBlocks())
-					rendersTask.add(TimeBlockPainter.draw(g, task, timeBlock, dataContainer.getView(), this));
+					rendersTask.addAll(TimeBlockPainter.draw(g, task, timeBlock, dataContainer.getView(), this));
 			}
 		}
 	}
@@ -68,21 +68,34 @@ public class SchedulerPanel extends CPanel {
 		addMouseMotionListener(new MouseAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				System.out.println("begin");
 				//First check that nothing else is going on.
 				if (uiMode == CalendarUIMode.NONE){
 					//Are we clicking on a task time-block, if so, then start dragging.
-					TimeBlock clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
+					RendereredTask clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
 					if (clickedTimeBlock != null) {
-						uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
-						timeBlockSelected = clickedTimeBlock;
-						timeClickedOffset = new Duration(timeBlockSelected.getStart(),	PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()));
+						timeBlockSelected = clickedTimeBlock.getTimeBlock();
+						//If near the bottom, we resize
+						if (e.getY()-clickedTimeBlock.getRectangle().y > clickedTimeBlock.getRectangle().height-10){
+							uiMode = CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK;
+							timeClickedOffset = new Duration(timeBlockSelected.getEnd(), PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()));
+						}
+						//Otherwise, just move
+						else {
+							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
+							timeClickedOffset = new Duration(timeBlockSelected.getStart(), PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()));							
+						}
 					}
 				} 
 				//Moving a timeblock
 				else if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK) {
 					DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView());
 					timeBlockSelected.moveStart(PixelsToDate.roundToMins(timeFromMouse.minus(timeClickedOffset), 15));
+					repaint();
+				}
+				//Resize the bottom of the timeblock
+				else if (uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK) {
+					DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView());
+					timeBlockSelected.setEnd(PixelsToDate.roundToMins(timeFromMouse, 15));
 					repaint();
 				}
 			}
@@ -93,7 +106,7 @@ public class SchedulerPanel extends CPanel {
 			public void mouseReleased(MouseEvent e) {
 				System.out.println("end");
 				//If we we're dragging, and we release, then, stop dragging.
-				if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK){
+				if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK){
 					uiMode = CalendarUIMode.NONE;
 					timeClickedOffset = null;
 					timeBlockSelected = null;
@@ -103,10 +116,10 @@ public class SchedulerPanel extends CPanel {
 	}
 	
 	// --- Helpers ---
-	private TimeBlock getClickedTimeBlock(int x, int y){
+	private RendereredTask getClickedTimeBlock(int x, int y){
 		for (RendereredTask rt: rendersTask){
 			if (rt.clickedWithin(x, y)) {
-				return rt.getTimeBlock();
+				return rt;
 			}
 		}
 		return null;
