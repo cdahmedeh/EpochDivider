@@ -63,6 +63,7 @@ public class MainWindow {
 		
 		//Prepare some test data, and prepare eventBus.
 		dataContainer = TestDataGenerator.generateDataContainer();
+//		dataContainer = TestDataGenerator.generateDataContainerWithLotsOfData();
 		eventBus = new EventBus();
 		logger.info("Test Data Generated");
 		

@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.generators;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
@@ -110,5 +111,58 @@ public class TestDataGenerator {
 		dataContainer.loadTasks(taskList);
 		
 		return dataContainer;
+	}
+	
+	/**
+	 * Generate an instance of dataContainer with plenty of data to stress test
+	 * the application. The amount of data is somewhat realistic.
+	 */
+	public static DataContainer generateDataContainerWithLotsOfData(){
+		DataContainer dataContainer = new DataContainer();
+		
+		//Set the view for the calendar.
+		View view = new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27));
+		dataContainer.setView(view);
+		
+		//Generate some contexts
+		ArrayList<Context> contextList = new ArrayList<>();
+		
+		//Default contexts
+		contextList.add(new AllContextsContext());
+		contextList.add(new NoContextContext());
+		
+		contextList.add(new DueTodayContext());
+		contextList.add(new DueTomorrowContext());
+		
+		//Generate 100 contexts.
+		for (int i = 0; i < 100; i++) {
+			Context context = new Context("Context " + i);
+			context.setGoal(view, Duration.standardMinutes(new Random().nextInt(10*60)));
+			contextList.add(context);
+		}
+		
+		//Generate some 2000 tasks
+		ArrayList<Task> taskList = new ArrayList<>();
+		
+		for (int i = 0; i < 2000; i++) {
+			Task task = new Task("Context " + i);
+			task.setEstimate(Duration.standardMinutes(new Random().nextInt(20*60)));
+			task.setContext(contextList.get(new Random().nextInt(contextList.size())));
+			task.setDue(DateTime.now().plusMinutes(new Random().nextInt(1000)*30));
+			task.setCompleted(new Random().nextBoolean());
+			taskList.add(task);
+		}
+		
+		//Assign 300 timeblocks
+		for (int i = 0; i < 400; i++) {
+				taskList.get(new Random().nextInt(taskList.size())).assignToTimeBlock(new TimeBlock(view.getStartDate().toDateTimeAtStartOfDay().plusMinutes(new Random().nextInt(1000)*30), Duration.standardMinutes((new Random().nextInt(12)+1)*30)));
+		}
+		
+		//Put the task and context lists into the container.
+		dataContainer.loadContexts(contextList);
+		dataContainer.loadTasks(taskList);
+		
+		return dataContainer;
+		
 	}
 }

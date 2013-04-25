@@ -60,7 +60,12 @@ public class Task {
 	
 	private Duration getTotalScheduled(){
 		Duration duration = Duration.ZERO;
-		for (TimeBlock timeBlock: getAllTimeBlocks()) duration = duration.plus(timeBlock.getDuration());
+		for (TimeBlock timeBlock: getAllTimeBlocks()){
+			//Timeblocks after due date DON'T COUNT.
+			if (this.getDue() != null && timeBlock.getEnd().isAfter(this.getDue())) continue;
+			
+			duration = duration.plus(timeBlock.getDuration());
+		}
 		return duration;
 	}
 	
@@ -107,6 +112,8 @@ public class Task {
 	public Duration getDurationScheduled(DateTime since, DateTime until){
 		Duration duration = Duration.ZERO;
 		for (TimeBlock timeBlock: timeBlocks) {
+			//Timeblocks after due date DON'T COUNT.
+			if (this.getDue() != null && timeBlock.getEnd().isAfter(this.getDue())) continue;
 			if (timeBlock.getEnd().isAfter(since) && timeBlock.getEnd().isBefore(until)){
 				if (timeBlock.getStart().isAfter(since)){
 					duration = duration.plus(timeBlock.getDuration());
