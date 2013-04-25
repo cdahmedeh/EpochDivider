@@ -5,6 +5,7 @@
 	<classpathentry kind="src" path="ui-swing"/>
 	<classpathentry kind="src" path="runs"/>
 	<classpathentry kind="src" path="imt"/>
+	<classpathentry kind="src" path="pers"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="elibs/swingx-all-1.6.4.jar" sourcepath="slibs/swingx-all-1.6.4-sources.jar"/>
@@ -19,5 +20,10 @@
 	<classpathentry kind="lib" path="elibs/antlr-2.7.7.jar"/>
 	<classpathentry kind="lib" path="elibs/antlr-runtime-3.2.jar"/>
 	<classpathentry kind="lib" path="elibs/log4j-1.2.17.jar" sourcepath="slibs/log4j-1.2.17-sources.jar"/>
+	<classpathentry kind="lib" path="elibs/sqlite-jdbc-3.7.2.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/Proj_OrganizerApp_Vers4/slibs/sqlite-jdbc-3.7.2-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

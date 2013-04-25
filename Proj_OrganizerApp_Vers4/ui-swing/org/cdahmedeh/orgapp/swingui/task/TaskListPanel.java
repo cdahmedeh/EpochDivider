@@ -1,13 +1,17 @@
 package org.cdahmedeh.orgapp.swingui.task;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
+import javax.swing.TransferHandler;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -74,6 +78,7 @@ public class TaskListPanel extends CPanel {
 		prepareTaskListTableModel();
 		prepareTaskListTableRendersAndEditors();
 		adjustTaskListTableColumnWidths();
+		setupTaskDragAndDrop();
 	}
 
 	private void createTaskListTable() {
@@ -82,6 +87,7 @@ public class TaskListPanel extends CPanel {
 		
 		taskListTable = new JTable();
 		taskListTable.setFillsViewportHeight(true);
+		taskListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		taskListPane.setViewportView(taskListTable);
 	}
 
@@ -131,7 +137,22 @@ public class TaskListPanel extends CPanel {
 		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_ESTIMATE).setPreferredWidth(50);
 		
 	}
-	
+
+	private void setupTaskDragAndDrop() {
+		taskListTable.setDragEnabled(true);
+		taskListTable.setTransferHandler(new TransferHandler("Task"){
+			@Override
+			public int getSourceActions(JComponent c) {
+				return COPY_OR_MOVE;
+			}
+			@Override
+			protected Transferable createTransferable(JComponent c) {
+				//TODO: There might be a better to get the selected task.
+				return new TaskTransferable(taskEventList.get(taskListTable.getSelectedRow()));
+			}
+		});
+	}
+
 	private void createToolbar() {
 		JToolBar toolbar = new JToolBar();
 		toolbar.setFloatable(false);
