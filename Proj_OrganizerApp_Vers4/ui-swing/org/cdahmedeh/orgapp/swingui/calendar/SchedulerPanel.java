@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.swingui.calendar;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
@@ -74,15 +75,11 @@ public class SchedulerPanel extends CPanel {
 					RendereredTask clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
 					if (clickedTimeBlock != null) {
 						timeBlockSelected = clickedTimeBlock.getTimeBlock();
-						//If near the bottom, we resize
-						if (e.getY()-clickedTimeBlock.getRectangle().y > clickedTimeBlock.getRectangle().height-10){
+						if (isNearTop(e, clickedTimeBlock)){
 							uiMode = CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK;
-						} 
-						else if (e.getY()-clickedTimeBlock.getRectangle().y < 5){
+						} else if (isNearBottom(e, clickedTimeBlock)){
 							uiMode = CalendarUIMode.RESIZE_TOP_TIMEBLOCK;
-						} 
-						//Otherwise, just move
-						else {
+						} else {
 							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
 							timeClickedOffset = new Duration(timeBlockSelected.getStart(), PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()));							
 						}
@@ -105,6 +102,22 @@ public class SchedulerPanel extends CPanel {
 					DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView());
 					timeBlockSelected.setStart(PixelsToDate.roundToMins(timeFromMouse, 15));
 					repaint();
+				}
+			}
+			
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				RendereredTask clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
+				if (getClickedTimeBlock(e.getX(), e.getY()) != null) {
+					if (isNearTop(e, clickedTimeBlock)){
+						setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+					} else if (isNearBottom(e, clickedTimeBlock)){
+						setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
+					} else {
+						setCursor(new Cursor(Cursor.MOVE_CURSOR));
+					}
+				} else {
+					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 				}
 			}
 		});
@@ -131,5 +144,13 @@ public class SchedulerPanel extends CPanel {
 			}
 		}
 		return null;
+	}
+	
+	private boolean isNearBottom(MouseEvent e, RendereredTask clickedTimeBlock) {
+		return e.getY()-clickedTimeBlock.getRectangle().y < 5;
+	}
+
+	private boolean isNearTop(MouseEvent e, RendereredTask clickedTimeBlock) {
+		return e.getY()-clickedTimeBlock.getRectangle().y > clickedTimeBlock.getRectangle().height-10;
 	}
 }
