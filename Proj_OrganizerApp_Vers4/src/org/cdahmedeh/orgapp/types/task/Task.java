@@ -121,6 +121,7 @@ public class Task {
 				}
 			}
 		}
+		//TODO: Doesn't count the timeblock that spans the whole view (need to fix that).
 		return duration;
 	}
 }
