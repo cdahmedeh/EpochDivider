@@ -112,24 +112,6 @@ public class Task{
 		return duration;
 	}
 	
-	/**
-	 * Gives the total duration of all timeblocks that end before 'until'.
-	 * 
-	 * TimeBlocks that are within until are not counted.
-	 * 
-	 * @param since
-	 * @param until
-	 * @return
-	 */
-	public Duration getDurationPassed(DateTime until){
-		Duration duration = Duration.ZERO;
-		for (TimeBlock timeBlock: timeBlocks) {
-			if (timeBlock.getEnd().isBefore(until)) {
-				duration = duration.plus(timeBlock.getDuration());
-			}
-		}
-		return duration;
-	}
 	
 	/**
 	 * Gives the total duration of all timeblocks that end within 'until'.

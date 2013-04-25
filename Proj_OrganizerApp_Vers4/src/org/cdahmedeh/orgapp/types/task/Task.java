@@ -70,5 +70,57 @@ public class Task {
 		return duration;
 	}
 	
+	/**
+	 * Gives the total duration of all timeblocks that end after 'since' and end
+	 * before 'until'. 
+	 * 
+	 * TimeBlocks that are within until are not counted.
+	 * TimeBlocks that are within since are counted partially
+	 * 
+	 * @param since
+	 * @param until
+	 * @return
+	 */
+	public Duration getDurationPassedSince(DateTime since, DateTime until){
+		Duration duration = Duration.ZERO;
+		for (TimeBlock timeBlock: timeBlocks) {
+			if (timeBlock.getEnd().isBefore(until)) {
+				if (timeBlock.getStart().isAfter(since)){
+					duration = duration.plus(timeBlock.getDuration());
+				} else if (timeBlock.getEnd().isAfter(since)){
+					duration = duration.plus(new Duration(since, timeBlock.getEnd()));
+				}
+			}
+		}
+		return duration;
+	}
 	
+	/**
+	 * Gives the total duration of all timeblocks that end within 'until'.
+	 * 
+	 * TimeBlocks that are within until are counted partially.
+	 * 
+	 * @param since
+	 * @param until
+	 * @return
+	 */
+	public Duration getDurationScheduled(DateTime since, DateTime until){
+		Duration duration = Duration.ZERO;
+		for (TimeBlock timeBlock: timeBlocks) {
+			if (timeBlock.getEnd().isAfter(since) && timeBlock.getEnd().isBefore(until)){
+				if (timeBlock.getStart().isAfter(since)){
+					duration = duration.plus(timeBlock.getDuration());
+				} else {
+					duration = duration.plus(new Duration(since, timeBlock.getEnd()));
+				}
+			} else if (timeBlock.getStart().isBefore(until) && timeBlock.getStart().isAfter(since)){
+				if (timeBlock.getEnd().isBefore(until)){
+					duration = duration.plus(timeBlock.getDuration());
+				} else {
+					duration = duration.plus(new Duration(timeBlock.getStart(), until));
+				}
+			}
+		}
+		return duration;
+	}
 }

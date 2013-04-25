@@ -5,16 +5,24 @@ import java.util.ArrayList;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
+import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
+import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.task.TaskProgressInfo;
+import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 public class ContextListTableModel implements TableModel {
 	private ArrayList<Context> contexts;
+	private ArrayList<Task> tasks;
+	private View view;
+	
 
 	public ContextListTableModel(DataContainer dataContainer) {
 		this.contexts = dataContainer.getContexts();
+		this.tasks = dataContainer.getTasks();
+		this.view = dataContainer.getView();
 	}
 	
 	@Override
@@ -57,7 +65,10 @@ public class ContextListTableModel implements TableModel {
 		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
 			return context.getName();
 		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
-			return new TaskProgressInfo(Duration.ZERO, Duration.standardHours(3), Duration.standardHours(10));
+			return new TaskProgressInfo(
+					context.getDurationPassedSince(view.getStartDate().toDateTimeAtStartOfDay(), DateTime.now(), tasks), 
+					context.getDurationScheduled(view.getStartDate().toDateTimeAtStartOfDay(), view.getEndDate().plusDays(1).toDateTimeAtStartOfDay(), tasks), 
+					context.getGoal(view));
 		}
 		return "";
 	}

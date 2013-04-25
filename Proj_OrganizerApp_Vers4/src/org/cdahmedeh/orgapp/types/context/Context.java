@@ -1,10 +1,12 @@
 package org.cdahmedeh.orgapp.types.context;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.calendar.View;
+import org.cdahmedeh.orgapp.types.task.Task;
+import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 /**
@@ -39,6 +41,50 @@ public class Context {
 	public void setGoal(View date, Duration duration) {goals.put(date, duration);}
 
 	
+	/* ---- Reader methods ---- */
+	
+	/**
+	 * Gives the total duration of all tasks that end after 'since' and end
+	 * before 'until'. 
+	 * 
+	 * TimeBlocks that are within until are not counted.
+	 * TimeBlocks that are within since are counted partially
+	 * 
+	 * @param since
+	 * @param until
+	 * @param taskContainer
+	 * @return
+	 */
+	public Duration getDurationPassedSince(DateTime since, DateTime until, ArrayList<Task> taskContainer){
+		Duration duration = Duration.ZERO;
+		for (Task task: taskContainer){
+			if (task.getContext().equals(this)){
+				duration = duration.plus(task.getDurationPassedSince(since, until));
+			}
+		}
+		return duration;
+	}
+	
+	/**
+	 * Gives the total duration of all timeblocks that end within 'until'.
+	 * 
+	 * TimeBlocks that are within until are counted partially.
+	 * 
+	 * @param since
+	 * @param until
+	 * @param taskContainer
+	 * @return
+	 */
+	public Duration getDurationScheduled(DateTime since, DateTime until,  ArrayList<Task> taskContainer){
+		Duration duration = Duration.ZERO;
+		for (Task task: taskContainer){
+			if (task.getContext().equals(this)){
+				duration = duration.plus(task.getDurationScheduled(since, until));
+			}
+		}
+		return duration;
+	}
+	
 	/* ---- Object methods ---- */
 	
 	@Override
@@ -55,4 +101,6 @@ public class Context {
 			return false;
 		}
 	}
+	
+	
 }
