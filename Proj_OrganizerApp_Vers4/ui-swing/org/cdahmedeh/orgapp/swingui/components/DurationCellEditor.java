@@ -3,6 +3,7 @@ package org.cdahmedeh.orgapp.swingui.components;
 import javax.swing.JTextField;
 
 import org.cdahmedeh.orgapp.tools.FuzzyDateParser;
+import org.cdahmedeh.orgapp.types.task.TaskProgressInfo;
 import org.joda.time.Duration;
 
 /**
@@ -10,7 +11,7 @@ import org.joda.time.Duration;
  * 
  * @author Ahmed El-Hajjar
  */
-public class DurationCellEditor extends AbstractParserEntryCellEditor<Duration>{
+public class DurationCellEditor extends AbstractParserEntryCellEditor<TaskProgressInfo>{
 	private static final long serialVersionUID = 4137237283040982074L;
 
 	public DurationCellEditor(JTextField editorTextField) {
@@ -19,17 +20,17 @@ public class DurationCellEditor extends AbstractParserEntryCellEditor<Duration>{
 
 	@Override
 	protected String parseTypeToString(Object value) {
-		return FuzzyDateParser.durationToFuzzyString((Duration)value);
+		return FuzzyDateParser.durationToFuzzyString(((TaskProgressInfo)value).getEstimate());
 	}
 
 	@Override
-	protected Duration parseStringToType(String context) {
-		return FuzzyDateParser.fuzzyStringToDuration(context);
+	protected TaskProgressInfo parseStringToType(String context) {
+		return new TaskProgressInfo(null, null, FuzzyDateParser.fuzzyStringToDuration(context));
 	}
 
 	@Override
-	protected String previewParseToString(Duration dateValue) {
-		return FuzzyDateParser.durationToFuzzyString(dateValue) + " hours";
+	protected String previewParseToString(TaskProgressInfo dateValue) {
+		return FuzzyDateParser.durationToFuzzyString(dateValue.getEstimate()) + " hours";
 	}
 
 	@Override

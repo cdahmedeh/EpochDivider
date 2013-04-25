@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.cdahmedeh.orgapp.types.task.TaskProgressInfo;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
@@ -33,11 +34,11 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 				return dueDate;				
 			}
 			break;
-		case TaskListPanelDefaults.COLUMN_TASK_ESTIMATE:
-			Duration estimate = baseObject.getEstimate();
-			if (estimate != null){
+		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
+			TaskProgressInfo taskProgressInfo = baseObject.getTaskProgressInfo();
+			if (taskProgressInfo != null){
 				//Cell Renderer parses the duration. 
-				return estimate;				
+				return taskProgressInfo;				
 			}
 			break;
 		}
@@ -66,11 +67,11 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 				baseObject.setDue((DateTime)editedValue);
 			}
 			break;
-		case TaskListPanelDefaults.COLUMN_TASK_ESTIMATE:
+		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
 			if (editedValue == null){
 				baseObject.setEstimate(Duration.ZERO);
-			} else if (editedValue instanceof Duration){
-				baseObject.setEstimate((Duration)editedValue);
+			} else if (editedValue instanceof TaskProgressInfo){
+				baseObject.setEstimate(((TaskProgressInfo)editedValue).getEstimate());
 			}
 			break;
 		}
@@ -89,8 +90,8 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 			return "Context";
 		case TaskListPanelDefaults.COLUMN_TASK_DUE:
 			return "Due";
-		case TaskListPanelDefaults.COLUMN_TASK_ESTIMATE:
-			return "Estimate";
+		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
+			return "Progress (Completed/Scheduled/Estimate)";
 		}
 		return "";
 	}
@@ -106,7 +107,7 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 			return String.class;
 		case TaskListPanelDefaults.COLUMN_TASK_DUE:
 			return String.class;
-		case TaskListPanelDefaults.COLUMN_TASK_ESTIMATE:
+		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
 			return String.class;
 		}
 		return null;

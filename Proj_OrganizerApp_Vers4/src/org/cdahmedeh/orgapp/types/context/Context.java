@@ -1,8 +1,11 @@
 package org.cdahmedeh.orgapp.types.context;
 
+import java.util.HashMap;
 import java.util.Random;
 
 import org.cdahmedeh.orgapp.tools.MiscHelper;
+import org.cdahmedeh.orgapp.types.calendar.View;
+import org.joda.time.Duration;
 
 /**
  * A context represents a category that tasks can be assigned to. For example,
@@ -31,6 +34,10 @@ public class Context {
 	public int getColor() {return color;}
 	public void setColor(int color) {this.color = color;}
 	
+	private HashMap<View, Duration> goals = new HashMap<>();
+	public Duration getGoal(View view){return goals.get(view) == null ? Duration.ZERO : goals.get(view);}
+	public void setGoal(View date, Duration duration) {goals.put(date, duration);}
+
 	
 	/* ---- Object methods ---- */
 	

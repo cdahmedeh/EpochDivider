@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
+import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
+import org.cdahmedeh.orgapp.types.task.TaskProgressInfo;
+import org.joda.time.Duration;
 
 public class ContextListTableModel implements TableModel {
 	private ArrayList<Context> contexts;
 
-	public ContextListTableModel(ArrayList<Context> contexts) {
-		this.contexts = contexts;
+	public ContextListTableModel(DataContainer dataContainer) {
+		this.contexts = dataContainer.getContexts();
 	}
 	
 	@Override
@@ -21,7 +24,7 @@ public class ContextListTableModel implements TableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -29,6 +32,8 @@ public class ContextListTableModel implements TableModel {
 		switch(columnIndex){
 		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
 			return "Context";
+		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
+			return "Progress";
 		}
 		return "";
 	}
@@ -51,6 +56,8 @@ public class ContextListTableModel implements TableModel {
 			return context.getColor();
 		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
 			return context.getName();
+		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
+			return new TaskProgressInfo(Duration.ZERO, Duration.standardHours(3), Duration.standardHours(10));
 		}
 		return "";
 	}

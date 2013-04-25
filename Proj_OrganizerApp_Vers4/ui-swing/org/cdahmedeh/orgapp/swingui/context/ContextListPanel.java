@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 
 import org.cdahmedeh.orgapp.swingui.components.ColorHueCellRenderer;
+import org.cdahmedeh.orgapp.swingui.components.DurationCellRenderer;
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
@@ -91,11 +92,14 @@ public class ContextListPanel extends CPanel {
 	}
 	
 	private void prepareContextListTableModel() {
-		contextListTable.setModel(new ContextListTableModel(dataContainer.getContexts()));
+		contextListTable.setModel(new ContextListTableModel(dataContainer));
 		contextListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		TableColumn dueDateColumn = contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR);
 		dueDateColumn.setCellRenderer(new ColorHueCellRenderer());
+		
+		TableColumn progressColumn = contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS);
+		progressColumn.setCellRenderer(new DurationCellRenderer());
 	}
 
 	private void adjustContextListTableColumnWidths() {

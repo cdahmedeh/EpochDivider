@@ -12,6 +12,7 @@ import org.cdahmedeh.orgapp.types.context.NoContextContext;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 
 /**
@@ -71,6 +72,7 @@ public class TestDataGenerator {
 		task01.setContext(miscContext);
 		task01.setDue(DateTime.now().toDateMidnight().plusDays(1).toDateTime());
 		task01.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,25,13,30)));
+		task01.setEstimate(Duration.standardHours(3));
 		taskList.add(task01);
 		
 		Task task02 = new Task("Data persistence prototype for Epoch Divider");
@@ -78,10 +80,12 @@ public class TestDataGenerator {
 		task02.setDue(new DateTime(2013, 04, 30, 15, 00));
 		task02.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,17,00)));
 		task02.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,23,00),new DateTime(2013,04,23,15,15)));
+		task02.setEstimate(Duration.standardHours(40));
 		taskList.add(task02);
 		
 		Task task03 = new Task("Read - Art of Unix Programming");
 		task03.setContext(readingContext);
+		task03.setEstimate(Duration.standardHours(15));
 		taskList.add(task03);
 		
 		Task task04 = new Task("Test Contexts with No Contexts");

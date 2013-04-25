@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 import org.cdahmedeh.orgapp.swingui.helpers.GraphicsHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
+import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
+import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
@@ -125,12 +127,13 @@ public class SchedulerPanel extends CPanel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				System.out.println("end");
 				//If we we're dragging, and we release, then, stop dragging.
 				if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_TOP_TIMEBLOCK){
 					uiMode = CalendarUIMode.NONE;
 					timeClickedOffset = null;
 					timeBlockSelected = null;
+					eventBus.post(new RefreshTaskListRequest());
+					eventBus.post(new RefreshContextListRequest());
 				}
 			}
 		});

@@ -24,6 +24,7 @@ import org.cdahmedeh.orgapp.swingui.components.DurationCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.DurationCellRenderer;
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
+import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
 import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
@@ -52,6 +53,9 @@ public class TaskListPanel extends CPanel {
 				taskListMatcherEditor.setSelectedContext(dataContainer.getSelectedContext());
 				taskListMatcherEditor.contextChangedNotify();
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
+			}
+			@Subscribe public void refreshTaskList(RefreshTaskListRequest request) {
+				refreshTaskListTreeTable();
 			}
 		};
 	}
@@ -124,7 +128,7 @@ public class TaskListPanel extends CPanel {
 		dueDateColumn.setCellEditor(new DateEntryCellEditor(new JTextField()));
 		
 		//Setup renderer and editor for estimate column
-		TableColumn estimateColumn = taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_ESTIMATE);
+		TableColumn estimateColumn = taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_PROGRESS);
 		estimateColumn.setCellRenderer(new DurationCellRenderer());
 		estimateColumn.setCellEditor(new DurationCellEditor(new JTextField()));
 	}
@@ -134,7 +138,7 @@ public class TaskListPanel extends CPanel {
 		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_TITLE).setPreferredWidth(200);
 		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_CONTEXT).setPreferredWidth(50);
 		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_DUE).setPreferredWidth(50);
-		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_ESTIMATE).setPreferredWidth(50);
+		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_PROGRESS).setPreferredWidth(50);
 		
 	}
 
@@ -172,7 +176,7 @@ public class TaskListPanel extends CPanel {
 	
 	// -- non-sequential methods --
 	
-	private void refreshContextListTreeTable() {
+	private void refreshTaskListTreeTable() {
 		//TODO: Investigate proper method to refresh GlazedLists tables.
 		taskEventList.clear();
 		taskEventList.addAll(dataContainer.getTasks());
@@ -195,7 +199,7 @@ public class TaskListPanel extends CPanel {
 		
 		//Add new task to the dataContainer and refresh task list table.
 		dataContainer.getTasks().add(newTask);
-		refreshContextListTreeTable();
+		refreshTaskListTreeTable();
 		
 		//Init. editing the title of the new tasks and focus the editor.
 		taskListTable.editCellAt(taskListTable.getRowCount()-1, TaskListPanelDefaults.COLUMN_TASK_TITLE);

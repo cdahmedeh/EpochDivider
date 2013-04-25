@@ -46,4 +46,29 @@ public class Task {
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
 	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
 	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}
+	
+	
+	/* ---- Reader methods ---- */
+	
+	public TaskProgressInfo getTaskProgressInfo(){
+		return new TaskProgressInfo(
+				getTotalPassed(DateTime.now()),
+				getTotalScheduled(),
+				getEstimate()
+			);
+	}
+	
+	private Duration getTotalScheduled(){
+		Duration duration = Duration.ZERO;
+		for (TimeBlock timeBlock: getAllTimeBlocks()) duration = duration.plus(timeBlock.getDuration());
+		return duration;
+	}
+	
+	private Duration getTotalPassed(DateTime moment){
+		Duration duration = Duration.ZERO;
+		for (TimeBlock timeBlock: getAllTimeBlocks()) if (timeBlock.getEnd().isBefore(moment)) duration = duration.plus(timeBlock.getDuration());
+		return duration;
+	}
+	
+	
 }

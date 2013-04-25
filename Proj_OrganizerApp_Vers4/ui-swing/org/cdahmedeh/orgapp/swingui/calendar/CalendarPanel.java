@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
+import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 
 import com.google.common.eventbus.EventBus;
@@ -26,7 +29,7 @@ public class CalendarPanel extends CPanel {
 	
 	@Override
 	protected void windowInit() {
-		setPreferredSize(new Dimension(600, 500));
+		setPreferredSize(new Dimension(300, 500));
 		setLayout(new BorderLayout());
 		
 		createToolbar();
@@ -71,5 +74,23 @@ public class CalendarPanel extends CPanel {
 		Component horizontalGlue = ToolbarHelper.createToolbarHorizontalGlue(toolbar);
 		JButton previousWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Previous Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/previous.png"));
 		JButton nextWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Next Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/next.png"));
+		
+		previousWeekButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dataContainer.getView().moveAmountOfDays(-7);
+				repaint();
+				eventBus.post(new RefreshContextListRequest());
+			}
+		});
+		
+		nextWeekButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dataContainer.getView().moveAmountOfDays(7);
+				repaint();
+				eventBus.post(new RefreshContextListRequest());
+			}
+		});
 	}
 }
