@@ -3,6 +3,7 @@ package org.cdahmedeh.orgapp.swingui.task;
 import org.cdahmedeh.orgapp.types.context.AllContextsContext;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.context.DueTodayContext;
+import org.cdahmedeh.orgapp.types.context.DueTomorrowContext;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.joda.time.LocalDate;
 
@@ -33,6 +34,14 @@ public class TaskListMatcherEditor extends AbstractMatcherEditor<Task>{
 				}
 			}
 
+			if (selectedContext instanceof DueTomorrowContext) {
+				if (item.getDue() != null && item.getDue().toLocalDate().isEqual(LocalDate.now().plusDays(1))){
+					return true;
+				} else {
+					return false;
+				}
+			}
+			
 			if (item.getContext().equals(selectedContext)) return true;
 			
 			return false;

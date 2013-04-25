@@ -7,6 +7,7 @@ import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.AllContextsContext;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.context.DueTodayContext;
+import org.cdahmedeh.orgapp.types.context.DueTomorrowContext;
 import org.cdahmedeh.orgapp.types.context.NoContextContext;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
@@ -34,6 +35,7 @@ public class TestDataGenerator {
 		contextList.add(new NoContextContext());
 		
 		contextList.add(new DueTodayContext());
+		contextList.add(new DueTomorrowContext());
 		
 		Context faithContext = new Context("Faith");
 		contextList.add(faithContext);
