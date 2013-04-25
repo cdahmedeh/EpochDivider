@@ -67,6 +67,7 @@ public class TaskListPanel extends CPanel {
 	// - Listeners -
 	private TaskListMatcherEditor taskListMatcherEditor;
 	private EventList<Task> taskEventList;
+	private AdvancedTableModel<Task> taskListTableModel;
 	
 	@Override
 	protected void windowInit() {
@@ -105,8 +106,7 @@ public class TaskListPanel extends CPanel {
 		taskListMatcherEditor = new TaskListMatcherEditor();
 		FilterList<Task> filteredByContextList = new FilterList<>(taskEventList, taskListMatcherEditor);
 
-		//Create Table Model based on TableFormat and Filtered List
-		AdvancedTableModel<Task> taskListTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(filteredByContextList, taskTableFormat);
+		taskListTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(filteredByContextList, taskTableFormat);
 		taskListTable.setModel(taskListTableModel);
 		
 	}
@@ -152,7 +152,7 @@ public class TaskListPanel extends CPanel {
 			@Override
 			protected Transferable createTransferable(JComponent c) {
 				//TODO: There might be a better to get the selected task.
-				return new TaskTransferable(taskEventList.get(taskListTable.getSelectedRow()));
+				return new TaskTransferable(taskListTableModel.getElementAt(taskListTable.getSelectedRow()));
 			}
 		});
 	}
