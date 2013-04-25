@@ -12,4 +12,9 @@ public class Rectangle {
 		this.width = width;
 		this.height = height;
 	}
+	
+	//TODO: Taken from SWT Rectangle. Must see copyright info.
+	public boolean contains (int x, int y) {
+		return (x >= this.x) && (y >= this.y) && x < (this.x + width) && y < (this.y + height);
+	}
 }

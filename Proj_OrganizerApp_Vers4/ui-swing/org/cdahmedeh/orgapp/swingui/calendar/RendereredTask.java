@@ -17,4 +17,11 @@ public class RendereredTask {
 	private TimeBlock timeBlock;
 	public TimeBlock getTimeBlock() {return timeBlock;}
 	public void setTimeBlock(TimeBlock timeBlock) {this.timeBlock = timeBlock;}
+	
+	public boolean clickedWithin(int x, int y) {
+		for (Rectangle rect: rectangles) {
+			if (rect.contains(x, y)) return true;
+		}
+		return false;
+	}
 }

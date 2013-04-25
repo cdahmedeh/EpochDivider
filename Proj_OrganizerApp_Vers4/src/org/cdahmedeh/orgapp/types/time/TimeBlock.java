@@ -59,4 +59,18 @@ public class TimeBlock {
 	public int daysSpaning() {
 		return Days.daysBetween(start.toLocalDate(), end.toLocalDate()).getDays();
 	}
+	
+	/* ---- Modifier Methods ---- */
+	
+	/**
+	 * Moves the TimeBlock to 'start' time. It is similar to setStart(..) except
+	 * that duration of the TimeBlock does not change. 
+	 * 
+	 * @param start
+	 */
+	public void moveStart(DateTime start) {
+		Duration originalDuration = this.getDuration();
+		this.setStart(start);
+		this.setEnd(start.plus(originalDuration));
+	}
 }
