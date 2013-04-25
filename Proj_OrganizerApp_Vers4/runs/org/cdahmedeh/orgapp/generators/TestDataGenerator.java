@@ -28,6 +28,10 @@ public class TestDataGenerator {
 	public static DataContainer generateDataContainer(){
 		DataContainer dataContainer = new DataContainer();
 	
+		//Set the view for the calendar.
+		View view = new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27));
+		dataContainer.setView(view);
+		
 		//Generate some contexts
 		ArrayList<Context> contextList = new ArrayList<>();
 		
@@ -39,30 +43,39 @@ public class TestDataGenerator {
 		contextList.add(new DueTomorrowContext());
 		
 		Context faithContext = new Context("Faith");
+		faithContext.setGoal(view, Duration.standardMinutes((long) (5.5*60)));
 		contextList.add(faithContext);
 		
 		Context sleepContext = new Context("Sleep");
+		sleepContext.setGoal(view, Duration.standardMinutes((long) (49*60)));
 		contextList.add(sleepContext);
 		
 		Context relaxingContext = new Context("Relaxing");
+		relaxingContext.setGoal(view, Duration.standardMinutes((long) (3.5*60)));
 		contextList.add(relaxingContext);
 		
 		Context exerciseContext = new Context("Exercise");
+		exerciseContext.setGoal(view, Duration.standardMinutes((long) (2.5*60)));
 		contextList.add(exerciseContext);
 		
 		Context studyContext = new Context("Study");
+		studyContext.setGoal(view, Duration.standardMinutes((long) (19*60)));
 		contextList.add(studyContext);
 	
 		Context coursesContext = new Context("Courses");
+		coursesContext.setGoal(view, Duration.standardMinutes((long) (21*60)));
 		contextList.add(coursesContext);
 		
 		Context miscContext = new Context("Misc");
+		miscContext.setGoal(view, Duration.standardMinutes((long) (1*60)));
 		contextList.add(miscContext);
 	
 		Context projectContext = new Context("Projects");
+		projectContext.setGoal(view, Duration.standardMinutes((long) (15*60)));
 		contextList.add(projectContext);
 		
 		Context readingContext = new Context("Reading");
+		readingContext.setGoal(view, Duration.standardMinutes((long) (8*60)));
 		contextList.add(readingContext);
 		
 		//Generate some tasks
@@ -95,9 +108,6 @@ public class TestDataGenerator {
 		//Put the task and context lists into the container.
 		dataContainer.loadContexts(contextList);
 		dataContainer.loadTasks(taskList);
-		
-		//Set the view for the calendar.
-		dataContainer.setView(new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27)));
 		
 		return dataContainer;
 	}
