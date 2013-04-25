@@ -29,11 +29,8 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 			break;
 		case TaskListPanelDefaults.COLUMN_TASK_DUE:
 			DateTime dueDate = baseObject.getDue();
-			if (dueDate != null){
-				//Cell Renderer parses the date. 
-				return dueDate;				
-			}
-			break;
+			//Cell Renderer parses the date. 
+			return dueDate;				
 		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
 			TaskProgressInfo taskProgressInfo = baseObject.getTaskProgressInfo();
 			if (taskProgressInfo != null){
@@ -106,7 +103,7 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
 			return String.class;
 		case TaskListPanelDefaults.COLUMN_TASK_DUE:
-			return String.class;
+			return DateTime.class;
 		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
 			return String.class;
 		}
@@ -130,6 +127,16 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 			return new Comparator<String>() {
 				@Override
 				public int compare(String o1, String o2) {
+					return o1.compareTo(o2);
+				}
+			};
+		case TaskListPanelDefaults.COLUMN_TASK_DUE:
+			return new Comparator<DateTime>() {
+				@Override
+				public int compare(DateTime o1, DateTime o2) {
+					if (o1 == null && o2 == null) return 0;
+					if (o1 == null) return 1;
+					if (o2 == null) return -1;
 					return o1.compareTo(o2);
 				}
 			};

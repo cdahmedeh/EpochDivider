@@ -15,6 +15,9 @@ public class DateEntryCellRenderer extends DefaultTableCellRenderer {
 		} else if (value instanceof String){
 			super.setValue(value);
 			setText((String) value);
+		} else if (value == null){
+			super.setValue(null);
+			setText("");
 		}
 	}
 }
