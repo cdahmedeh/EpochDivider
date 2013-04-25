@@ -77,8 +77,10 @@ public class SchedulerPanel extends CPanel {
 						//If near the bottom, we resize
 						if (e.getY()-clickedTimeBlock.getRectangle().y > clickedTimeBlock.getRectangle().height-10){
 							uiMode = CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK;
-							timeClickedOffset = new Duration(timeBlockSelected.getEnd(), PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()));
-						}
+						} 
+						else if (e.getY()-clickedTimeBlock.getRectangle().y < 5){
+							uiMode = CalendarUIMode.RESIZE_TOP_TIMEBLOCK;
+						} 
 						//Otherwise, just move
 						else {
 							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
@@ -98,6 +100,12 @@ public class SchedulerPanel extends CPanel {
 					timeBlockSelected.setEnd(PixelsToDate.roundToMins(timeFromMouse, 15));
 					repaint();
 				}
+				//Resize the bottom of the timeblock
+				else if (uiMode == CalendarUIMode.RESIZE_TOP_TIMEBLOCK) {
+					DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView());
+					timeBlockSelected.setStart(PixelsToDate.roundToMins(timeFromMouse, 15));
+					repaint();
+				}
 			}
 		});
 		
@@ -106,7 +114,7 @@ public class SchedulerPanel extends CPanel {
 			public void mouseReleased(MouseEvent e) {
 				System.out.println("end");
 				//If we we're dragging, and we release, then, stop dragging.
-				if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK){
+				if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_TOP_TIMEBLOCK){
 					uiMode = CalendarUIMode.NONE;
 					timeClickedOffset = null;
 					timeBlockSelected = null;
