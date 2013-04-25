@@ -3,7 +3,6 @@ package org.cdahmedeh.orgapp.swingui.calendar;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.ArrayDeque;
 
 import javax.swing.JPanel;
 

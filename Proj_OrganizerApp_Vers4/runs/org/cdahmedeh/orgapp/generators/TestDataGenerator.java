@@ -3,6 +3,7 @@ package org.cdahmedeh.orgapp.generators;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.cdahmedeh.orgapp.tools.DateReference;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.AllContextsContext;
@@ -88,7 +89,7 @@ public class TestDataGenerator {
 		
 		Task task01 = new Task("Clean car");
 		task01.setContext(miscContext);
-		task01.setDue(DateTime.now().toDateMidnight().plusDays(1).toDateTime());
+		task01.setDue(DateReference.getNow().toDateMidnight().plusDays(1).toDateTime());
 		task01.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,25,13,30)));
 		task01.setEstimate(Duration.standardHours(3));
 		taskList.add(task01);
@@ -157,7 +158,7 @@ public class TestDataGenerator {
 				task.setContext(contextList.get(new Random().nextInt(contextList.size())));
 			}
 			if (new Random().nextInt(5) == 0) {
-				task.setDue(DateTime.now().plusMinutes(new Random().nextInt(1000)*30));
+				task.setDue(DateReference.getNow().plusMinutes(new Random().nextInt(1000)*30));
 			}
 			if (new Random().nextInt(3) == 0) {
 				task.setTitle("Event " + i);

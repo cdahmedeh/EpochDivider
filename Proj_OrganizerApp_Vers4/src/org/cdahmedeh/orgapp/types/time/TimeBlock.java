@@ -1,5 +1,6 @@
 package org.cdahmedeh.orgapp.types.time;
 
+import org.cdahmedeh.orgapp.tools.DateReference;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Duration;
@@ -18,7 +19,7 @@ public class TimeBlock {
 		this.end = end;
 	}
 
-	public TimeBlock(){this(DateTime.now(), TimeConstants.DEFAULT_DURATION);}
+	public TimeBlock(){this(DateReference.getNow(), TimeConstants.DEFAULT_DURATION);}
 	public TimeBlock(DateTime start){this(start, TimeConstants.DEFAULT_DURATION);}
 	public TimeBlock(DateTime start, Duration duration){
 		this.start = start;

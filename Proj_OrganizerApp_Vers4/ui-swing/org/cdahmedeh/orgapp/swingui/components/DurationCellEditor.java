@@ -4,7 +4,6 @@ import javax.swing.JTextField;
 
 import org.cdahmedeh.orgapp.tools.FuzzyDateParser;
 import org.cdahmedeh.orgapp.types.task.TaskProgressInfo;
-import org.joda.time.Duration;
 
 /**
  * Editor for dates. 

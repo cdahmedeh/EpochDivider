@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.types.task;
 
 import java.util.ArrayList;
 
+import org.cdahmedeh.orgapp.tools.DateReference;
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.context.Context;
@@ -71,7 +72,7 @@ public class Task {
 	
 	public TaskProgressInfo getTaskProgressInfo(){
 		return new TaskProgressInfo(
-				getTotalPassed(DateTime.now()),
+				getTotalPassed(DateReference.getNow()),
 				getTotalScheduled(),
 				getEstimate()
 			);

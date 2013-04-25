@@ -1,5 +1,6 @@
 package org.cdahmedeh.orgapp.swingui.main;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -21,8 +22,6 @@ import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 
 import com.google.common.eventbus.EventBus;
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
-
-import java.awt.BorderLayout;
 
 public class MainWindow {
 	public static void main(String[] args) {
@@ -62,8 +61,8 @@ public class MainWindow {
 		logger.info("Configured Look and Feel");
 		
 		//Prepare some test data, and prepare eventBus.
-//		dataContainer = TestDataGenerator.generateDataContainer();
-		dataContainer = TestDataGenerator.generateDataContainerWithLotsOfData();
+		dataContainer = TestDataGenerator.generateDataContainer();
+//		dataContainer = TestDataGenerator.generateDataContainerWithLotsOfData();
 		eventBus = new EventBus();
 		logger.info("Test Data Generated");
 		

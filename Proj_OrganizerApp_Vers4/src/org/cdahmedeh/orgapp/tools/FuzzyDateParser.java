@@ -23,7 +23,7 @@ public class FuzzyDateParser {
 	 * Returns a human readable string for a certain date.
 	 */
 	public static String dateTimeToFuzzyString(DateTime dateTime){
-		DateTime today = DateTime.now();
+		DateTime today = DateReference.getNow();
 
 		//Get number of days between today and 'dateTime'.
 		Duration diff = new Duration(today.toDateMidnight(), dateTime.toDateMidnight());
@@ -48,7 +48,7 @@ public class FuzzyDateParser {
 	public static DateTime fuzzyStringToDateTime(String fuzzy){
 		//Let natty do the parsing
 		Parser parser = new Parser();
-		Date baseDate = DateTime.now().toDateMidnight().toDate();
+		Date baseDate = DateReference.getNow().toDateMidnight().toDate();
 		CalendarSource.setBaseDate(baseDate);
 		List<DateGroup> parsed = parser.parse(fuzzy);
 		

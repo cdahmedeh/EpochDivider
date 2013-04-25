@@ -1,15 +1,20 @@
 package org.cdahmedeh.orgapp.swingui.context;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.DropMode;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableColumn;
 
 import org.cdahmedeh.orgapp.swingui.components.ColorHueCellRenderer;
 import org.cdahmedeh.orgapp.swingui.components.DurationCellRenderer;
@@ -22,15 +27,6 @@ import org.cdahmedeh.orgapp.types.context.Context;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import javax.swing.ImageIcon;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.Box;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableColumn;
 
 public class ContextListPanel extends CPanel {
 	private static final long serialVersionUID = -8250528552031443184L;

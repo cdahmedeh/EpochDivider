@@ -1,7 +1,5 @@
 package org.cdahmedeh.orgapp.swingui.calendar;
 
-import java.util.ArrayList;
-
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 

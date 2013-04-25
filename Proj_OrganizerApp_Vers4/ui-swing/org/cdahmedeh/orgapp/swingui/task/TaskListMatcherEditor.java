@@ -8,7 +8,6 @@ import org.cdahmedeh.orgapp.types.context.DueTodayContext;
 import org.cdahmedeh.orgapp.types.context.DueTomorrowContext;
 import org.cdahmedeh.orgapp.types.context.NoDueDateContext;
 import org.cdahmedeh.orgapp.types.task.Task;
-import org.joda.time.LocalDate;
 
 import ca.odell.glazedlists.matchers.AbstractMatcherEditor;
 import ca.odell.glazedlists.matchers.Matcher;

@@ -3,13 +3,11 @@ package org.cdahmedeh.orgapp.swingui.calendar;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.ArrayDeque;
 
 import javax.swing.JPanel;
 
 import org.cdahmedeh.orgapp.swingui.helpers.GraphicsHelper;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
-import org.joda.time.LocalDate;
 
 public class DaylineHeaderPanel extends JPanel {
 	private static final long serialVersionUID = 4294971143265192080L;

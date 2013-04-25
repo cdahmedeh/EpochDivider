@@ -4,7 +4,6 @@ import org.cdahmedeh.orgapp.types.calendar.View;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 
 public class PixelsToDate {
 	public static LocalDate getDateFromHorizontal(int xPosition, int xArea, View view){

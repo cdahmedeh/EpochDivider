@@ -1,6 +1,6 @@
 package org.cdahmedeh.orgapp.types.task;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
