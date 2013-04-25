@@ -124,7 +124,16 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 	}
 
 	@Override
-	public Comparator<Task> getColumnComparator(int column) {
+	public Comparator<?> getColumnComparator(int column) {
+		switch(column){
+		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
+			return new Comparator<String>() {
+				@Override
+				public int compare(String o1, String o2) {
+					return o1.compareTo(o2);
+				}
+			};
+		}
 		return null;
 	}
 }

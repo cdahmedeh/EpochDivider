@@ -33,11 +33,13 @@ import org.cdahmedeh.orgapp.types.task.Task;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.FilterList;
+import ca.odell.glazedlists.SortedList;
 import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.swing.AdvancedTableModel;
 import ca.odell.glazedlists.swing.AutoCompleteSupport;
 import ca.odell.glazedlists.swing.AutoCompleteSupport.AutoCompleteCellEditor;
 import ca.odell.glazedlists.swing.GlazedListsSwing;
+import ca.odell.glazedlists.swing.TableComparatorChooser;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -107,8 +109,13 @@ public class TaskListPanel extends CPanel {
 		taskListMatcherEditor = new TaskListMatcherEditor();
 		FilterList<Task> filteredByContextList = new FilterList<>(taskEventList, taskListMatcherEditor);
 
-		taskListTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(filteredByContextList, taskTableFormat);
+		//Prepare sorting
+		SortedList<Task> sortedTaskList = new SortedList<>(filteredByContextList, null);
+		
+		taskListTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(sortedTaskList, taskTableFormat);
 		taskListTable.setModel(taskListTableModel);
+		
+		TableComparatorChooser<Task> taskListSortChooser = TableComparatorChooser.install(taskListTable, sortedTaskList, TableComparatorChooser.SINGLE_COLUMN);
 		
 	}
 
