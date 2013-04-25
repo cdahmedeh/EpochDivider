@@ -4,9 +4,14 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.TransferHandler;
 
 import org.cdahmedeh.orgapp.swingui.helpers.GraphicsHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
@@ -31,6 +36,7 @@ public class SchedulerPanel extends CPanel {
 		setBackground(new Color(255, 255, 255));
 		
 		enabledClickingOnTimeBlock();
+		setupDragFrom();
 	}
 
 	@Override
@@ -135,6 +141,55 @@ public class SchedulerPanel extends CPanel {
 					eventBus.post(new RefreshTaskListRequest());
 					eventBus.post(new RefreshContextListRequest());
 				}
+			}
+		});
+	}
+	
+	private void setupDragFrom() {
+		this.setTransferHandler(new TransferHandler("Calendar"){
+			@Override
+			public boolean canImport(TransferSupport support) {
+				//IF it is a task, start dragging RIGHT AWAY
+				try {
+					if (uiMode == CalendarUIMode.NONE) {
+					if (support.getTransferable().isDataFlavorSupported(new DataFlavor(Task.class, "Task"))){
+						//Get the task being dragged
+						Task task = (Task) support.getTransferable().getTransferData(new DataFlavor(Task.class, "Task"));
+						//TODO: null check
+						//Add a new timeblock to the task
+						TimeBlock timeBlock = new TimeBlock();
+						task.assignToTimeBlock(timeBlock);
+						timeBlockSelected = timeBlock;
+						uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
+						timeClickedOffset = Duration.ZERO;
+						repaint();
+						return true;
+					}
+					}
+					else if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK) {
+						DateTime timeFromMouse = PixelsToDate.getTimeFromPosition((int)support.getDropLocation().getDropPoint().getX(), (int)support.getDropLocation().getDropPoint().getY(), getWidth()-1, getHeight()-1, dataContainer.getView());
+						timeBlockSelected.moveStart(PixelsToDate.roundToMins(timeFromMouse.minus(timeClickedOffset), 15));
+						repaint();
+						return true;
+					}
+				} catch (UnsupportedFlavorException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return false;
+			}
+			
+			@Override
+			public boolean importData(TransferSupport support) {
+				if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_TOP_TIMEBLOCK){
+					uiMode = CalendarUIMode.NONE;
+					timeClickedOffset = null;
+					timeBlockSelected = null;
+					eventBus.post(new RefreshTaskListRequest());
+					eventBus.post(new RefreshContextListRequest());
+					return true;
+				}
+				return false;
 			}
 		});
 	}
