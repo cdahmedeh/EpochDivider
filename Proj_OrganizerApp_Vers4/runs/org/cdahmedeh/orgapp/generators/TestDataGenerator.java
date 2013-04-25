@@ -145,7 +145,7 @@ public class TestDataGenerator {
 		ArrayList<Task> taskList = new ArrayList<>();
 		
 		for (int i = 0; i < 2000; i++) {
-			Task task = new Task("Context " + i);
+			Task task = new Task("Task " + i);
 			task.setEstimate(Duration.standardMinutes(new Random().nextInt(20*60)));
 			task.setContext(contextList.get(new Random().nextInt(contextList.size())));
 			task.setDue(DateTime.now().plusMinutes(new Random().nextInt(1000)*30));
@@ -155,7 +155,7 @@ public class TestDataGenerator {
 		
 		//Assign 300 timeblocks
 		for (int i = 0; i < 400; i++) {
-				taskList.get(new Random().nextInt(taskList.size())).assignToTimeBlock(new TimeBlock(view.getStartDate().toDateTimeAtStartOfDay().plusMinutes(new Random().nextInt(1000)*30), Duration.standardMinutes((new Random().nextInt(12)+1)*30)));
+			taskList.get(new Random().nextInt(taskList.size())).assignToTimeBlock(new TimeBlock(view.getStartDate().toDateTimeAtStartOfDay().plusMinutes(new Random().nextInt(1000)*30), Duration.standardMinutes((new Random().nextInt(12)+1)*30)));
 		}
 		
 		//Put the task and context lists into the container.
