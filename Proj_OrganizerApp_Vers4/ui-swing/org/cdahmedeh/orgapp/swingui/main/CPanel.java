@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.swingui.main;
 
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
 import org.cdahmedeh.orgapp.swingui.notification.WindowLoadedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 
@@ -9,8 +10,11 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 /**
- * Extension of JPanel with built-in support for a dataContainer reference
- * and an eventBus reference.
+ * Extension of JPanel with built-in support for a dataContainer reference, an 
+ * eventBus reference and a logger reference.
+ * 
+ * It is designed for delayed data loading to ensure that window is rendered as
+ * soon as possible. See windowInit() and postWindowInit() methods.
  * 
  * @author Ahmed El-Hajjar
  */
@@ -20,9 +24,13 @@ public abstract class CPanel extends JPanel {
 	// - Data and EventBus -
 	protected DataContainer dataContainer;
 	protected EventBus eventBus;
+	protected Logger logger;
 
+	// - Construct -
 	public CPanel(DataContainer dataContainer, EventBus eventBus) {
 		this.dataContainer = dataContainer;
+		
+		this.logger = Logger.getLogger("org.cdahmedeh.orgapp.log");
 		
 		this.eventBus = eventBus;
 		this.eventBus.register(new DefaultEventRecorder());
@@ -31,9 +39,11 @@ public abstract class CPanel extends JPanel {
 		windowInit();
 	}
 
+	// - Default event for running postWindowInit() after window has rendered.
 	class DefaultEventRecorder{
 		@Subscribe public void changedSelectedContext(WindowLoadedNotification notification){
 			postWindowInit();
+			logger.info("Post-load event done for:" + this.getClass().getName());
 		}
 	}
 	

@@ -39,7 +39,7 @@ public class MainWindow {
 	
 	// - Events and Logging -
 	private EventBus eventBus;
-	private Logger logger = Logger.getLogger(this.getClass());
+	private Logger logger = Logger.getLogger("org.cdahmedeh.orgapp.log");
 	
 	// - Components -
 	private JFrame frame;
