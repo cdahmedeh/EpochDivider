@@ -7,9 +7,11 @@ import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.AllContextsContext;
 import org.cdahmedeh.orgapp.types.context.Context;
+import org.cdahmedeh.orgapp.types.context.DueThisViewContext;
 import org.cdahmedeh.orgapp.types.context.DueTodayContext;
 import org.cdahmedeh.orgapp.types.context.DueTomorrowContext;
 import org.cdahmedeh.orgapp.types.context.NoContextContext;
+import org.cdahmedeh.orgapp.types.context.NoDueDateContext;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTime;
@@ -42,6 +44,8 @@ public class TestDataGenerator {
 		
 		contextList.add(new DueTodayContext());
 		contextList.add(new DueTomorrowContext());
+		contextList.add(new DueThisViewContext());
+		contextList.add(new NoDueDateContext());
 		
 		Context faithContext = new Context("Faith");
 		faithContext.setGoal(view, Duration.standardMinutes((long) (5.5*60)));
@@ -133,6 +137,8 @@ public class TestDataGenerator {
 		
 		contextList.add(new DueTodayContext());
 		contextList.add(new DueTomorrowContext());
+		contextList.add(new DueThisViewContext());
+		contextList.add(new NoDueDateContext());
 		
 		//Generate 100 contexts.
 		for (int i = 0; i < 100; i++) {

@@ -62,8 +62,8 @@ public class MainWindow {
 		logger.info("Configured Look and Feel");
 		
 		//Prepare some test data, and prepare eventBus.
-		dataContainer = TestDataGenerator.generateDataContainer();
-//		dataContainer = TestDataGenerator.generateDataContainerWithLotsOfData();
+//		dataContainer = TestDataGenerator.generateDataContainer();
+		dataContainer = TestDataGenerator.generateDataContainerWithLotsOfData();
 		eventBus = new EventBus();
 		logger.info("Test Data Generated");
 		

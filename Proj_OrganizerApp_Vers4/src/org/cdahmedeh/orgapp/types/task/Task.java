@@ -3,11 +3,13 @@ package org.cdahmedeh.orgapp.types.task;
 import java.util.ArrayList;
 
 import org.cdahmedeh.orgapp.tools.MiscHelper;
+import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.context.NoContextContext;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.joda.time.LocalDate;
 
 /**
  * Data type class for one Task. 
@@ -32,6 +34,7 @@ public class Task {
 	public Context getContext() {return context;}
 	
 	private DateTime due = null;
+	public boolean isDue() {return due != null;}
 	public DateTime getDue() {return due;}
 	public void setDue(DateTime due) {this.due = due;}
 
@@ -49,6 +52,18 @@ public class Task {
 	
 	
 	/* ---- Reader methods ---- */
+	
+	public boolean isDueToday(){
+		return (this.isDue() && this.getDue().toLocalDate().isEqual(LocalDate.now()));
+	}
+	
+	public boolean isDueTomorrow(){
+		return (this.isDue() && this.getDue().toLocalDate().isEqual(LocalDate.now().plusDays(1)));
+	}
+	
+	public boolean isDueWithinView(View view){
+		return (this.isDue() && view.getInterval().contains(this.getDue()));
+	}
 	
 	public TaskProgressInfo getTaskProgressInfo(){
 		return new TaskProgressInfo(

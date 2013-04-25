@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.types.calendar;
 
 import org.joda.time.Days;
+import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 
 /**
@@ -44,6 +45,10 @@ public class View {
 	
 	
 	/* ---- Reader Methods ---- */
+	
+	public Interval getInterval(){
+		return new Interval(this.getStartDate().toDateTimeAtStartOfDay(), this.getEndDate().plusDays(1).toDateTimeAtStartOfDay());
+	}
 	
 	/**
 	 * Calculates the number of days between the start and end date including

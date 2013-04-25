@@ -51,6 +51,7 @@ public class TaskListPanel extends CPanel {
 		return new Object(){
 			@Subscribe public void changedSelectedContext(SelectedContextChangedNotification notification){
 				taskListMatcherEditor.setSelectedContext(dataContainer.getSelectedContext());
+				taskListMatcherEditor.setSelectedView(dataContainer.getView());
 				taskListMatcherEditor.contextChangedNotify();
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
