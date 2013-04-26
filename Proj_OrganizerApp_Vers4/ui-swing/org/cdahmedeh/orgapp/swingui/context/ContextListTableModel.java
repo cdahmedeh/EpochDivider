@@ -12,6 +12,7 @@ import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TripleDurationInfo;
+import org.joda.time.Duration;
 
 public class ContextListTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 3929344797261889916L;
@@ -86,6 +87,13 @@ public class ContextListTableModel extends AbstractTableModel {
 		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
 			if (aValue instanceof String){
 				context.setName((String) aValue);	
+			}
+			break;
+		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
+			if (aValue == null){
+				context.setGoal(view, Duration.ZERO);
+			} else if (aValue instanceof TripleDurationInfo){
+				context.setGoal(view, ((TripleDurationInfo)aValue).getEstimate());
 			}
 			break;
 		}

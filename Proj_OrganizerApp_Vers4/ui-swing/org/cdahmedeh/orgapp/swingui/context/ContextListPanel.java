@@ -10,6 +10,7 @@ import javax.swing.DropMode;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -17,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
 import org.cdahmedeh.orgapp.swingui.components.ColorHueCellRenderer;
+import org.cdahmedeh.orgapp.swingui.components.DurationCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.TripleDurationCellRenderer;
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
@@ -104,6 +106,7 @@ public class ContextListPanel extends CPanel {
 		
 		TableColumn progressColumn = contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS);
 		progressColumn.setCellRenderer(new TripleDurationCellRenderer());
+		progressColumn.setCellEditor(new DurationCellEditor(new JTextField()));
 	}
 
 	private void adjustContextListTableColumnWidths() {
