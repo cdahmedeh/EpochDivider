@@ -41,6 +41,7 @@ public class CalendarPanel extends CPanel {
 	private void createCalendarPane() {
 		//Setup scroll-pane
 		JideScrollPane calendarPane = new JideScrollPane();
+		calendarPane.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
 		calendarPane.setBorder(new LineBorder(Color.BLACK));
 		calendarPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		add(calendarPane, BorderLayout.CENTER);
