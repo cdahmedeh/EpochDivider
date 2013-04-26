@@ -2,7 +2,6 @@ package org.cdahmedeh.orgapp.swingui.main;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
