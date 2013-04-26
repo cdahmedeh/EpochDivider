@@ -43,7 +43,7 @@ public abstract class CPanel extends JPanel {
 	class DefaultEventRecorder{
 		@Subscribe public void changedSelectedContext(WindowLoadedNotification notification){
 			postWindowInit();
-			logger.info("Post-load event done for:" + getClass().getSimpleName());
+			logger.info("Post-load event done."); //TODO: Specify class name.
 		}
 	}
 	
@@ -61,8 +61,6 @@ public abstract class CPanel extends JPanel {
 	/**
 	 * Should return an object with methods for responding to EventBus
 	 * notifications.
-	 * 
-	 * @return
 	 */
 	protected abstract Object getEventRecorder();
 }

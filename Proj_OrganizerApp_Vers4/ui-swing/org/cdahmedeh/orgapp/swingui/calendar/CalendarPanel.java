@@ -2,7 +2,6 @@ package org.cdahmedeh.orgapp.swingui.calendar;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +15,7 @@ import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
+import org.joda.time.DateTimeConstants;
 
 import com.google.common.eventbus.EventBus;
 import com.jidesoft.swing.JideScrollPane;
@@ -23,12 +23,11 @@ import com.jidesoft.swing.JideScrollPane;
 public class CalendarPanel extends CPanel {
 	private static final long serialVersionUID = -4789321610128363432L;
 	public CalendarPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
-	
 	@Override protected Object getEventRecorder() {return new Object(){};}
 	
 	@Override
 	protected void windowInit() {
-		setPreferredSize(new Dimension(300, 500));
+		setPreferredSize(new Dimension(CalendarConstants.CALENDAR_DEFAULT_WIDTH, CalendarConstants.CALENDAR_DEFAULT_HEIGHT));
 		setLayout(new BorderLayout());
 		
 		createToolbar();
@@ -56,12 +55,10 @@ public class CalendarPanel extends CPanel {
 		
 		//Left time-line.
 		TimelinePanel timeLine = new TimelinePanel();
-		timeLine.setPreferredSize(new Dimension(40, 1000));
 		calendarPane.setRowHeaderView(timeLine);
 		
-		//Calendar with Timeblocks
+		//Calendar with TimeBlocks
 		SchedulerPanel mainView = new SchedulerPanel(dataContainer, eventBus);
-		mainView.setPreferredSize(new Dimension(1, 1000));
 		calendarPane.setViewportView(mainView);
 	}
 
@@ -70,26 +67,27 @@ public class CalendarPanel extends CPanel {
 		toolbar.setFloatable(false);
 		add(toolbar, BorderLayout.NORTH);
 		
-		Component horizontalGlue = ToolbarHelper.createToolbarHorizontalGlue(toolbar);
+		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
 		JButton previousWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Previous Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/previous.png"));
 		JButton nextWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Next Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/next.png"));
 		
 		previousWeekButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dataContainer.getView().moveAmountOfDays(-7);
-				repaint();
-				eventBus.post(new RefreshContextListRequest());
+			@Override public void actionPerformed(ActionEvent e) {
+				moveViewByDays(-DateTimeConstants.DAYS_PER_WEEK);
 			}
 		});
 		
 		nextWeekButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dataContainer.getView().moveAmountOfDays(7);
-				repaint();
-				eventBus.post(new RefreshContextListRequest());
+			@Override public void actionPerformed(ActionEvent e) {
+				moveViewByDays(DateTimeConstants.DAYS_PER_WEEK);
 			}
 		});
+	}
+	
+
+	private void moveViewByDays(int days) {
+		dataContainer.getView().moveAmountOfDays(days);
+		repaint();
+		eventBus.post(new RefreshContextListRequest());
 	}
 }

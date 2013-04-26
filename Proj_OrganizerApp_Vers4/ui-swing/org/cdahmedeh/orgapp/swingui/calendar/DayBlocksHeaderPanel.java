@@ -7,23 +7,17 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import org.cdahmedeh.orgapp.swingui.helpers.GraphicsHelper;
-import org.joda.time.LocalDate;
 
 public class DayBlocksHeaderPanel extends JPanel {
 
 	private static final long serialVersionUID = 4294971143265192080L;
 
-	private final int defaultMargin = 5;
-	private final int defaultTextYPosition = 15;
-
-	private LocalDate firstDay;
 	private int numberOfDaysVisible;
 
 	/**
 	 * Create the panel.
 	 */
 	public DayBlocksHeaderPanel() {
-		firstDay = new LocalDate(2013, 04, 21);
 		numberOfDaysVisible = 7;
 		
 		setPreferredSize(new Dimension(50, 30));
