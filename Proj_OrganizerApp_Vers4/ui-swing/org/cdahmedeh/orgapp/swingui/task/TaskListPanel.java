@@ -26,6 +26,7 @@ import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
 import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
+import org.cdahmedeh.orgapp.swingui.notification.TaskListPanelPostInitCompleteNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
@@ -90,6 +91,9 @@ public class TaskListPanel extends CPanel {
 		prepareTaskListTableRendersAndEditors();
 		adjustTaskListTableColumnWidths();
 		setupTaskDragAndDrop();
+		
+		//Needed to let the context list know when to select the default context.
+		eventBus.post(new TaskListPanelPostInitCompleteNotification());
 	}
 
 	private void createTaskListTable() {
@@ -191,6 +195,7 @@ public class TaskListPanel extends CPanel {
 				switchBetweenTasksAndEventsButton.setIcon(new ImageIcon(TaskListPanel.class.getResource(iconsForSwitcher[showEvents])));
 				taskListMatcherEditor.setShowEvents(showEvents == 1);
 				taskListMatcherEditor.matcherChangedNotify();
+				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
 		});
 		
