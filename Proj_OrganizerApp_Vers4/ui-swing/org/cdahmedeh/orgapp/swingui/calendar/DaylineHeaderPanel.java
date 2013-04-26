@@ -1,30 +1,41 @@
 package org.cdahmedeh.orgapp.swingui.calendar;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import javax.swing.JPanel;
-
 import org.cdahmedeh.orgapp.swingui.helpers.GraphicsHelper;
+import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 
-public class DaylineHeaderPanel extends JPanel {
-	private static final long serialVersionUID = 4294971143265192080L;
-	private DataContainer dataContainer;
+import com.google.common.eventbus.EventBus;
 
-	public DaylineHeaderPanel(DataContainer dataContainer) {
-		this.dataContainer = dataContainer;
+public class DaylineHeaderPanel extends CPanel {
+	private static final long serialVersionUID = 8555200615702209829L;
+	public DaylineHeaderPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
+	@Override protected Object getEventRecorder() {return new Object(){};}
 		
-		setPreferredSize(new Dimension(50, 20));
-		setBackground(new Color(245, 245, 245));
+	@Override
+	protected void windowInit() {
+		setPreferredSize(new Dimension(CalendarConstants.DAYLINE_HEADER_DEFAULT_WIDTH, CalendarConstants.DAYLINE_HEADER_DEFAULT_HEIGHT));
+		setBackground(CalendarConstants.DAYLINE_HEADER_BACKGROUND_COLOR);
 	}
 
+	@Override
+	protected void postWindowInit() {}
+	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		GraphicsHelper.enableDefaultAASettings(g);
 		
-		GridPainter.drawDateLines(g, this.getWidth(), this.getHeight(), CalendarConstants.DAYLINE_GRID_COLOR, dataContainer.getView(), true);
+		GridPainter.drawDateLines(
+				g, 
+				this.getWidth(), 
+				this.getHeight(), 
+				CalendarConstants.DAYLINE_GRID_COLOR, 
+				dataContainer.getView(), 
+				true
+		);
 	}
+
 }

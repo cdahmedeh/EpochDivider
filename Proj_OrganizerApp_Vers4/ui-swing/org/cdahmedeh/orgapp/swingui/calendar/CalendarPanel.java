@@ -46,11 +46,11 @@ public class CalendarPanel extends CPanel {
 		add(calendarPane, BorderLayout.CENTER);
 		
 		//Days header
-		DaylineHeaderPanel calendarHeader = new DaylineHeaderPanel(dataContainer);
+		DaylineHeaderPanel calendarHeader = new DaylineHeaderPanel(dataContainer, eventBus);
 		calendarPane.setColumnHeaderView(calendarHeader);
 		
 		//Due dates header
-		DayBlocksHeaderPanel calendarSubHeader = new DayBlocksHeaderPanel(dataContainer);
+		DayBlocksHeaderPanel calendarSubHeader = new DayBlocksHeaderPanel(dataContainer, eventBus);
 		calendarPane.setSubColumnHeaderView(calendarSubHeader);
 		
 		//Left time-line.
