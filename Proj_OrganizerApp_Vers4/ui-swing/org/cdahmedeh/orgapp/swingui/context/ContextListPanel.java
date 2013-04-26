@@ -85,7 +85,7 @@ public class ContextListPanel extends CPanel {
 		add(toolbar, BorderLayout.SOUTH);
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
-		JButton addContextButton = ToolbarHelper.createToolbarButton(toolbar, "Add", ContextListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif"));
+		JButton addContextButton = ToolbarHelper.createToolbarButton(toolbar, "Add Context", ContextListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif"));
 		
 		addContextButton.addActionListener(new ActionListener() {
 			@Override

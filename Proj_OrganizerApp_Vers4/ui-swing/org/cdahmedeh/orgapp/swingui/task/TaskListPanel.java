@@ -226,18 +226,20 @@ public class TaskListPanel extends CPanel {
 		toolbar.setFloatable(false);
 		add(toolbar, BorderLayout.SOUTH);
 
+		final String[] labelsForAddButton = new String[]{"Add Task", "Add Event"};
 		final String[] labelsForSwitcher = new String[]{"Switch to Events", "Switch back to Tasks"};
 		final String[] iconsForSwitcher = new String[]{"/org/cdahmedeh/orgapp/imt/icons/events.gif", "/org/cdahmedeh/orgapp/imt/icons/tasks.gif"};
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
 		final JButton switchBetweenTasksAndEventsButton = ToolbarHelper.createToolbarButton(toolbar, labelsForSwitcher[showEvents], TaskListPanel.class.getResource(iconsForSwitcher[showEvents])); 
 		ToolbarHelper.createToolbarSeperator(toolbar);
-		JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, "Add", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif")); 
+		final JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, labelsForAddButton[showEvents], TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif")); 
 		
 		switchBetweenTasksAndEventsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				showEvents = showEvents == 0 ? 1 : 0;
+				addTaskButton.setText(labelsForAddButton[showEvents]);
 				switchBetweenTasksAndEventsButton.setText(labelsForSwitcher[showEvents]);
 				switchBetweenTasksAndEventsButton.setIcon(new ImageIcon(TaskListPanel.class.getResource(iconsForSwitcher[showEvents])));
 				taskListMatcherEditor.setShowEvents(showEvents == 1);
