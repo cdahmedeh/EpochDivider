@@ -16,6 +16,7 @@ import org.cdahmedeh.orgapp.swingui.helpers.GraphicsHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
+import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
@@ -23,11 +24,17 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 public class SchedulerPanel extends CPanel {
 	private static final long serialVersionUID = 3673536421097243610L;
 	public SchedulerPanel(final DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
-	@Override protected Object getEventRecorder() {return new Object(){};}
+	
+	@Override protected Object getEventRecorder() {return new Object(){
+		@Subscribe public void tasksUpdated(TasksChangedNotification notification){
+			repaint();
+		}
+	};}
 
 	@Override
 	protected void windowInit() {

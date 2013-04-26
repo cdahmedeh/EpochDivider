@@ -6,10 +6,14 @@ import java.awt.Dimension;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -27,6 +31,7 @@ import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
 import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.TaskListPanelPostInitCompleteNotification;
+import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
@@ -59,7 +64,7 @@ public class TaskListPanel extends CPanel {
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
 			@Subscribe public void refreshTaskList(RefreshTaskListRequest request) {
-				refreshTaskListTreeTable();
+				refreshTaskListTable();
 			}
 		};
 	}
@@ -91,6 +96,7 @@ public class TaskListPanel extends CPanel {
 		prepareTaskListTableRendersAndEditors();
 		adjustTaskListTableColumnWidths();
 		setupTaskDragAndDrop();
+		createRightClickMenu();
 		
 		//Needed to let the context list know when to select the default context.
 		eventBus.post(new TaskListPanelPostInitCompleteNotification());
@@ -174,6 +180,43 @@ public class TaskListPanel extends CPanel {
 		});
 	}
 
+	private void createRightClickMenu() {
+		final JPopupMenu popupMenu = new JPopupMenu();
+		
+		//Setup popup menu for the Task List Table. 
+		taskListTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (e.getButton() == MouseEvent.BUTTON3){
+					//Select the row where the user clicked
+					//Credit: http://stackoverflow.com/questions/3558293/java-swing-jtable-right-click-menu-how-do-i-get-it-to-select-aka-highlight-t					
+					int r = taskListTable.rowAtPoint(e.getPoint());
+					if (r >= 0 && r < taskListTable.getRowCount()) {
+						taskListTable.setRowSelectionInterval(r, r);
+						popupMenu.show(taskListTable, e.getX(), e.getY());
+					} else {
+						taskListTable.clearSelection();
+					}
+				}
+			}
+		});
+		
+		JMenuItem removeTaskMenuItem = new JMenuItem("Delete Task");
+		removeTaskMenuItem.setIcon(new ImageIcon(TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/remove.png")));
+		popupMenu.add(removeTaskMenuItem);
+		
+		removeTaskMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Task selectedTaskInTable = getSelectedTaskInTable();
+				if (selectedTaskInTable != null){
+					dataContainer.getTasks().remove(selectedTaskInTable);
+					refreshTaskListTable();
+				}
+			}
+		});
+	}
+	
 	private void createToolbar() {
 		JToolBar toolbar = new JToolBar();
 		toolbar.setFloatable(false);
@@ -210,10 +253,13 @@ public class TaskListPanel extends CPanel {
 	
 	// -- non-sequential methods --
 	
-	private void refreshTaskListTreeTable() {
+	private void refreshTaskListTable() {
 		//TODO: Investigate proper method to refresh GlazedLists tables.
 		taskEventList.clear();
 		taskEventList.addAll(dataContainer.getTasks());
+		
+		//Let other knows that the table is update.
+		eventBus.post(new TasksChangedNotification());
 	}
 	
 	private void addNewTaskToTaskListTable() {
@@ -233,7 +279,7 @@ public class TaskListPanel extends CPanel {
 		
 		//Add new task to the dataContainer and refresh task list table.
 		dataContainer.getTasks().add(newTask);
-		refreshTaskListTreeTable();
+		refreshTaskListTable();
 		
 		//Init. editing the title of the new tasks and focus the editor.
 		taskListTable.editCellAt(taskListTable.getRowCount()-1, TaskListPanelDefaults.COLUMN_TASK_TITLE);

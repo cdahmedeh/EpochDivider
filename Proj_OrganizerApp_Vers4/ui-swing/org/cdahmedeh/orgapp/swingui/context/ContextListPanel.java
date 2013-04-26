@@ -23,6 +23,7 @@ import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
 import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.TaskListPanelPostInitCompleteNotification;
+import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 
@@ -41,6 +42,9 @@ public class ContextListPanel extends CPanel {
 			}
 			@Subscribe public void selectedFirstContextWhenTaskListFinishesLoading(TaskListPanelPostInitCompleteNotification notification){
 				contextListTable.getSelectionModel().setSelectionInterval(0, 0);
+			}
+			@Subscribe public void tasksUpdated(TasksChangedNotification notification){
+				refreshContextListTreeTable();
 			}
 		};
 	}
