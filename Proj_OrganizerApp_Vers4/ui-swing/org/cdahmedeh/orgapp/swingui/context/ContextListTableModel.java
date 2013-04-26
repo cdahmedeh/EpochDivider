@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 
 import org.cdahmedeh.orgapp.tools.DateReference;
 import org.cdahmedeh.orgapp.types.calendar.View;
