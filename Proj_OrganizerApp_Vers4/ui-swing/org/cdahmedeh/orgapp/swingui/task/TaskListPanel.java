@@ -28,6 +28,7 @@ import org.cdahmedeh.orgapp.swingui.components.DurationCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.TripleDurationCellRenderer;
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
+import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
 import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.TaskListPanelPostInitCompleteNotification;
@@ -66,6 +67,9 @@ public class TaskListPanel extends CPanel {
 			@Subscribe public void refreshTaskList(RefreshTaskListRequest request) {
 				refreshTaskListTable();
 			}
+			@Subscribe public void contextListChanged(RefreshContextListRequest request){
+				refreshContextAutoComplete();
+			}
 		};
 	}
 	
@@ -77,6 +81,7 @@ public class TaskListPanel extends CPanel {
 	private TaskListMatcherEditor taskListMatcherEditor;
 	private EventList<Task> taskEventList;
 	private AdvancedTableModel<Task> taskListTableModel;
+	private EventList<Context> contextEventList;
 	
 	// - States -
 	private int showEvents = 0; //0 for showing only tasks, and 1 for only events. 
@@ -134,8 +139,7 @@ public class TaskListPanel extends CPanel {
 	}
 
 	private void prepareTaskListTableRendersAndEditors() {
-		//Prepare context cell editor auto-complete support
-		final EventList<Context> contextEventList = new BasicEventList<>();
+		contextEventList = new BasicEventList<>();
 		contextEventList.addAll(dataContainer.getSelectableContexts());
 		
 		AutoCompleteCellEditor<Context> contextTableCellEditor = AutoCompleteSupport.createTableCellEditor(contextEventList);
@@ -262,6 +266,12 @@ public class TaskListPanel extends CPanel {
 		
 		//Let other knows that the table is update.
 		eventBus.post(new TasksChangedNotification());
+	}
+	
+	private void refreshContextAutoComplete(){
+		//TODO: Investigate proper method to refresh GlazedLists lists.
+		contextEventList.clear();
+		contextEventList.addAll(dataContainer.getSelectableContexts());
 	}
 	
 	private void addNewTaskToTaskListTable() {

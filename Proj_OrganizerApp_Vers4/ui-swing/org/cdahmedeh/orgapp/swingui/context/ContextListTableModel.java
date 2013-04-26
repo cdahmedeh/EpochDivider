@@ -3,6 +3,7 @@ package org.cdahmedeh.orgapp.swingui.context;
 import java.util.ArrayList;
 
 import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
 import org.cdahmedeh.orgapp.tools.DateReference;
@@ -12,13 +13,19 @@ import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TripleDurationInfo;
 
-public class ContextListTableModel implements TableModel {
+public class ContextListTableModel extends AbstractTableModel {
+	private static final long serialVersionUID = 3929344797261889916L;
+
 	private ArrayList<Context> contexts;
 	private ArrayList<Task> tasks;
 	private View view;
 	
-
 	public ContextListTableModel(DataContainer dataContainer) {
+		updateReferences(dataContainer);
+		this.fireTableDataChanged();
+	}
+
+	public void updateReferences(DataContainer dataContainer) {
 		this.contexts = dataContainer.getContexts();
 		this.tasks = dataContainer.getTasks();
 		this.view = dataContainer.getView();

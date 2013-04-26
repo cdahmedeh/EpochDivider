@@ -2,8 +2,12 @@ package org.cdahmedeh.orgapp.swingui.main;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.MenuBar;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -14,6 +18,9 @@ import org.cdahmedeh.orgapp.generators.TestDataGenerator;
 import org.cdahmedeh.orgapp.swingui.calendar.CalendarPanel;
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
+import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
+import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
+import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.WindowLoadedNotification;
 import org.cdahmedeh.orgapp.swingui.task.TaskListPanel;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
@@ -22,6 +29,8 @@ import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 
 import com.google.common.eventbus.EventBus;
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class MainWindow {
 	public static void main(String[] args) {
@@ -69,6 +78,7 @@ public class MainWindow {
 		
 		//Show the application window
 		initialize();
+		createMenu();
 		this.frame.setVisible(true);
 		logger.info("Window initialized");
 		
@@ -107,5 +117,53 @@ public class MainWindow {
 		TaskListPanel taskListPanel = new TaskListPanel(dataContainer, eventBus);
 		mainSplitPane.add(taskListPanel, DefaultSplitPaneModel.BOTTOM);
 	}
-
+	
+	private void createMenu() {
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		
+		JMenu mnSwitchTestData = new JMenu("Switch Test Data");
+		mnFile.add(mnSwitchTestData);
+		
+		JMenuItem mntmNormalTestData = new JMenuItem("Normal Test Data");
+		mnSwitchTestData.add(mntmNormalTestData);
+		
+		JMenuItem mntmTestDataWith = new JMenuItem("Test Data with Lots of Information");
+		mnSwitchTestData.add(mntmTestDataWith);
+		
+		JMenuItem mntmTestDateFor = new JMenuItem("Test Data For Stressing Calendar Renderer");
+		mnSwitchTestData.add(mntmTestDateFor);
+		
+		mntmNormalTestData.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updateDataContainer(TestDataGenerator.generateDataContainer());
+			}
+		});
+		
+		mntmTestDataWith.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updateDataContainer(TestDataGenerator.generateDataContainerWithLotsOfData());
+			}
+		});
+		
+		mntmTestDateFor.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updateDataContainer(TestDataGenerator.generateDataContainerForStressingCalendarPainter());
+			}
+		});
+	}
+	
+	private void updateDataContainer(DataContainer dataContainer){
+		this.dataContainer.replace(dataContainer);
+		
+		eventBus.post(new RefreshContextListRequest());
+		eventBus.post(new TasksChangedNotification());
+		eventBus.post(new RefreshTaskListRequest());
+	}
 }

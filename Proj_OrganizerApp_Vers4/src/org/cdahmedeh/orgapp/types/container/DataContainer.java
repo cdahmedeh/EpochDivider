@@ -50,4 +50,14 @@ public class DataContainer {
 	private Context selectedContext = new AllContextsContext();
 	public Context getSelectedContext() {return selectedContext;}
 	public void setSelectedContext(Context selectedContext) {this.selectedContext = selectedContext;}
+	
+	/**
+	 * Replaces data within this container with the date of another one. 
+	 */
+	public void replace(DataContainer dataContainer) {
+		this.contexts = dataContainer.getContexts();
+		this.tasks = dataContainer.getTasks();
+		this.selectedContext = dataContainer.getSelectedContext();
+		this.view = dataContainer.getView();
+	}
 }
