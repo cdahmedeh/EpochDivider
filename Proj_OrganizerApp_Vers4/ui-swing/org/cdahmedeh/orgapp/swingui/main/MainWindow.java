@@ -73,8 +73,6 @@ public class MainWindow {
 		
 		//Prepare some test data, and prepare eventBus.
 		dataContainer = TestDataGenerator.generateDataContainer();
-//		dataContainer = TestDataGenerator.generateDataContainerWithLotsOfData();
-//		dataContainer = TestDataGenerator.generateDataContainerForStressingCalendarPainter();
 		eventBus = new EventBus();
 		logger.info("Test Data Generated");
 		
@@ -136,6 +134,9 @@ public class MainWindow {
 		JMenuItem mntmTestDataWith = new JMenuItem("Test Data with Lots of Information");
 		mnSwitchTestData.add(mntmTestDataWith);
 		
+		JMenuItem mntmTestDataMuch = new JMenuItem("Test Data with too much Information");
+		mnSwitchTestData.add(mntmTestDataMuch);
+		
 		JMenuItem mntmTestDateFor = new JMenuItem("Test Data For Stressing Calendar Renderer");
 		mnSwitchTestData.add(mntmTestDateFor);
 		
@@ -150,6 +151,13 @@ public class MainWindow {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				updateDataContainer(TestDataGenerator.generateDataContainerWithLotsOfData());
+			}
+		});
+		
+		mntmTestDataMuch.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updateDataContainer(TestDataGenerator.generateDataContainerWithTooMuchData());
 			}
 		});
 		
