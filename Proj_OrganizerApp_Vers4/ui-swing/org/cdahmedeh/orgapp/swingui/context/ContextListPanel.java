@@ -134,6 +134,7 @@ public class ContextListPanel extends CPanel {
 	private void refreshContextListTreeTable() {
 		//TODO: Correctly refresh table.
 		((ContextListTableModel)contextListTable.getModel()).updateReferences(dataContainer); //TODO: Breaks DnD
+		contextListTable.setTransferHandler(new ContextListPanelTransferHandler(dataContainer.getContexts()));
 		contextListTable.repaint();
 		contextListPane.validate();
 		contextListPane.doLayout();
