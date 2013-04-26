@@ -258,6 +258,8 @@ public class TaskListPanel extends CPanel {
 		taskEventList.clear();
 		taskEventList.addAll(dataContainer.getTasks());
 		
+		taskListTable.repaint(); //TODO: temporary call to fix redraw bug
+		
 		//Let other knows that the table is update.
 		eventBus.post(new TasksChangedNotification());
 	}
