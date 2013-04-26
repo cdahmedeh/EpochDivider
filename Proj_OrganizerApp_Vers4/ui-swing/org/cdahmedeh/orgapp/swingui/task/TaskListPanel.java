@@ -206,7 +206,7 @@ public class TaskListPanel extends CPanel {
 		});
 		
 		JMenuItem removeTaskMenuItem = new JMenuItem("Delete Task");
-		removeTaskMenuItem.setIcon(new ImageIcon(TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/remove.png")));
+		removeTaskMenuItem.setIcon(new ImageIcon(TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/delete.gif")));
 		popupMenu.add(removeTaskMenuItem);
 		
 		removeTaskMenuItem.addActionListener(new ActionListener() {
@@ -227,12 +227,12 @@ public class TaskListPanel extends CPanel {
 		add(toolbar, BorderLayout.SOUTH);
 
 		final String[] labelsForSwitcher = new String[]{"Switch to Events", "Switch back to Tasks"};
-		final String[] iconsForSwitcher = new String[]{"/org/cdahmedeh/orgapp/imt/icons/events.png", "/org/cdahmedeh/orgapp/imt/icons/tasks.png"};
+		final String[] iconsForSwitcher = new String[]{"/org/cdahmedeh/orgapp/imt/icons/events.gif", "/org/cdahmedeh/orgapp/imt/icons/tasks.gif"};
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
 		final JButton switchBetweenTasksAndEventsButton = ToolbarHelper.createToolbarButton(toolbar, labelsForSwitcher[showEvents], TaskListPanel.class.getResource(iconsForSwitcher[showEvents])); 
 		ToolbarHelper.createToolbarSeperator(toolbar);
-		JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, "Add", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.png")); 
+		JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, "Add", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif")); 
 		
 		switchBetweenTasksAndEventsButton.addActionListener(new ActionListener() {
 			@Override

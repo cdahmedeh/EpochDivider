@@ -68,8 +68,8 @@ public class CalendarPanel extends CPanel {
 		add(toolbar, BorderLayout.NORTH);
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
-		JButton previousWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Previous Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/previous.png"));
-		JButton nextWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Next Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/next.png"));
+		JButton previousWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Previous Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/previous.gif"));
+		JButton nextWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Next Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/next.gif"));
 		
 		previousWeekButton.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
