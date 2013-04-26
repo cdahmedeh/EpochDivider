@@ -25,6 +25,6 @@ public class DaylineHeaderPanel extends JPanel {
 		super.paint(g);
 		GraphicsHelper.enableDefaultAASettings(g);
 		
-		GridPainter.drawDateLines(g, this.getWidth(), this.getHeight(), CalendarConstants.DAYLINE_COLOR, dataContainer.getView(), true);
+		GridPainter.drawDateLines(g, this.getWidth(), this.getHeight(), CalendarConstants.DAYLINE_GRID_COLOR, dataContainer.getView(), true);
 	}
 }

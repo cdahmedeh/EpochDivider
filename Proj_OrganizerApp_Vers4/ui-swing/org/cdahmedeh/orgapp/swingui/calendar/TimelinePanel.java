@@ -23,8 +23,8 @@ public class TimelinePanel extends JPanel {
 		GridPainter.drawTimeLines(g, 
 				this.getWidth(), 
 				this.getHeight(), 
-				CalendarConstants.TIMELINE_DARKER_COLOR, 
-				CalendarConstants.TIMELINE_LIGHTER_COLOR,
+				CalendarConstants.TIMELINE_GRID_HOUR_COLOR, 
+				CalendarConstants.TIMELINE_GRID_MINUTE_COLOR,
 				CalendarConstants.TIMELINE_MINUTES_RESOLUTION, 
 				true);
 	}

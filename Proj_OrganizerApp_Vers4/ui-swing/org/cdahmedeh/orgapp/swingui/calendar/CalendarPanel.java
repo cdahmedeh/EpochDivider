@@ -50,7 +50,7 @@ public class CalendarPanel extends CPanel {
 		calendarPane.setColumnHeaderView(calendarHeader);
 		
 		//Due dates header
-		DayBlocksHeaderPanel calendarSubHeader = new DayBlocksHeaderPanel();
+		DayBlocksHeaderPanel calendarSubHeader = new DayBlocksHeaderPanel(dataContainer);
 		calendarPane.setSubColumnHeaderView(calendarSubHeader);
 		
 		//Left time-line.

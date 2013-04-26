@@ -51,8 +51,8 @@ public class SchedulerPanel extends CPanel {
 		GraphicsHelper.enableDefaultAASettings(g);
 		
 		//Draw grid in the background
-		GridPainter.drawTimeLines(g, this.getWidth(), this.getHeight(), CalendarConstants.CALENDAR_COLOR_DARK, CalendarConstants.CALENDAR_COLOR_LIGHT, CalendarConstants.CALENDAR_MINUTES_RESOLUTION, false);
-		GridPainter.drawDateLines(g, this.getWidth(), this.getHeight(), CalendarConstants.CALENDAR_COLOR_DARK, dataContainer.getView(), false);
+		GridPainter.drawTimeLines(g, this.getWidth(), this.getHeight(), CalendarConstants.CALENDAR_GRID_HOUR_COLOR, CalendarConstants.CALENDAR_GRID_MINUTE_COLOR, CalendarConstants.CALENDAR_MINUTES_RESOLUTION, false);
+		GridPainter.drawDateLines(g, this.getWidth(), this.getHeight(), CalendarConstants.CALENDAR_GRID_HOUR_COLOR, dataContainer.getView(), false);
 		
 		//Draw the time-blocks for all tasks.
 		//TODO: Optimization, draw only those within view.
