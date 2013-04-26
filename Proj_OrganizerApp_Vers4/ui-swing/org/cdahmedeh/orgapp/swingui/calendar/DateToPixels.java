@@ -6,6 +6,11 @@ import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
+/**
+ * Converts Dates and Times to equivalent pixel positions in calendar.
+ *  
+ * @author Ahmed El-Hajjar
+ */
 public class DateToPixels {
 	public static int getHorizontalPositionFromDate(LocalDate date, int xArea, View view){
 		LocalDate firstDayInView = view.getStartDate();
@@ -20,16 +25,16 @@ public class DateToPixels {
 	}
 	
 	public static int getVerticalPositionFromTime(LocalTime time, int yArea){
-		int millisInView = DateTimeConstants.MILLIS_PER_DAY; 
+		int millisPerDay = DateTimeConstants.MILLIS_PER_DAY; 
+		int millisOfDayOfTime = time.getMillisOfDay();
 		
-		return (int) ((double)(time.getMillisOfDay())/millisInView*yArea);
+		double relativePosition = (double)(millisOfDayOfTime)/millisPerDay;
+		int actualPosition = (int)(relativePosition*yArea);
+		
+		return actualPosition;
 	}
 	
 	public static int getHeightFromInterval(LocalTime begin, LocalTime end, int yArea, View view){
 		return getVerticalPositionFromTime(end, yArea) - getVerticalPositionFromTime(begin, yArea);
-	}
-
-	public static int getWidthBasedOnView(int xArea, View view) {
-		return xArea/view.getNumberOfDaysVisible();
 	}
 }

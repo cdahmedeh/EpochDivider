@@ -16,7 +16,7 @@ public class GridPainter {
 			if (time.getMinuteOfHour() == 0) g.setColor(darkColor);
 			else g.setColor(lightColor);
 			
-			int verticalPositionFromTime = DateToPixels.getVerticalPositionFromTime(time, height);
+			int verticalPositionFromTime = DateToPixels.getVerticalPositionFromTime(time, height-1); //TODO: Where do the -1 go?
 			g.drawLine(0, verticalPositionFromTime, width, verticalPositionFromTime);
 
 			if (drawText) drawTimeLineText(g, width, verticalPositionFromTime, new Color(100,100,100), time.toString("HH:mm"));
