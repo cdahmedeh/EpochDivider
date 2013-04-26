@@ -49,8 +49,7 @@ public class TaskListTableModel implements TableModel {
 			return task.getDueDate();
 		case 3:
 			ProgressInfo progressInfo = new ProgressInfo();
-			progressInfo.first = 					
-					task.getDurationPassed(DateTime.now()).getStandardHours();
+			progressInfo.first = 	0;
 			progressInfo.second = task.getDurationScheduled(bigContainer.getCurrentView().getEndDate().plusDays(1).toDateTime(LocalTime.MIDNIGHT)).getStandardHours();
 			progressInfo.third = task.getEstimate().getStandardHours();
 			progressInfo.color = task.getContext().getColor();
