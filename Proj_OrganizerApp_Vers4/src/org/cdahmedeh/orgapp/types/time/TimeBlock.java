@@ -65,7 +65,7 @@ public class TimeBlock {
 	
 	/**
 	 * Moves the TimeBlock to 'start' time. It is similar to setStart(..) except
-	 * that duration of the TimeBlock does not change. 
+	 * that the duration of the TimeBlock does not change. 
 	 * 
 	 * @param start
 	 */

@@ -58,53 +58,74 @@ public class Task {
 	
 	/* ---- Reader methods ---- */
 	
+	/**
+	 * True if task is due today. 
+	 */
 	public boolean isDueToday(){
 		return (this.isDue() && this.getDue().toLocalDate().isEqual(LocalDate.now()));
 	}
 	
+	/**
+	 * True if task is due tomorrow. 
+	 */
 	public boolean isDueTomorrow(){
 		return (this.isDue() && this.getDue().toLocalDate().isEqual(LocalDate.now().plusDays(1)));
 	}
 	
+	/**
+	 * True if task due date is within the view. 
+	 */
 	public boolean isDueWithinView(View view){
 		return (this.isDue() && view.getInterval().contains(this.getDue()));
 	}
 	
-	public TaskProgressInfo getTaskProgressInfo(){
-		return new TaskProgressInfo(
+	/**
+	 * Returns the total duration of all time blocks that are assigned to this
+	 * task. TimeBlocks that end after the due date of the task are NOT counted.
+	 */
+	private Duration getTotalScheduled(){
+		Duration duration = Duration.ZERO;
+		for (TimeBlock timeBlock: getAllTimeBlocks()){
+			//TimeBlocks after due date DON'T COUNT.
+			if (this.isDue() && timeBlock.getEnd().isAfter(this.getDue())) {
+				continue;
+			}
+			duration = duration.plus(timeBlock.getDuration());
+		}
+		return duration;
+	}
+	
+	/**
+	 * Returns the total duration of all time blocks that end before "moment" 
+	 * that are assigned to this task. TimeBlocks that end after the due date
+	 * are INDEED counted.
+	 */
+	private Duration getTotalPassed(DateTime moment){
+		Duration duration = Duration.ZERO;
+		for (TimeBlock timeBlock: getAllTimeBlocks()) if (timeBlock.getEnd().isBefore(moment)) duration = duration.plus(timeBlock.getDuration());
+		return duration;
+	}
+
+	/**
+	 * Returns a TripleDurationInfo instance with the following information
+	 * 			getTotalPassed(DateReference.getNow())
+	 *			getTotalScheduled()
+	 *			getEstimate()
+	 */
+	public TripleDurationInfo getProgressInfo(){
+		return new TripleDurationInfo(
 				getTotalPassed(DateReference.getNow()),
 				getTotalScheduled(),
 				getEstimate()
 			);
 	}
 	
-	private Duration getTotalScheduled(){
-		Duration duration = Duration.ZERO;
-		for (TimeBlock timeBlock: getAllTimeBlocks()){
-			//Timeblocks after due date DON'T COUNT.
-			if (this.getDue() != null && timeBlock.getEnd().isAfter(this.getDue())) continue;
-			
-			duration = duration.plus(timeBlock.getDuration());
-		}
-		return duration;
-	}
-	
-	private Duration getTotalPassed(DateTime moment){
-		Duration duration = Duration.ZERO;
-		for (TimeBlock timeBlock: getAllTimeBlocks()) if (timeBlock.getEnd().isBefore(moment)) duration = duration.plus(timeBlock.getDuration());
-		return duration;
-	}
-	
 	/**
-	 * Gives the total duration of all timeblocks that end after 'since' and end
+	 * Gives the total duration of all TimeBlocks that end after 'since' and end
 	 * before 'until'. 
 	 * 
 	 * TimeBlocks that are within until are not counted.
 	 * TimeBlocks that are within since are counted partially
-	 * 
-	 * @param since
-	 * @param until
-	 * @return
 	 */
 	public Duration getDurationPassedSince(DateTime since, DateTime until){
 		Duration duration = Duration.ZERO;
@@ -121,18 +142,17 @@ public class Task {
 	}
 	
 	/**
-	 * Gives the total duration of all timeblocks that end within 'until'.
+	 * Gives the total duration of all TimeBlocks that start within 'since' and
+	 * that end within 'until'.
 	 * 
-	 * TimeBlocks that are within until are counted partially.
+	 * TimeBlocks that are within since and until are counted partially.
 	 * 
-	 * @param since
-	 * @param until
-	 * @return
+	 * TODO: Optimize and cleanup.
 	 */
 	public Duration getDurationScheduled(DateTime since, DateTime until){
 		Duration duration = Duration.ZERO;
 		for (TimeBlock timeBlock: timeBlocks) {
-			//Timeblocks after due date DON'T COUNT.
+			//TimeBlocks ending after due date DON'T COUNT.
 			if (this.getDue() != null && timeBlock.getEnd().isAfter(this.getDue())) continue;
 			if (timeBlock.getEnd().isAfter(since) && timeBlock.getEnd().isBefore(until)){
 				if (timeBlock.getStart().isAfter(since)){
@@ -146,9 +166,10 @@ public class Task {
 				} else {
 					duration = duration.plus(new Duration(timeBlock.getStart(), until));
 				}
+			} else if (timeBlock.getStart().isBefore(until) && timeBlock.getEnd().isAfter(since) ) {
+				duration = duration.plus(new Duration(since, until));
 			}
 		}
-		//TODO: Doesn't count the timeblock that spans the whole view (need to fix that).
 		return duration;
 	}
 }

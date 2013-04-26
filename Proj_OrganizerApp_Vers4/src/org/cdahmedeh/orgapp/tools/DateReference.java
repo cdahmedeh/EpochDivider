@@ -9,6 +9,10 @@ import org.joda.time.DateTime;
  * @author Ahmed El-Hajjar
  */
 public class DateReference {
+	
+	/**
+	 * @return A DateTime reference to the current time.
+	 */
 	public static DateTime getNow() {
 		return DateTime.now();
 	}

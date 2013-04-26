@@ -9,7 +9,7 @@ import org.joda.time.LocalDate;
  * defined by the first day that is visible (startDate) and the last day that is
  * visible (lastDate). 
  * 
- * @author cdahmedeh
+ * @author Ahmed El-Hajjar
  */
 public class View {
 	
@@ -31,6 +31,7 @@ public class View {
 	public LocalDate getEndDate() {return endDate;}
 	public void setEndDate(LocalDate end) {this.endDate = end;}
 	
+	
 	/* ---- Compare Methods ---- */
 	
 	@Override
@@ -46,6 +47,16 @@ public class View {
 	
 	/* ---- Reader Methods ---- */
 	
+	/**
+	 * Gives an interval that represents the period that is viewable by the 
+	 * period.
+	 * 
+	 * (Note that the Interval object does not contain the last moment in the
+	 * 'end' parameter)
+	 * 
+	 * @return Interval object representing the period between the start and end
+	 * of the view.
+	 */
 	public Interval getInterval(){
 		return new Interval(this.getStartDate().toDateTimeAtStartOfDay(), this.getEndDate().plusDays(1).toDateTimeAtStartOfDay());
 	}

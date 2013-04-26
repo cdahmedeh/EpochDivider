@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
-import org.cdahmedeh.orgapp.types.task.TaskProgressInfo;
+import org.cdahmedeh.orgapp.types.task.TripleDurationInfo;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
@@ -32,10 +32,10 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 			//Cell Renderer parses the date. 
 			return dueDate;				
 		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
-			TaskProgressInfo taskProgressInfo = baseObject.getTaskProgressInfo();
-			if (taskProgressInfo != null){
+			TripleDurationInfo tripleDurationInfo = baseObject.getProgressInfo();
+			if (tripleDurationInfo != null){
 				//Cell Renderer parses the duration. 
-				return taskProgressInfo;				
+				return tripleDurationInfo;				
 			}
 			break;
 		}
@@ -67,8 +67,8 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
 			if (editedValue == null){
 				baseObject.setEstimate(Duration.ZERO);
-			} else if (editedValue instanceof TaskProgressInfo){
-				baseObject.setEstimate(((TaskProgressInfo)editedValue).getEstimate());
+			} else if (editedValue instanceof TripleDurationInfo){
+				baseObject.setEstimate(((TripleDurationInfo)editedValue).getEstimate());
 			}
 			break;
 		}

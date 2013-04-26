@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.cdahmedeh.orgapp.tools.FuzzyDateParser;
-import org.cdahmedeh.orgapp.types.task.TaskProgressInfo;
+import org.cdahmedeh.orgapp.types.task.TripleDurationInfo;
 import org.joda.time.Duration;
 
 public class DurationCellRenderer extends DefaultTableCellRenderer {
@@ -17,18 +17,18 @@ public class DurationCellRenderer extends DefaultTableCellRenderer {
 		super.setHorizontalAlignment(RIGHT);
 	}
 	
-	TaskProgressInfo value = new TaskProgressInfo(Duration.ZERO, Duration.ZERO, Duration.ZERO);
+	TripleDurationInfo value = new TripleDurationInfo(Duration.ZERO, Duration.ZERO, Duration.ZERO);
 	
 	protected void setValue(Object value) {
-		this.value = (TaskProgressInfo)value;
+		this.value = (TripleDurationInfo)value;
 		
-		if (value instanceof TaskProgressInfo){
+		if (value instanceof TripleDurationInfo){
 			setText(
-				FuzzyDateParser.durationToFuzzyString(((TaskProgressInfo)value).getTotalPassed()) +
+				FuzzyDateParser.durationToFuzzyString(((TripleDurationInfo)value).getTotalPassed()) +
 				" / " +
-				FuzzyDateParser.durationToFuzzyString(((TaskProgressInfo)value).getTotalScheduled()) +
+				FuzzyDateParser.durationToFuzzyString(((TripleDurationInfo)value).getTotalScheduled()) +
 				" / " +
-				FuzzyDateParser.durationToFuzzyString(((TaskProgressInfo)value).getEstimate())
+				FuzzyDateParser.durationToFuzzyString(((TripleDurationInfo)value).getEstimate())
 				);
 		} else if (value instanceof String){
 			super.setValue(value);

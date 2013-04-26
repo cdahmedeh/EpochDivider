@@ -10,7 +10,7 @@ import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
-import org.cdahmedeh.orgapp.types.task.TaskProgressInfo;
+import org.cdahmedeh.orgapp.types.task.TripleDurationInfo;
 
 public class ContextListTableModel implements TableModel {
 	private ArrayList<Context> contexts;
@@ -64,7 +64,7 @@ public class ContextListTableModel implements TableModel {
 		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
 			return context.getName();
 		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
-			return new TaskProgressInfo(
+			return new TripleDurationInfo(
 					context.getDurationPassedSince(view.getStartDate().toDateTimeAtStartOfDay(), DateReference.getNow(), tasks), 
 					context.getDurationScheduled(view.getStartDate().toDateTimeAtStartOfDay(), view.getEndDate().plusDays(1).toDateTimeAtStartOfDay(), tasks), 
 					context.getGoal(view));

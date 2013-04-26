@@ -49,11 +49,6 @@ public class Context {
 	 * 
 	 * TimeBlocks that are within until are not counted.
 	 * TimeBlocks that are within since are counted partially
-	 * 
-	 * @param since
-	 * @param until
-	 * @param taskContainer
-	 * @return
 	 */
 	public Duration getDurationPassedSince(DateTime since, DateTime until, ArrayList<Task> taskContainer){
 		Duration duration = Duration.ZERO;
@@ -66,16 +61,12 @@ public class Context {
 	}
 	
 	/**
-	 * Gives the total duration of all timeblocks that end within 'until'.
+	 * Gives the total duration of all tasks' TimeBlocks that start within 
+	 * 'since' and that end within 'until'.
 	 * 
-	 * TimeBlocks that are within until are counted partially.
-	 * 
-	 * @param since
-	 * @param until
-	 * @param taskContainer
-	 * @return
+	 * TimeBlocks that are within since and until are counted partially.
 	 */
-	public Duration getDurationScheduled(DateTime since, DateTime until,  ArrayList<Task> taskContainer){
+	public Duration getDurationScheduled(DateTime since, DateTime until, ArrayList<Task> taskContainer){
 		Duration duration = Duration.ZERO;
 		for (Task task: taskContainer){
 			if (task.getContext().equals(this)){
@@ -85,6 +76,7 @@ public class Context {
 		return duration;
 	}
 	
+	
 	/* ---- Object methods ---- */
 	
 	@Override
@@ -92,9 +84,12 @@ public class Context {
 		return this.getName();
 	}
 	
+	/**
+	 * Two contexts are equal if they have the same name.
+	 * TODO: Investigate better comparison criteria.
+	 */
 	@Override
 	public boolean equals(Object obj) {
-		//TODO: For now, contexts are the same, if they have the same name.
 		if (obj instanceof Context){
 			return this.getName().equals(((Context) obj).getName());	
 		} else {
