@@ -279,6 +279,9 @@ public class TaskListPanel extends CPanel {
 			newTask.setContext(dataContainer.getSelectedContext());
 		}
 		
+		//Set the task to event if we are in event mode.
+		newTask.setEvent(showEvents == 1);
+		
 		//Add new task to the dataContainer and refresh task list table.
 		dataContainer.getTasks().add(newTask);
 		refreshTaskListTable();
