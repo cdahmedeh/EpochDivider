@@ -6,6 +6,7 @@ import java.net.URL;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
 public class ToolbarHelper {
@@ -22,6 +23,13 @@ public class ToolbarHelper {
 		return toolbarButton;
 	}
 
+	public static JToggleButton createToolbarToggleButton(JToolBar toolbar, String label ,URL iconURL){
+		JToggleButton toolbarToggleButton = new JToggleButton(label);
+		toolbarToggleButton.setIcon(new ImageIcon(iconURL));
+		toolbar.add(toolbarToggleButton);
+		return toolbarToggleButton;
+	}
+	
 	public static Component createToolbarSeperator(JToolBar toolbar) {
 		Component seperator = new JToolBar.Separator();
 		toolbar.add(seperator);

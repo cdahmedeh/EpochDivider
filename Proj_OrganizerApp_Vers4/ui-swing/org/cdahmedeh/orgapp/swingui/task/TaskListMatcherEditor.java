@@ -25,6 +25,10 @@ public class TaskListMatcherEditor extends AbstractMatcherEditor<Task>{
 	public boolean getShowEvents() {return showEvents;}
 	public void setShowEvents(boolean showEvents) {this.showEvents = showEvents;}
 	
+	private boolean showCompleted = false;;
+	public boolean getShowCompleted() {return showCompleted;}
+	public void setShowCompleted(boolean showCompleted) {this.showCompleted = showCompleted;}
+	
 	public void matcherChangedNotify() {this.fireChanged(matcher);}
 	
 	private Matcher<Task> matcher;
@@ -34,7 +38,7 @@ public class TaskListMatcherEditor extends AbstractMatcherEditor<Task>{
 		@Override
 		public boolean matches(Task item) {
 			//If the selected context is All Contexts, then don't filter anything.
-			return matchByContext(item) && matchByIsEvent(item);
+			return matchByContext(item) && matchByIsEvent(item) && matchByIsCompleted(item);
 		}
 
 		private boolean matchByContext(Task item) {
@@ -49,6 +53,10 @@ public class TaskListMatcherEditor extends AbstractMatcherEditor<Task>{
 		
 		private boolean matchByIsEvent(Task item){
 			return item.isEvent() == showEvents;
+		}
+		
+		private boolean matchByIsCompleted(Task item){
+			return !(!showCompleted && item.isCompleted());
 		}
 	}
 }

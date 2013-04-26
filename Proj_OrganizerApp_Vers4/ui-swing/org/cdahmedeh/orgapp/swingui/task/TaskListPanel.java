@@ -17,6 +17,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.TransferHandler;
@@ -231,9 +232,19 @@ public class TaskListPanel extends CPanel {
 		final String[] iconsForSwitcher = new String[]{"/org/cdahmedeh/orgapp/imt/icons/events.gif", "/org/cdahmedeh/orgapp/imt/icons/tasks.gif"};
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
+		final JToggleButton showCompletedTasks = ToolbarHelper.createToolbarToggleButton(toolbar, "Show Completed", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/completed.gif"));
 		final JButton switchBetweenTasksAndEventsButton = ToolbarHelper.createToolbarButton(toolbar, labelsForSwitcher[showEvents], TaskListPanel.class.getResource(iconsForSwitcher[showEvents])); 
 		ToolbarHelper.createToolbarSeperator(toolbar);
 		final JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, labelsForAddButton[showEvents], TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif")); 
+		
+		showCompletedTasks.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				taskListMatcherEditor.setShowCompleted(showCompletedTasks.isSelected());
+				taskListMatcherEditor.matcherChangedNotify();
+				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
+			}
+		});
 		
 		switchBetweenTasksAndEventsButton.addActionListener(new ActionListener() {
 			@Override
