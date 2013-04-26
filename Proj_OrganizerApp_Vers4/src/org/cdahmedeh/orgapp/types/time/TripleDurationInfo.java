@@ -1,4 +1,4 @@
-package org.cdahmedeh.orgapp.types.task;
+package org.cdahmedeh.orgapp.types.time;
 
 import org.joda.time.Duration;
 

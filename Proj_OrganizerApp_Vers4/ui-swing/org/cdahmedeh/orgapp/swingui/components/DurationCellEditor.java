@@ -1,12 +1,13 @@
 package org.cdahmedeh.orgapp.swingui.components;
 
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import org.cdahmedeh.orgapp.tools.FuzzyDateParser;
-import org.cdahmedeh.orgapp.types.task.TripleDurationInfo;
+import org.cdahmedeh.orgapp.types.time.TripleDurationInfo;
 
 /**
- * Editor for dates. 
+ * Editor for duration. 
  * 
  * @author Ahmed El-Hajjar
  */
@@ -15,6 +16,7 @@ public class DurationCellEditor extends AbstractParserEntryCellEditor<TripleDura
 
 	public DurationCellEditor(JTextField editorTextField) {
 		super(editorTextField);
+		editorTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 	}
 
 	@Override
@@ -34,7 +36,7 @@ public class DurationCellEditor extends AbstractParserEntryCellEditor<TripleDura
 
 	@Override
 	protected String getParseEmptyText() {
-		return "0";
+		return "0.0";
 	}
 	
 }

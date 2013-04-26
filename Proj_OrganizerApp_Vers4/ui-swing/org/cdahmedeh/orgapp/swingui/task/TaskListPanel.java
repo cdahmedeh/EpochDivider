@@ -21,7 +21,7 @@ import javax.swing.table.TableColumn;
 import org.cdahmedeh.orgapp.swingui.components.DateEntryCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.DateEntryCellRenderer;
 import org.cdahmedeh.orgapp.swingui.components.DurationCellEditor;
-import org.cdahmedeh.orgapp.swingui.components.DurationCellRenderer;
+import org.cdahmedeh.orgapp.swingui.components.TripleDurationCellRenderer;
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
@@ -72,6 +72,9 @@ public class TaskListPanel extends CPanel {
 	private EventList<Task> taskEventList;
 	private AdvancedTableModel<Task> taskListTableModel;
 	
+	// - States -
+	private int showEvents = 0; //0 for showing only tasks, and 1 for only events. 
+	
 	@Override
 	protected void windowInit() {
 		setPreferredSize(new Dimension(TaskListPanelDefaults.DEFAULT_TASK_PANEL_WIDTH, TaskListPanelDefaults.DEFAULT_TASK_PANEL_HEIGHT));
@@ -115,7 +118,8 @@ public class TaskListPanel extends CPanel {
 		taskListTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(sortedTaskList, taskTableFormat);
 		taskListTable.setModel(taskListTableModel);
 		
-		TableComparatorChooser<Task> taskListSortChooser = TableComparatorChooser.install(taskListTable, sortedTaskList, TableComparatorChooser.SINGLE_COLUMN);
+//		TableComparatorChooser<Task> taskListSortChooser = 
+		TableComparatorChooser.install(taskListTable, sortedTaskList, TableComparatorChooser.SINGLE_COLUMN);
 		
 	}
 
@@ -137,7 +141,7 @@ public class TaskListPanel extends CPanel {
 		
 		//Setup renderer and editor for estimate column
 		TableColumn estimateColumn = taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_PROGRESS);
-		estimateColumn.setCellRenderer(new DurationCellRenderer());
+		estimateColumn.setCellRenderer(new TripleDurationCellRenderer());
 		estimateColumn.setCellEditor(new DurationCellEditor(new JTextField()));
 	}
 	
@@ -153,39 +157,38 @@ public class TaskListPanel extends CPanel {
 	private void setupTaskDragAndDrop() {
 		taskListTable.setDragEnabled(true);
 		taskListTable.setTransferHandler(new TransferHandler("Task"){
+			private static final long serialVersionUID = -750648214860216598L;
+			
 			@Override
 			public int getSourceActions(JComponent c) {
 				return COPY_OR_MOVE;
 			}
 			@Override
 			protected Transferable createTransferable(JComponent c) {
-				//TODO: There might be a better to get the selected task.
-				return new TaskTransferable(taskListTableModel.getElementAt(taskListTable.getSelectedRow()));
+				return new TaskTransferable(getSelectedTaskInTable());
 			}
 		});
 	}
 
-	int showEvents = 0;
-	
 	private void createToolbar() {
 		JToolBar toolbar = new JToolBar();
 		toolbar.setFloatable(false);
 		add(toolbar, BorderLayout.SOUTH);
+
+		final String[] labelsForSwitcher = new String[]{"Switch to Events", "Switch back to Tasks"};
+		final String[] iconsForSwitcher = new String[]{"/org/cdahmedeh/orgapp/imt/icons/events.png", "/org/cdahmedeh/orgapp/imt/icons/tasks.png"};
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
-		final JButton switchBetweenTasksAndEventsButton = ToolbarHelper.createToolbarButton(toolbar, "Switch to Events", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/events.png")); 
+		final JButton switchBetweenTasksAndEventsButton = ToolbarHelper.createToolbarButton(toolbar, labelsForSwitcher[showEvents], TaskListPanel.class.getResource(iconsForSwitcher[showEvents])); 
 		ToolbarHelper.createToolbarSeperator(toolbar);
 		JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, "Add", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.png")); 
-		
-		final String[] labels = new String[]{"Switch to Events", "Switch back to Tasks"};
-		final String[] icons = new String[]{"/org/cdahmedeh/orgapp/imt/icons/events.png", "/org/cdahmedeh/orgapp/imt/icons/tasks.png"};
 		
 		switchBetweenTasksAndEventsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				showEvents = showEvents == 0 ? 1 : 0;
-				switchBetweenTasksAndEventsButton.setText(labels[showEvents]);
-				switchBetweenTasksAndEventsButton.setIcon(new ImageIcon(TaskListPanel.class.getResource(icons[showEvents])));
+				switchBetweenTasksAndEventsButton.setText(labelsForSwitcher[showEvents]);
+				switchBetweenTasksAndEventsButton.setIcon(new ImageIcon(TaskListPanel.class.getResource(iconsForSwitcher[showEvents])));
 				taskListMatcherEditor.setShowEvents(showEvents == 1);
 				taskListMatcherEditor.matcherChangedNotify();
 			}
@@ -236,5 +239,8 @@ public class TaskListPanel extends CPanel {
 		}
 	}
 
-
+	private Task getSelectedTaskInTable() {
+		//TODO: There might be a better way to get the selected task.
+		return taskListTableModel.getElementAt(taskListTable.getSelectedRow());
+	}
 }

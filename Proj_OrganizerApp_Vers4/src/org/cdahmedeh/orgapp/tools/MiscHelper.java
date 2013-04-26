@@ -1,5 +1,7 @@
 package org.cdahmedeh.orgapp.tools;
 
+import java.util.ArrayDeque;
+
 /**
  * Contains small helper methods to make life a bit easier. 
  * 
@@ -15,5 +17,16 @@ public class MiscHelper {
 	 */
 	public static String safeTrim(String string){
 		return string != null ? string.trim() : "";
+	}
+	
+	/**
+	 * Creates an ArrayDeque<String> from an Array of Strings
+	 */
+	public static ArrayDeque<String> toArrayDeque(String[] array){
+		ArrayDeque<String> deque = new ArrayDeque<>();
+		for (String string: array){
+			deque.add(string);
+		}
+		return deque;
 	}
 }

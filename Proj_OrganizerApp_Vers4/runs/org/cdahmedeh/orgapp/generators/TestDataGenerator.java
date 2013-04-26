@@ -98,7 +98,7 @@ public class TestDataGenerator {
 		task02.setContext(projectContext);
 		task02.setDue(new DateTime(2013, 04, 30, 15, 00));
 		task02.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,17,00)));
-		task02.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,23,00),new DateTime(2013,04,23,15,15)));
+		task02.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,23,15,00),new DateTime(2013,04,23,23,15)));
 		task02.setEstimate(Duration.standardHours(40));
 		taskList.add(task02);
 		
@@ -119,7 +119,7 @@ public class TestDataGenerator {
 	}
 	
 	/**
-	 * Generate an instance of dataContainer with plenty of data to stress test
+	 * Generate an instance of dataContainer with data designed to stress 
 	 * the application. The amount of data is somewhat realistic.
 	 */
 	public static DataContainer generateDataContainerWithLotsOfData(){
@@ -179,5 +179,51 @@ public class TestDataGenerator {
 		
 		return dataContainer;
 		
+	}
+	
+	/**
+	 * Generate an instance of dataContainer with data designed to stress 
+	 * the calendar renderer.
+	 */
+	public static DataContainer generateDataContainerForStressingCalendarPainter(){
+		DataContainer dataContainer = new DataContainer();
+		
+		//Set the view for the calendar.
+		View view = new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27));
+		dataContainer.setView(view);
+		
+		//Generate some contexts
+		ArrayList<Context> contextList = new ArrayList<>();
+		
+		//Default contexts
+		contextList.add(new AllContextsContext());
+		contextList.add(new NoContextContext());
+		
+		contextList.add(new DueTodayContext());
+		contextList.add(new DueTomorrowContext());
+		contextList.add(new DueThisViewContext());
+		contextList.add(new NoDueDateContext());
+		
+		//Generate 1 contexts.
+		Context context = new Context("Context");
+		contextList.add(context);
+		
+		//Generate 1 task.
+		ArrayList<Task> taskList = new ArrayList<>();
+		
+		Task task = new Task("Task");
+		taskList.add(task);
+		
+		//Assign 350 timeblocks to that task
+		for (int i = 0; i < 350; i++) {
+			task.assignToTimeBlock(new TimeBlock(view.getStartDate().toDateTimeAtStartOfDay().plusMinutes(i*30), Duration.standardMinutes(30)));
+		}
+		
+		//Put the task and context lists into the container.
+		dataContainer.loadContexts(contextList);
+		dataContainer.loadTasks(taskList);
+		
+		return dataContainer;
+
 	}
 }

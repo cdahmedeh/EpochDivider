@@ -32,10 +32,10 @@ public class SchedulerPanel extends CPanel {
 
 	@Override
 	protected void windowInit() {
-		setPreferredSize(new Dimension(50, 1000));
-		setBackground(new Color(255, 255, 255));
+		setPreferredSize(new Dimension(CalendarConstants.SCHEDULER_DEFAULT_WIDTH, CalendarConstants.SCHEDULER_DEFAULT_HEIGHT));
+		setBackground(CalendarConstants.SCHEDULER_BACKGROUND_COLOR);
 		
-		enabledClickingOnTimeBlock();
+		enabledCalendarMouseActions();
 		setupDragFrom();
 	}
 
@@ -51,36 +51,39 @@ public class SchedulerPanel extends CPanel {
 		GraphicsHelper.enableDefaultAASettings(g);
 		
 		//Draw grid in the background
-		GridPainter.drawTimeLines(g, this.getWidth(), this.getHeight(), CalendarConstants.CALENDAR_GRID_HOUR_COLOR, CalendarConstants.CALENDAR_GRID_MINUTE_COLOR, CalendarConstants.CALENDAR_MINUTES_RESOLUTION, false);
-		GridPainter.drawDateLines(g, this.getWidth(), this.getHeight(), CalendarConstants.CALENDAR_GRID_HOUR_COLOR, dataContainer.getView(), false);
+		GridPainter.drawTimeLines(g, this.getWidth(), this.getHeight(), CalendarConstants.SCHEDULER_GRID_HOUR_COLOR, CalendarConstants.SCHEDULER_GRID_MINUTE_COLOR, CalendarConstants.SCHEDULER_MINUTES_RESOLUTION, false);
+		GridPainter.drawDateLines(g, this.getWidth(), this.getHeight(), CalendarConstants.SCHEDULER_GRID_HOUR_COLOR, dataContainer.getView(), false);
 		
 		//Draw the time-blocks for all tasks.
 		//TODO: Optimization, draw only those within view.
 		if (drawTasks){
-			rendersTask.clear();
+			renderedTimeBlocks.clear();
 			for (Task task: dataContainer.getTasks()){
 				for (TimeBlock timeBlock: task.getAllTimeBlocks())
-					rendersTask.addAll(TimeBlockPainter.draw(g, task, timeBlock, dataContainer.getView(), this));
+					renderedTimeBlocks.addAll(TimeBlockPainter.draw(g, task, timeBlock, dataContainer.getView(), this));
 			}
 		}
+		
+		//Draw the current time line.
+		GridPainter.drawCurrentTime(g, this.getWidth(), this.getHeight(), dataContainer.getView());
 	}
 	
 	// -- Data --
 	private boolean drawTasks = false;
+	private ArrayList<RendereredTimeBlock> renderedTimeBlocks = new ArrayList<>();
+
+	// -- Drag and drop variables ---
 	private CalendarUIMode uiMode = CalendarUIMode.NONE;
-	private ArrayList<RendereredTask> rendersTask = new ArrayList<>();
-	
 	private Duration timeClickedOffset = null; 
 	private TimeBlock timeBlockSelected = null;
 	
-	private void enabledClickingOnTimeBlock() {
+	private void enabledCalendarMouseActions() {
 		addMouseMotionListener(new MouseAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				//First check that nothing else is going on.
+				//Support for moving and resizing TimeBlocks.
 				if (uiMode == CalendarUIMode.NONE){
-					//Are we clicking on a task time-block, if so, then start dragging.
-					RendereredTask clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
+					RendereredTimeBlock clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
 					if (clickedTimeBlock != null) {
 						timeBlockSelected = clickedTimeBlock.getTimeBlock();
 						if (isNearTop(e, clickedTimeBlock)){
@@ -92,21 +95,15 @@ public class SchedulerPanel extends CPanel {
 							timeClickedOffset = new Duration(timeBlockSelected.getStart(), PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()));							
 						}
 					}
-				} 
-				//Moving a timeblock
-				else if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK) {
+				} else if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK) {
 					DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView());
 					timeBlockSelected.moveStart(PixelsToDate.roundToMins(timeFromMouse.minus(timeClickedOffset), 15));
 					repaint();
-				}
-				//Resize the bottom of the timeblock
-				else if (uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK) {
+				} else if (uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK) {
 					DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView());
 					timeBlockSelected.setEnd(PixelsToDate.roundToMins(timeFromMouse, 15));
 					repaint();
-				}
-				//Resize the bottom of the timeblock
-				else if (uiMode == CalendarUIMode.RESIZE_TOP_TIMEBLOCK) {
+				} else if (uiMode == CalendarUIMode.RESIZE_TOP_TIMEBLOCK) {
 					DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView());
 					timeBlockSelected.setStart(PixelsToDate.roundToMins(timeFromMouse, 15));
 					repaint();
@@ -115,7 +112,8 @@ public class SchedulerPanel extends CPanel {
 			
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				RendereredTask clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
+				//Support for changing mouse cursor depending on position over a TimeBlock.
+				RendereredTimeBlock clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
 				if (getClickedTimeBlock(e.getX(), e.getY()) != null) {
 					if (isNearTop(e, clickedTimeBlock)){
 						setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
@@ -133,13 +131,10 @@ public class SchedulerPanel extends CPanel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				//If we we're dragging, and we release, then, stop dragging.
+				//If we we're dragging, and we release, then, stop dragging and
+				//tell everyone that data has changed.
 				if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_TOP_TIMEBLOCK){
-					uiMode = CalendarUIMode.NONE;
-					timeClickedOffset = null;
-					timeBlockSelected = null;
-					eventBus.post(new RefreshTaskListRequest());
-					eventBus.post(new RefreshContextListRequest());
+					endDragging();
 				}
 			}
 		});
@@ -147,24 +142,29 @@ public class SchedulerPanel extends CPanel {
 	
 	private void setupDragFrom() {
 		this.setTransferHandler(new TransferHandler("Calendar"){
+			private static final long serialVersionUID = -2911907527149438848L;
+
 			@Override
 			public boolean canImport(TransferSupport support) {
-				//IF it is a task, start dragging RIGHT AWAY
+				//If the data that is coming in is a Task, then start dragging
+				//right away. canImport is being used so that the TimeBlock
+				//is visible as soon as the pointer enters the Calendar area.
 				try {
 					if (uiMode == CalendarUIMode.NONE) {
-					if (support.getTransferable().isDataFlavorSupported(new DataFlavor(Task.class, "Task"))){
-						//Get the task being dragged
-						Task task = (Task) support.getTransferable().getTransferData(new DataFlavor(Task.class, "Task"));
-						//TODO: null check
-						//Add a new timeblock to the task
-						TimeBlock timeBlock = new TimeBlock();
-						task.assignToTimeBlock(timeBlock);
-						timeBlockSelected = timeBlock;
-						uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
-						timeClickedOffset = Duration.ZERO;
-						repaint();
-						return true;
-					}
+						if (support.getTransferable().isDataFlavorSupported(new DataFlavor(Task.class, "Task"))){
+							//Get the task being dragged
+							Task task = (Task) support.getTransferable().getTransferData(new DataFlavor(Task.class, "Task"));
+							if (task == null) return false;
+							
+							//Add a new TimeBlock to the Task and start dragging it.
+							TimeBlock timeBlock = new TimeBlock();
+							task.assignToTimeBlock(timeBlock);
+							timeBlockSelected = timeBlock;
+							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
+							timeClickedOffset = Duration.ZERO;
+							repaint();
+							return true;
+						}
 					}
 					else if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK) {
 						DateTime timeFromMouse = PixelsToDate.getTimeFromPosition((int)support.getDropLocation().getDropPoint().getX(), (int)support.getDropLocation().getDropPoint().getY(), getWidth()-1, getHeight()-1, dataContainer.getView());
@@ -173,8 +173,7 @@ public class SchedulerPanel extends CPanel {
 						return true;
 					}
 				} catch (UnsupportedFlavorException | IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					return false;
 				}
 				return false;
 			}
@@ -182,11 +181,7 @@ public class SchedulerPanel extends CPanel {
 			@Override
 			public boolean importData(TransferSupport support) {
 				if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_TOP_TIMEBLOCK){
-					uiMode = CalendarUIMode.NONE;
-					timeClickedOffset = null;
-					timeBlockSelected = null;
-					eventBus.post(new RefreshTaskListRequest());
-					eventBus.post(new RefreshContextListRequest());
+					endDragging();
 					return true;
 				}
 				return false;
@@ -195,20 +190,29 @@ public class SchedulerPanel extends CPanel {
 	}
 	
 	// --- Helpers ---
-	private RendereredTask getClickedTimeBlock(int x, int y){
-		for (RendereredTask rt: rendersTask){
-			if (rt.clickedWithin(x, y)) {
+	private RendereredTimeBlock getClickedTimeBlock(int x, int y){
+		for (RendereredTimeBlock rt: renderedTimeBlocks){
+			if (rt.isWithin(x, y)) {
 				return rt;
 			}
 		}
 		return null;
 	}
 	
-	private boolean isNearBottom(MouseEvent e, RendereredTask clickedTimeBlock) {
-		return e.getY()-clickedTimeBlock.getRectangle().y < 5;
+	private boolean isNearBottom(MouseEvent e, RendereredTimeBlock clickedTimeBlock) {
+		return e.getY()-clickedTimeBlock.y < 5;
 	}
 
-	private boolean isNearTop(MouseEvent e, RendereredTask clickedTimeBlock) {
-		return e.getY()-clickedTimeBlock.getRectangle().y > clickedTimeBlock.getRectangle().height-10;
+	private boolean isNearTop(MouseEvent e, RendereredTimeBlock clickedTimeBlock) {
+		return e.getY()-clickedTimeBlock.y > clickedTimeBlock.height-10;
+	}
+	
+	private void endDragging() {
+		uiMode = CalendarUIMode.NONE;
+		repaint();
+		timeClickedOffset = null;
+		timeBlockSelected = null;
+		eventBus.post(new RefreshTaskListRequest());
+		eventBus.post(new RefreshContextListRequest());
 	}
 }

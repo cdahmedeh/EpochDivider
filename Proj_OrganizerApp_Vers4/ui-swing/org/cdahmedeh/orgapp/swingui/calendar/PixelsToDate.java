@@ -5,6 +5,11 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 
+/**
+ * Converts pixel positions to equivalent Dates and Times in calendar.
+ *  
+ * @author Ahmed El-Hajjar
+ */
 public class PixelsToDate {
 	public static LocalDate getDateFromHorizontal(int xPosition, int xArea, View view){
 		LocalDate firstDayInView = view.getStartDate();
@@ -27,16 +32,12 @@ public class PixelsToDate {
 	
 	public static DateTime getTimeFromPosition(int xPosition, int yPosition, int xArea, int yArea, View view){
 		LocalDate date = getDateFromHorizontal(xPosition, xArea, view);
-		long minutes = getMillisFromVertical(yPosition, yArea, view);
+		long millisFromMidnight = getMillisFromVertical(yPosition, yArea, view);
 		
-		DateTime dateTime = date.toDateTimeAtStartOfDay().plus(minutes);
+		DateTime dateTime = date.toDateTimeAtStartOfDay().plus(millisFromMidnight);
 		
 		return dateTime;
 	}
-	
-//	public static DateTime getTimeFromPosition(int xPosition, int yPosition, Rectangle rect, View view){
-//		return getTimeFromPosition(xPosition, yPosition, rect.width, rect.height, view);
-//	}
 	
 	public static DateTime roundToMins(DateTime date, int minutes){
 		DateTime timeFromPosition = date;

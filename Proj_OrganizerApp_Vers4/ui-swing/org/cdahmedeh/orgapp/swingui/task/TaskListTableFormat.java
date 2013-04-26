@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
-import org.cdahmedeh.orgapp.types.task.TripleDurationInfo;
+import org.cdahmedeh.orgapp.types.time.TripleDurationInfo;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 

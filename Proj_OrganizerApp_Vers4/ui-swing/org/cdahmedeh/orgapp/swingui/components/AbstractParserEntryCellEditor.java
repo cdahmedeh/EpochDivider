@@ -41,7 +41,7 @@ public abstract class AbstractParserEntryCellEditor<T> extends DefaultCellEditor
 		this.editorTextField = editorTextField;
 		
 		setupDelegate();
-        setupDatePreviewPopup();
+        setupParsingPreviewPopup();
 	}
 
 	private void setupDelegate() {
@@ -51,11 +51,10 @@ public abstract class AbstractParserEntryCellEditor<T> extends DefaultCellEditor
         editorTextField.addActionListener(delegate);
 	}
 	
-	private void setupDatePreviewPopup() {
+	private void setupParsingPreviewPopup() {
         intelliHintsTextPreview = new IntelliHintsTextPreview(editorTextField);
         intelliHintsTextPreview.setShowHintsDelay(0);
 	}
-
 	
 	@Override
 	public Object getCellEditorValue() {
@@ -78,7 +77,7 @@ public abstract class AbstractParserEntryCellEditor<T> extends DefaultCellEditor
 			});
 		}
 
-		//We're just using a label in the intellihints component
+		//We're just using a label in the IntelliHints component
 		@Override
 		public JComponent createHintsComponent() {
 		    JPanel panel = (JPanel) super.createHintsComponent();

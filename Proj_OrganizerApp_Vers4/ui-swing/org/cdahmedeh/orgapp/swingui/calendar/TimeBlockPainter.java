@@ -14,104 +14,82 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 public class TimeBlockPainter {
-	public static ArrayList<RendereredTask> draw(Graphics g, Task task, TimeBlock timeBlock, View view, JPanel canvas) {
-		ArrayList<Rectangle> rectangles = new ArrayList<>();
+	public static ArrayList<RendereredTimeBlock> draw(Graphics g, Task task, TimeBlock timeBlock, View view, JPanel panel) {
+		ArrayList<RendereredTimeBlock> rtbs = new ArrayList<>();
 
-		LocalDate taskBeginDate = timeBlock.getStart().toLocalDate();
-		LocalTime taskBeginTime = timeBlock.getStart().toLocalTime();
-		LocalDate taskEndDate = timeBlock.getEnd().toLocalDate();
-		LocalTime taskEndTime = timeBlock.getEnd().toLocalTime();
+		LocalDate tBeginDate = timeBlock.getStart().toLocalDate();
+		LocalTime tBeginTime = timeBlock.getStart().toLocalTime();
+		LocalDate tEndDate = timeBlock.getEnd().toLocalDate();
+		LocalTime tEndTime = timeBlock.getEnd().toLocalTime();
 		
-		Dimension clientArea = canvas.getSize();
-		int caWidth = clientArea.width - 1;
-		int caHeight = clientArea.height - 1;
+		int caWidth = panel.getWidth() - 1;
+		int caHeight = panel.getHeight() - 1;
 		
 		LocalTime midnight = new LocalTime(0, 0);
 		LocalTime endOfDay = new LocalTime(23,59,59,999);
 		
 		int daysSpanning = timeBlock.daysSpaning();
 		
+		//Create the rectangles dimensions that will be rendered for the TimeBlock.
 		if (daysSpanning == 0){
-			rectangles.add(new Rectangle(
-				DateToPixels.getHorizontalPositionFromDate(taskBeginDate , caWidth , view), 
-				DateToPixels.getVerticalPositionFromTime(taskBeginTime , caHeight), 
-				DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(taskBeginDate , caWidth , view), 
-				DateToPixels.getHeightFromInterval(taskBeginTime, taskEndTime, caHeight, view)
+			rtbs.add(new RendereredTimeBlock(
+				DateToPixels.getHorizontalPositionFromDate(tBeginDate , caWidth , view), 
+				DateToPixels.getVerticalPositionFromTime(tBeginTime , caHeight), 
+				DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(tBeginDate , caWidth , view), 
+				DateToPixels.getHeightFromInterval(tBeginTime, tEndTime, caHeight, view)
 				));
 		} else {
-			rectangles.add(new Rectangle(
-					DateToPixels.getHorizontalPositionFromDate(taskBeginDate, caWidth, view), 
-					DateToPixels.getVerticalPositionFromTime(taskBeginTime, caHeight), 
-					DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(taskBeginDate , caWidth , view), 
-					DateToPixels.getHeightFromInterval(taskBeginTime, endOfDay, caHeight, view)
+			rtbs.add(new RendereredTimeBlock(
+					DateToPixels.getHorizontalPositionFromDate(tBeginDate, caWidth, view), 
+					DateToPixels.getVerticalPositionFromTime(tBeginTime, caHeight), 
+					DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(tBeginDate , caWidth , view), 
+					DateToPixels.getHeightFromInterval(tBeginTime, endOfDay, caHeight, view) + 1 //TODO: +1 temp
 					));
-			rectangles.add( new Rectangle(
-					DateToPixels.getHorizontalPositionFromDate(taskEndDate, caWidth, view), 
+			rtbs.add( new RendereredTimeBlock(
+					DateToPixels.getHorizontalPositionFromDate(tEndDate, caWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(midnight, caHeight), 
-					DateToPixels.getHorizontalPositionFromDate(taskEndDate.plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(taskEndDate, caWidth , view), 
-					DateToPixels.getHeightFromInterval(midnight, taskEndTime, caHeight, view)
+					DateToPixels.getHorizontalPositionFromDate(tEndDate.plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(tEndDate, caWidth , view), 
+					DateToPixels.getHeightFromInterval(midnight, tEndTime, caHeight, view)
 					));
 		}
 		
 		if (daysSpanning > 1){
 			for (int i=1; i<daysSpanning; i++){
-			rectangles.add(new Rectangle(
-					DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(i) , caWidth, view), 
+			rtbs.add(new RendereredTimeBlock(
+					DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(i) , caWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(midnight, caHeight), 
-					DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(i).plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(taskBeginDate.plusDays(i) , caWidth , view), 
-					DateToPixels.getHeightFromInterval(midnight, endOfDay, caHeight, view)
+					DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(i).plusDays(1), caWidth , view) - DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(i) , caWidth , view), 
+					DateToPixels.getHeightFromInterval(midnight, endOfDay, caHeight, view) + 1 //TODO: +1 temp
 					));
 			}
 		}
 
-		for (Rectangle rect: rectangles){
-//			if (task.isEvent()){
-			if (true) {
-//				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.3f, 0.6f));
-//				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
-//			} else {
-				Color color = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, 0.6f, 0.8f));
-				g.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
-			}
+		//Render the rectangles
+		for (RendereredTimeBlock rect: rtbs){
+			//Set the background color
+			Color timeBlockColor = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, CalendarConstants.TIMEBLOCK_SATURATION, CalendarConstants.TIMEBLOCK_BRIGHTNESS));
+			g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_OPACITY));
 			
-			//task before now should be very transparent
-//			if (timeBlock.getEnd().isBeforeNow()){
-//				Color color = e.getColor();
-//				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.1f));
-//			}
+			//Fill the block
+			g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, CalendarConstants.TIMEBLOCK_EDGE_ARC, CalendarConstants.TIMEBLOCK_EDGE_ARC);
 			
-			g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
-			
-			g.setColor(new Color(0f, 0f, 0f, 1f));
-			
-//			if (timeBlock.getEnd().isBeforeNow()){
-//				Color color = e.getColor();
-//				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.4f));
-//			}
-			
-			g.drawRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
+			//Set the border color and draw the border.
+			g.setColor(CalendarConstants.TIMEBLOCK_BORDER_COLOR);
+			g.drawRoundRect(rect.x, rect.y, rect.width, rect.height, 3, 3);
 	
-//			e.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-			
-			if (rect.height > 40){
-				g.drawString(task.getTitle().substring(0, Math.min(13, task.getTitle().length())), rect.x+5, rect.y+15);
-				g.drawString(taskBeginTime.toString("HH:mm") + "-" + taskEndTime.toString("HH:mm"), rect.x+5, rect.y+30);
-			} else {
-				g.drawString(task.getTitle(), rect.x+5, rect.y+15);
-			}
+			//Draw text
+			//TODO: Fancy cropping and wrapping routine.
+			g.setColor(CalendarConstants.TIMEBLOCK_TEXT_COLOR);
+			g.drawString(task.getTitle().substring(0, Math.min(13, task.getTitle().length())), rect.x+5, rect.y+15);
+			g.drawString(tBeginTime.toString("HH:mm") + "-" + tEndTime.toString("HH:mm"), rect.x+5, rect.y+30);
 		}
 		
-//		e.gc.setAlpha(255);
-		
-		ArrayList<RendereredTask> rt = new ArrayList<>();
-		for (Rectangle r: rectangles){
-			RendereredTask rtt = new RendereredTask();
-			rtt.setRectangle(r);
-			rtt.setTask(task);
-			rtt.setTimeBlock(timeBlock);
-			rt.add(rtt);
+		//Assign the data (task and timeBlock reference) to the rectangles.
+		for (RendereredTimeBlock r: rtbs){
+			r.setTask(task);
+			r.setTimeBlock(timeBlock);
 		}
 		
-		return rt;
+		return rtbs;
 	}
 }

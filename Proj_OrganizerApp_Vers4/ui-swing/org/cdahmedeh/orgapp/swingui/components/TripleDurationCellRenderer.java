@@ -6,13 +6,19 @@ import java.awt.Graphics;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.cdahmedeh.orgapp.tools.FuzzyDateParser;
-import org.cdahmedeh.orgapp.types.task.TripleDurationInfo;
+import org.cdahmedeh.orgapp.types.time.TripleDurationInfo;
 import org.joda.time.Duration;
 
-public class DurationCellRenderer extends DefaultTableCellRenderer {
+/**
+ * Renderer for TripleDurationInfo. Shows all three values and a dual-layer
+ * progress bar. 
+ * 
+ * @author Ahmed El-Hajjar
+ */
+public class TripleDurationCellRenderer extends DefaultTableCellRenderer {
 	private static final long serialVersionUID = 7478775633982677184L;
 
-	public DurationCellRenderer() {
+	public TripleDurationCellRenderer() {
 		super();
 		super.setHorizontalAlignment(RIGHT);
 	}

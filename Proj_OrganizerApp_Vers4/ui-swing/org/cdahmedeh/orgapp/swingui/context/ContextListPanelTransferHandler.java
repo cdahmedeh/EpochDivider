@@ -16,12 +16,13 @@ import org.cdahmedeh.orgapp.types.context.Context;
  * TransferHandler for allowing dragging and dropping between elements in the
  * Context list tree.
  * 
- * Code needs much cleanup. Now I understand why DnD is so hard to implement. 
- * (You have to interact with so much with so little data).
+ * TODO: Code needs much cleanup. Now I understand why DnD is so hard to 
+ * implement. (You have to interact with so much with so little data).
  * 
  */
 public class ContextListPanelTransferHandler extends TransferHandler {
 	private static final long serialVersionUID = 247239613980407558L;
+	
 	private ArrayList<Context> contexts;
 
 	public ContextListPanelTransferHandler(ArrayList<Context> contexts) {
@@ -36,13 +37,12 @@ public class ContextListPanelTransferHandler extends TransferHandler {
 
 	@Override
 	public boolean importData(TransferSupport support) {
-		//TODO: Sanity checks.
 		//Get the context that was transfered.
 		Context context = null;
 		try {
 			context = (Context) support.getTransferable().getTransferData(new DataFlavor(Context.class, "Context"));
 		} catch (UnsupportedFlavorException | IOException e) {
-			e.printStackTrace();
+			return false;
 		}
 		
 		//Put the context in that location.

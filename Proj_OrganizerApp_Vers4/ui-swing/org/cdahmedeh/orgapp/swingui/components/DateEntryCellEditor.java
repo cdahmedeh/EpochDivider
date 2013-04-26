@@ -11,6 +11,9 @@ import org.joda.time.DateTime;
  * @author Ahmed El-Hajjar
  */
 public class DateEntryCellEditor extends AbstractParserEntryCellEditor<DateTime>{
+	private static final String DEFAULT_NONE_STRING = "Never";
+	private static final String DEFAULT_DATE_FORMAT = "EEEE, MMMM d, YYYY 'at' HH:mm";
+	
 	private static final long serialVersionUID = 4137237283040982074L;
 
 	public DateEntryCellEditor(JTextField editorTextField) {
@@ -29,12 +32,12 @@ public class DateEntryCellEditor extends AbstractParserEntryCellEditor<DateTime>
 
 	@Override
 	protected String previewParseToString(DateTime dateValue) {
-		return dateValue.toString("EEEE, MMMM d, YYYY 'at' HH:mm");
+		return dateValue.toString(DEFAULT_DATE_FORMAT);
 	}
 
 	@Override
 	protected String getParseEmptyText() {
-		return "Never";
+		return DEFAULT_NONE_STRING;
 	}
 	
 }

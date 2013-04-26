@@ -1,6 +1,5 @@
 package org.cdahmedeh.orgapp.swingui.calendar;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -12,8 +11,8 @@ public class TimelinePanel extends JPanel {
 	private static final long serialVersionUID = 4294971143265192080L;
 
 	public TimelinePanel() {
-		setPreferredSize(new Dimension(40, 1000));
-		setBackground(new Color(245, 245, 245));
+		setPreferredSize(new Dimension(CalendarConstants.TIMELINE_DEFAULT_WIDTH, CalendarConstants.TIMELINE_DEFAULT_HEIGHT));
+		setBackground(CalendarConstants.TIMELINE_BACKGROUND_COLOR);
 	}
 
 	@Override

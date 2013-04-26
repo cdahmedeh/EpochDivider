@@ -10,7 +10,7 @@ import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
-import org.cdahmedeh.orgapp.types.task.TripleDurationInfo;
+import org.cdahmedeh.orgapp.types.time.TripleDurationInfo;
 
 public class ContextListTableModel implements TableModel {
 	private ArrayList<Context> contexts;
