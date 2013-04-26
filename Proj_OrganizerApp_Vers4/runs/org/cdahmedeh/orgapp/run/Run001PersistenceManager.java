@@ -15,5 +15,6 @@ public class Run001PersistenceManager {
 		
 		//Load it again
 		DataContainer loadedDataContainer = pm.loadDataContainer();
+		System.out.println(loadedDataContainer); //This is just to remove a compiler warning.
 	}
 }
