@@ -1,7 +1,6 @@
 package org.cdahmedeh.orgapp.swingui.calendar;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.LineBorder;
+import javax.swing.UIManager;
 
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
@@ -42,7 +41,7 @@ public class CalendarPanel extends CPanel {
 		//Setup scroll-pane
 		JideScrollPane calendarPane = new JideScrollPane();
 		calendarPane.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
-		calendarPane.setBorder(new LineBorder(Color.BLACK));
+		calendarPane.setBorder(UIManager.getBorder("ScrollPane.border"));
 		calendarPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		add(calendarPane, BorderLayout.CENTER);
 		
