@@ -64,6 +64,7 @@ public class ContextListPanel extends CPanel {
 	// - Lists and Models - 
 	private EventList<Context> contextEventList;
 	private DefaultEventSelectionModel<Context> contextListSelectionModel;
+	private ContextListTableFormat contextListTableFormat;
 	
 	@Override
 	protected void windowInit() {
@@ -112,8 +113,8 @@ public class ContextListPanel extends CPanel {
 		contextEventList = new BasicEventList<>();
 		contextEventList.addAll(dataContainer.getContexts());
 		
-		//Set table model from Event List
-		AdvancedTableModel<Context> advancedTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(contextEventList, new ContextListTableFormat(dataContainer));
+		contextListTableFormat = new ContextListTableFormat(dataContainer);
+		AdvancedTableModel<Context> advancedTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(contextEventList, contextListTableFormat);
 		contextListTable.setModel(advancedTableModel);
 		
 		//Setup editor and renders for some columns
@@ -155,6 +156,7 @@ public class ContextListPanel extends CPanel {
 		//TODO: Correctly refresh table.
 		contextEventList.clear();
 		contextEventList.addAll(dataContainer.getContexts());
+		contextListTableFormat.updateReferences(dataContainer);
 		contextListTable.setTransferHandler(new ContextListPanelTransferHandler(dataContainer.getContexts(), eventBus));
 	}
 	
