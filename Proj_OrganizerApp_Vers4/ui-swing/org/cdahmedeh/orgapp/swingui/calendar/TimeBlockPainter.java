@@ -80,7 +80,7 @@ public class TimeBlockPainter {
 			//TODO: Fancy cropping and wrapping routine.
 			g.setColor(CalendarConstants.TIMEBLOCK_TEXT_COLOR);
 			g.drawString(task.getTitle().substring(0, Math.min(13, task.getTitle().length())), rect.x+5, rect.y+15);
-			g.drawString(tBeginTime.toString("HH:mm") + "-" + tEndTime.toString("HH:mm"), rect.x+5, rect.y+30);
+			if (rect.height > 30) g.drawString(tBeginTime.toString("HH:mm") + "-" + tEndTime.toString("HH:mm"), rect.x+5, rect.y+30);
 		}
 		
 		//Assign the data (task and timeBlock reference) to the rectangles.
