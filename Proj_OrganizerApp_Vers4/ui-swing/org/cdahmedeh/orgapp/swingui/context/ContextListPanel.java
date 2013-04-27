@@ -32,6 +32,7 @@ import org.cdahmedeh.orgapp.types.context.Context;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.swing.AdvancedTableModel;
+import ca.odell.glazedlists.swing.DefaultEventSelectionModel;
 import ca.odell.glazedlists.swing.GlazedListsSwing;
 
 import com.google.common.eventbus.EventBus;
@@ -47,7 +48,7 @@ public class ContextListPanel extends CPanel {
 			@Subscribe public void refreshContextList(RefreshContextListRequest request) {
 				refreshContextListTreeTable();
 			}
-			@Subscribe public void selectedFirstContextWhenTaskListFinishesLoading(TaskListPanelPostInitCompleteNotification notification){
+			@Subscribe public void selecteFirstContextWhenTaskListFinishesLoading(TaskListPanelPostInitCompleteNotification notification){
 				contextListTable.getSelectionModel().setSelectionInterval(0, 0);
 			}
 			@Subscribe public void tasksUpdated(TasksChangedNotification notification){
@@ -59,7 +60,10 @@ public class ContextListPanel extends CPanel {
 	// - Components -
 	private JScrollPane contextListPane;
 	private JTable contextListTable;
+	
+	// - Lists and Models - 
 	private EventList<Context> contextEventList;
+	private DefaultEventSelectionModel<Context> contextListSelectionModel;
 	
 	@Override
 	protected void windowInit() {
@@ -72,8 +76,8 @@ public class ContextListPanel extends CPanel {
 
 	@Override
 	protected void postWindowInit() {
+		prepareContextListTableModelAndRenders();
 		addNotificationWhenChangingContexts();		
-		prepareContextListTableModel();
 		adjustContextListTableColumnWidths();
 		enableDragRearrange();
 	}
@@ -103,15 +107,16 @@ public class ContextListPanel extends CPanel {
 		});
 	}
 	
-	private void prepareContextListTableModel() {
+	private void prepareContextListTableModelAndRenders() {
+		//Prepare Event List
 		contextEventList = new BasicEventList<>();
 		contextEventList.addAll(dataContainer.getContexts());
 		
-		AdvancedTableModel<Context> advancedTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(contextEventList, new ContextListTableModel(dataContainer));
+		//Set table model from Event List
+		AdvancedTableModel<Context> advancedTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(contextEventList, new ContextListTableFormat(dataContainer));
 		contextListTable.setModel(advancedTableModel);
 		
-		contextListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+		//Setup editor and renders for some columns
 		TableColumn dueDateColumn = contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR);
 		dueDateColumn.setCellRenderer(new ColorHueCellRenderer());
 		
@@ -120,6 +125,19 @@ public class ContextListPanel extends CPanel {
 		progressColumn.setCellEditor(new DurationCellEditor(new JTextField()));
 	}
 
+	private void addNotificationWhenChangingContexts() {
+		contextListSelectionModel = new DefaultEventSelectionModel<>(contextEventList);
+		contextListTable.setSelectionModel(contextListSelectionModel);
+		contextListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		contextListSelectionModel.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				selectedContextChangedNotify();
+			}
+		});
+	}
+	
 	private void adjustContextListTableColumnWidths() {
 		contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR).setMaxWidth(1);
 	}
@@ -127,30 +145,26 @@ public class ContextListPanel extends CPanel {
 	private void enableDragRearrange() {
 		contextListTable.setDragEnabled(true);
 		contextListTable.setDropMode(DropMode.INSERT_ROWS);
-		contextListTable.setTransferHandler(new ContextListPanelTransferHandler(dataContainer.getContexts()));
+		contextListTable.setTransferHandler(new ContextListPanelTransferHandler(dataContainer.getContexts(), eventBus));
 	}
 
-	private void addNotificationWhenChangingContexts() {
-		contextListTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				int selectedIndex = contextListTable.getSelectedRow();
-				if (selectedIndex == -1) return; 
-				Context selectedContext = dataContainer.getContexts().get(selectedIndex);
-				dataContainer.setSelectedContext(selectedContext);
-				eventBus.post(new SelectedContextChangedNotification());
-			}
-		});
-	}
-	
-	
+
 	// -- non-sequential methods --
 	
 	private void refreshContextListTreeTable() {
 		//TODO: Correctly refresh table.
 		contextEventList.clear();
 		contextEventList.addAll(dataContainer.getContexts());
-//		contextListTable.setTransferHandler(new ContextListPanelTransferHandler(dataContainer.getContexts()));
+		contextListTable.setTransferHandler(new ContextListPanelTransferHandler(dataContainer.getContexts(), eventBus));
+	}
+	
+
+	private void selectedContextChangedNotify() {
+		Context selectedContext = getSelectedContextInTable();
+		if (selectedContext != null) {
+			dataContainer.setSelectedContext(selectedContext);
+			eventBus.post(new SelectedContextChangedNotification());
+		}
 	}
 	
 	private void addNewContextToContextListTable() {
@@ -164,7 +178,7 @@ public class ContextListPanel extends CPanel {
 		dataContainer.getContexts().add(new Context(""));
 		refreshContextListTreeTable();
 		
-		//Init. editing the title of the new tasks and focus the editor.
+		//Init. editing the title of the new context and focus the editor.
 		contextListTable.editCellAt(contextListTable.getRowCount()-1, ContextListPanelDefaults.COLUMN_CONTEXT_NAME);
 		
 		Component editorComponent = contextListTable.getEditorComponent();
@@ -173,5 +187,16 @@ public class ContextListPanel extends CPanel {
 		}
 		
 		//TODO: Where does selection go after editing is done?
+	}
+	
+	private Context getSelectedContextInTable(){
+		EventList<Context> selectedContexts = contextListSelectionModel.getSelected();
+		if (selectedContexts.size() == 0) {
+			return null;
+		} else if (selectedContexts.size() == 1) {
+			return selectedContexts.get(0);
+		} else {
+			return null;
+		}
 	}
 }

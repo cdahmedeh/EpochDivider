@@ -10,7 +10,12 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.TransferHandler;
 
+import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
 import org.cdahmedeh.orgapp.types.context.Context;
+
+import com.google.common.eventbus.EventBus;
+
+import ca.odell.glazedlists.swing.DefaultEventSelectionModel;
 
 /**
  * TransferHandler for allowing dragging and dropping between elements in the
@@ -25,8 +30,11 @@ public class ContextListPanelTransferHandler extends TransferHandler {
 	
 	private ArrayList<Context> contexts;
 
-	public ContextListPanelTransferHandler(ArrayList<Context> contexts) {
+	private EventBus eventBus;
+
+	public ContextListPanelTransferHandler(ArrayList<Context> contexts, EventBus eventBus) {
 		this.contexts = contexts;
+		this.eventBus = eventBus;
 	}
 
 	@Override
@@ -53,8 +61,9 @@ public class ContextListPanelTransferHandler extends TransferHandler {
 		
 		//Update table
 		//TODO: Consider using notifications.
-		support.getComponent().repaint();
+		eventBus.post(new RefreshContextListRequest());
 		((JTable)support.getComponent()).getSelectionModel().setSelectionInterval(indexOf >= row ? row : row -1, indexOf >= row ? row : row -1);
+		
 		
 		return true;
 	}
@@ -67,9 +76,8 @@ public class ContextListPanelTransferHandler extends TransferHandler {
 	@Override
 	protected Transferable createTransferable(JComponent c) {
 		Context context = null;
-		if (c instanceof JTable && ((JTable) c).getModel() instanceof ContextListTableModel) {
-			int row = ((JTable) c).getSelectedRow();
-			context = ((ContextListTableModel) ((JTable) c).getModel()).getContextAtRow(row);
+		if (c instanceof JTable && ((JTable) c).getSelectionModel() instanceof DefaultEventSelectionModel<?>) {
+			context = (Context) ((DefaultEventSelectionModel<?>) ((JTable) c).getSelectionModel()).getSelected().get(0);
 		}
 		if (context == null) return null;
 		return new ContextTransferable(context);

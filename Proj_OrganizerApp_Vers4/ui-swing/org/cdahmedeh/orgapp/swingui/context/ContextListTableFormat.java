@@ -3,9 +3,6 @@ package org.cdahmedeh.orgapp.swingui.context;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
-
 import org.cdahmedeh.orgapp.tools.DateReference;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
@@ -17,19 +14,15 @@ import org.joda.time.Duration;
 import ca.odell.glazedlists.gui.AdvancedTableFormat;
 import ca.odell.glazedlists.gui.WritableTableFormat;
 
-public class ContextListTableModel implements AdvancedTableFormat<Context>, WritableTableFormat<Context> {
-	private static final long serialVersionUID = 3929344797261889916L;
-
-	private ArrayList<Context> contexts;
+public class ContextListTableFormat implements AdvancedTableFormat<Context>, WritableTableFormat<Context> {
 	private ArrayList<Task> tasks;
 	private View view;
 	
-	public ContextListTableModel(DataContainer dataContainer) {
+	public ContextListTableFormat(DataContainer dataContainer) {
 		updateReferences(dataContainer);
 	}
 
 	public void updateReferences(DataContainer dataContainer) {
-		this.contexts = dataContainer.getContexts();
 		this.tasks = dataContainer.getTasks();
 		this.view = dataContainer.getView();
 	}
@@ -53,10 +46,6 @@ public class ContextListTableModel implements AdvancedTableFormat<Context>, Writ
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		return String.class;
-	}
-
-	public Context getContextAtRow(int rowIndex){
-		return contexts.get(rowIndex);
 	}
 
 	@Override
