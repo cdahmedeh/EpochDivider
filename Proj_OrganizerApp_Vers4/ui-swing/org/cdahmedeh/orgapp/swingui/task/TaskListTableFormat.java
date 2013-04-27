@@ -21,23 +21,11 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
 			return baseObject.getTitle();
 		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
-			Context context = baseObject.getContext();
-			if (context != null){
-				//toString() used to show title of Context.
-				return context;				
-			}
-			break;
+			return baseObject.getContext();				
 		case TaskListPanelDefaults.COLUMN_TASK_DUE:
-			DateTime dueDate = baseObject.getDue();
-			//Cell Renderer parses the date. 
-			return dueDate;				
+			return baseObject.getDue();				
 		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
-			TripleDurationInfo tripleDurationInfo = baseObject.getProgressInfo();
-			if (tripleDurationInfo != null){
-				//Cell Renderer parses the duration. 
-				return tripleDurationInfo;				
-			}
-			break;
+			return baseObject.getProgressInfo();				
 		}
 		
 		return "";
@@ -101,11 +89,11 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
 			return String.class;
 		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
-			return String.class;
+			return Context.class;
 		case TaskListPanelDefaults.COLUMN_TASK_DUE:
 			return DateTime.class;
 		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
-			return String.class;
+			return TripleDurationInfo.class;
 		}
 		return null;
 	}

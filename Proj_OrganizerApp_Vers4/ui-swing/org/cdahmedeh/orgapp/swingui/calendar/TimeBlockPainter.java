@@ -70,11 +70,11 @@ public class TimeBlockPainter {
 			g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_OPACITY));
 			
 			//Fill the block
-			g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, CalendarConstants.TIMEBLOCK_EDGE_ARC, CalendarConstants.TIMEBLOCK_EDGE_ARC);
+			g.fillRect(rect.x, rect.y, rect.width, rect.height);
 			
 			//Set the border color and draw the border.
 			g.setColor(CalendarConstants.TIMEBLOCK_BORDER_COLOR);
-			g.drawRoundRect(rect.x, rect.y, rect.width, rect.height, 3, 3);
+			g.drawRect(rect.x, rect.y, rect.width, rect.height);
 	
 			//Draw text
 			//TODO: Fancy cropping and wrapping routine.
