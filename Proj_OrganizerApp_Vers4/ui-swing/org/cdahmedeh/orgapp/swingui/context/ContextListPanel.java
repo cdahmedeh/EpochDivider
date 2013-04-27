@@ -29,6 +29,11 @@ import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 
+import ca.odell.glazedlists.BasicEventList;
+import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.swing.AdvancedTableModel;
+import ca.odell.glazedlists.swing.GlazedListsSwing;
+
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
@@ -54,6 +59,7 @@ public class ContextListPanel extends CPanel {
 	// - Components -
 	private JScrollPane contextListPane;
 	private JTable contextListTable;
+	private EventList<Context> contextEventList;
 	
 	@Override
 	protected void windowInit() {
@@ -98,7 +104,12 @@ public class ContextListPanel extends CPanel {
 	}
 	
 	private void prepareContextListTableModel() {
-		contextListTable.setModel(new ContextListTableModel(dataContainer));
+		contextEventList = new BasicEventList<>();
+		contextEventList.addAll(dataContainer.getContexts());
+		
+		AdvancedTableModel<Context> advancedTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(contextEventList, new ContextListTableModel(dataContainer));
+		contextListTable.setModel(advancedTableModel);
+		
 		contextListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		TableColumn dueDateColumn = contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR);
@@ -124,6 +135,7 @@ public class ContextListPanel extends CPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				int selectedIndex = contextListTable.getSelectedRow();
+				if (selectedIndex == -1) return; 
 				Context selectedContext = dataContainer.getContexts().get(selectedIndex);
 				dataContainer.setSelectedContext(selectedContext);
 				eventBus.post(new SelectedContextChangedNotification());
@@ -136,11 +148,9 @@ public class ContextListPanel extends CPanel {
 	
 	private void refreshContextListTreeTable() {
 		//TODO: Correctly refresh table.
-		((ContextListTableModel)contextListTable.getModel()).updateReferences(dataContainer); //TODO: Breaks DnD
-		contextListTable.setTransferHandler(new ContextListPanelTransferHandler(dataContainer.getContexts()));
-		contextListTable.repaint();
-		contextListPane.validate();
-		contextListPane.doLayout();
+		contextEventList.clear();
+		contextEventList.addAll(dataContainer.getContexts());
+//		contextListTable.setTransferHandler(new ContextListPanelTransferHandler(dataContainer.getContexts()));
 	}
 	
 	private void addNewContextToContextListTable() {
@@ -161,5 +171,7 @@ public class ContextListPanel extends CPanel {
 		if (editorComponent != null) {
 			editorComponent.requestFocus();
 		}
+		
+		//TODO: Where does selection go after editing is done?
 	}
 }

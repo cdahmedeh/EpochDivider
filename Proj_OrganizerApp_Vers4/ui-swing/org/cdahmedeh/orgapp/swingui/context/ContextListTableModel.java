@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.swingui.context;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
@@ -13,7 +14,10 @@ import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TripleDurationInfo;
 import org.joda.time.Duration;
 
-public class ContextListTableModel extends AbstractTableModel {
+import ca.odell.glazedlists.gui.AdvancedTableFormat;
+import ca.odell.glazedlists.gui.WritableTableFormat;
+
+public class ContextListTableModel implements AdvancedTableFormat<Context>, WritableTableFormat<Context> {
 	private static final long serialVersionUID = 3929344797261889916L;
 
 	private ArrayList<Context> contexts;
@@ -22,7 +26,6 @@ public class ContextListTableModel extends AbstractTableModel {
 	
 	public ContextListTableModel(DataContainer dataContainer) {
 		updateReferences(dataContainer);
-		this.fireTableDataChanged();
 	}
 
 	public void updateReferences(DataContainer dataContainer) {
@@ -32,18 +35,13 @@ public class ContextListTableModel extends AbstractTableModel {
 	}
 	
 	@Override
-	public int getRowCount() {
-		return contexts.size();
-	}
-
-	@Override
 	public int getColumnCount() {
 		return 3;
 	}
 
 	@Override
-	public String getColumnName(int columnIndex) {
-		switch(columnIndex){
+	public String getColumnName(int column) {
+		switch(column){
 		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
 			return "Context";
 		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
@@ -57,60 +55,54 @@ public class ContextListTableModel extends AbstractTableModel {
 		return String.class;
 	}
 
+	public Context getContextAtRow(int rowIndex){
+		return contexts.get(rowIndex);
+	}
+
 	@Override
-	public boolean isCellEditable(int rowIndex, int columnIndex) {
+	public Object getColumnValue(Context baseObject, int column) {
+		switch(column){
+		case ContextListPanelDefaults.COLUMN_CONTEXT_COLOR:
+			return baseObject.getColor();
+		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
+			return baseObject.getName();
+		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
+			return new TripleDurationInfo(
+					baseObject.getDurationPassedSince(view.getStartDate().toDateTimeAtStartOfDay(), DateReference.getNow(), tasks), 
+					baseObject.getDurationScheduled(view.getStartDate().toDateTimeAtStartOfDay(), view.getEndDate().plusDays(1).toDateTimeAtStartOfDay(), tasks), 
+					baseObject.getGoal(view));
+		}
+		return "";	
+	}
+
+	@Override
+	public boolean isEditable(Context baseObject, int column) {
 		return true;
 	}
 
 	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		Context context = contexts.get(rowIndex);
-		switch(columnIndex){
-		case ContextListPanelDefaults.COLUMN_CONTEXT_COLOR:
-			return context.getColor();
+	public Context setColumnValue(Context baseObject, Object editedValue,
+			int column) {
+		switch(column){
 		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
-			return context.getName();
-		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
-			return new TripleDurationInfo(
-					context.getDurationPassedSince(view.getStartDate().toDateTimeAtStartOfDay(), DateReference.getNow(), tasks), 
-					context.getDurationScheduled(view.getStartDate().toDateTimeAtStartOfDay(), view.getEndDate().plusDays(1).toDateTimeAtStartOfDay(), tasks), 
-					context.getGoal(view));
-		}
-		return "";
-	}
-
-	@Override
-	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		Context context = contexts.get(rowIndex);
-		switch(columnIndex){
-		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
-			if (aValue instanceof String){
-				context.setName((String) aValue);	
+			if (editedValue instanceof String){
+				baseObject.setName((String) editedValue);	
 			}
 			break;
 		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
-			if (aValue == null){
-				context.setGoal(view, Duration.ZERO);
-			} else if (aValue instanceof TripleDurationInfo){
-				context.setGoal(view, ((TripleDurationInfo)aValue).getEstimate());
+			if (editedValue == null){
+				baseObject.setGoal(view, Duration.ZERO);
+			} else if (editedValue instanceof TripleDurationInfo){
+				baseObject.setGoal(view, ((TripleDurationInfo)editedValue).getEstimate());
 			}
 			break;
 		}
+		return baseObject;
 	}
 
 	@Override
-	public void addTableModelListener(TableModelListener l) {
+	public Comparator<?> getColumnComparator(int column) {
 		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeTableModelListener(TableModelListener l) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public Context getContextAtRow(int rowIndex){
-		return contexts.get(rowIndex);
+		return null;
 	}
 }

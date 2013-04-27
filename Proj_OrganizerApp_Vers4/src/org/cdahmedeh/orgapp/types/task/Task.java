@@ -63,14 +63,14 @@ public class Task {
 	 * True if task is due today. 
 	 */
 	public boolean isDueToday(){
-		return (this.isDue() && this.getDue().toLocalDate().isEqual(LocalDate.now()));
+		return (this.isDue() && this.getDue().toLocalDate().isEqual(DateReference.getToday()));
 	}
 	
 	/**
 	 * True if task is due tomorrow. 
 	 */
 	public boolean isDueTomorrow(){
-		return (this.isDue() && this.getDue().toLocalDate().isEqual(LocalDate.now().plusDays(1)));
+		return (this.isDue() && this.getDue().toLocalDate().isEqual(DateReference.getToday().plusDays(1)));
 	}
 	
 	/**

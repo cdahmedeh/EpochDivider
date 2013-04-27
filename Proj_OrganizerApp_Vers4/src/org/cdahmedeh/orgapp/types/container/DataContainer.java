@@ -13,46 +13,51 @@ import org.cdahmedeh.orgapp.types.task.Task;
  * @author Ahmed El-Hajjar
  */
 public class DataContainer {
-	//Contexts
+	// -- Data and Loaders --
 	private ArrayList<Context> contexts;
 	public void loadContexts(ArrayList<Context> contexts) {this.contexts = contexts;}
+	
+	private ArrayList<Task> tasks;
+	public void loadTasks(ArrayList<Task> tasks) {this.tasks = tasks;}
 
-	//Get all contexts
+	// -- UI States --
+	private View view;
+	public View getView() {return view;}
+	public void setView(View view) {this.view = view;}
+	
+	private Context selectedContext = new AllContextsContext();
+	public Context getSelectedContext() {return selectedContext;}
+	public void setSelectedContext(Context selectedContext) {this.selectedContext = selectedContext;}
+	
+	// -- Readers --
+	
+	/**
+	 * Get all contexts that exist.
+	 */
 	public ArrayList<Context> getContexts() {
 		return contexts;
 	}
-	
-	//Get all contexts that can be assigned to a task.
+
+	/**
+	 * Get all contexts that can be assigned to a task.
+	 */
 	public ArrayList<Context> getSelectableContexts() {
 		ArrayList<Context> contextsList = new ArrayList<>();
 		for (Context context: contexts) if (context.isSelectable()) contextsList.add(context);
 		return contextsList;
 	}
 
-	
-	//Tasks	
-	private ArrayList<Task> tasks;
-	public void loadTasks(ArrayList<Task> tasks) {this.tasks = tasks;}
-
-	//Get all tasks.
+	/**
+	 * Get all tasks that exist.
+	 */
 	public ArrayList<Task> getTasks() {
 		return tasks;
 	}
 	
-	
-	//View
-	private View view;
-	public View getView() {return view;}
-	public void setView(View view) {this.view = view;}
-
-	
-	//Selected Context
-	private Context selectedContext = new AllContextsContext();
-	public Context getSelectedContext() {return selectedContext;}
-	public void setSelectedContext(Context selectedContext) {this.selectedContext = selectedContext;}
-	
+	// -- Helpers --
 	/**
-	 * Replaces data within this container with the date of another one. 
+	 * Replaces data within this container with the data of another one.
+	 * TODO: Keep updated
 	 */
 	public void replace(DataContainer dataContainer) {
 		this.contexts = dataContainer.getContexts();

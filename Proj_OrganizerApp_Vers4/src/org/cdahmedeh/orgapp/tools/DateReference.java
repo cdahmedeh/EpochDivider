@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.tools;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 /**
  * Contains a reference to DateTime.now(). Can be changed for testing 
@@ -15,5 +16,12 @@ public class DateReference {
 	 */
 	public static DateTime getNow() {
 		return DateTime.now();
+	}
+	
+	/**
+	 * @return A LocalDate reference to the current day.
+	 */
+	public static LocalDate getToday() {
+		return getNow().toLocalDate();
 	}
 }

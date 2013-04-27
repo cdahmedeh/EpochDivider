@@ -34,6 +34,8 @@ public class View {
 	
 	/* ---- Compare Methods ---- */
 	
+	//Views are the same if they represent the same period of days.
+	
 	@Override
 	public int hashCode() {
 		return (startDate.toString() + endDate.toString()).hashCode();
@@ -52,7 +54,9 @@ public class View {
 	 * period.
 	 * 
 	 * (Note that the Interval object does not contain the last moment in the
-	 * 'end' parameter)
+	 * 'end' parameter) That`s why is the "end' parameter is to set to the 
+	 * day that follows the end of the view at midnight instead of the end of
+	 * the view at 23:59:99.999.
 	 * 
 	 * @return Interval object representing the period between the start and end
 	 * of the view.
