@@ -32,6 +32,7 @@ import com.jidesoft.plaf.LookAndFeelFactory;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.border.EmptyBorder;
 
 public class MainWindow {
 	public static void main(String[] args) {
@@ -101,6 +102,7 @@ public class MainWindow {
 
 		//Split pane
 		JXMultiSplitPane mainSplitPane = new JXMultiSplitPane();
+		mainSplitPane.setBorder(new EmptyBorder(0, 1, 1, 1));
 		mainSplitPane.setDividerSize(3);
 		mainSplitPane.setModel(new DefaultSplitPaneModel());
 		mainSplitPane.setContinuousLayout(true);
