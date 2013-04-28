@@ -42,8 +42,12 @@ public class CalendarConstants {
 	public static final float TIMEBLOCK_SATURATION = 0.6f;
 	public static final float TIMEBLOCK_BRIGHTNESS = 0.8f;
 	public static final float TIMEBLOCK_OPACITY = 0.5f;
-	public static final Color TIMEBLOCK_BORDER_COLOR = new Color(0f, 0f, 0f, 1f);
-	public static final Color TIMEBLOCK_TEXT_COLOR = new Color(0f, 0f, 0f, 1f);
+	public static final float TIMEBLOCK_EVENT_SATURATION = 0.6f;
+	public static final float TIMEBLOCK_EVENT_BRIGHTNESS = 0.2f;
+	public static final float TIMEBLOCK_PASSED_OPACITY = 0.2f;
+	public static final Color TIMEBLOCK_BORDER_COLOR = new Color(0.2f, 0.2f, 0.2f, 1f);
+	public static final Color TIMEBLOCK_TEXT_COLOR = new Color(0.2f, 0.2f, 0.2f, 1f);
 	
 	public static final Color CALENDAR_PANE_BACKGROUND_COLOR = new Color(245, 245, 245);
+
 }

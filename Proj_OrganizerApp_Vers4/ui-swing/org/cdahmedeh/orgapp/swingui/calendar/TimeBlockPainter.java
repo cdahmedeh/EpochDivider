@@ -1,11 +1,13 @@
 package org.cdahmedeh.orgapp.swingui.calendar;
 
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import org.cdahmedeh.orgapp.tools.DateReference;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
@@ -66,21 +68,43 @@ public class TimeBlockPainter {
 		//Render the rectangles
 		for (RendereredTimeBlock rect: rtbs){
 			//Set the background color
-			Color timeBlockColor = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, CalendarConstants.TIMEBLOCK_SATURATION, CalendarConstants.TIMEBLOCK_BRIGHTNESS));
-			g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_OPACITY));
+			//Events should be much darker
+			if (!task.isEvent()){
+				Color timeBlockColor = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, CalendarConstants.TIMEBLOCK_SATURATION, CalendarConstants.TIMEBLOCK_BRIGHTNESS));
+				g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_OPACITY));
+			} else {
+				Color timeBlockColor = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, CalendarConstants.TIMEBLOCK_EVENT_SATURATION, CalendarConstants.TIMEBLOCK_EVENT_BRIGHTNESS));
+				g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_OPACITY));
+			}
+			
+//			//Timeblocks that passed should be lighter
+//			if (timeBlock.getEnd().isBefore(DateReference.getNow())){
+//				Color timeBlockColor = g.getColor();
+//				g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_PASSED_OPACITY));
+//			}
 			
 			//Fill the block
 			g.fillRect(rect.x, rect.y, rect.width, rect.height);
 			
 			//Set the border color and draw the border.
 			g.setColor(CalendarConstants.TIMEBLOCK_BORDER_COLOR);
+//	/**/	if (timeBlock.getEnd().isBefore(DateReference.getNow())){
+//				g.setColor(new Color(0.5f, 0.5f, 0.5f, 1f));
+//	/**/	}
 			g.drawRect(rect.x, rect.y, rect.width, rect.height);
 	
 			//Draw text
 			//TODO: Fancy cropping and wrapping routine.
 			g.setColor(CalendarConstants.TIMEBLOCK_TEXT_COLOR);
+			
+//	/**/	if (timeBlock.getEnd().isBefore(DateReference.getNow())){
+//				g.setColor(new Color(0.5f, 0.5f, 0.5f, 1f));
+//	/**/	}
+			
 			g.drawString(task.getTitle().substring(0, Math.min(12, task.getTitle().length())), rect.x+5, rect.y+15);
 			if (rect.height > 30) g.drawString(tBeginTime.toString("HH:mm") + "-" + tEndTime.toString("HH:mm"), rect.x+5, rect.y+30);
+//			drawString(g, task.getTitle() + " " + tBeginTime.toString("HH:mm") + "-" + tEndTime.toString("HH:mm"), rect.x+5, rect.y+15, rect.width - 5, rect.height - 20);
+//			if (rect.height < 30) g.drawString(tBeginTime.toString("HH:mm") + "-" + tEndTime.toString("HH:mm"), rect.x+5, rect.y+30);
 		}
 		
 		//Assign the data (task and timeBlock reference) to the rectangles.
@@ -90,5 +114,42 @@ public class TimeBlockPainter {
 		}
 		
 		return rtbs;
+	}
+	
+	//From: http://stackoverflow.com/questions/400566/full-justification-with-a-java-graphics-drawstring-replacement
+	//TODO: Improve
+	//TODO: What if a word is just too long?
+	public static void drawString(Graphics g, String s, int x, int y, int width, int height)
+	{
+		// FontMetrics gives us information about the width,
+		// height, etc. of the current Graphics object's Font.
+		FontMetrics fm = g.getFontMetrics();
+
+		int lineHeight = fm.getHeight();
+
+		int curX = x;
+		int curY = y;
+
+		String[] words = s.split(" ");
+
+		for (String word : words)
+		{
+			if (curY > y+height) break;
+			
+			// Find out thw width of the word.
+			int wordWidth = fm.stringWidth(word + " ");
+
+			// If text exceeds the width, then move to next line.
+			if (curX + wordWidth >= x + width)
+			{
+				curY += lineHeight;
+				curX = x;
+			}
+
+			g.drawString(word, curX, curY);
+
+			// Move over to the right for next word.
+			curX += wordWidth;
+		}
 	}
 }

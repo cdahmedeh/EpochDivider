@@ -456,11 +456,23 @@ public class TestDataGenerator {
 		task01.setEstimate(Duration.standardHours(10));
 		taskList.add(task01);
 		
-		Task task02 = new Task("Contexts grouping");
+		Task task02 = new Task("Add contexts grouping");
 		task02.setContext(projectEpochDividerContext);
 //		task02.setDue(DateReference.getNow().toDateMidnight().plusDays(1).toDateTime());
 		task02.setEstimate(Duration.standardHours(3));
 		taskList.add(task02);
+		
+		Task task02a = new Task("Review Websites List");
+		task02a.setContext(projectIslamWebContext);
+//		task02.setDue(DateReference.getNow().toDateMidnight().plusDays(1).toDateTime());
+		task02a.setEstimate(Duration.standardHours(3));
+		taskList.add(task02a);
+		
+		Task task02b = new Task("Review Server Settings");
+		task02b.setContext(projectOrbitHubContext);
+//		task02.setDue(DateReference.getNow().toDateMidnight().plusDays(1).toDateTime());
+		task02b.setEstimate(Duration.standardHours(3));
+		taskList.add(task02b);
 		
 		Task task03 = new Task("The Art of Unix Programming - Eric S. Raymond");
 		task03.setContext(techReadingContext);
