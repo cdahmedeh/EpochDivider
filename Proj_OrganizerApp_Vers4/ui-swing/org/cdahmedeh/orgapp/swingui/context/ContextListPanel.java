@@ -42,14 +42,14 @@ public class ContextListPanel extends CPanel {
 	private static final long serialVersionUID = -8250528552031443184L;
 	public ContextListPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
 
-	@Override
+	@Override 
 	protected Object getEventRecorder() {
 		return new Object(){
 			@Subscribe public void refreshContextList(RefreshContextListRequest request) {
 				refreshContextListTreeTable();
 			}
 			@Subscribe public void selecteFirstContextWhenTaskListFinishesLoading(TaskListPanelPostInitCompleteNotification notification){
-				contextListTable.getSelectionModel().setSelectionInterval(0, 0);
+				selectItemInContextListTable(0);
 			}
 			@Subscribe public void tasksUpdated(TasksChangedNotification notification){
 				refreshContextListTreeTable();
@@ -200,5 +200,9 @@ public class ContextListPanel extends CPanel {
 		} else {
 			return null;
 		}
+	}
+	
+	private void selectItemInContextListTable(int n){
+		contextListTable.getSelectionModel().setSelectionInterval(n, n);
 	}
 }
