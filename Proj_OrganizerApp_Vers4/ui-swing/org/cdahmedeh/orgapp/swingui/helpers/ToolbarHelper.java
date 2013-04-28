@@ -19,6 +19,7 @@ public class ToolbarHelper {
 	public static JButton createToolbarButton(JToolBar toolbar, String label ,URL iconURL){
 		JButton toolbarButton = new JButton(label);
 		toolbarButton.setIcon(new ImageIcon(iconURL));
+		toolbarButton.setFocusable(false);
 		toolbar.add(toolbarButton);
 		return toolbarButton;
 	}
@@ -26,6 +27,7 @@ public class ToolbarHelper {
 	public static JToggleButton createToolbarToggleButton(JToolBar toolbar, String label ,URL iconURL){
 		JToggleButton toolbarToggleButton = new JToggleButton(label);
 		toolbarToggleButton.setIcon(new ImageIcon(iconURL));
+		toolbarToggleButton.setFocusable(false);
 		toolbar.add(toolbarToggleButton);
 		return toolbarToggleButton;
 	}
