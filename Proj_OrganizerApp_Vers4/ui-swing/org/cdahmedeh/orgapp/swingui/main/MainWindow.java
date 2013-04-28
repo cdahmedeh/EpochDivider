@@ -101,6 +101,7 @@ public class MainWindow {
 
 		//Split pane
 		JXMultiSplitPane mainSplitPane = new JXMultiSplitPane();
+		mainSplitPane.setDividerSize(3);
 		mainSplitPane.setModel(new DefaultSplitPaneModel());
 		mainSplitPane.setContinuousLayout(true);
 		frame.getContentPane().add(mainSplitPane, BorderLayout.CENTER);
