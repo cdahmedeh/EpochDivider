@@ -18,6 +18,7 @@ import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
 import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
+import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTime;
@@ -163,6 +164,20 @@ public class SchedulerPanel extends CPanel {
 							if (task == null) return false;
 							
 							//Add a new TimeBlock to the Task and start dragging it.
+							TimeBlock timeBlock = new TimeBlock();
+							task.assignToTimeBlock(timeBlock);
+							timeBlockSelected = timeBlock;
+							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
+							timeClickedOffset = Duration.ZERO;
+							repaint();
+							return true;
+						} else if (support.getTransferable().isDataFlavorSupported(new DataFlavor(Context.class, "Context"))){
+							//Get the context being dragged
+							Context context = (Context) support.getTransferable().getTransferData(new DataFlavor(Context.class, "Context"));
+							if (context == null) return false;
+							
+							Task task = new Task(context.getName());
+							dataContainer.getTasks().add(task);
 							TimeBlock timeBlock = new TimeBlock();
 							task.assignToTimeBlock(timeBlock);
 							timeBlockSelected = timeBlock;

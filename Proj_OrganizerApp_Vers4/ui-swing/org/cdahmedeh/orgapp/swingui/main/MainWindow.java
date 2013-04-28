@@ -137,8 +137,11 @@ public class MainWindow {
 		JMenuItem mntmTestDataMuch = new JMenuItem("Test Data with too much Information");
 		mnSwitchTestData.add(mntmTestDataMuch);
 		
-		JMenuItem mntmTestDateFor = new JMenuItem("Test Data For Stressing Calendar Renderer");
-		mnSwitchTestData.add(mntmTestDateFor);
+		JMenuItem mntmTestDataFor = new JMenuItem("Test Data For Stressing Calendar Renderer");
+		mnSwitchTestData.add(mntmTestDataFor);
+		
+		JMenuItem mntmTestDataAhmed = new JMenuItem("Test Data with Ahmed's Data");
+		mnSwitchTestData.add(mntmTestDataAhmed);
 		
 		mntmNormalTestData.addActionListener(new ActionListener() {
 			@Override
@@ -161,10 +164,17 @@ public class MainWindow {
 			}
 		});
 		
-		mntmTestDateFor.addActionListener(new ActionListener() {
+		mntmTestDataFor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				updateDataContainer(TestDataGenerator.generateDataContainerForStressingCalendarPainter());
+			}
+		});
+		
+		mntmTestDataAhmed.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updateDataContainer(TestDataGenerator.generateDataContainerWithAhmedsData());
 			}
 		});
 	}

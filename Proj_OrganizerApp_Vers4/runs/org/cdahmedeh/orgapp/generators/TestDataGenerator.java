@@ -289,4 +289,204 @@ public class TestDataGenerator {
 		return dataContainer;
 
 	}
+	
+	/**
+	 * Generate an instance of dataContainer with data that resembles a
+	 * real schedule of a certain person.
+	 */
+	public static DataContainer generateDataContainerWithAhmedsData(){
+		DataContainer dataContainer = new DataContainer();
+	
+		//Set the view for the calendar.
+		View view = new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27));
+		dataContainer.setView(view);
+		
+		//Generate some contexts
+		ArrayList<Context> contextList = new ArrayList<>();
+		
+		//Default contexts
+		contextList.add(new AllContextsContext());
+		contextList.add(new NoContextContext());
+		
+		contextList.add(new DueTodayContext());
+		contextList.add(new DueTomorrowContext());
+		contextList.add(new DueThisViewContext());
+		contextList.add(new NoDueDateContext());
+		
+		Context faithContext = new Context("Faith");
+		faithContext.setGoal(view, Duration.standardMinutes((long) (5*60)));
+		contextList.add(faithContext);
+		
+		Context sleepContext = new Context("Sleep");
+		sleepContext.setGoal(view, Duration.standardMinutes((long) (49*60)));
+		contextList.add(sleepContext);
+		
+		Context catchingUpContext = new Context("Catching Up");
+		catchingUpContext.setGoal(view, Duration.standardMinutes((long) (3.5*60)));
+		contextList.add(catchingUpContext);
+		
+		Context relaxingContext = new Context("Relaxing");
+		relaxingContext.setGoal(view, Duration.standardMinutes((long) (3.5*60)));
+		contextList.add(relaxingContext);
+		
+		Context exerciseContext = new Context("Exercise");
+		exerciseContext.setGoal(view, Duration.standardMinutes((long) (2.5*60)));
+		contextList.add(exerciseContext);
+		
+		Context studyContext = new Context("Study");
+		studyContext.setGoal(view, Duration.standardMinutes((long) (0*60)));
+		contextList.add(studyContext);
+	
+		Context coursesContext = new Context("Courses");
+		coursesContext.setGoal(view, Duration.standardMinutes((long) (0*60)));
+		contextList.add(coursesContext);
+		
+		Context workContext = new Context("Work");
+		workContext.setGoal(view, Duration.standardMinutes((long) (40*60)));
+		contextList.add(workContext);
+		
+		Context transportContext = new Context("Transportation");
+		transportContext.setGoal(view, Duration.standardMinutes((long) (11*60)));
+		contextList.add(transportContext);
+		
+		Context miscContext = new Context("Misc");
+		miscContext.setGoal(view, Duration.standardMinutes((long) (1.5*60)));
+		contextList.add(miscContext);
+	
+		Context choresContext = new Context("Chores");
+		choresContext.setGoal(view, Duration.standardMinutes((long) (2*60)));
+		contextList.add(choresContext);
+		
+		Context tinkeringContext = new Context("Tinkering");
+		tinkeringContext.setGoal(view, Duration.standardMinutes((long) (4.5*60)));
+		contextList.add(tinkeringContext);
+		
+		Context gamingContext = new Context("Gaming");
+		gamingContext.setGoal(view, Duration.standardMinutes((long) (7*60)));
+		contextList.add(gamingContext);
+		
+		Context techReadingContext = new Context("Tech Reading");
+		techReadingContext.setGoal(view, Duration.standardMinutes((long) (4*60)));
+		contextList.add(techReadingContext);
+		
+		Context religionReadingContext = new Context("Religion Reading");
+		religionReadingContext.setGoal(view, Duration.standardMinutes((long) (4*60)));
+		contextList.add(religionReadingContext);
+		
+		Context projectEpochDividerContext = new Context("Epoch Divider");
+		projectEpochDividerContext.setGoal(view, Duration.standardMinutes((long) (13*60)));
+		contextList.add(projectEpochDividerContext);
+		
+		Context projectOrbitHubContext = new Context("OrbitHub");
+		projectOrbitHubContext.setGoal(view, Duration.standardMinutes((long) (5*60)));
+		contextList.add(projectOrbitHubContext);
+		
+		Context projectIslamWebContext = new Context("Islam Web Portal");
+		projectIslamWebContext.setGoal(view, Duration.standardMinutes((long) (3*60)));
+		contextList.add(projectIslamWebContext);
+		
+		Context projectMisc = new Context("Other Projects");
+		projectMisc.setGoal(view, Duration.standardMinutes((long) (0*60)));
+		contextList.add(projectMisc);		
+		
+		ArrayList<Task> taskList = new ArrayList<>();
+		
+		//Generate some events
+		for (int i=0; i<8; i++){
+		Task sleepEvent = new Task("Sleep");
+		sleepEvent.setContext(sleepContext);
+		sleepEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,20,23,00).plusDays(i),new DateTime(2013,04,21,6,00).plusDays(i)));
+		sleepEvent.setEvent(true);
+		taskList.add(sleepEvent);
+		
+		Task faithEvent = new Task("Faith");
+		faithEvent.setContext(faithContext);
+		faithEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,21,6,00).plusDays(i),new DateTime(2013,04,21,6,30).plusDays(i)));
+		faithEvent.setEvent(true);
+		taskList.add(faithEvent);
+		
+		Task catchingUpEvent = new Task("Catching Up");
+		catchingUpEvent.setContext(catchingUpContext);
+		catchingUpEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,21,6,30).plusDays(i),new DateTime(2013,04,21,7,00).plusDays(i)));
+		catchingUpEvent.setEvent(true);
+		taskList.add(catchingUpEvent);
+		}
+		
+		for (int i=0; i<5; i++){
+			Task workEvent = new Task("Work");
+			workEvent.setContext(workContext);
+			if (i<3) {
+				workEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,9,00).plusDays(i),new DateTime(2013,04,22,17,00).plusDays(i)));
+			} else if (i==3) {
+				workEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,8,00).plusDays(i),new DateTime(2013,04,22,17,00).plusDays(i)));
+			} else if (i==4) {
+				workEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,8,00).plusDays(i),new DateTime(2013,04,22,12,00).plusDays(i)));
+				workEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,14,00).plusDays(i),new DateTime(2013,04,22,17,00).plusDays(i)));
+			}
+			workEvent.setEvent(true);
+			taskList.add(workEvent);
+			
+			Task driveFirstEvent = new Task("Drive");
+			driveFirstEvent.setContext(transportContext);
+			if (i<3) {
+				driveFirstEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,8,00).plusDays(i),new DateTime(2013,04,22,9,00).plusDays(i)));
+			} else {
+				driveFirstEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,7,00).plusDays(i),new DateTime(2013,04,22,8,00).plusDays(i)));
+			}
+			driveFirstEvent.setEvent(true);
+			taskList.add(driveFirstEvent);
+			
+			Task driveLastEvent = new Task("Drive");
+			driveLastEvent.setContext(transportContext);
+			driveLastEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,17,00).plusDays(i),new DateTime(2013,04,22,18,00).plusDays(i)));
+			driveLastEvent.setEvent(true);
+			taskList.add(driveLastEvent);
+		}
+		
+		Task faithEvent = new Task("Friday Prayer");
+		faithEvent.setContext(faithContext);
+		faithEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,26,12,00),new DateTime(2013,04,26,14,00)));
+		faithEvent.setEvent(true);
+		taskList.add(faithEvent);
+		
+		//Generate some tasks
+		Task task01 = new Task("Refactor code for Epoch Divider");
+		task01.setContext(projectEpochDividerContext);
+//		task01.setDue(DateReference.getNow().toDateMidnight().plusDays(1).toDateTime());
+		task01.setEstimate(Duration.standardHours(10));
+		taskList.add(task01);
+		
+		Task task02 = new Task("Contexts grouping");
+		task02.setContext(projectEpochDividerContext);
+//		task02.setDue(DateReference.getNow().toDateMidnight().plusDays(1).toDateTime());
+		task02.setEstimate(Duration.standardHours(3));
+		taskList.add(task02);
+		
+		Task task03 = new Task("The Art of Unix Programming - Eric S. Raymond");
+		task03.setContext(techReadingContext);
+		task03.setEstimate(Duration.standardHours(20));
+		taskList.add(task03);
+		
+		Task task04 = new Task("The Quran - Saheeh International Translation");
+		task04.setContext(religionReadingContext);
+		task04.setEstimate(Duration.standardHours(60));
+		taskList.add(task04);
+		
+		Task task05 = new Task("Kitab At-Tawhid - ibn Abd Al-Wahhab");
+		task05.setContext(religionReadingContext);
+		task05.setEstimate(Duration.standardHours(10));
+		taskList.add(task05);
+
+		Task task06 = new Task("Milestones - Sayyid Qutb");
+		task06.setContext(religionReadingContext);
+		task06.setEstimate(Duration.standardHours(30));
+		taskList.add(task06);
+		
+		//Put the task and context lists into the container.
+		dataContainer.loadContexts(contextList);
+		dataContainer.loadTasks(taskList);
+		
+		return dataContainer;
+	}
+	
 }
