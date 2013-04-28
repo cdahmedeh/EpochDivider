@@ -139,9 +139,6 @@ public class TimeBlockPainter {
 				
 				int nextWordWidth = fontMetrics.stringWidth(nextWord);
 				
-				System.out.println(nextWordWidth);
-				System.out.println(width);
-				
 				if (nextWordWidth + spaceWidth >= width && lineLength == 0) {
 					System.out.println("Word too long: " + nextWord);
 					g.drawString(drawCroppedString(fontMetrics, nextWord, width), xPrintPos+lineLength, yPrintPos);
