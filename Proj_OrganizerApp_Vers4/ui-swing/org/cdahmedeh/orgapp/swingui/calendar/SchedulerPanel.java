@@ -180,6 +180,7 @@ public class SchedulerPanel extends CPanel {
 							dataContainer.getTasks().add(task);
 							TimeBlock timeBlock = new TimeBlock();
 							task.assignToTimeBlock(timeBlock);
+							task.setContext(context);
 							timeBlockSelected = timeBlock;
 							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
 							timeClickedOffset = Duration.ZERO;
