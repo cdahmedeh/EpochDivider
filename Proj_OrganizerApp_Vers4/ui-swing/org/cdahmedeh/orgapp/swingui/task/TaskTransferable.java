@@ -26,7 +26,9 @@ public class TaskTransferable implements Transferable {
 
 	@Override
 	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-		if (task == null) throw new IOException("Task is null in TaskTransferable");
+		if (task == null) {
+			throw new IOException("Task is null in TaskTransferable");
+		}
 		
 		if (flavor.getHumanPresentableName().equals("Task")){
 			return task;

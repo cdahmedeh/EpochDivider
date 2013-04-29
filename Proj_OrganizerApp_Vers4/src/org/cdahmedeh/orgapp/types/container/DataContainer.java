@@ -77,7 +77,6 @@ public class DataContainer {
 	
 	/**
 	 * Move 'context' to 'index' and return the new index of the context. 
-	 * 
 	 */
 	public int moveContextToRowAndGiveNewIndex(Context context, int index) {
 		int indexOf = this.getContexts().indexOf(context);
@@ -86,6 +85,8 @@ public class DataContainer {
 		this.getContexts().add(newIndexForMovedContext , context);
 		return newIndexForMovedContext;
 	}
+	
+	
 	public boolean setTaskToContext(Task task, Context context) {
 		if (context.isSelectable()){
 			task.setContext(context);
@@ -95,6 +96,7 @@ public class DataContainer {
 		}
 		
 	}
+	
 	public boolean dropSupported(Context context) {
 		return context != null && context.isSelectable();
 	}

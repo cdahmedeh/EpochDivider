@@ -36,6 +36,7 @@ public class CalendarConstants {
 	public static final Color SCHEDULER_BACKGROUND_COLOR = new Color(255, 255, 255);
 	public static final Color SCHEDULER_GRID_HOUR_COLOR = new Color(230,230,230);
 	public static final Color SCHEDULER_GRID_MINUTE_COLOR = new Color(245,245,245);
+	
 	public static final Color CURRENT_TIME_LINE_COLOR = Color.RED;
 	
 	public static final int TIMEBLOCK_EDGE_ARC = 3;
