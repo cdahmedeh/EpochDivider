@@ -65,4 +65,25 @@ public class DataContainer {
 		this.selectedContext = dataContainer.getSelectedContext();
 		this.view = dataContainer.getView();
 	}
+	
+	// -- Easy Modifiers --
+	
+	/**
+	 * Creates a new context with a blank name.
+	 */
+	public void createNewBlankContext() {
+		this.getContexts().add(new Context(""));		
+	}
+	
+	/**
+	 * Move 'context' to 'index' and return the new index of the context. 
+	 * 
+	 */
+	public int moveContextToRowAndGiveNewIndex(Context context, int index) {
+		int indexOf = this.getContexts().indexOf(context);
+		this.getContexts().remove(context);
+		int newIndexForMovedContext = indexOf >= index ? index : index -1;
+		this.getContexts().add(newIndexForMovedContext , context);
+		return newIndexForMovedContext;
+	}
 }
