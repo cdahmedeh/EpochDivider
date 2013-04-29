@@ -86,7 +86,16 @@ public class DataContainer {
 		this.getContexts().add(newIndexForMovedContext , context);
 		return newIndexForMovedContext;
 	}
-	public void setTaskToContext(Task task, Context context) {
-		task.setContext(context);
+	public boolean setTaskToContext(Task task, Context context) {
+		if (context.isSelectable()){
+			task.setContext(context);
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	public boolean dropSupported(Context context) {
+		return context != null && context.isSelectable();
 	}
 }

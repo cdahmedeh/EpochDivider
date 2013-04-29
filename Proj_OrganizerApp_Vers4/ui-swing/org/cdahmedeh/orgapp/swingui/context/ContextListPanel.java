@@ -249,7 +249,11 @@ public class ContextListPanel extends CPanel {
 				return true;
 			} else if (support.getTransferable().isDataFlavorSupported(new DataFlavor(Task.class, "Task"))) {
 				contextListTable.setDropMode(DropMode.ON);
-				return true;
+				
+				//Make sure that we can drop only on selectable contexts.
+				int row = ((JTable.DropLocation)support.getDropLocation()).getRow();
+				Context context = getContextAtRowInTable(row);
+				return dataContainer.dropSupported(context);
 			}
 			return false;
 		}
@@ -292,13 +296,13 @@ public class ContextListPanel extends CPanel {
 				}
 				
 				//Change the context of task that was dragged in.
-				dataContainer.setTaskToContext(task, context);
-				
-				//TODO: What about non-selectable contexts?
+				boolean changed = dataContainer.setTaskToContext(task, context);
 				
 				//Let everyone know that we refreshed.
 				eventBus.post(new RefreshContextListRequest());
 				eventBus.post(new RefreshTaskListRequest());
+				
+				return changed;
 			}
 			
 			return false;
