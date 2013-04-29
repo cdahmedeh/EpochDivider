@@ -91,7 +91,6 @@ public class ContextListTableFormat implements AdvancedTableFormat<Context>, Wri
 
 	@Override
 	public Comparator<?> getColumnComparator(int column) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

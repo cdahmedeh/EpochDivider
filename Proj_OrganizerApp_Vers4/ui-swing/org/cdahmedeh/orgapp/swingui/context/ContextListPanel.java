@@ -3,16 +3,23 @@ package org.cdahmedeh.orgapp.swingui.context;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.DropMode;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
+import javax.swing.TransferHandler;
+import javax.swing.TransferHandler.TransferSupport;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
@@ -48,11 +55,11 @@ public class ContextListPanel extends CPanel {
 			@Subscribe public void refreshContextList(RefreshContextListRequest request) {
 				refreshContextListTreeTable();
 			}
-			@Subscribe public void selecteFirstContextWhenTaskListFinishesLoading(TaskListPanelPostInitCompleteNotification notification){
-				selectItemInContextListTable(0);
-			}
 			@Subscribe public void tasksUpdated(TasksChangedNotification notification){
 				refreshContextListTreeTable();
+			}
+			@Subscribe public void selecteFirstContextWhenTaskListFinishesLoading(TaskListPanelPostInitCompleteNotification notification){
+				selectItemInContextListTable(0);
 			}
 		};
 	}
@@ -99,7 +106,6 @@ public class ContextListPanel extends CPanel {
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
 		JButton addContextButton = ToolbarHelper.createToolbarButton(toolbar, "Add Context", ContextListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif"));
-		
 		addContextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -109,15 +115,16 @@ public class ContextListPanel extends CPanel {
 	}
 	
 	private void prepareContextListTableModelAndRenders() {
-		//Prepare Event List
+		//Create EventList and put all Contexts from data container.
 		contextEventList = new BasicEventList<>();
 		contextEventList.addAll(dataContainer.getContexts());
 		
+		//Prepare TableFormat and set Table Model.
 		contextListTableFormat = new ContextListTableFormat(dataContainer);
 		AdvancedTableModel<Context> advancedTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(contextEventList, contextListTableFormat);
 		contextListTable.setModel(advancedTableModel);
 		
-		//Setup editor and renders for some columns
+		//Setup editors and renderers
 		TableColumn dueDateColumn = contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR);
 		dueDateColumn.setCellRenderer(new ColorHueCellRenderer());
 		
@@ -134,19 +141,19 @@ public class ContextListPanel extends CPanel {
 		contextListSelectionModel.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				selectedContextChangedNotify();
+				notifyThatSelectedContextChanged();
 			}
 		});
 	}
 	
 	private void adjustContextListTableColumnWidths() {
-		contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR).setMaxWidth(1);
+		contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR).setMaxWidth(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR_MAX_WIDTH);
 	}
 	
 	private void enableDragRearrange() {
 		contextListTable.setDragEnabled(true);
 		contextListTable.setDropMode(DropMode.INSERT_ROWS);
-		contextListTable.setTransferHandler(new ContextListPanelTransferHandler(dataContainer.getContexts(), eventBus));
+		contextListTable.setTransferHandler(new ContextListPanelTransferHandler());
 	}
 
 
@@ -155,13 +162,12 @@ public class ContextListPanel extends CPanel {
 	private void refreshContextListTreeTable() {
 		//TODO: Correctly refresh table.
 		contextEventList.clear();
-		contextEventList.addAll(dataContainer.getContexts());
 		contextListTableFormat.updateReferences(dataContainer);
-		contextListTable.setTransferHandler(new ContextListPanelTransferHandler(dataContainer.getContexts(), eventBus));
+		contextEventList.addAll(dataContainer.getContexts());
 	}
 	
 
-	private void selectedContextChangedNotify() {
+	private void notifyThatSelectedContextChanged() {
 		Context selectedContext = getSelectedContextInTable();
 		if (selectedContext != null) {
 			dataContainer.setSelectedContext(selectedContext);
@@ -203,6 +209,64 @@ public class ContextListPanel extends CPanel {
 	}
 	
 	private void selectItemInContextListTable(int n){
-		contextListTable.getSelectionModel().setSelectionInterval(n, n);
+		if (n>0 && n<contextListTable.getRowCount()){
+			contextListTable.getSelectionModel().setSelectionInterval(n, n);
+		}
+	}
+	
+	/**
+	 * TransferHandler for allowing dragging and dropping between elements in the
+	 * Context list tree.
+	 *  
+	 * @author Ahmed El-Hajjar
+	 */
+	class ContextListPanelTransferHandler extends TransferHandler {
+		private static final long serialVersionUID = 247239613980407558L;
+		
+		@Override
+		public boolean canImport(TransferSupport support) {
+			//Currently, only dataContainer can be dropped for reordering.
+			return support.getTransferable().isDataFlavorSupported(new DataFlavor(Context.class, "Context"));
+		}
+
+		@Override
+		public boolean importData(TransferSupport support) {
+			//Get the context that was transfered.
+			Context context = null;
+			try {
+				context = (Context) support.getTransferable().getTransferData(new DataFlavor(Context.class, "Context"));
+			} catch (UnsupportedFlavorException | IOException e) {
+				return false;
+			}
+			
+			//Put the context in that location.
+			int row = ((JTable.DropLocation)support.getDropLocation()).getRow();
+			int indexOf = dataContainer.getContexts().indexOf(context);
+			dataContainer.getContexts().remove(context);
+			dataContainer.getContexts().add(indexOf >= row ? row : row -1 , context);
+			
+			//Update table
+			//TODO: Consider using notifications.
+			eventBus.post(new RefreshContextListRequest());
+			((JTable)support.getComponent()).getSelectionModel().setSelectionInterval(indexOf >= row ? row : row -1, indexOf >= row ? row : row -1);
+			
+			
+			return true;
+		}
+
+		@Override
+		public int getSourceActions(JComponent c) {
+			return COPY_OR_MOVE;
+		}
+
+		@Override
+		protected Transferable createTransferable(JComponent c) {
+			Context context = getSelectedContextInTable();
+			if (context == null) { 
+				return null;
+			} else {
+				return new ContextTransferable(context);
+			}
+		}
 	}
 }

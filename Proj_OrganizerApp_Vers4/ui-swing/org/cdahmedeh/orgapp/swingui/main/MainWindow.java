@@ -128,6 +128,8 @@ public class MainWindow {
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
+		/* Test Data */
+		
 		JMenu mnSwitchTestData = new JMenu("Switch Test Data");
 		mnFile.add(mnSwitchTestData);
 		
@@ -146,40 +148,22 @@ public class MainWindow {
 		JMenuItem mntmTestDataAhmed = new JMenuItem("Test Data with Ahmed's Data");
 		mnSwitchTestData.add(mntmTestDataAhmed);
 		
-		mntmNormalTestData.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				updateDataContainer(TestDataGenerator.generateDataContainer());
-			}
-		});
+		mntmNormalTestData.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
+				updateDataContainer(TestDataGenerator.generateDataContainer());}});
 		
-		mntmTestDataWith.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				updateDataContainer(TestDataGenerator.generateDataContainerWithLotsOfData());
-			}
-		});
+		mntmTestDataWith.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
+				updateDataContainer(TestDataGenerator.generateDataContainerWithLotsOfData());}});
 		
-		mntmTestDataMuch.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				updateDataContainer(TestDataGenerator.generateDataContainerWithTooMuchData());
-			}
-		});
+		mntmTestDataMuch.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
+				updateDataContainer(TestDataGenerator.generateDataContainerWithTooMuchData());}});
 		
-		mntmTestDataFor.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				updateDataContainer(TestDataGenerator.generateDataContainerForStressingCalendarPainter());
-			}
-		});
+		mntmTestDataFor.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
+				updateDataContainer(TestDataGenerator.generateDataContainerForStressingCalendarPainter());}});
 		
-		mntmTestDataAhmed.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				updateDataContainer(TestDataGenerator.generateDataContainerWithAhmedsData());
-			}
-		});
+		mntmTestDataAhmed.addActionListener(new ActionListener() {@Override	public void actionPerformed(ActionEvent e) {
+				updateDataContainer(TestDataGenerator.generateDataContainerWithAhmedsData());}});
+		
+		/* End Test Data */
 	}
 	
 	private void updateDataContainer(DataContainer dataContainer){
