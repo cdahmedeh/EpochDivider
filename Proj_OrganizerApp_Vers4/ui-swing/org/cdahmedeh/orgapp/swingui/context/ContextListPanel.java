@@ -169,6 +169,7 @@ public class ContextListPanel extends CPanel {
 		contextListTableFormat.updateReferences(dataContainer);
 		contextEventList.addAll(dataContainer.getContexts());
 		
+		//Reset the selection to what was original selected before.
 		selectItemInContextListTable(row);
 	}
 	
