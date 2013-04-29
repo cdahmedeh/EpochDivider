@@ -30,11 +30,13 @@ import org.cdahmedeh.orgapp.swingui.helpers.TableHelper;
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
+import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
 import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.TaskListPanelPostInitCompleteNotification;
 import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
+import org.cdahmedeh.orgapp.types.task.Task;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
@@ -152,7 +154,6 @@ public class ContextListPanel extends CPanel {
 	
 	private void enableDragRearrange() {
 		contextListTable.setDragEnabled(true);
-		contextListTable.setDropMode(DropMode.INSERT_ROWS);
 		contextListTable.setTransferHandler(new ContextListPanelTransferHandler());
 	}
 
@@ -160,10 +161,15 @@ public class ContextListPanel extends CPanel {
 	// -- non-sequential methods --
 	
 	private void refreshContextListTreeTable() {
+		//Make sure the original context will be reselected
+		int row = contextListTable.getSelectedRow();
+		
 		//TODO: Correctly refresh table.
 		contextEventList.clear();
 		contextListTableFormat.updateReferences(dataContainer);
 		contextEventList.addAll(dataContainer.getContexts());
+		
+		selectItemInContextListTable(row);
 	}
 	
 
@@ -217,6 +223,14 @@ public class ContextListPanel extends CPanel {
 		}
 	}
 	
+	private Context getContextAtRowInTable(int row){
+		if (row >= 0 && row < contextEventList.size()){
+			return contextEventList.get(row);			
+		} else {
+			return null;
+		}
+	}
+	
 	/**
 	 * TransferHandler for allowing dragging and dropping between elements in the
 	 * Context list tree.
@@ -229,7 +243,14 @@ public class ContextListPanel extends CPanel {
 		@Override
 		public boolean canImport(TransferSupport support) {
 			//Currently, only dataContainer can be dropped for reordering.
-			return support.getTransferable().isDataFlavorSupported(new DataFlavor(Context.class, "Context"));
+			if (support.getTransferable().isDataFlavorSupported(new DataFlavor(Context.class, "Context"))) {
+				contextListTable.setDropMode(DropMode.INSERT_ROWS);
+				return true;
+			} else if (support.getTransferable().isDataFlavorSupported(new DataFlavor(Task.class, "Task"))) {
+				contextListTable.setDropMode(DropMode.ON);
+				return true;
+			}
+			return false;
 		}
 
 		@Override
@@ -243,7 +264,7 @@ public class ContextListPanel extends CPanel {
 					return false;
 				}
 
-				//Put the context in that location.
+				//Put the context into the new location.
 				int row = ((JTable.DropLocation)support.getDropLocation()).getRow();
 				int newIndexForMovedContext = dataContainer.moveContextToRowAndGiveNewIndex(context, row);
 
@@ -252,6 +273,31 @@ public class ContextListPanel extends CPanel {
 				selectItemInContextListTable(newIndexForMovedContext);
 
 				return true;
+			} else if (support.getTransferable().isDataFlavorSupported(new DataFlavor(Task.class, "Task"))) {
+				//Get the task that was dragged.
+				Task task = null;
+				try {
+					task = (Task) support.getTransferable().getTransferData(new DataFlavor(Task.class, "Task"));
+				} catch (UnsupportedFlavorException | IOException e) {
+					return false;
+				}
+				
+				//Get the context that was dropped on
+				int row = ((JTable.DropLocation)support.getDropLocation()).getRow();
+				Context context = getContextAtRowInTable(row);
+				
+				if (context == null) {
+					return false;
+				}
+				
+				//Change the context of task that was dragged in.
+				dataContainer.setTaskToContext(task, context);
+				
+				//TODO: What about non-selectable contexts?
+				
+				//Let everyone know that we refreshed.
+				eventBus.post(new RefreshContextListRequest());
+				eventBus.post(new RefreshTaskListRequest());
 			}
 			
 			return false;

@@ -86,4 +86,7 @@ public class DataContainer {
 		this.getContexts().add(newIndexForMovedContext , context);
 		return newIndexForMovedContext;
 	}
+	public void setTaskToContext(Task task, Context context) {
+		task.setContext(context);
+	}
 }
