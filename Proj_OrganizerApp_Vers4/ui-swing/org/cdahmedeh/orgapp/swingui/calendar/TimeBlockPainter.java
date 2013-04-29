@@ -140,14 +140,12 @@ public class TimeBlockPainter {
 				int nextWordWidth = fontMetrics.stringWidth(nextWord);
 				
 				if (nextWordWidth + spaceWidth >= width && lineLength == 0) {
-					System.out.println("Word too long: " + nextWord);
 					g.drawString(drawCroppedString(fontMetrics, nextWord, width), xPrintPos+lineLength, yPrintPos);
 					break;
 				} else if (lineLength + nextWordWidth + spaceWidth < width) {
 					g.drawString(nextWord, xPrintPos+lineLength, yPrintPos);
 				} else {
 					text.push(nextWord);
-					System.out.println("Word next line: " + nextWord);
 					break;
 				}
 				
