@@ -79,29 +79,29 @@ public class TimeBlockPainter {
 				g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_OPACITY));
 			}
 			
-//			//Timeblocks that passed should be lighter
-//			if (timeBlock.getEnd().isBefore(DateReference.getNow())){
-//				Color timeBlockColor = g.getColor();
-//				g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_PASSED_OPACITY));
-//			}
+			//Timeblocks that passed should be lighter
+			if (timeBlock.getEnd().isBefore(DateReference.getNow())){
+				Color timeBlockColor = g.getColor();
+				g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_PASSED_OPACITY));
+			}
 			
 			//Fill the block
 			g.fillRect(rect.x, rect.y, rect.width, rect.height);
 			
 			//Set the border color and draw the border.
 			g.setColor(CalendarConstants.TIMEBLOCK_BORDER_COLOR);
-//	/**/	if (timeBlock.getEnd().isBefore(DateReference.getNow())){
-//				g.setColor(new Color(0.5f, 0.5f, 0.5f, 1f));
-//	/**/	}
+	/**/	if (timeBlock.getEnd().isBefore(DateReference.getNow())){
+				g.setColor(new Color(0.5f, 0.5f, 0.5f, 1f));
+	/**/	}
 			g.drawRect(rect.x, rect.y, rect.width, rect.height);
 	
 			//Draw text
 			//TODO: Fancy cropping and wrapping routine.
 			g.setColor(CalendarConstants.TIMEBLOCK_TEXT_COLOR);
 			
-//	/**/	if (timeBlock.getEnd().isBefore(DateReference.getNow())){
-//				g.setColor(new Color(0.5f, 0.5f, 0.5f, 1f));
-//	/**/	}
+	/**/	if (timeBlock.getEnd().isBefore(DateReference.getNow())){
+				g.setColor(new Color(0.5f, 0.5f, 0.5f, 1f));
+	/**/	}
 			
 //			g.drawString(task.getTitle().substring(0, Math.min(12, task.getTitle().length())), rect.x+5, rect.y+15);
 //			if (rect.height > 30) g.drawString(tBeginTime.toString("HH:mm") + "-" + tEndTime.toString("HH:mm"), rect.x+5, rect.y+30);
