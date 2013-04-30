@@ -22,12 +22,29 @@ public class ColorHueCellRenderer extends DefaultTableCellRenderer {
 
 	@Override
 	public void paint(Graphics g) {
+		super.paint(g);
+		
 		GraphicsHelper.enableDefaultAASettings(g);
 		
-		float hue = Integer.parseInt(this.getText())/255f;
+		float hue = (Integer)value/255f;
 		
 		Color color = new Color(Color.HSBtoRGB(hue, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS));
 		g.setColor(color);
 		g.fillRoundRect(DEFAULT_BORDER, DEFAULT_BORDER, this.getWidth()-DEFAULT_BORDER*2, this.getHeight()-DEFAULT_BORDER*2, DEFAULT_ROUNDESS, DEFAULT_ROUNDESS);
 	}
+	
+	Object value = "";
+	
+	@Override
+	protected void setValue(Object value) {
+		this.value = value;
+		this.setText("");
+//		super.setValue(value);
+	}
+	
+	@Override
+	public String getText() {
+		return "";
+	}
+	
 }
