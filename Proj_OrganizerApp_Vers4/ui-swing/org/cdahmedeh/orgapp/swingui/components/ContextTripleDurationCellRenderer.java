@@ -13,7 +13,7 @@ public class ContextTripleDurationCellRenderer extends TripleDurationCellRendere
 //		super.paint(g);
 		super.paintComponent(g);
 //		super.paint(g);
-		super.setBorder(BorderFactory.createEmptyBorder());
+//		super.setBorder(BorderFactory.createEmptyBorder());
 		
 		double totalProgress = value.getEstimate().getStandardSeconds();
 		double secondProgress = value.getTotalScheduled().getStandardSeconds();
