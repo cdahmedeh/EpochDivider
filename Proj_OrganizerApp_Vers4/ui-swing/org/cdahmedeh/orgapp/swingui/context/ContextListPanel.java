@@ -109,6 +109,7 @@ public class ContextListPanel extends CPanel {
 		contextListTable.setShowVerticalLines(false);
 		contextListTable.getTableHeader().setVisible(false);
 		contextListTable.getTableHeader().setPreferredSize(new Dimension(0, 0));
+		contextListTable.setIntercellSpacing(new Dimension(0, 0));
 		contextListTable.setRowHeight(20);
 		contextListPane.setBorder(BorderFactory.createEmptyBorder());
 		contextListPane.setViewportView(contextListTable);
