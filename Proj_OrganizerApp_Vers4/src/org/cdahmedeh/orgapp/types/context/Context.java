@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.types.context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.calendar.View;
@@ -32,7 +33,8 @@ public class Context {
 	public boolean isSelectable() {return true;}
 	
 	private static int colorCounter = 0;
-	private int color = 25*colorCounter++ % 255;
+//	private int color = 25*colorCounter++ % 255;
+	private int color = new Random().nextInt(255);
 	public int getColor() {return color;}
 	public void setColor(int color) {this.color = color;}
 	
