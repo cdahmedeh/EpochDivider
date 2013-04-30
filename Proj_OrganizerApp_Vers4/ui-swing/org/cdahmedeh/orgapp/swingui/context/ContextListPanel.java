@@ -113,14 +113,14 @@ public class ContextListPanel extends CPanel {
 		contextListTable.setIntercellSpacing(new Dimension(0, 0));
 		contextListTable.setRowHeight(20);
 //		contextListPane.setBorder(BorderFactory.createEmptyBorder());
-		contextListPane.setBorder(new LineBorder(ContextListPanelDefaults.BACKGROUND_COLOR));
+//		contextListPane.setBorder(new LineBorder(ContextListPanelDefaults.BACKGROUND_COLOR));
 		contextListPane.setViewportView(contextListTable);
 	}
 
 	private void createToolbar() {
 		JToolBar toolbar = new JToolBar();
 		toolbar.setFloatable(false);
-		toolbar.setBackground(ContextListPanelDefaults.BACKGROUND_COLOR);
+//		toolbar.setBackground(ContextListPanelDefaults.BACKGROUND_COLOR);
 		add(toolbar, BorderLayout.SOUTH);
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);

@@ -12,7 +12,7 @@ public class ContextListPanelDefaults {
 
 	public static final int COLUMN_CONTEXT_COLOR_MAX_WIDTH = 20;
 	
-	public static final Color BACKGROUND_COLOR = new Color(227, 233, 249);
+	public static final Color BACKGROUND_COLOR = new Color(255, 255, 255);
 	public static final Color SELECTED_COLOR = new Color(170, 194, 219);
 	public static final Color TEXT_COLOR = new Color(40, 40, 55);
 	public static final Color GRID_COLOR = new Color(224, 224, 238);
