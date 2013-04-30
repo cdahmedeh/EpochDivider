@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
@@ -28,6 +29,7 @@ public class CalendarPanel extends CPanel {
 	@Override
 	protected void windowInit() {
 		setPreferredSize(new Dimension(CalendarConstants.CALENDAR_DEFAULT_WIDTH, CalendarConstants.CALENDAR_DEFAULT_HEIGHT));
+		setBorder(UIManager.getBorder("ScrollPane.border"));
 		setLayout(new BorderLayout());
 		
 		createToolbar();
@@ -41,8 +43,8 @@ public class CalendarPanel extends CPanel {
 	private void createCalendarPane() {
 		//Setup scroll-pane
 		JideScrollPane calendarPane = new JideScrollPane();
+		calendarPane.setBorder(BorderFactory.createEmptyBorder());
 		calendarPane.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
-		calendarPane.setBorder(UIManager.getBorder("ScrollPane.border"));
 		calendarPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		add(calendarPane, BorderLayout.CENTER);
 		
