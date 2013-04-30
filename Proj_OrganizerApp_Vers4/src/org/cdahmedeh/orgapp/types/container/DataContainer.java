@@ -100,4 +100,20 @@ public class DataContainer {
 	public boolean dropSupported(Context context) {
 		return context != null && context.isSelectable();
 	}
+	
+	public void createNewBlankTask(boolean asEvent){
+		//Create a new task.
+		Task newTask = new Task("");
+		
+		//Set the context to the currently selected Context.
+		if (getSelectedContext().isSelectable()){
+			newTask.setContext(getSelectedContext());
+		}
+		
+		//Set the task to event if we are in event mode.
+		newTask.setEvent(asEvent);
+		
+		//Add new task to the dataContainer and refresh task list table.
+		getTasks().add(newTask);
+	}
 }

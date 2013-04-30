@@ -295,18 +295,7 @@ public class TaskListPanel extends CPanel {
 		}
 		
 		//Create a new task.
-		Task newTask = new Task("");
-		
-		//Set the context to the currently selected Context.
-		if (dataContainer.getSelectedContext().isSelectable()){
-			newTask.setContext(dataContainer.getSelectedContext());
-		}
-		
-		//Set the task to event if we are in event mode.
-		newTask.setEvent(showEvents == 1);
-		
-		//Add new task to the dataContainer and refresh task list table.
-		dataContainer.getTasks().add(newTask);
+		dataContainer.createNewBlankTask(showEvents == 1);
 		refreshTaskListTable();
 		
 		//Init. editing the title of the new tasks and focus the editor.

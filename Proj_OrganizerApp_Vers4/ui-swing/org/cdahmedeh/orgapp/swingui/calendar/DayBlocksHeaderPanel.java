@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.cdahmedeh.orgapp.swingui.helpers.GraphicsHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
@@ -90,7 +91,7 @@ public class DayBlocksHeaderPanel extends CPanel {
 			g.setColor(CalendarConstants.TIMEBLOCK_BORDER_COLOR);
 			g.drawRect(rtb.x, rtb.y, rtb.width, rtb.height);
 			g.setColor(CalendarConstants.TIMEBLOCK_TEXT_COLOR);
-			TimeBlockPainter.drawString(g, rtb.getTask().getTitle(), rtb.x+5, rtb.y+15, rtb.width, rtb.height);
+			TimeBlockPainter.drawString(g, rtb.getTask().getTitle(), rtb.x+5, rtb.y+14, rtb.width, rtb.height);
 		}
 	}
 }
