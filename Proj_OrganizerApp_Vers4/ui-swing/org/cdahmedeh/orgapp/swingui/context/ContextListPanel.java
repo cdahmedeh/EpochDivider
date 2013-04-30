@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.TransferHandler;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
@@ -104,14 +105,15 @@ public class ContextListPanel extends CPanel {
 		contextListTable.setBackground(ContextListPanelDefaults.BACKGROUND_COLOR);
 		contextListTable.setForeground(ContextListPanelDefaults.TEXT_COLOR);
 		contextListTable.setGridColor(ContextListPanelDefaults.GRID_COLOR);
-		contextListTable.setSelectionBackground(ContextListPanelDefaults.SELECTED_COLOR);
+//		contextListTable.setSelectionBackground(ContextListPanelDefaults.SELECTED_COLOR);
 		contextListTable.setShowHorizontalLines(true);
 		contextListTable.setShowVerticalLines(false);
 		contextListTable.getTableHeader().setVisible(false);
 		contextListTable.getTableHeader().setPreferredSize(new Dimension(0, 0));
 		contextListTable.setIntercellSpacing(new Dimension(0, 0));
 		contextListTable.setRowHeight(20);
-		contextListPane.setBorder(BorderFactory.createEmptyBorder());
+//		contextListPane.setBorder(BorderFactory.createEmptyBorder());
+		contextListPane.setBorder(new LineBorder(ContextListPanelDefaults.BACKGROUND_COLOR));
 		contextListPane.setViewportView(contextListTable);
 	}
 
