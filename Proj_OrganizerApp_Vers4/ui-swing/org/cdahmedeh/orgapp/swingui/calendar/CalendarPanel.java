@@ -68,6 +68,7 @@ public class CalendarPanel extends CPanel {
 	private void createToolbar() {
 		JToolBar toolbar = new JToolBar();
 		toolbar.setFloatable(false);
+		toolbar.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
 		add(toolbar, BorderLayout.NORTH);
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
@@ -80,7 +81,9 @@ public class CalendarPanel extends CPanel {
 		JToggleButton dimPassedButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Dim Past", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/dim_passed.gif"));
 		ToolbarHelper.createToolbarSeperator(toolbar);
 		JButton previousWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Previous Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/previous.gif"));
+		previousWeekButton.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
 		JButton nextWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Next Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/next.gif"));
+		nextWeekButton.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
 		
 		previousWeekButton.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
