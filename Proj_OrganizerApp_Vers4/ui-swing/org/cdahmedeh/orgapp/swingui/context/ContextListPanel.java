@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.BorderFactory;
 import javax.swing.DropMode;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -20,13 +19,11 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.TransferHandler;
-import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
 import org.cdahmedeh.orgapp.swingui.components.ColorHueCellRenderer;
-import org.cdahmedeh.orgapp.swingui.components.ContextTripleDurationCellRenderer;
 import org.cdahmedeh.orgapp.swingui.components.DurationCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.TripleDurationCellRenderer;
 import org.cdahmedeh.orgapp.swingui.helpers.TableHelper;
@@ -40,7 +37,6 @@ import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
-import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
@@ -102,30 +98,16 @@ public class ContextListPanel extends CPanel {
 		
 		contextListTable = new JTable();
 		contextListTable.setFillsViewportHeight(true);
-		contextListTable.setBackground(ContextListPanelDefaults.BACKGROUND_COLOR);
-		contextListTable.setForeground(ContextListPanelDefaults.TEXT_COLOR);
-		contextListTable.setGridColor(ContextListPanelDefaults.GRID_COLOR);
-//		contextListTable.setSelectionBackground(ContextListPanelDefaults.SELECTED_COLOR);
-		contextListTable.setShowHorizontalLines(true);
-		contextListTable.setShowVerticalLines(false);
-		contextListTable.getTableHeader().setVisible(false);
-		contextListTable.getTableHeader().setPreferredSize(new Dimension(0, 0));
-		contextListTable.setIntercellSpacing(new Dimension(0, 0));
-		contextListTable.setRowHeight(20);
-//		contextListPane.setBorder(BorderFactory.createEmptyBorder());
-//		contextListPane.setBorder(new LineBorder(ContextListPanelDefaults.BACKGROUND_COLOR));
 		contextListPane.setViewportView(contextListTable);
 	}
 
 	private void createToolbar() {
 		JToolBar toolbar = new JToolBar();
 		toolbar.setFloatable(false);
-//		toolbar.setBackground(ContextListPanelDefaults.BACKGROUND_COLOR);
 		add(toolbar, BorderLayout.SOUTH);
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
 		JButton addContextButton = ToolbarHelper.createToolbarButton(toolbar, "Add Context", ContextListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif"));
-//		addContextButton.setBackground(ContextListPanelDefaults.BACKGROUND_COLOR);
 		addContextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -149,7 +131,7 @@ public class ContextListPanel extends CPanel {
 		dueDateColumn.setCellRenderer(new ColorHueCellRenderer());
 		
 		TableColumn progressColumn = contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS);
-		progressColumn.setCellRenderer(new ContextTripleDurationCellRenderer());
+		progressColumn.setCellRenderer(new TripleDurationCellRenderer());
 		progressColumn.setCellEditor(new DurationCellEditor(new JTextField()));
 	}
 

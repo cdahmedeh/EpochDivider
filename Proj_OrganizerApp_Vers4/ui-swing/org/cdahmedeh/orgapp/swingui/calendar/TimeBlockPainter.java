@@ -79,7 +79,7 @@ public class TimeBlockPainter {
 				g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_OPACITY));
 			}
 			
-			//Timeblocks that passed should be lighter
+//			//Timeblocks that passed should be lighter
 //			if (timeBlock.getEnd().isBefore(DateReference.getNow())){
 //				Color timeBlockColor = g.getColor();
 //				g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_PASSED_OPACITY));
