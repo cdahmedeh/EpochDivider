@@ -27,6 +27,7 @@ import javax.swing.table.TableColumn;
 
 import org.cdahmedeh.orgapp.swingui.components.ColorHueCellRenderer;
 import org.cdahmedeh.orgapp.swingui.components.DurationCellEditor;
+import org.cdahmedeh.orgapp.swingui.components.RoundedTripleDurationCellRenderer;
 import org.cdahmedeh.orgapp.swingui.components.TripleDurationCellRenderer;
 import org.cdahmedeh.orgapp.swingui.helpers.TableHelper;
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
@@ -102,6 +103,10 @@ public class ContextListPanel extends CPanel {
 		
 		contextListTable = new JTable();
 		contextListTable.setFillsViewportHeight(true);
+		contextListTable.setIntercellSpacing(new Dimension(0,0));
+		contextListTable.setShowHorizontalLines(true);
+		contextListTable.setShowVerticalLines(false);
+		contextListTable.setRowHeight(20);
 		contextListPane.setViewportView(contextListTable);
 	}
 
@@ -137,7 +142,7 @@ public class ContextListPanel extends CPanel {
 		dueDateColumn.setCellRenderer(new ColorHueCellRenderer());
 		
 		TableColumn progressColumn = contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS);
-		progressColumn.setCellRenderer(new TripleDurationCellRenderer());
+		progressColumn.setCellRenderer(new RoundedTripleDurationCellRenderer());
 		progressColumn.setCellEditor(new DurationCellEditor(new JTextField()));
 	}
 

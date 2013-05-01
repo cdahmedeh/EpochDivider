@@ -8,5 +8,5 @@ public class ContextListPanelDefaults {
 	public static final int COLUMN_CONTEXT_NAME = 1;
 	public static final int COLUMN_CONTEXT_PROGRESS = 2;
 
-	public static final int COLUMN_CONTEXT_COLOR_MAX_WIDTH = 1;
+	public static final int COLUMN_CONTEXT_COLOR_MAX_WIDTH = 19;
 }
