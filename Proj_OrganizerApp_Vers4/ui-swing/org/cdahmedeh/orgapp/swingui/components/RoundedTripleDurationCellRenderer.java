@@ -34,8 +34,8 @@ public class RoundedTripleDurationCellRenderer extends DefaultTableCellRenderer 
 				" / " +
 				FuzzyDateParser.durationToFuzzyString(((TripleDurationInfo)value).getTotalScheduled()) +
 				" / " +
-				FuzzyDateParser.durationToFuzzyString(((TripleDurationInfo)value).getEstimate())
-				);
+				FuzzyDateParser.durationToFuzzyString(((TripleDurationInfo)value).getEstimate()) +
+				" ");
 		} else if (value instanceof String){
 			super.setValue(value);
 			setText((String) value);
