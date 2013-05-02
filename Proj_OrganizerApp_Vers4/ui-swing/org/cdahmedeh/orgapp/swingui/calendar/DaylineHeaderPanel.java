@@ -28,6 +28,9 @@ public class DaylineHeaderPanel extends CPanel {
 		super.paint(g);
 		GraphicsHelper.enableDefaultAASettings(g);
 		
+		g.setColor(CalendarConstants.DAYLINE_GRID_COLOR);
+		g.drawLine(0, 0, this.getWidth(), 0);
+		
 		GridPainter.drawDateLines(
 				g, 
 				this.getWidth(), 
