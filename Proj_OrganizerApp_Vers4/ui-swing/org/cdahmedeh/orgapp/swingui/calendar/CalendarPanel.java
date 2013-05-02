@@ -72,12 +72,12 @@ public class CalendarPanel extends CPanel {
 		add(toolbar, BorderLayout.NORTH);
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
-		JToggleButton timeBotButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Time Bot", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/timebot.gif"));
-		ToolbarHelper.createToolbarSeperator(toolbar);
-		JToggleButton weekButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/week.gif"));
-		JToggleButton monthButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Month", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/month.gif"));
-		JToggleButton statisticsButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Statistics", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/statistic.gif"));
-		ToolbarHelper.createToolbarSeperator(toolbar);
+//		JToggleButton timeBotButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Time Bot", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/timebot.gif"));
+//		ToolbarHelper.createToolbarSeperator(toolbar);
+//		JToggleButton weekButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/week.gif"));
+//		JToggleButton monthButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Month", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/month.gif"));
+//		JToggleButton statisticsButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Statistics", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/statistic.gif"));
+//		ToolbarHelper.createToolbarSeperator(toolbar);
 		JToggleButton dimPassedButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Dim Past", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/dim_passed.gif"));
 		ToolbarHelper.createToolbarSeperator(toolbar);
 		JButton previousWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Previous Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/previous.gif"));
