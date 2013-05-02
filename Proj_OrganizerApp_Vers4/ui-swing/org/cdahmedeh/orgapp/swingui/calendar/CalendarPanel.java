@@ -52,9 +52,9 @@ public class CalendarPanel extends CPanel {
 		DaylineHeaderPanel calendarHeader = new DaylineHeaderPanel(dataContainer, eventBus);
 		calendarPane.setColumnHeaderView(calendarHeader);
 		
-		//Due dates header
-		DayBlocksHeaderPanel calendarSubHeader = new DayBlocksHeaderPanel(dataContainer, eventBus);
-		calendarPane.setSubColumnHeaderView(calendarSubHeader);
+//		//Due dates header
+//		DayBlocksHeaderPanel calendarSubHeader = new DayBlocksHeaderPanel(dataContainer, eventBus);
+//		calendarPane.setSubColumnHeaderView(calendarSubHeader);
 		
 		//Left time-line.
 		TimelinePanel timeLine = new TimelinePanel();

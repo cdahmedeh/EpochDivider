@@ -20,6 +20,8 @@ import com.google.common.eventbus.Subscribe;
 
 public class DayBlocksHeaderPanel extends CPanel {
 	private static final long serialVersionUID = -1931689507788390417L;
+	
+	private ArrayList<RendereredTimeBlock> rtbs = new ArrayList<>();
 	public DayBlocksHeaderPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
 
 	@Override protected Object getEventRecorder() {return new Object(){
@@ -65,7 +67,7 @@ public class DayBlocksHeaderPanel extends CPanel {
 			}
 		}
 		
-		ArrayList<RendereredTimeBlock> rtbs = new ArrayList<>();
+		rtbs.clear();
 		
 		int caWidth = getWidth() - 1;
 		int caHeight = getHeight() - 1;
