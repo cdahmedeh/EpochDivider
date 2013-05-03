@@ -62,9 +62,8 @@ public class TaskListPanel extends CPanel {
 	protected Object getEventRecorder() {
 		return new Object(){
 			@Subscribe public void changedSelectedContext(SelectedContextChangedNotification notification){
-				taskListMatcherEditor.setSelectedContext(dataContainer.getSelectedContext());
-				taskListMatcherEditor.setSelectedView(dataContainer.getView());
-				taskListMatcherEditor.matcherChangedNotify();
+
+				taskListMatcherEditor.matcherChangedNotify(dataContainer);
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
 			@Subscribe public void refreshTaskList(RefreshTaskListRequest request) {
@@ -248,8 +247,8 @@ public class TaskListPanel extends CPanel {
 		showCompletedTasks.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				taskListMatcherEditor.setShowCompleted(showCompletedTasks.isSelected());
-				taskListMatcherEditor.matcherChangedNotify();
+				dataContainer.setShowCompleted(showCompletedTasks.isSelected());
+				taskListMatcherEditor.matcherChangedNotify(dataContainer);
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
 		});
@@ -261,8 +260,8 @@ public class TaskListPanel extends CPanel {
 				addTaskButton.setText(labelsForAddButton[showEvents]);
 				switchBetweenTasksAndEventsButton.setText(labelsForSwitcher[showEvents]);
 				switchBetweenTasksAndEventsButton.setIcon(new ImageIcon(TaskListPanel.class.getResource(iconsForSwitcher[showEvents])));
-				taskListMatcherEditor.setShowEvents(showEvents == 1);
-				taskListMatcherEditor.matcherChangedNotify();
+				dataContainer.setShowEvents(showEvents == 1);
+				taskListMatcherEditor.matcherChangedNotify(dataContainer);
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
 		});
