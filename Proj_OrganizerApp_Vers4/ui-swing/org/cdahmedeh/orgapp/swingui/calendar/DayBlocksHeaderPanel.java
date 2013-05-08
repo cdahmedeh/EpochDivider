@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.cdahmedeh.orgapp.swingui.helpers.GraphicsHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
@@ -19,6 +20,8 @@ import com.google.common.eventbus.Subscribe;
 
 public class DayBlocksHeaderPanel extends CPanel {
 	private static final long serialVersionUID = -1931689507788390417L;
+	
+	private ArrayList<RendereredTimeBlock> rtbs = new ArrayList<>();
 	public DayBlocksHeaderPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
 
 	@Override protected Object getEventRecorder() {return new Object(){
@@ -64,7 +67,7 @@ public class DayBlocksHeaderPanel extends CPanel {
 			}
 		}
 		
-		ArrayList<RendereredTimeBlock> rtbs = new ArrayList<>();
+		rtbs.clear();
 		
 		int caWidth = getWidth() - 1;
 		int caHeight = getHeight() - 1;
@@ -90,7 +93,7 @@ public class DayBlocksHeaderPanel extends CPanel {
 			g.setColor(CalendarConstants.TIMEBLOCK_BORDER_COLOR);
 			g.drawRect(rtb.x, rtb.y, rtb.width, rtb.height);
 			g.setColor(CalendarConstants.TIMEBLOCK_TEXT_COLOR);
-			TimeBlockPainter.drawString(g, rtb.getTask().getTitle(), rtb.x+5, rtb.y+15, rtb.width, rtb.height);
+			TimeBlockPainter.drawString(g, rtb.getTask().getTitle(), rtb.x+5, rtb.y+14, rtb.width, rtb.height);
 		}
 	}
 }

@@ -23,7 +23,7 @@ public class CalendarConstants {
 	public static final String[] DAYLINE_DATE_FORMATS = new String[]{"EEE d MMM", "EEE d", "EEE", "d"};
 	
 	public static final int DAYBLOCKS_HEADER_DEFAULT_WIDTH = 30;
-	public static final int DAYBLOCKS_HEADER_DEFAULT_HEIGHT = 30;
+	public static final int DAYBLOCKS_HEADER_DEFAULT_HEIGHT = 20;
 	public static final Color DAYBLOCKS_HEADER_BACKGROUND_COLOR = new Color(255, 255, 255);
 	public static final Color DAYBLOCKS_HEADER_GRID_COLOR = new Color(230,230,230);
 	
@@ -46,7 +46,7 @@ public class CalendarConstants {
 	public static final float TIMEBLOCK_EVENT_SATURATION = 0.6f;
 	public static final float TIMEBLOCK_EVENT_BRIGHTNESS = 0.2f;
 	public static final float TIMEBLOCK_PASSED_OPACITY = 0.2f;
-	public static final Color TIMEBLOCK_BORDER_COLOR = new Color(0.2f, 0.2f, 0.2f, 1f);
+	public static final Color TIMEBLOCK_BORDER_COLOR = new Color(0.5f, 0.5f, 0.5f, 1f);
 	public static final Color TIMEBLOCK_TEXT_COLOR = new Color(0.2f, 0.2f, 0.2f, 1f);
 	
 	public static final Color CALENDAR_PANE_BACKGROUND_COLOR = new Color(245, 245, 245);

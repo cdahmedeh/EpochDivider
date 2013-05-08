@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.swingui.task;
 
 import org.cdahmedeh.orgapp.types.calendar.View;
+import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.AllContextsContext;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.context.DueThisViewContext;
@@ -14,22 +15,18 @@ import ca.odell.glazedlists.matchers.Matcher;
 
 public class TaskListMatcherEditor extends AbstractMatcherEditor<Task>{
 	private Context selectedContext;
-	public Context getSelectedContext() {return selectedContext;}
-	public void setSelectedContext(Context selectedContext) {this.selectedContext = selectedContext;}
-
 	private View selectedView;
-	public View getSelectedView() {return selectedView;}
-	public void setSelectedView(View selectedView) {this.selectedView = selectedView;}
-	
 	private boolean showEvents = false;;
-	public boolean getShowEvents() {return showEvents;}
-	public void setShowEvents(boolean showEvents) {this.showEvents = showEvents;}
-	
 	private boolean showCompleted = false;;
-	public boolean getShowCompleted() {return showCompleted;}
-	public void setShowCompleted(boolean showCompleted) {this.showCompleted = showCompleted;}
 	
-	public void matcherChangedNotify() {this.fireChanged(matcher);}
+	public void matcherChangedNotify(DataContainer dataContainer) {
+		selectedContext = dataContainer.getSelectedContext();
+		selectedView = dataContainer.getView();
+		showEvents = dataContainer.getShowEvents();
+		showCompleted = dataContainer.getShowCompleted();
+		
+		this.fireChanged(matcher);
+	}
 	
 	private Matcher<Task> matcher;
 	public TaskListMatcherEditor() {matcher = new MatcherImplementation();}

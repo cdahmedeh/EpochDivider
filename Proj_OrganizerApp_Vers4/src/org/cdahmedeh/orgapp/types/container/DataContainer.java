@@ -29,6 +29,14 @@ public class DataContainer {
 	public Context getSelectedContext() {return selectedContext;}
 	public void setSelectedContext(Context selectedContext) {this.selectedContext = selectedContext;}
 	
+	private boolean showEvents = false;;
+	public boolean getShowEvents() {return showEvents;}
+	public void setShowEvents(boolean showEvents) {this.showEvents = showEvents;}
+	
+	private boolean showCompleted = false;;
+	public boolean getShowCompleted() {return showCompleted;}
+	public void setShowCompleted(boolean showCompleted) {this.showCompleted = showCompleted;}
+	
 	// -- Readers --
 	
 	/**
@@ -113,5 +121,21 @@ public class DataContainer {
 	
 	public boolean dropSupported(Context context) {
 		return context != null && context.isSelectable();
+	}
+	
+	public void createNewBlankTask(boolean asEvent){
+		//Create a new task.
+		Task newTask = new Task("");
+		
+		//Set the context to the currently selected Context.
+		if (getSelectedContext().isSelectable()){
+			newTask.setContext(getSelectedContext());
+		}
+		
+		//Set the task to event if we are in event mode.
+		newTask.setEvent(asEvent);
+		
+		//Add new task to the dataContainer and refresh task list table.
+		getTasks().add(newTask);
 	}
 }

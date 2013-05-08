@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
@@ -28,6 +29,7 @@ public class CalendarPanel extends CPanel {
 	@Override
 	protected void windowInit() {
 		setPreferredSize(new Dimension(CalendarConstants.CALENDAR_DEFAULT_WIDTH, CalendarConstants.CALENDAR_DEFAULT_HEIGHT));
+		setBorder(UIManager.getBorder("ScrollPane.border"));
 		setLayout(new BorderLayout());
 		
 		createToolbar();
@@ -41,8 +43,8 @@ public class CalendarPanel extends CPanel {
 	private void createCalendarPane() {
 		//Setup scroll-pane
 		JideScrollPane calendarPane = new JideScrollPane();
+		calendarPane.setBorder(BorderFactory.createEmptyBorder());
 		calendarPane.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
-		calendarPane.setBorder(UIManager.getBorder("ScrollPane.border"));
 		calendarPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		add(calendarPane, BorderLayout.CENTER);
 		
@@ -50,9 +52,9 @@ public class CalendarPanel extends CPanel {
 		DaylineHeaderPanel calendarHeader = new DaylineHeaderPanel(dataContainer, eventBus);
 		calendarPane.setColumnHeaderView(calendarHeader);
 		
-		//Due dates header
-		DayBlocksHeaderPanel calendarSubHeader = new DayBlocksHeaderPanel(dataContainer, eventBus);
-		calendarPane.setSubColumnHeaderView(calendarSubHeader);
+//		//Due dates header
+//		DayBlocksHeaderPanel calendarSubHeader = new DayBlocksHeaderPanel(dataContainer, eventBus);
+//		calendarPane.setSubColumnHeaderView(calendarSubHeader);
 		
 		//Left time-line.
 		TimelinePanel timeLine = new TimelinePanel();
@@ -66,19 +68,22 @@ public class CalendarPanel extends CPanel {
 	private void createToolbar() {
 		JToolBar toolbar = new JToolBar();
 		toolbar.setFloatable(false);
+		toolbar.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
 		add(toolbar, BorderLayout.NORTH);
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
-		JToggleButton timeBotButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Time Bot", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/timebot.gif"));
-		ToolbarHelper.createToolbarSeperator(toolbar);
-		JToggleButton weekButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/week.gif"));
-		JToggleButton monthButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Month", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/month.gif"));
-		JToggleButton statisticsButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Statistics", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/statistic.gif"));
-		ToolbarHelper.createToolbarSeperator(toolbar);
+//		JToggleButton timeBotButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Time Bot", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/timebot.gif"));
+//		ToolbarHelper.createToolbarSeperator(toolbar);
+//		JToggleButton weekButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/week.gif"));
+//		JToggleButton monthButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Month", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/month.gif"));
+//		JToggleButton statisticsButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Statistics", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/statistic.gif"));
+//		ToolbarHelper.createToolbarSeperator(toolbar);
 		JToggleButton dimPassedButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Dim Past", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/dim_passed.gif"));
 		ToolbarHelper.createToolbarSeperator(toolbar);
 		JButton previousWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Previous Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/previous.gif"));
+		previousWeekButton.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
 		JButton nextWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Next Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/next.gif"));
+		nextWeekButton.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
 		
 		previousWeekButton.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {

@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -21,6 +22,7 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.TransferHandler;
+import javax.swing.UIManager;
 import javax.swing.table.TableColumn;
 
 import org.cdahmedeh.orgapp.swingui.components.DateEntryCellEditor;
@@ -60,9 +62,8 @@ public class TaskListPanel extends CPanel {
 	protected Object getEventRecorder() {
 		return new Object(){
 			@Subscribe public void changedSelectedContext(SelectedContextChangedNotification notification){
-				taskListMatcherEditor.setSelectedContext(dataContainer.getSelectedContext());
-				taskListMatcherEditor.setSelectedView(dataContainer.getView());
-				taskListMatcherEditor.matcherChangedNotify();
+
+				taskListMatcherEditor.matcherChangedNotify(dataContainer);
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
 			@Subscribe public void refreshTaskList(RefreshTaskListRequest request) {
@@ -91,6 +92,7 @@ public class TaskListPanel extends CPanel {
 	protected void windowInit() {
 		setPreferredSize(new Dimension(TaskListPanelDefaults.DEFAULT_TASK_PANEL_WIDTH, TaskListPanelDefaults.DEFAULT_TASK_PANEL_HEIGHT));
 		setLayout(new BorderLayout());
+		setBorder(UIManager.getBorder("ScrollPane.border"));
 		
 		createTaskListTable();
 		createToolbar();
@@ -110,6 +112,7 @@ public class TaskListPanel extends CPanel {
 
 	private void createTaskListTable() {
 		taskListPane = new JScrollPane();
+		taskListPane.setBorder(BorderFactory.createEmptyBorder());
 		add(taskListPane, BorderLayout.CENTER);
 		
 		taskListTable = new JTable();
@@ -225,6 +228,7 @@ public class TaskListPanel extends CPanel {
 	private void createToolbar() {
 		JToolBar toolbar = new JToolBar();
 		toolbar.setFloatable(false);
+		toolbar.setBackground(taskListTable.getBackground());
 		add(toolbar, BorderLayout.SOUTH);
 
 		final String[] labelsForAddButton = new String[]{"Add Task", "Add Event"};
@@ -233,15 +237,18 @@ public class TaskListPanel extends CPanel {
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
 		final JToggleButton showCompletedTasks = ToolbarHelper.createToolbarToggleButton(toolbar, "Show Completed", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/completed.gif"));
-		final JButton switchBetweenTasksAndEventsButton = ToolbarHelper.createToolbarButton(toolbar, labelsForSwitcher[showEvents], TaskListPanel.class.getResource(iconsForSwitcher[showEvents])); 
+		showCompletedTasks.setBackground(taskListTable.getBackground());
+		final JButton switchBetweenTasksAndEventsButton = ToolbarHelper.createToolbarButton(toolbar, labelsForSwitcher[showEvents], TaskListPanel.class.getResource(iconsForSwitcher[showEvents]));
+		switchBetweenTasksAndEventsButton.setBackground(taskListTable.getBackground());
 		ToolbarHelper.createToolbarSeperator(toolbar);
-		final JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, labelsForAddButton[showEvents], TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif")); 
+		final JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, labelsForAddButton[showEvents], TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif"));
+		addTaskButton.setBackground(taskListTable.getBackground());
 		
 		showCompletedTasks.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				taskListMatcherEditor.setShowCompleted(showCompletedTasks.isSelected());
-				taskListMatcherEditor.matcherChangedNotify();
+				dataContainer.setShowCompleted(showCompletedTasks.isSelected());
+				taskListMatcherEditor.matcherChangedNotify(dataContainer);
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
 		});
@@ -253,8 +260,8 @@ public class TaskListPanel extends CPanel {
 				addTaskButton.setText(labelsForAddButton[showEvents]);
 				switchBetweenTasksAndEventsButton.setText(labelsForSwitcher[showEvents]);
 				switchBetweenTasksAndEventsButton.setIcon(new ImageIcon(TaskListPanel.class.getResource(iconsForSwitcher[showEvents])));
-				taskListMatcherEditor.setShowEvents(showEvents == 1);
-				taskListMatcherEditor.matcherChangedNotify();
+				dataContainer.setShowEvents(showEvents == 1);
+				taskListMatcherEditor.matcherChangedNotify(dataContainer);
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
 		});
@@ -295,18 +302,7 @@ public class TaskListPanel extends CPanel {
 		}
 		
 		//Create a new task.
-		Task newTask = new Task("");
-		
-		//Set the context to the currently selected Context.
-		if (dataContainer.getSelectedContext().isSelectable()){
-			newTask.setContext(dataContainer.getSelectedContext());
-		}
-		
-		//Set the task to event if we are in event mode.
-		newTask.setEvent(showEvents == 1);
-		
-		//Add new task to the dataContainer and refresh task list table.
-		dataContainer.getTasks().add(newTask);
+		dataContainer.createNewBlankTask(showEvents == 1);
 		refreshTaskListTable();
 		
 		//Init. editing the title of the new tasks and focus the editor.
