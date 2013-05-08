@@ -13,21 +13,27 @@ import org.cdahmedeh.orgapp.generators.TestDataGenerator;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
+import org.cdahmedeh.orgapp.types.context.NoContextContext;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 
-public class PersistenceManager {
+public class SQLitePersistenceManager implements PersistanceManagerInterface {
 	public static void main(String[] args) {
 		DataContainer dataContainer = TestDataGenerator.generateDataContainer();
-		saveDataContainer(dataContainer);
-		loadDataContainer();
+		PersistanceManagerInterface pm = new SQLitePersistenceManager();
+		pm.saveDataContainer(dataContainer);
+		pm.loadDataContainer();
 		System.out.println("Done");
 	}
 	
-	public static DataContainer loadDataContainer(){
+	/* (non-Javadoc)
+	 * @see org.cdahmedeh.orgapp.pers.PersistanceManagerInterface#loadDataContainer()
+	 */
+	@Override
+	public DataContainer loadDataContainer(){
 		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e1) {
@@ -58,6 +64,9 @@ public class PersistenceManager {
         	ArrayList<Context> contexts = new ArrayList<>();
         	HashMap<String,Context> contextList = new HashMap<>();
         	ArrayList<Task> tasks = new ArrayList<>();
+        	
+        	//Add default contexts
+        	contexts.addAll(TestDataGenerator.generateDefaultContexts());
         	
             while(rs0.next()){
             	String name = rs0.getString(1);
@@ -99,7 +108,11 @@ public class PersistenceManager {
 		return new DataContainer();
 	}
 	
-	public static void saveDataContainer(DataContainer dataContainer){
+	/* (non-Javadoc)
+	 * @see org.cdahmedeh.orgapp.pers.PersistanceManagerInterface#saveDataContainer(org.cdahmedeh.orgapp.types.container.DataContainer)
+	 */
+	@Override
+	public void saveDataContainer(DataContainer dataContainer){
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e1) {
@@ -135,10 +148,12 @@ public class PersistenceManager {
             
             //Saving the tables for the contexts
             for (Context context: dataContainer.getContexts()){
-                statementContext.executeUpdate("insert into contextlist values('"+ context.getName() +"', '"+ context.getColor() +"')");
-                for (Entry<View, Duration> set: context.getGoals().entrySet()){
-                	statementGoal.executeUpdate("insert into goalstable values('"+ context.getName() +"', '"+ set.getKey().getStartDate().toString() +"', '"+ set.getKey().getEndDate().toString() +"', '"+ set.getValue().toString() +"')");	
-                }
+            	if (context.isSelectable() && !(context instanceof NoContextContext)){
+            		statementContext.executeUpdate("insert into contextlist values('"+ context.getName() +"', '"+ context.getColor() +"')");
+            		for (Entry<View, Duration> set: context.getGoals().entrySet()){
+            			statementGoal.executeUpdate("insert into goalstable values('"+ context.getName() +"', '"+ set.getKey().getStartDate().toString() +"', '"+ set.getKey().getEndDate().toString() +"', '"+ set.getValue().toString() +"')");	
+            		}
+            	}
             }
             
             //Saving the tables for the tasks

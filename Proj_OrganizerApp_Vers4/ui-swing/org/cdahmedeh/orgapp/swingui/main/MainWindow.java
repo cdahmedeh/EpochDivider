@@ -14,7 +14,8 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.cdahmedeh.orgapp.generators.TestDataGenerator;
-import org.cdahmedeh.orgapp.pers.PersistenceManager;
+import org.cdahmedeh.orgapp.pers.PersistanceManagerInterface;
+import org.cdahmedeh.orgapp.pers.SQLitePersistenceManager;
 import org.cdahmedeh.orgapp.swingui.calendar.CalendarPanel;
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
@@ -74,9 +75,10 @@ public class MainWindow {
 		logger.info("Configured Look and Feel");
 		
 		//Prepare some test data, and prepare eventBus.
-		dataContainer = TestDataGenerator.generateDataContainer();
-//		dataContainer = PersistenceManager.loadDataContainer();
-//		dataContainer.setView(TestDataGenerator.generateDataContainer().getView());
+//		dataContainer = TestDataGenerator.generateDataContainer();
+		PersistanceManagerInterface pm = new SQLitePersistenceManager();
+		dataContainer = pm.loadDataContainer();
+		dataContainer.setView(TestDataGenerator.generateDataContainer().getView());
 		eventBus = new EventBus();
 		logger.info("Test Data Generated");
 		

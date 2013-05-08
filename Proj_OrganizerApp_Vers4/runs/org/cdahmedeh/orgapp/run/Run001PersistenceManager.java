@@ -3,7 +3,8 @@ package org.cdahmedeh.orgapp.run;
 import java.sql.*;
 
 import org.cdahmedeh.orgapp.generators.TestDataGenerator;
-import org.cdahmedeh.orgapp.pers.PersistenceManager;
+import org.cdahmedeh.orgapp.pers.PersistanceManagerInterface;
+import org.cdahmedeh.orgapp.pers.SQLitePersistenceManager;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 
 public class Run001PersistenceManager {
@@ -44,7 +45,7 @@ public class Run001PersistenceManager {
 		
 		
 		//Save it
-		PersistenceManager pm = new PersistenceManager();
+		PersistanceManagerInterface pm = new SQLitePersistenceManager();
 		pm.saveDataContainer(generatedDataContainer);
 		
 		//Load it again

@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.generators;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
 
 import org.cdahmedeh.orgapp.tools.DateReference;
@@ -499,6 +500,22 @@ public class TestDataGenerator {
 		dataContainer.loadTasks(taskList);
 		
 		return dataContainer;
+	}
+
+	public static ArrayList<Context> generateDefaultContexts() {
+		//Generate some contexts
+		ArrayList<Context> contextList = new ArrayList<>();
+		
+		//Default contexts
+		contextList.add(new AllContextsContext());
+		contextList.add(new NoContextContext());
+		
+		contextList.add(new DueTodayContext());
+		contextList.add(new DueTomorrowContext());
+		contextList.add(new DueThisViewContext());
+		contextList.add(new NoDueDateContext());
+		
+		return contextList;
 	}
 	
 }
