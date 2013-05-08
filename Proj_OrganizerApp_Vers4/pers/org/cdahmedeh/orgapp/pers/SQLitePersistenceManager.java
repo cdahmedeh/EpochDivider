@@ -72,8 +72,9 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             	String name = rs0.getString(1);
             	Context context = new Context(name);
             	context.setColor(rs0.getInt(2));
+            	rs1 = statementGoal.executeQuery("select contextname, startdate, enddate, duration from goalstable");
             	while(rs1.next()){
-            		if (rs1.getString(1) == name){
+            		if (rs1.getString(1).equals(name)){
             			context.setGoal(new View(new LocalDate(rs1.getString(2)), new LocalDate(rs1.getString(3))), new Duration(rs1.getString(4)));
             		}
             	}
@@ -93,11 +94,13 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             	task.setEstimate(new Duration(rs2.getString(4)));
             	task.setCompleted(rs2.getBoolean(5));
             	task.setEvent(rs2.getBoolean(6));
+            	rs3 = statementTime.executeQuery("select taskname, start, end from timeblocks");
             	while(rs3.next()){
-            		if (rs3.getString(1) == name){
-            			task.assignToTimeBlock(new TimeBlock(new DateTime(rs3.getString(2)),new DateTime(rs3.getString(3))));
+            		if (rs3.getString(1).equals(name)){
+            			task.assignToTimeBlock(new TimeBlock((new DateTime(rs3.getString(2))),(new DateTime(rs3.getString(3)))));
             		}
             	}
+//            	rs3.first();
             	tasks.add(task);
             }
             dataContainer.setTasks(tasks);
