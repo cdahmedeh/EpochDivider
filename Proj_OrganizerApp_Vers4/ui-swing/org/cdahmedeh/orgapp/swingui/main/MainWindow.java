@@ -58,6 +58,7 @@ public class MainWindow {
 
 	// - Data -
 	private DataContainer dataContainer;
+	private PersistanceManagerInterface pm;
 	
 	public MainWindow() {
 		//Prepare logger
@@ -74,9 +75,7 @@ public class MainWindow {
 		}
 		logger.info("Configured Look and Feel");
 		
-		//Prepare some test data, and prepare eventBus.
-//		dataContainer = TestDataGenerator.generateDataContainer();
-		PersistanceManagerInterface pm = new SQLitePersistenceManager();
+		pm = new SQLitePersistenceManager();
 		dataContainer = pm.loadDataContainer();
 		dataContainer.setView(TestDataGenerator.generateDataContainer().getView());
 		eventBus = new EventBus();
@@ -132,6 +131,13 @@ public class MainWindow {
 		
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
+		
+		/* Save */
+		JMenuItem mntmSave = new JMenuItem("Save to database");
+		mnFile.add(mntmSave);
+		
+		mntmSave.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
+			pm.saveDataContainer(dataContainer);}});
 		
 		/* Test Data */
 		
