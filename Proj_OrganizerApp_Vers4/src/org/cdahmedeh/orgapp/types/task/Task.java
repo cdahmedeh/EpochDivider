@@ -39,6 +39,7 @@ public class Task {
 	public boolean isDue() {return due != null;}
 	public DateTime getDue() {return due;}
 	public void setDue(DateTime due) {this.due = due;}
+	
 
 	private Duration estimate = Duration.ZERO;
 	public Duration getEstimate() {return estimate;}

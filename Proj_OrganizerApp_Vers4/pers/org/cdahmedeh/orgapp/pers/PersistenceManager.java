@@ -1,13 +1,188 @@
 package org.cdahmedeh.orgapp.pers;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+import org.cdahmedeh.orgapp.generators.TestDataGenerator;
+import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
+import org.cdahmedeh.orgapp.types.context.Context;
+import org.cdahmedeh.orgapp.types.task.Task;
+import org.cdahmedeh.orgapp.types.time.TimeBlock;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.LocalDate;
 
 public class PersistenceManager {
-	public DataContainer loadDataContainer(){
-		return null;
+	public static void main(String[] args) {
+		DataContainer dataContainer = TestDataGenerator.generateDataContainer();
+		saveDataContainer(dataContainer);
+		loadDataContainer();
+		System.out.println("Done");
 	}
 	
-	public void saveDataContainer(DataContainer dataContainer){
+	public static DataContainer loadDataContainer(){
+		try {
+			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Connection connection = null;
 		
+		try {
+			connection = DriverManager.getConnection("jdbc:sqlite:database.db");
+
+            Statement statementContext = connection.createStatement();
+            Statement statementGoal = connection.createStatement();
+            Statement statementTask = connection.createStatement();
+            Statement statementTime = connection.createStatement();
+
+            statementContext.setQueryTimeout(20);
+            statementGoal.setQueryTimeout(20);
+            statementTask.setQueryTimeout(20);
+            statementTime.setQueryTimeout(20);
+
+            ResultSet rs0 = statementContext.executeQuery("select name, color from contextlist");
+            ResultSet rs1 = statementGoal.executeQuery("select contextname, startdate, enddate, duration from goalstable");
+            ResultSet rs2 = statementTask.executeQuery("select title, context, due, duration, completed, event from tasklist");
+            ResultSet rs3 = statementTime.executeQuery("select taskname, start, end from timeblocks");
+			
+            DataContainer dataContainer = new DataContainer();
+        	ArrayList<Context> contexts = new ArrayList<>();
+        	HashMap<String,Context> contextList = new HashMap<>();
+        	ArrayList<Task> tasks = new ArrayList<>();
+        	
+            while(rs0.next()){
+            	String name = rs0.getString(1);
+            	Context context = new Context(name);
+            	context.setColor(rs0.getInt(2));
+            	while(rs1.next()){
+            		if (rs1.getString(1) == name){
+            			context.setGoal(new View(new LocalDate(rs1.getString(2)), new LocalDate(rs1.getString(3))), new Duration(rs1.getString(4)));
+            		}
+            	}
+            	contextList.put(name, context);
+            	contexts.add(context);
+            }
+            dataContainer.setContexts(contexts);
+            
+            while(rs2.next()){
+            	String name = rs2.getString(1);
+            	Task task = new Task(name);
+            	task.setContext(contextList.get(rs2.getString(2)));//TODO: approve shortcut. Less space in database, more space while loading data
+            	if (rs2.getString(3).equals("null"))
+            		task.setDue(null);
+            	else
+            		task.setDue(new DateTime(rs2.getString(3)));
+            	task.setEstimate(new Duration(rs2.getString(4)));
+            	task.setCompleted(rs2.getBoolean(5));
+            	task.setEvent(rs2.getBoolean(6));
+            	while(rs3.next()){
+            		if (rs3.getString(1) == name){
+            			task.assignToTimeBlock(new TimeBlock(new DateTime(rs3.getString(2)),new DateTime(rs3.getString(3))));
+            		}
+            	}
+            	tasks.add(task);
+            }
+            dataContainer.setTasks(tasks);
+            return dataContainer;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new DataContainer();
+	}
+	
+	public static void saveDataContainer(DataContainer dataContainer){
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        
+        Connection connection = null;
+        try {        
+            connection = DriverManager.getConnection("jdbc:sqlite:database.db");
+            
+            Statement statementContext = connection.createStatement();
+            Statement statementGoal = connection.createStatement();
+            Statement statementTask = connection.createStatement();
+            Statement statementTime = connection.createStatement();
+
+            statementContext.setQueryTimeout(20);
+            statementGoal.setQueryTimeout(20);
+            statementTask.setQueryTimeout(20);
+            statementTime.setQueryTimeout(20);
+            
+            //Tables that deal with the contexts arraylist
+            statementContext.executeUpdate("drop table if exists contextlist");
+            statementGoal.executeUpdate("drop table if exists goalstable");
+            statementContext.executeUpdate("create table contextlist (name string, color int)");
+            statementGoal.executeUpdate("create table goalstable (contextname string, startdate string, enddate string, duration string)");
+
+            //Tables that deal with the tasks arraylist
+            statementTask.executeUpdate("drop table if exists tasklist");
+            statementTime.executeUpdate("drop table if exists timeblocks");
+            statementTask.executeUpdate("create table tasklist (title string, context string, due string, duration string, completed boolean, event boolean)");
+            statementTime.executeUpdate("create table timeblocks (taskname string, start string, end string)");
+            
+            //Saving the tables for the contexts
+            for (Context context: dataContainer.getContexts()){
+                statementContext.executeUpdate("insert into contextlist values('"+ context.getName() +"', '"+ context.getColor() +"')");
+                for (Entry<View, Duration> set: context.getGoals().entrySet()){
+                	statementGoal.executeUpdate("insert into goalstable values('"+ context.getName() +"', '"+ set.getKey().getStartDate().toString() +"', '"+ set.getKey().getEndDate().toString() +"', '"+ set.getValue().toString() +"')");	
+                }
+            }
+            
+            //Saving the tables for the tasks
+            for (Task task: dataContainer.getTasks()){
+            	if (task.isDue()){
+            		statementTask.executeUpdate("insert into tasklist values('"+ task.getTitle() +
+                			"', '"+ task.getContext().getName() +
+                			"', '"+ task.getDue().toString() +
+                			"', '"+ task.getEstimate().toString() +
+                			"', '"+ task.isCompleted() +
+                			"', '"+ task.isEvent() +"')");
+            	} else {
+            		statementTask.executeUpdate("insert into tasklist values('"+ task.getTitle() +
+                			"', '"+ task.getContext().getName() +
+                			"', '"+ null +
+                			"', '"+ task.getEstimate().toString() +
+                			"', '"+ task.isCompleted() +
+                			"', '"+ task.isEvent() +"')");
+            	}
+            	for(TimeBlock timeblock: task.getAllTimeBlocks()){
+            		statementTime.executeUpdate("insert into timeblocks values('"+ task.getTitle() +"', '"+ timeblock.getStart().toString() +"', '"+ timeblock.getEnd().toString()+"')");
+            	}
+            }
+            
+            //Print for debugging
+            ResultSet rs0 = statementContext.executeQuery("select * from contextlist");
+            ResultSet rs1 = statementGoal.executeQuery("select * from goalstable");
+            ResultSet rs2 = statementTask.executeQuery("select * from tasklist");
+            ResultSet rs3 = statementTime.executeQuery("select * from timeblocks");
+            
+            while (rs0.next()){
+                System.out.println(rs0.getString(1));
+            }
+            while (rs1.next()){
+                System.out.println(rs1.getString(1));
+            }
+            while (rs2.next()){
+                System.out.println(rs2.getString(1));
+            }
+            while (rs3.next()){
+                System.out.println(rs3.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 	}
 }

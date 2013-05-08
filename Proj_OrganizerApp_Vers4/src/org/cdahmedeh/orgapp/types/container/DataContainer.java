@@ -37,6 +37,13 @@ public class DataContainer {
 	public ArrayList<Context> getContexts() {
 		return contexts;
 	}
+	
+	/**
+	 * Set all contexts that exist.
+	 */
+	public void setContexts(ArrayList<Context> contexts) {
+		this.contexts = contexts;
+	}
 
 	/**
 	 * Get all contexts that can be assigned to a task.
@@ -52,6 +59,13 @@ public class DataContainer {
 	 */
 	public ArrayList<Task> getTasks() {
 		return tasks;
+	}
+	
+	/**
+	 * Set all tasks that exist.
+	 */
+	public void setTasks(ArrayList<Task> tasks) {
+		this.tasks = tasks;
 	}
 	
 	// -- Helpers --

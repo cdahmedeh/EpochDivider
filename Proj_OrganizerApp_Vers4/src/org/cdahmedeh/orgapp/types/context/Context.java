@@ -37,6 +37,8 @@ public class Context {
 	public void setColor(int color) {this.color = color;}
 	
 	private HashMap<View, Duration> goals = new HashMap<>();
+	public HashMap<View, Duration> getGoals(){return goals;}
+	public void setGoals(HashMap<View, Duration> goals){this.goals=goals;}
 	public Duration getGoal(View view){return goals.get(view) == null ? Duration.ZERO : goals.get(view);}
 	public void setGoal(View date, Duration duration) {goals.put(date, duration);}
 
