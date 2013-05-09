@@ -108,7 +108,9 @@ public class DataContainer {
 		return newIndexForMovedContext;
 	}
 	
-	
+	/**
+	 * Set the context of the provided task. 
+	 */
 	public boolean setTaskToContext(Task task, Context context) {
 		if (context.isSelectable()){
 			task.setContext(context);
@@ -119,10 +121,18 @@ public class DataContainer {
 		
 	}
 	
+	/**
+	 * Checks if the context can be assigned to a task.
+	 */
 	public boolean dropSupported(Context context) {
 		return context != null && context.isSelectable();
 	}
 	
+	/**
+	 * Create a new blank task. 
+	 * 
+	 *  asEvent determines if the task will be set as an event or not.
+	 */
 	public void createNewBlankTask(boolean asEvent){
 		//Create a new task.
 		Task newTask = new Task("");

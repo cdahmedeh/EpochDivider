@@ -19,8 +19,7 @@ import org.cdahmedeh.orgapp.pers.SQLitePersistenceManager;
 import org.cdahmedeh.orgapp.swingui.calendar.CalendarPanel;
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
 import org.cdahmedeh.orgapp.swingui.notification.LoadContextListPanelRequest;
-import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
-import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
+import org.cdahmedeh.orgapp.swingui.notification.ContextsChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.WindowLoadedNotification;
 import org.cdahmedeh.orgapp.swingui.task.TaskListPanel;
@@ -75,9 +74,9 @@ public class MainWindow {
 		}
 		logger.info("Configured Look and Feel");
 		
-		pm = new SQLitePersistenceManager();
-		dataContainer = pm.loadDataContainer();
-		dataContainer.setView(TestDataGenerator.generateDataContainer().getView());
+//		pm = new SQLitePersistenceManager();
+//		dataContainer = pm.loadDataContainer();
+		dataContainer = TestDataGenerator.generateDataContainer();
 		eventBus = new EventBus();
 		logger.info("Test Data Generated");
 		
@@ -180,8 +179,7 @@ public class MainWindow {
 	private void updateDataContainer(DataContainer dataContainer){
 		this.dataContainer.replace(dataContainer);
 		
-		eventBus.post(new RefreshContextListRequest());
+		eventBus.post(new ContextsChangedNotification());
 		eventBus.post(new TasksChangedNotification());
-		eventBus.post(new RefreshTaskListRequest());
 	}
 }

@@ -14,8 +14,7 @@ import javax.swing.TransferHandler;
 
 import org.cdahmedeh.orgapp.swingui.helpers.GraphicsHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
-import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
-import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
+import org.cdahmedeh.orgapp.swingui.notification.ContextsChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
@@ -234,7 +233,7 @@ public class SchedulerPanel extends CPanel {
 		repaint();
 		timeClickedOffset = null;
 		timeBlockSelected = null;
-		eventBus.post(new RefreshTaskListRequest());
-		eventBus.post(new RefreshContextListRequest());
+		eventBus.post(new TasksChangedNotification());
+		eventBus.post(new ContextsChangedNotification());
 	}
 }

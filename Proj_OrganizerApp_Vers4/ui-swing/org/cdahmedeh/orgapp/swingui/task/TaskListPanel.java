@@ -31,11 +31,10 @@ import org.cdahmedeh.orgapp.swingui.components.DurationCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.TripleDurationCellRenderer;
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
-import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
-import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
+import org.cdahmedeh.orgapp.swingui.notification.ContextsChangedNotification;
+import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.TaskListPanelPostInitCompleteNotification;
-import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
@@ -66,10 +65,10 @@ public class TaskListPanel extends CPanel {
 				taskListMatcherEditor.matcherChangedNotify(dataContainer);
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
-			@Subscribe public void refreshTaskList(RefreshTaskListRequest request) {
+			@Subscribe public void refreshTaskList(TasksChangedNotification notification) {
 				refreshTaskListTable();
 			}
-			@Subscribe public void contextListChanged(RefreshContextListRequest request){
+			@Subscribe public void contextListChanged(ContextsChangedNotification notification){
 				refreshContextAutoComplete();
 			}
 		};
@@ -219,7 +218,7 @@ public class TaskListPanel extends CPanel {
 				Task selectedTaskInTable = getSelectedTaskInTable();
 				if (selectedTaskInTable != null){
 					dataContainer.getTasks().remove(selectedTaskInTable);
-					refreshTaskListTable();
+					eventBus.post(new TasksChangedNotification());
 				}
 			}
 		});
@@ -283,9 +282,6 @@ public class TaskListPanel extends CPanel {
 		taskEventList.addAll(dataContainer.getTasks());
 		
 		taskListTable.repaint(); //TODO: temporary call to fix redraw bug
-		
-		//Let other knows that the table is update.
-		eventBus.post(new TasksChangedNotification());
 	}
 	
 	private void refreshContextAutoComplete(){
@@ -303,8 +299,11 @@ public class TaskListPanel extends CPanel {
 		
 		//Create a new task.
 		dataContainer.createNewBlankTask(showEvents == 1);
-		refreshTaskListTable();
 		
+		//Refresh task list table and notify others.
+		eventBus.post(new TasksChangedNotification());
+
+		//TODO: Do we wait for something?		
 		//Init. editing the title of the new tasks and focus the editor.
 		taskListTable.editCellAt(taskListTable.getRowCount()-1, TaskListPanelDefaults.COLUMN_TASK_TITLE);
 		

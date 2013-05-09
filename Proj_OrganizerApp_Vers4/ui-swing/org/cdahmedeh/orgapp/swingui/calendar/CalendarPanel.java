@@ -14,7 +14,7 @@ import javax.swing.UIManager;
 
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
-import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
+import org.cdahmedeh.orgapp.swingui.notification.ContextsChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.joda.time.DateTimeConstants;
 
@@ -102,6 +102,6 @@ public class CalendarPanel extends CPanel {
 	private void moveViewByDays(int days) {
 		dataContainer.getView().moveAmountOfDays(days);
 		repaint();
-		eventBus.post(new RefreshContextListRequest());
+		eventBus.post(new ContextsChangedNotification());
 	}
 }

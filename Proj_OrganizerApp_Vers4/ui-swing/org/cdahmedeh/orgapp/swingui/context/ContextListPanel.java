@@ -32,11 +32,10 @@ import org.cdahmedeh.orgapp.swingui.components.TripleDurationCellRenderer;
 import org.cdahmedeh.orgapp.swingui.helpers.TableHelper;
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
-import org.cdahmedeh.orgapp.swingui.notification.RefreshContextListRequest;
-import org.cdahmedeh.orgapp.swingui.notification.RefreshTaskListRequest;
+import org.cdahmedeh.orgapp.swingui.notification.ContextsChangedNotification;
+import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.TaskListPanelPostInitCompleteNotification;
-import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
@@ -57,10 +56,10 @@ public class ContextListPanel extends CPanel {
 	@Override 
 	protected Object getEventRecorder() {
 		return new Object(){
-			@Subscribe public void refreshContextList(RefreshContextListRequest request) {
+			@Subscribe public void refreshContextList(ContextsChangedNotification request) {
 				refreshContextListTreeTable();
 			}
-			@Subscribe public void tasksUpdated(TasksChangedNotification notification){
+			@Subscribe public void tasksUpdated(ContextsChangedNotification notification){
 				refreshContextListTreeTable();
 			}
 			@Subscribe public void selecteFirstContextWhenTaskListFinishesLoading(TaskListPanelPostInitCompleteNotification notification){
@@ -286,7 +285,7 @@ public class ContextListPanel extends CPanel {
 				int newIndexForMovedContext = dataContainer.moveContextToRowAndGiveNewIndex(context, row);
 
 				//Update table and select the moved context.
-				eventBus.post(new RefreshContextListRequest());
+				eventBus.post(new ContextsChangedNotification());
 				selectItemInContextListTable(newIndexForMovedContext);
 
 				return true;
@@ -311,8 +310,8 @@ public class ContextListPanel extends CPanel {
 				boolean changed = dataContainer.setTaskToContext(task, context);
 				
 				//Let everyone know that we refreshed.
-				eventBus.post(new RefreshContextListRequest());
-				eventBus.post(new RefreshTaskListRequest());
+				eventBus.post(new ContextsChangedNotification());
+				eventBus.post(new TasksChangedNotification());
 				
 				return changed;
 			}
