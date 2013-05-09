@@ -61,11 +61,10 @@ public class TaskListPanel extends CPanel {
 	protected Object getEventRecorder() {
 		return new Object(){
 			@Subscribe public void changedSelectedContext(SelectedContextChangedNotification notification){
-
-				taskListMatcherEditor.matcherChangedNotify(dataContainer);
+				taskListMatcherEditor.matcherChangedNotify();
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
-			@Subscribe public void refreshTaskList(TasksChangedNotification notification) {
+			@Subscribe public void refreshTaskList(TasksChangedNotification notification) throws Exception {
 				refreshTaskListTable();
 			}
 			@Subscribe public void contextListChanged(ContextsChangedNotification notification){
@@ -127,7 +126,7 @@ public class TaskListPanel extends CPanel {
 		taskEventList.addAll(dataContainer.getTasks());
 		
 		//Prepare Matcher for filtering by the Context that is selected by the user
-		taskListMatcherEditor = new TaskListMatcherEditor();
+		taskListMatcherEditor = new TaskListMatcherEditor(dataContainer);
 		FilterList<Task> filteredByContextList = new FilterList<>(taskEventList, taskListMatcherEditor);
 
 		//Prepare sorting
@@ -247,7 +246,7 @@ public class TaskListPanel extends CPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dataContainer.setShowCompleted(showCompletedTasks.isSelected());
-				taskListMatcherEditor.matcherChangedNotify(dataContainer);
+				taskListMatcherEditor.matcherChangedNotify();
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
 		});
@@ -260,7 +259,7 @@ public class TaskListPanel extends CPanel {
 				switchBetweenTasksAndEventsButton.setText(labelsForSwitcher[showEvents]);
 				switchBetweenTasksAndEventsButton.setIcon(new ImageIcon(TaskListPanel.class.getResource(iconsForSwitcher[showEvents])));
 				dataContainer.setShowEvents(showEvents == 1);
-				taskListMatcherEditor.matcherChangedNotify(dataContainer);
+				taskListMatcherEditor.matcherChangedNotify();
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
 		});
@@ -303,7 +302,6 @@ public class TaskListPanel extends CPanel {
 		//Refresh task list table and notify others.
 		eventBus.post(new TasksChangedNotification());
 
-		//TODO: Do we wait for something?		
 		//Init. editing the title of the new tasks and focus the editor.
 		taskListTable.editCellAt(taskListTable.getRowCount()-1, TaskListPanelDefaults.COLUMN_TASK_TITLE);
 		
