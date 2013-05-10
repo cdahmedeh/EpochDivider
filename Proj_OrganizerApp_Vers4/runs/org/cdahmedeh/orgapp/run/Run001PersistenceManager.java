@@ -1,6 +1,9 @@
 package org.cdahmedeh.orgapp.run;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.cdahmedeh.orgapp.generators.TestDataGenerator;
 import org.cdahmedeh.orgapp.pers.PersistanceManagerInterface;

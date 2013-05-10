@@ -148,4 +148,11 @@ public class DataContainer {
 		//Add new task to the dataContainer and refresh task list table.
 		getTasks().add(newTask);
 	}
+	
+	/**
+	 * Remove task
+	 */
+	public void removeTask(Task task) {
+		getTasks().remove(task);
+	}
 }

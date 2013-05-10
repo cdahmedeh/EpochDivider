@@ -3,8 +3,6 @@ package org.cdahmedeh.orgapp.swingui.components;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import javax.swing.BorderFactory;
-
 public class ContextTripleDurationCellRenderer extends TripleDurationCellRenderer {
 	private static final long serialVersionUID = -8255299386801283428L;
 

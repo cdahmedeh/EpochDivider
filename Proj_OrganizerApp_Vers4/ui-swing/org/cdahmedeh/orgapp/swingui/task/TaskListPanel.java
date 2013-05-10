@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -29,12 +27,13 @@ import org.cdahmedeh.orgapp.swingui.components.DateEntryCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.DateEntryCellRenderer;
 import org.cdahmedeh.orgapp.swingui.components.DurationCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.TripleDurationCellRenderer;
+import org.cdahmedeh.orgapp.swingui.helpers.TableHelper;
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.ContextsChangedNotification;
-import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.SelectedContextChangedNotification;
 import org.cdahmedeh.orgapp.swingui.notification.TaskListPanelPostInitCompleteNotification;
+import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
@@ -190,22 +189,7 @@ public class TaskListPanel extends CPanel {
 		final JPopupMenu popupMenu = new JPopupMenu();
 		
 		//Setup popup menu for the Task List Table. 
-		taskListTable.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if (e.getButton() == MouseEvent.BUTTON3){
-					//Select the row where the user clicked
-					//Credit: http://stackoverflow.com/questions/3558293/java-swing-jtable-right-click-menu-how-do-i-get-it-to-select-aka-highlight-t					
-					int r = taskListTable.rowAtPoint(e.getPoint());
-					if (r >= 0 && r < taskListTable.getRowCount()) {
-						taskListTable.setRowSelectionInterval(r, r);
-						popupMenu.show(taskListTable, e.getX(), e.getY());
-					} else {
-						taskListTable.clearSelection();
-					}
-				}
-			}
-		});
+		TableHelper.setupPopupMenu(taskListTable, popupMenu);
 		
 		JMenuItem removeTaskMenuItem = new JMenuItem("Delete Task");
 		removeTaskMenuItem.setIcon(new ImageIcon(TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/delete.gif")));
@@ -216,7 +200,7 @@ public class TaskListPanel extends CPanel {
 			public void actionPerformed(ActionEvent e) {
 				Task selectedTaskInTable = getSelectedTaskInTable();
 				if (selectedTaskInTable != null){
-					dataContainer.getTasks().remove(selectedTaskInTable);
+					dataContainer.removeTask(selectedTaskInTable);
 					eventBus.post(new TasksChangedNotification());
 				}
 			}
@@ -234,11 +218,15 @@ public class TaskListPanel extends CPanel {
 		final String[] iconsForSwitcher = new String[]{"/org/cdahmedeh/orgapp/imt/icons/events.gif", "/org/cdahmedeh/orgapp/imt/icons/tasks.gif"};
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
+		
 		final JToggleButton showCompletedTasks = ToolbarHelper.createToolbarToggleButton(toolbar, "Show Completed", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/completed.gif"));
 		showCompletedTasks.setBackground(taskListTable.getBackground());
+		
 		final JButton switchBetweenTasksAndEventsButton = ToolbarHelper.createToolbarButton(toolbar, labelsForSwitcher[showEvents], TaskListPanel.class.getResource(iconsForSwitcher[showEvents]));
 		switchBetweenTasksAndEventsButton.setBackground(taskListTable.getBackground());
+		
 		ToolbarHelper.createToolbarSeperator(toolbar);
+		
 		final JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, labelsForAddButton[showEvents], TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif"));
 		addTaskButton.setBackground(taskListTable.getBackground());
 		

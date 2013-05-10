@@ -2,7 +2,10 @@ package org.cdahmedeh.orgapp.swingui.helpers;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 
@@ -39,4 +42,24 @@ public class TableHelper {
         // Scroll the area into view
         //viewport.scrollRectToVisible(rect);
     }
+
+	public static void setupPopupMenu(final JTable table, final JPopupMenu popupMenu) {
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (e.getButton() == MouseEvent.BUTTON3){
+					//Select the row where the user clicked
+					//Credit: http://stackoverflow.com/questions/3558293/java-swing-jtable-right-click-menu-how-do-i-get-it-to-select-aka-highlight-t					
+					int r = table.rowAtPoint(e.getPoint());
+					if (r >= 0 && r < table.getRowCount()) {
+						table.setRowSelectionInterval(r, r);
+						popupMenu.show(table, e.getX(), e.getY());
+					} else {
+						table.clearSelection();
+					}
+				}
+			}
+		});
+		
+	}
 }

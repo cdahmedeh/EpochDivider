@@ -11,8 +11,11 @@ public class TaskListMatcherEditor extends AbstractMatcherEditor<Task>{
 	private DataContainer dataContainer;
 
 	private Matcher<Task> matcher;
-	public TaskListMatcherEditor(DataContainer dataContainer) {this.dataContainer = dataContainer;
-	matcher = new MatcherImplementation();}
+	public TaskListMatcherEditor(DataContainer dataContainer) {
+		this.dataContainer = dataContainer;
+		matcher = new MatcherImplementation();
+	}
+	
 	public void matcherChangedNotify() {this.fireChanged(matcher);}
 	
 	private final class MatcherImplementation implements Matcher<Task> {

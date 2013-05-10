@@ -1,12 +1,9 @@
 package org.cdahmedeh.orgapp.run;
 
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Paint;
 import java.util.ArrayDeque;
-import java.util.TreeMap;
 
 import javax.swing.JFrame;
 
