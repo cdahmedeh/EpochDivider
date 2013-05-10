@@ -13,12 +13,12 @@ public class TaskListMatcherEditor extends AbstractMatcherEditor<Task>{
 	private Matcher<Task> matcher;
 	public TaskListMatcherEditor(DataContainer dataContainer) {
 		this.dataContainer = dataContainer;
-		matcher = new MatcherImplementation();
+		matcher = new TaskListMatcher();
 	}
 	
 	public void matcherChangedNotify() {this.fireChanged(matcher);}
 	
-	private final class MatcherImplementation implements Matcher<Task> {
+	private final class TaskListMatcher implements Matcher<Task> {
 		@Override
 		public boolean matches(Task item) {
 			return TaskMatcher.matches(item, 

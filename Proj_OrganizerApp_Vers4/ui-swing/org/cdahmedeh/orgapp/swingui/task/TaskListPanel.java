@@ -59,11 +59,11 @@ public class TaskListPanel extends CPanel {
 	@Override
 	protected Object getEventRecorder() {
 		return new Object(){
-			@Subscribe public void changedSelectedContext(SelectedContextChangedNotification notification){
+			@Subscribe public void selectedContextChanged(SelectedContextChangedNotification notification){
 				taskListMatcherEditor.matcherChangedNotify();
-				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
+				taskListTable.repaint(); //TODO: Temporary call to repaint() to fix redraw bug.
 			}
-			@Subscribe public void refreshTaskList(TasksChangedNotification notification) throws Exception {
+			@Subscribe public void taskListChanged(TasksChangedNotification notification) throws Exception {
 				refreshTaskListTable();
 			}
 			@Subscribe public void contextListChanged(ContextsChangedNotification notification){
@@ -134,12 +134,11 @@ public class TaskListPanel extends CPanel {
 		taskListTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(sortedTaskList, taskTableFormat);
 		taskListTable.setModel(taskListTableModel);
 		
-//		TableComparatorChooser<Task> taskListSortChooser = 
 		TableComparatorChooser.install(taskListTable, sortedTaskList, TableComparatorChooser.SINGLE_COLUMN);
-		
 	}
 
 	private void prepareTaskListTableRendersAndEditors() {
+		//Setup auto-completed support for Context editor
 		contextEventList = new BasicEventList<>();
 		contextEventList.addAll(dataContainer.getSelectableContexts());
 		
@@ -229,6 +228,8 @@ public class TaskListPanel extends CPanel {
 		
 		final JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, labelsForAddButton[showEvents], TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif"));
 		addTaskButton.setBackground(taskListTable.getBackground());
+		
+		//ToolBar button actions
 		
 		showCompletedTasks.addActionListener(new ActionListener() {
 			@Override

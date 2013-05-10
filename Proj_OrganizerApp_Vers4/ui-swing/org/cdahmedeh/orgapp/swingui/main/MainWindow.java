@@ -71,12 +71,11 @@ public class MainWindow {
 			e.printStackTrace();
 		}
 		logger.info("Configured Look and Feel");
-		
-//		pm = new SQLitePersistenceManager();
-//		dataContainer = pm.loadDataContainer();
+
+		//Load some data
 		dataContainer = TestDataGenerator.generateDataContainer();
 		eventBus = new EventBus();
-		logger.info("Test Data Generated");
+		logger.info("Data Loaded");
 		
 		//Show the application window
 		initialize();
@@ -103,8 +102,8 @@ public class MainWindow {
 
 		//Split pane
 		JXMultiSplitPane mainSplitPane = new JXMultiSplitPane();
-		mainSplitPane.setBorder(new EmptyBorder(2, 3, 3, 3));
-		mainSplitPane.setDividerSize(3);
+		mainSplitPane.setBorder(new EmptyBorder(UIConstants.DEFAULT_PANEL_MARGIN_WIDTH-1, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH));
+		mainSplitPane.setDividerSize(UIConstants.DEFAULT_PANEL_MARGIN_WIDTH);
 		mainSplitPane.setModel(new DefaultSplitPaneModel());
 		mainSplitPane.setContinuousLayout(true);
 		frame.getContentPane().add(mainSplitPane, BorderLayout.CENTER);
@@ -174,6 +173,7 @@ public class MainWindow {
 		/* End Test Data */
 	}
 	
+	// - Non-sequential methods -
 	private void updateDataContainer(DataContainer dataContainer){
 		this.dataContainer.replace(dataContainer);
 		

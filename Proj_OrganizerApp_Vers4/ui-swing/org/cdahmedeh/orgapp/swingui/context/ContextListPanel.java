@@ -58,7 +58,7 @@ public class ContextListPanel extends CPanel {
 			@Subscribe public void refreshContextList(ContextsChangedNotification request) {
 				refreshContextListTreeTable();
 			}
-			@Subscribe public void tasksUpdated(ContextsChangedNotification notification){
+			@Subscribe public void tasksUpdated(TasksChangedNotification notification){
 				refreshContextListTreeTable();
 			}
 			@Subscribe public void selecteFirstContextWhenTaskListFinishesLoading(TaskListPanelPostInitCompleteNotification notification){
@@ -176,7 +176,6 @@ public class ContextListPanel extends CPanel {
 		
 		//TODO: Correctly refresh table.
 		contextEventList.clear();
-		contextListTableFormat.updateReferences(dataContainer);
 		contextEventList.addAll(dataContainer.getContexts());
 		
 		//Reset the selection to what was original selected before.

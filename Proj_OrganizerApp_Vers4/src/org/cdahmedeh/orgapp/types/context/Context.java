@@ -3,9 +3,11 @@ package org.cdahmedeh.orgapp.types.context;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.cdahmedeh.orgapp.tools.DateReference;
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.cdahmedeh.orgapp.types.time.TripleDurationInfo;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
@@ -97,6 +99,12 @@ public class Context {
 		} else {
 			return false;
 		}
+	}
+	public TripleDurationInfo getProgress(ArrayList<Task> tasks, View view) {
+		return new TripleDurationInfo(
+				this.getDurationPassedSince(view.getStartDate().toDateTimeAtStartOfDay(), DateReference.getNow(), tasks), 
+				this.getDurationScheduled(view.getStartDate().toDateTimeAtStartOfDay(), view.getEndDate().plusDays(1).toDateTimeAtStartOfDay(), tasks), 
+				this.getGoal(view));
 	}
 	
 	

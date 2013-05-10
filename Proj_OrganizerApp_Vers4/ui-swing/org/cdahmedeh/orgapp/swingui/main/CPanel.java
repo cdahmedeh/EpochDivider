@@ -21,7 +21,7 @@ import com.google.common.eventbus.Subscribe;
 public abstract class CPanel extends JPanel {
 	private static final long serialVersionUID = 5507618755169356983L;
 	
-	// - Data and EventBus -
+	// - Data, EventBus and Logger -
 	protected DataContainer dataContainer;
 	protected EventBus eventBus;
 	protected Logger logger;
@@ -41,6 +41,7 @@ public abstract class CPanel extends JPanel {
 
 	// - Default event for running postWindowInit() after window has rendered.
 	class DefaultEventRecorder{
+		// This event is invoked in MainWindow after creating all panels.
 		@Subscribe public void changedSelectedContext(WindowLoadedNotification notification){
 			postWindowInit();
 			logger.info("Post-load event done."); //TODO: Specify class name.
@@ -48,7 +49,7 @@ public abstract class CPanel extends JPanel {
 	}
 	
 	/**
-	 * This method is run right after the window is created. 
+	 * This method is run in the window constructor. 
 	 */
 	protected abstract void windowInit();
 	
