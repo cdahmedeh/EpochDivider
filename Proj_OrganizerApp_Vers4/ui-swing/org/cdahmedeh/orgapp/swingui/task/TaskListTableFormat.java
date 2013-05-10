@@ -4,6 +4,8 @@ import java.util.Comparator;
 
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.cdahmedeh.orgapp.types.task.TaskDueDateComparator;
+import org.cdahmedeh.orgapp.types.task.TaskTitleComparator;
 import org.cdahmedeh.orgapp.types.time.TripleDurationInfo;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -16,16 +18,11 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 	@Override
 	public Object getColumnValue(Task baseObject, int column) {
 		switch(column){
-		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED:
-			return baseObject.isCompleted();
-		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
-			return baseObject.getTitle();
-		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
-			return baseObject.getContext();				
-		case TaskListPanelDefaults.COLUMN_TASK_DUE:
-			return baseObject.getDue();				
-		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
-			return baseObject.getProgressInfo();				
+		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED: return baseObject.isCompleted();
+		case TaskListPanelDefaults.COLUMN_TASK_TITLE: return baseObject.getTitle();
+		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT: return baseObject.getContext();				
+		case TaskListPanelDefaults.COLUMN_TASK_DUE: return baseObject.getDue();				
+		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS: return baseObject.getProgressInfo();				
 		}
 		
 		return "";
@@ -41,7 +38,7 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 			baseObject.setTitle((String) editedValue);
 			break;
 		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
-			if (editedValue instanceof Context){
+			if (editedValue != null && editedValue instanceof Context){
 				baseObject.setContext((Context)editedValue);
 			}
 			break;
@@ -67,16 +64,11 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 	@Override
 	public String getColumnName(int column) {
 		switch(column){
-		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED:
-			return "";
-		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
-			return "Task";
-		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
-			return "Context";
-		case TaskListPanelDefaults.COLUMN_TASK_DUE:
-			return "Due";
-		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
-			return "Progress (Completed/Scheduled/Estimate)";
+		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED: return "";
+		case TaskListPanelDefaults.COLUMN_TASK_TITLE: return "Task";
+		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT: return "Context";
+		case TaskListPanelDefaults.COLUMN_TASK_DUE: return "Due";
+		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS: return "Progress (Completed/Scheduled/Estimate)";
 		}
 		return "";
 	}
@@ -84,16 +76,11 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 	@Override
 	public Class<?> getColumnClass(int column) {
 		switch(column){
-		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED:
-			return Boolean.class;
-		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
-			return String.class;
-		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
-			return Context.class;
-		case TaskListPanelDefaults.COLUMN_TASK_DUE:
-			return DateTime.class;
-		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
-			return TripleDurationInfo.class;
+		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED: return Boolean.class;
+		case TaskListPanelDefaults.COLUMN_TASK_TITLE: return String.class;
+		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT: return Context.class;
+		case TaskListPanelDefaults.COLUMN_TASK_DUE: return DateTime.class;
+		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS: return TripleDurationInfo.class;
 		}
 		return null;
 	}
@@ -111,23 +98,8 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 	@Override
 	public Comparator<?> getColumnComparator(int column) {
 		switch(column){
-		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
-			return new Comparator<String>() {
-				@Override
-				public int compare(String o1, String o2) {
-					return o1.compareTo(o2);
-				}
-			};
-		case TaskListPanelDefaults.COLUMN_TASK_DUE:
-			return new Comparator<DateTime>() {
-				@Override
-				public int compare(DateTime o1, DateTime o2) {
-					if (o1 == null && o2 == null) return 0;
-					if (o1 == null) return 1;
-					if (o2 == null) return -1;
-					return o1.compareTo(o2);
-				}
-			};
+		case TaskListPanelDefaults.COLUMN_TASK_TITLE: return new TaskTitleComparator();
+		case TaskListPanelDefaults.COLUMN_TASK_DUE: return new TaskDueDateComparator();
 		}
 		return null;
 	}

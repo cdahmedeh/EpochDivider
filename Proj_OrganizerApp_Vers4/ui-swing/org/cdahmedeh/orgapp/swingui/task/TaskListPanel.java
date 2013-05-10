@@ -297,7 +297,7 @@ public class TaskListPanel extends CPanel {
 		}
 		
 		//Create a new task.
-		dataContainer.createNewBlankTask(showEvents == 1);
+		dataContainer.createNewBlankTask(dataContainer.getShowEvents());
 		
 		//Refresh task list table and notify others.
 		eventBus.post(new TasksChangedNotification());
