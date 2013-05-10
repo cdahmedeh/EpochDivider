@@ -213,7 +213,7 @@ public class ContextListPanel extends CPanel {
 		}
 
 		//Scroll to the context that is being added.
-		TableHelper.scrollToVisible(contextListTable, rowOfNewContext, ContextListPanelDefaults.COLUMN_CONTEXT_NAME);
+		TableHelper.scrollTableToCellAt(contextListTable, rowOfNewContext, ContextListPanelDefaults.COLUMN_CONTEXT_NAME);
 		
 		//Select the item that is was edited.
 		selectItemInContextListTable(rowOfNewContext);

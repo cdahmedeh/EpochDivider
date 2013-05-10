@@ -9,6 +9,12 @@ import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
+/**
+ * Various methods to help reduce boilerplate code when creating toolbar buttons
+ * and other toolbar elements. 
+ * 
+ * @author Ahmed El-Hajjar
+ */
 public class ToolbarHelper {
 	public static Component createToolbarHorizontalGlue(JToolBar toolbar){
 		Component horizontalGlue = Box.createHorizontalGlue();
@@ -16,7 +22,13 @@ public class ToolbarHelper {
 		return horizontalGlue;
 	}
 	
-	public static JButton createToolbarButton(JToolBar toolbar, String label ,URL iconURL){
+	public static Component createToolbarSeperator(JToolBar toolbar) {
+		Component seperator = new JToolBar.Separator();
+		toolbar.add(seperator);
+		return seperator;		
+	}
+	
+	public static JButton createToolbarButton(JToolBar toolbar, String label, URL iconURL){
 		JButton toolbarButton = new JButton(label);
 		toolbarButton.setIcon(new ImageIcon(iconURL));
 		toolbarButton.setFocusable(false);
@@ -24,17 +36,11 @@ public class ToolbarHelper {
 		return toolbarButton;
 	}
 
-	public static JToggleButton createToolbarToggleButton(JToolBar toolbar, String label ,URL iconURL){
+	public static JToggleButton createToolbarToggleButton(JToolBar toolbar, String label, URL iconURL){
 		JToggleButton toolbarToggleButton = new JToggleButton(label);
 		toolbarToggleButton.setIcon(new ImageIcon(iconURL));
 		toolbarToggleButton.setFocusable(false);
 		toolbar.add(toolbarToggleButton);
 		return toolbarToggleButton;
-	}
-	
-	public static Component createToolbarSeperator(JToolBar toolbar) {
-		Component seperator = new JToolBar.Separator();
-		toolbar.add(seperator);
-		return seperator;		
 	}
 }
