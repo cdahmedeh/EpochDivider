@@ -55,10 +55,10 @@ public class ContextListPanel extends CPanel {
 	@Override 
 	protected Object getEventRecorder() {
 		return new Object(){
-			@Subscribe public void refreshContextList(ContextsChangedNotification request) {
+			@Subscribe public void contextListChanged(ContextsChangedNotification request) {
 				refreshContextListTreeTable();
 			}
-			@Subscribe public void tasksUpdated(TasksChangedNotification notification){
+			@Subscribe public void taskListChanged(TasksChangedNotification notification){
 				refreshContextListTreeTable();
 			}
 			@Subscribe public void selecteFirstContextWhenTaskListFinishesLoading(TaskListPanelPostInitCompleteNotification notification){
