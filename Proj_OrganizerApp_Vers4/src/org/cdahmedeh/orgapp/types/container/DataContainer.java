@@ -6,6 +6,7 @@ import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.context.AllContextsContext;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.cdahmedeh.orgapp.types.time.TimeBlock;
 
 /**
  * In memory version of data references used by main UI. 
@@ -154,5 +155,27 @@ public class DataContainer {
 	 */
 	public void removeTask(Task task) {
 		getTasks().remove(task);
+	}
+	
+	/**
+	 * Assigns a new timeBlock to the supplied task and returns it. 
+	 */
+	public TimeBlock assignNewTimeBlockToTask(Task task) {
+		TimeBlock timeBlock = new TimeBlock();
+		task.assignToTimeBlock(timeBlock);
+		return timeBlock;
+	}
+	
+	/**
+	 * Creates a new task with the supplied context, and generates a new 
+	 * timeBlock for that new task and returns the timeBlock.
+	 */
+	public TimeBlock createNewTaskAndTimeBlockWithContext(Context context) {
+		Task task = new Task(context.getName());
+		this.getTasks().add(task);
+		TimeBlock timeBlock = new TimeBlock();
+		task.assignToTimeBlock(timeBlock);
+		task.setContext(context);
+		return timeBlock;
 	}
 }

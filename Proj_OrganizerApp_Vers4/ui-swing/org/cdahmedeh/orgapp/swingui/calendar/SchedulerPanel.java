@@ -163,8 +163,7 @@ public class SchedulerPanel extends CPanel {
 							if (task == null) return false;
 							
 							//Add a new TimeBlock to the Task and start dragging it.
-							TimeBlock timeBlock = new TimeBlock();
-							task.assignToTimeBlock(timeBlock);
+							TimeBlock timeBlock = dataContainer.assignNewTimeBlockToTask(task);
 							timeBlockSelected = timeBlock;
 							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
 							timeClickedOffset = Duration.ZERO;
@@ -175,11 +174,7 @@ public class SchedulerPanel extends CPanel {
 							Context context = (Context) support.getTransferable().getTransferData(new DataFlavor(Context.class, "Context"));
 							if (context == null) return false;
 							
-							Task task = new Task(context.getName());
-							dataContainer.getTasks().add(task);
-							TimeBlock timeBlock = new TimeBlock();
-							task.assignToTimeBlock(timeBlock);
-							task.setContext(context);
+							TimeBlock timeBlock = dataContainer.createNewTaskAndTimeBlockWithContext(context);
 							timeBlockSelected = timeBlock;
 							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
 							timeClickedOffset = Duration.ZERO;
