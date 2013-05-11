@@ -66,7 +66,7 @@ public class SchedulerPanel extends CPanel {
 			renderedTimeBlocks.clear();
 			for (Task task: dataContainer.getTasks()){
 				for (TimeBlock timeBlock: task.getAllTimeBlocks())
-					renderedTimeBlocks.addAll(TimeBlockPainter.draw(g, task, timeBlock, dataContainer.getView(), this));
+					renderedTimeBlocks.addAll(TimeBlockPainter.draw(g, task, timeBlock, dataContainer, this));
 			}
 		}
 		

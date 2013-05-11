@@ -38,6 +38,10 @@ public class DataContainer {
 	public boolean getShowCompleted() {return showCompleted;}
 	public void setShowCompleted(boolean showCompleted) {this.showCompleted = showCompleted;}
 	
+	private boolean dimPast = false;
+	public boolean getDimPast() {return dimPast;}
+	public void setDimPast(boolean dimPast) {this.dimPast = dimPast;}
+	
 	// -- Readers --
 	
 	/**

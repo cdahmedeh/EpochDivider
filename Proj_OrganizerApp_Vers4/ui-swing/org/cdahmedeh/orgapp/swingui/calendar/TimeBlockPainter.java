@@ -8,17 +8,20 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import org.cdahmedeh.orgapp.tools.DateReference;
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.calendar.View;
+import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 public class TimeBlockPainter {
-	public static ArrayList<RendereredTimeBlock> draw(Graphics g, Task task, TimeBlock timeBlock, View view, JPanel panel) {
+	public static ArrayList<RendereredTimeBlock> draw(Graphics g, Task task, TimeBlock timeBlock, DataContainer dataContainer, JPanel panel) {
 		ArrayList<RendereredTimeBlock> rtbs = new ArrayList<>();
-
+		View view = dataContainer.getView();
+		
 		LocalDate tBeginDate = timeBlock.getStart().toLocalDate();
 		LocalTime tBeginTime = timeBlock.getStart().toLocalTime();
 		LocalDate tEndDate = timeBlock.getEnd().toLocalDate();
@@ -78,29 +81,29 @@ public class TimeBlockPainter {
 				g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_OPACITY));
 			}
 			
-//			//Timeblocks that passed should be lighter
-//			if (timeBlock.getEnd().isBefore(DateReference.getNow())){
-//				Color timeBlockColor = g.getColor();
-//				g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_PASSED_OPACITY));
-//			}
+			//Timeblocks that passed should be lighter
+			if (dataContainer.getDimPast() && timeBlock.getEnd().isBefore(DateReference.getNow())){
+				Color timeBlockColor = g.getColor();
+				g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_PASSED_OPACITY));
+			}
 			
 			//Fill the block
 			g.fillRect(rect.x, rect.y, rect.width, rect.height);
 			
 			//Set the border color and draw the border.
 			g.setColor(CalendarConstants.TIMEBLOCK_BORDER_COLOR);
-//	/**/	if (timeBlock.getEnd().isBefore(DateReference.getNow())){
-//				g.setColor(new Color(0.5f, 0.5f, 0.5f, 1f));
-//	/**/	}
+	/**/	if (dataContainer.getDimPast() && timeBlock.getEnd().isBefore(DateReference.getNow())){
+				g.setColor(new Color(0.5f, 0.5f, 0.5f, 1f));
+	/**/	}
 			g.drawRect(rect.x, rect.y, rect.width, rect.height);
 	
 			//Draw text
 			//TODO: Fancy cropping and wrapping routine.
 			g.setColor(CalendarConstants.TIMEBLOCK_TEXT_COLOR);
 			
-//	/**/	if (timeBlock.getEnd().isBefore(DateReference.getNow())){
-//				g.setColor(new Color(0.5f, 0.5f, 0.5f, 1f));
-//	/**/	}
+	/**/	if (dataContainer.getDimPast() && timeBlock.getEnd().isBefore(DateReference.getNow())){
+				g.setColor(new Color(0.5f, 0.5f, 0.5f, 1f));
+	/**/	}
 			
 //			g.drawString(task.getTitle().substring(0, Math.min(12, task.getTitle().length())), rect.x+5, rect.y+15);
 //			if (rect.height > 30) g.drawString(tBeginTime.toString("HH:mm") + "-" + tEndTime.toString("HH:mm"), rect.x+5, rect.y+30);

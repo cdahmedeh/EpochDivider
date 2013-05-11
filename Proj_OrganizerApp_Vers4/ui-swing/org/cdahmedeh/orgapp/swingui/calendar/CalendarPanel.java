@@ -78,12 +78,21 @@ public class CalendarPanel extends CPanel {
 //		JToggleButton monthButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Month", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/month.gif"));
 //		JToggleButton statisticsButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Statistics", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/statistic.gif"));
 //		ToolbarHelper.createToolbarSeperator(toolbar);
-		JToggleButton dimPassedButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Dim Past", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/dim_passed.gif"));
+		final JToggleButton dimPassedButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Dim Past", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/dim_passed.gif"));
+		dimPassedButton.setSelected(dataContainer.getDimPast());
 		ToolbarHelper.createToolbarSeperator(toolbar);
 		JButton previousWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Previous Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/previous.gif"));
 		previousWeekButton.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
 		JButton nextWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Next Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/next.gif"));
 		nextWeekButton.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
+		
+		dimPassedButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dataContainer.setDimPast(dimPassedButton.isSelected());
+				repaint();
+			}
+		});
 		
 		previousWeekButton.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
