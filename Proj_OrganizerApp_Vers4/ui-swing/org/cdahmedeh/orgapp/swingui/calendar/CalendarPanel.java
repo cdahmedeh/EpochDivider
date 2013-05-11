@@ -68,17 +68,15 @@ public class CalendarPanel extends CPanel {
 		add(toolbar, BorderLayout.NORTH);
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
-//		JToggleButton timeBotButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Time Bot", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/timebot.gif"));
-//		ToolbarHelper.createToolbarSeperator(toolbar);
-//		JToggleButton weekButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/week.gif"));
-//		JToggleButton monthButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Month", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/month.gif"));
-//		JToggleButton statisticsButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Statistics", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/statistic.gif"));
-//		ToolbarHelper.createToolbarSeperator(toolbar);
+		
 		final JToggleButton dimPassedButton = ToolbarHelper.createToolbarToggleButton(toolbar, "Dim Past", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/dim_passed.gif"));
 		dimPassedButton.setSelected(dataContainer.getDimPast());
+		
 		ToolbarHelper.createToolbarSeperator(toolbar);
+		
 		JButton previousWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Previous Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/previous.gif"));
 		previousWeekButton.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
+		
 		JButton nextWeekButton = ToolbarHelper.createToolbarButton(toolbar, "Next Week", CalendarPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/next.gif"));
 		nextWeekButton.setBackground(CalendarConstants.CALENDAR_PANE_BACKGROUND_COLOR);
 		
@@ -103,9 +101,8 @@ public class CalendarPanel extends CPanel {
 		});
 	}
 	
-
 	private void moveViewByDays(int days) {
-		dataContainer.getView().moveAmountOfDays(days);
+		dataContainer.moveViewByAmountOfDays(days);
 		repaint();
 		eventBus.post(new ContextsChangedNotification());
 	}

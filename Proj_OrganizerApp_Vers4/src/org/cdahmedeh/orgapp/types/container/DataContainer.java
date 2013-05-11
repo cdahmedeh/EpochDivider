@@ -182,4 +182,12 @@ public class DataContainer {
 		task.setContext(context);
 		return timeBlock;
 	}
+	
+	/**
+	 * Move view by days
+	 * @param days
+	 */
+	public void moveViewByAmountOfDays(int days) {
+		this.view.moveAmountOfDays(days);
+	}
 }
