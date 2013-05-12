@@ -5,6 +5,8 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeMap;
 
 import javax.swing.JPanel;
 
@@ -18,8 +20,8 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 public class TimeBlockPainter {
-	public static ArrayList<RendereredTimeBlock> produceRenderedTimeBlocksForTask(Task task, TimeBlock timeBlock, DataContainer dataContainer, JPanel panel){
-		ArrayList<RendereredTimeBlock> rtbs = new ArrayList<>();
+	public static ArrayList<RenderedTimeBlock> produceRenderedTimeBlocksForTask(Task task, TimeBlock timeBlock, DataContainer dataContainer, JPanel panel){
+		ArrayList<RenderedTimeBlock> rtbs = new ArrayList<>();
 		View view = dataContainer.getView();
 		
 		int panelWidth = panel.getWidth() - 1;
@@ -37,20 +39,20 @@ public class TimeBlockPainter {
 		
 		//Create the rectangles dimensions that will be rendered for the TimeBlock.
 		if (daysSpanning == 0){
-			rtbs.add(new RendereredTimeBlock(
+			rtbs.add(new RenderedTimeBlock(
 				DateToPixels.getHorizontalPositionFromDate(tBeginDate , panelWidth , view), 
 				DateToPixels.getVerticalPositionFromTime(tBeginTime , panelHeight), 
 				DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(1), panelWidth , view) - DateToPixels.getHorizontalPositionFromDate(tBeginDate , panelWidth , view), 
 				DateToPixels.getHeightFromInterval(tBeginTime, tEndTime, panelHeight, view)
 				));
 		} else {
-			rtbs.add(new RendereredTimeBlock(
+			rtbs.add(new RenderedTimeBlock(
 					DateToPixels.getHorizontalPositionFromDate(tBeginDate, panelWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(tBeginTime, panelHeight), 
 					DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(1), panelWidth , view) - DateToPixels.getHorizontalPositionFromDate(tBeginDate , panelWidth , view), 
 					DateToPixels.getHeightFromInterval(tBeginTime, endOfDay, panelHeight, view) + 1 //TODO: +1 temp
 					));
-			rtbs.add( new RendereredTimeBlock(
+			rtbs.add( new RenderedTimeBlock(
 					DateToPixels.getHorizontalPositionFromDate(tEndDate, panelWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(midnight, panelHeight), 
 					DateToPixels.getHorizontalPositionFromDate(tEndDate.plusDays(1), panelWidth , view) - DateToPixels.getHorizontalPositionFromDate(tEndDate, panelWidth , view), 
@@ -60,7 +62,7 @@ public class TimeBlockPainter {
 		
 		if (daysSpanning > 1){
 			for (int i=1; i<daysSpanning; i++){
-			rtbs.add(new RendereredTimeBlock(
+			rtbs.add(new RenderedTimeBlock(
 					DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(i) , panelWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(midnight, panelHeight), 
 					DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(i).plusDays(1), panelWidth , view) - DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(i) , panelWidth , view), 
@@ -70,7 +72,7 @@ public class TimeBlockPainter {
 		}
 
 		//Assign the data (task and timeBlock reference) to the rectangles.
-		for (RendereredTimeBlock r: rtbs){
+		for (RenderedTimeBlock r: rtbs){
 			r.setTask(task);
 			r.setTimeBlock(timeBlock);
 		}
@@ -78,7 +80,7 @@ public class TimeBlockPainter {
 		return rtbs;
 	}
 	
-	public static void renderTimeBlock(Graphics g, RendereredTimeBlock rect, DataContainer dataContainer, JPanel panel){
+	public static void renderTimeBlock(Graphics g, RenderedTimeBlock rect, DataContainer dataContainer, JPanel panel){
 		TimeBlock timeBlock = rect.getTimeBlock();
 		Task task = rect.getTask();
 		
@@ -174,5 +176,13 @@ public class TimeBlockPainter {
 		} else {
 			return drawCroppedString(metrics, nextWord.substring(0, nextWord.length()-1), width);
 		}
+	}
+
+	public static ArrayList<RenderedTimeBlock> processIntersections(
+			ArrayList<RenderedTimeBlock> renderedTimeBlocks) {
+		HashMap<RenderedTimeBlock, ArrayList<RenderedTimeBlock>> processed = new HashMap<>();
+		
+		
+		return renderedTimeBlocks;
 	}
 }

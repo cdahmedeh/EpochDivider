@@ -64,12 +64,17 @@ public class SchedulerPanel extends CPanel {
 		//TODO: Optimization, draw only those within view.
 		if (drawTasks){
 			renderedTimeBlocks.clear();
+			
+			ArrayList<RenderedTimeBlock> rtbs = new ArrayList<>();
+			
 			for (Task task: dataContainer.getTasks()){
 				for (TimeBlock timeBlock: task.getAllTimeBlocks())
-					renderedTimeBlocks.addAll(TimeBlockPainter.produceRenderedTimeBlocksForTask(task, timeBlock, dataContainer, this));
+					rtbs.addAll(TimeBlockPainter.produceRenderedTimeBlocksForTask(task, timeBlock, dataContainer, this));
 			}
 			
-			for (RendereredTimeBlock rtb: renderedTimeBlocks){
+			renderedTimeBlocks = TimeBlockPainter.processIntersections(rtbs);
+			
+			for (RenderedTimeBlock rtb: renderedTimeBlocks){
 				TimeBlockPainter.renderTimeBlock(g, rtb, dataContainer, this);
 			}
 		}
@@ -80,7 +85,7 @@ public class SchedulerPanel extends CPanel {
 	
 	// -- Data --
 	private boolean drawTasks = false;
-	private ArrayList<RendereredTimeBlock> renderedTimeBlocks = new ArrayList<>();
+	private ArrayList<RenderedTimeBlock> renderedTimeBlocks = new ArrayList<>();
 
 	// -- Drag and drop variables ---
 	private CalendarUIMode uiMode = CalendarUIMode.NONE;
@@ -93,7 +98,7 @@ public class SchedulerPanel extends CPanel {
 			public void mouseDragged(MouseEvent e) {
 				//Support for moving and resizing TimeBlocks.
 				if (uiMode == CalendarUIMode.NONE){
-					RendereredTimeBlock clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
+					RenderedTimeBlock clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
 					if (clickedTimeBlock != null) {
 						timeBlockSelected = clickedTimeBlock.getTimeBlock();
 						if (isNearTop(e, clickedTimeBlock)){
@@ -123,7 +128,7 @@ public class SchedulerPanel extends CPanel {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				//Support for changing mouse cursor depending on position over a TimeBlock.
-				RendereredTimeBlock clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
+				RenderedTimeBlock clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
 				if (getClickedTimeBlock(e.getX(), e.getY()) != null) {
 					if (isNearTop(e, clickedTimeBlock)){
 						setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
@@ -210,8 +215,8 @@ public class SchedulerPanel extends CPanel {
 	}
 	
 	// --- Helpers ---
-	private RendereredTimeBlock getClickedTimeBlock(int x, int y){
-		for (RendereredTimeBlock rt: renderedTimeBlocks){
+	private RenderedTimeBlock getClickedTimeBlock(int x, int y){
+		for (RenderedTimeBlock rt: renderedTimeBlocks){
 			if (rt.isWithin(x, y)) {
 				return rt;
 			}
@@ -219,11 +224,11 @@ public class SchedulerPanel extends CPanel {
 		return null;
 	}
 	
-	private boolean isNearBottom(MouseEvent e, RendereredTimeBlock clickedTimeBlock) {
+	private boolean isNearBottom(MouseEvent e, RenderedTimeBlock clickedTimeBlock) {
 		return e.getY()-clickedTimeBlock.y < 5;
 	}
 
-	private boolean isNearTop(MouseEvent e, RendereredTimeBlock clickedTimeBlock) {
+	private boolean isNearTop(MouseEvent e, RenderedTimeBlock clickedTimeBlock) {
 		return e.getY()-clickedTimeBlock.y > clickedTimeBlock.height-10;
 	}
 	

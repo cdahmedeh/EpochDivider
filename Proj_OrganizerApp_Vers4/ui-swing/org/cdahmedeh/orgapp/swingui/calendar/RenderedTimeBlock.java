@@ -8,13 +8,13 @@ import org.cdahmedeh.orgapp.types.time.TimeBlock;
  *  
  * @author Ahmed El-Hajjar
  */
-public class RendereredTimeBlock {
+public class RenderedTimeBlock {
 	public int x;
 	public int y;
 	public int width;
 	public int height;
 
-	public RendereredTimeBlock(int x, int y, int width, int height) {
+	public RenderedTimeBlock(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -33,5 +33,15 @@ public class RendereredTimeBlock {
 	//TODO: Code is from SWT Rectangle.
 	public boolean isWithin(int x, int y) {
 		return (x >= this.x) && (y >= this.y) && x < (this.x + width) && y < (this.y + height);
+	}
+	
+	public boolean intersects (int x, int y, int width, int height) {
+		return (x < this.x + this.width) && (y < this.y + this.height) &&
+			(x + width > this.x) && (y + height > this.y);
+	}
+	
+	@Override
+	public String toString() {
+		return this.getTask().toString();
 	}
 }

@@ -38,7 +38,6 @@ public class Task {
 	public boolean isDue() {return due != null;}
 	public DateTime getDue() {return due;}
 	public void setDue(DateTime due) {this.due = due;}
-	
 
 	private Duration estimate = Duration.ZERO;
 	public Duration getEstimate() {return estimate;}
@@ -56,6 +55,11 @@ public class Task {
 	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
 	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}
 	
+	
+	@Override
+	public String toString() {
+		return this.getTitle();
+	}
 	
 	/* ---- Reader methods ---- */
 	
