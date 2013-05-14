@@ -104,9 +104,18 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             	tasks.add(task);
             }
             dataContainer.setTasks(tasks);
+			
             return dataContainer;
 		} catch (SQLException e) {
+			
 			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return new DataContainer();
 	}
@@ -201,6 +210,13 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
 	}
 }
