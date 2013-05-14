@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.JPanel;
@@ -18,6 +20,11 @@ import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.TreeMultimap;
 
 public class TimeBlockPainter {
 	public static ArrayList<RenderedTimeBlock> produceRenderedTimeBlocksForTask(Task task, TimeBlock timeBlock, DataContainer dataContainer, JPanel panel){
@@ -180,8 +187,25 @@ public class TimeBlockPainter {
 
 	public static ArrayList<RenderedTimeBlock> processIntersections(
 			ArrayList<RenderedTimeBlock> renderedTimeBlocks) {
-		HashMap<RenderedTimeBlock, ArrayList<RenderedTimeBlock>> processed = new HashMap<>();
 		
+//		ArrayListMultimap<RenderedTimeBlock, RenderedTimeBlock> mmm = ArrayListMultimap.create();
+//		
+//		for (RenderedTimeBlock rtb1: renderedTimeBlocks) {
+//			mmm.put(rtb1, rtb1);
+//			for (RenderedTimeBlock rtb2: renderedTimeBlocks) {
+//				if (rtb1.intersects(rtb2.x+1, rtb2.y+1, rtb2.width-2, rtb2.height-2) && !mmm.keySet().contains(rtb2)){
+//					mmm.put(rtb1, rtb2);
+//				}
+//			}	
+//		}
+//		
+//		for (RenderedTimeBlock rk: mmm.keySet()){
+//			List<RenderedTimeBlock> set = mmm.get(rk);
+//			int i = 0; for (RenderedTimeBlock rv: set){
+//				rv.width = rv.width/set.size();
+//				rv.x += i*rv.width;
+//			i++;}
+//		}
 		
 		return renderedTimeBlocks;
 	}

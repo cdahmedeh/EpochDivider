@@ -18,6 +18,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.cdahmedeh.orgapp.generators.TestDataGenerator;
 import org.cdahmedeh.orgapp.pers.PersistanceManagerInterface;
+import org.cdahmedeh.orgapp.pers.SQLitePersistenceManager;
 import org.cdahmedeh.orgapp.swingui.calendar.CalendarPanel;
 import org.cdahmedeh.orgapp.swingui.context.ContextListPanel;
 import org.cdahmedeh.orgapp.swingui.notification.ContextsChangedNotification;
@@ -73,6 +74,7 @@ public class MainWindow {
 		logger.info("Configured Look and Feel");
 
 		//Load some data
+		pm = new SQLitePersistenceManager();
 		dataContainer = TestDataGenerator.generateDataContainer();
 		eventBus = new EventBus();
 		logger.info("Data Loaded");
@@ -127,6 +129,15 @@ public class MainWindow {
 		
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
+		
+		/* Load */
+		JMenuItem mntmLoad = new JMenuItem("Load from database");
+		mnFile.add(mntmLoad);
+		
+		mntmLoad.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
+			updateDataContainer(pm.loadDataContainer());
+			dataContainer.setView(TestDataGenerator.generateDataContainer().getView());
+		}});
 		
 		/* Save */
 		JMenuItem mntmSave = new JMenuItem("Save to database");
