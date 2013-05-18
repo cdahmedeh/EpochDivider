@@ -11,6 +11,7 @@ import org.cdahmedeh.orgapp.types.time.TimeBlock;
 public class RenderedTimeBlock {
 	public int x;
 	public int y;
+	public int oridWidth;
 	public int width;
 	public int height;
 
@@ -18,6 +19,7 @@ public class RenderedTimeBlock {
 		this.x = x;
 		this.y = y;
 		this.width = width;
+		this.oridWidth = width;
 		this.height = height;
 	}
 	

@@ -69,10 +69,10 @@ public class SchedulerPanel extends CPanel {
 			
 			for (Task task: dataContainer.getTasks()){
 				for (TimeBlock timeBlock: task.getAllTimeBlocks())
-					rtbs.addAll(TimeBlockPainter.produceRenderedTimeBlocksForTask(task, timeBlock, dataContainer, this));
+					rtbs.addAll(TimeBlockGenerator.produceRenderedTimeBlocksForTask(task, timeBlock, dataContainer, this));
 			}
 			
-			renderedTimeBlocks = TimeBlockPainter.processIntersections(rtbs);
+			renderedTimeBlocks = TimeBlockGenerator.processIntersections(dataContainer, rtbs);
 			
 			for (RenderedTimeBlock rtb: renderedTimeBlocks){
 				TimeBlockPainter.renderTimeBlock(g, rtb, dataContainer, this);
