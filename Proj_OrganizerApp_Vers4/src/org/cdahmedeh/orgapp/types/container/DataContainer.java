@@ -91,6 +91,9 @@ public class DataContainer {
 		this.tasks = dataContainer.getTasks();
 		this.selectedContext = dataContainer.getSelectedContext();
 		this.view = dataContainer.getView();
+		this.showEvents = dataContainer.getShowEvents();
+		this.showCompleted = dataContainer.getShowCompleted();
+		this.dimPast = dataContainer.getDimPast();
 	}
 	
 	// -- Easy Modifiers --
