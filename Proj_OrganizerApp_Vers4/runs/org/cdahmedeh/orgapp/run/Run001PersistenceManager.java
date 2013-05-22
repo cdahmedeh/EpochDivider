@@ -49,10 +49,10 @@ public class Run001PersistenceManager {
 		
 		//Save it
 		PersistanceManagerInterface pm = new SQLitePersistenceManager();
-		pm.saveDataContainer(generatedDataContainer);
+//		pm.saveDataContainer(generatedDataContainer);
 		
 		//Load it again
-		DataContainer loadedDataContainer = pm.loadDataContainer();
-		System.out.println(loadedDataContainer); //This is just to remove a compiler warning.
+//		DataContainer loadedDataContainer = pm.loadDataContainer();
+//		System.out.println(loadedDataContainer); //This is just to remove a compiler warning.
 	}
 }

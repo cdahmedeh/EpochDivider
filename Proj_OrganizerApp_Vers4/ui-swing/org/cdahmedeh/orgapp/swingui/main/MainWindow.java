@@ -4,11 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
@@ -33,6 +37,7 @@ import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 import com.google.common.eventbus.EventBus;
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import com.jidesoft.plaf.LookAndFeelFactory;
+import javax.swing.ImageIcon;
 
 public class MainWindow {
 	public static void main(String[] args) {
@@ -131,25 +136,51 @@ public class MainWindow {
 		menuBar.add(mnFile);
 		
 		/* Load */
-		JMenuItem mntmLoad = new JMenuItem("Load from database");
+		JMenuItem mntmLoad = new JMenuItem("Open");
+		mntmLoad.setIcon(new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/open.gif")));
 		mnFile.add(mntmLoad);
 		
 		mntmLoad.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
-			updateDataContainer(pm.loadDataContainer());
-			dataContainer.setView(TestDataGenerator.generateDataContainer().getView());
+			File saveLocation = openFileDialog();
+			if (saveLocation != null){
+				updateDataContainer(pm.loadDataContainer(saveLocation));
+				dataContainer.setView(TestDataGenerator.generateDataContainer().getView());
+			}
 		}});
 		
 		/* Save */
-		JMenuItem mntmSave = new JMenuItem("Save to database");
+		mnFile.addSeparator();
+		
+		JMenuItem mntmSave = new JMenuItem("Save");
+		mntmSave.setIcon(new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/save.gif")));
 		mnFile.add(mntmSave);
 		
 		mntmSave.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
-			pm.saveDataContainer(dataContainer);}});
+			File saveLocation = openFileDialog();
+			if (saveLocation != null){
+				 pm.saveDataContainer(saveLocation, dataContainer);
+			}
+		}});
+
+		
+		JMenuItem mntmSaveAs = new JMenuItem("Save As...");
+		mntmSaveAs.setIcon(new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/saveas.gif")));
+		mnFile.add(mntmSaveAs);
+		
+		mntmSaveAs.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
+			File saveLocation = openFileDialog();
+			if (saveLocation != null){
+				pm.saveDataContainer(saveLocation, dataContainer);
+			}
+		}});
 		
 		/* Test Data */
 		
+		JMenu mnDebug = new JMenu("Debug");
+		menuBar.add(mnDebug);
+		
 		JMenu mnSwitchTestData = new JMenu("Switch Test Data");
-		mnFile.add(mnSwitchTestData);
+		mnDebug.add(mnSwitchTestData);
 		
 		JMenuItem mntmNormalTestData = new JMenuItem("Normal Test Data");
 		mnSwitchTestData.add(mntmNormalTestData);
@@ -184,6 +215,17 @@ public class MainWindow {
 		/* End Test Data */
 	}
 	
+	private File openFileDialog() {
+		JFileChooser jFileChooser = new JFileChooser();
+		jFileChooser.setFileSelectionMode(JFileChooser.APPROVE_OPTION);
+		jFileChooser.setCurrentDirectory(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toString()));
+		int openDialogReturn = jFileChooser.showOpenDialog(frame.getContentPane());
+		if (openDialogReturn == JFileChooser.APPROVE_OPTION) {
+			return jFileChooser.getSelectedFile();
+		}
+		return null;
+	}
+
 	// - Non-sequential methods -
 	private void updateDataContainer(DataContainer dataContainer){
 		this.dataContainer.replace(dataContainer);

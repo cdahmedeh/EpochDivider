@@ -1,5 +1,6 @@
 package org.cdahmedeh.orgapp.pers;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -24,8 +25,8 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
 	public static void main(String[] args) {
 		DataContainer dataContainer = TestDataGenerator.generateDataContainer();
 		PersistanceManagerInterface pm = new SQLitePersistenceManager();
-		pm.saveDataContainer(dataContainer);
-		pm.loadDataContainer();
+//		pm.saveDataContainer("database.db", dataContainer);
+//		pm.loadDataContainer("database.db");
 		System.out.println("Done");
 	}
 	
@@ -33,7 +34,7 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
 	 * @see org.cdahmedeh.orgapp.pers.PersistanceManagerInterface#loadDataContainer()
 	 */
 	@Override
-	public DataContainer loadDataContainer(){
+	public DataContainer loadDataContainer(File file){
 		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e1) {
@@ -43,7 +44,8 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
 		Connection connection = null;
 		
 		try {
-			connection = DriverManager.getConnection("jdbc:sqlite:database.db");
+			String location = file.getPath();
+			connection = DriverManager.getConnection("jdbc:sqlite:" + location);
 
             Statement statementContext = connection.createStatement();
             Statement statementGoal = connection.createStatement();
@@ -111,6 +113,7 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
 			e.printStackTrace();
 		} finally {
 			try {
+				System.out.println("close connection");
 				connection.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -124,7 +127,7 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
 	 * @see org.cdahmedeh.orgapp.pers.PersistanceManagerInterface#saveDataContainer(org.cdahmedeh.orgapp.types.container.DataContainer)
 	 */
 	@Override
-	public void saveDataContainer(DataContainer dataContainer){
+	public void saveDataContainer(File file, DataContainer dataContainer){
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e1) {
@@ -134,7 +137,8 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
         
         Connection connection = null;
         try {        
-            connection = DriverManager.getConnection("jdbc:sqlite:database.db");
+        	String location = file.getPath();
+			connection = DriverManager.getConnection("jdbc:sqlite:" + location);
             
             Statement statementContext = connection.createStatement();
             Statement statementGoal = connection.createStatement();
@@ -212,6 +216,7 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             e.printStackTrace();
         } finally {
         	try {
+        		System.out.println("close connection");
 				connection.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
