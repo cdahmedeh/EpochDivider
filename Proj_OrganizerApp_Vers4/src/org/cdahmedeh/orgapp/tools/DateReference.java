@@ -15,8 +15,8 @@ public class DateReference {
 	 * @return A DateTime reference to the current time.
 	 */
 	public static DateTime getNow() {
-//		return DateTime.now();
-		return new DateTime(2013, 4, 23, 23, 00);
+		return DateTime.now();
+//		return new DateTime(2013, 4, 23, 23, 00);
 	}
 	
 	/**

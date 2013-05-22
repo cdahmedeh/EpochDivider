@@ -81,7 +81,8 @@ public class MainWindow {
 
 		//Load some data
 		pm = new SQLitePersistenceManager();
-		dataContainer = TestDataGenerator.generateDataContainer();
+		dataContainer = new DataContainer();
+		dataContainer.generateDefaults();
 		eventBus = new EventBus();
 		logger.info("Data Loaded");
 		

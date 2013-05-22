@@ -2,11 +2,14 @@ package org.cdahmedeh.orgapp.types.container;
 
 import java.util.ArrayList;
 
+import org.cdahmedeh.orgapp.generators.TestDataGenerator;
+import org.cdahmedeh.orgapp.tools.DateReference;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.context.AllContextsContext;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
+import org.joda.time.DateTimeConstants;
 
 /**
  * In memory version of data references used by main UI. 
@@ -41,6 +44,13 @@ public class DataContainer {
 	private boolean dimPast = false;
 	public boolean getDimPast() {return dimPast;}
 	public void setDimPast(boolean dimPast) {this.dimPast = dimPast;}
+	
+	public void generateDefaults(){
+		contexts = TestDataGenerator.generateDefaultContexts();
+		tasks = new ArrayList<>();
+		view = new View(DateReference.getToday().withDayOfWeek(DateTimeConstants.SUNDAY).minusDays(7), DateReference.getToday().withDayOfWeek(DateTimeConstants.SUNDAY).plusDays(-1));
+		selectedContext = contexts.get(0);
+	}
 	
 	// -- Readers --
 	
