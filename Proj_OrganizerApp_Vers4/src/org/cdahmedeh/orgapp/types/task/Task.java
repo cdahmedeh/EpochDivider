@@ -26,6 +26,11 @@ public class Task {
 	
 	/* ---- Main Data ---- */
 	
+	private static int idCounter = 0;
+	private int id = idCounter++;
+	public int getId() {return id;}
+	public void setId(int id) {this.id = id;} //TODO: How to protect?
+	
 	private String title = "";
 	public String getTitle() {return title;}
 	public void setTitle(String title) {this.title = MiscHelper.safeTrim(title);}

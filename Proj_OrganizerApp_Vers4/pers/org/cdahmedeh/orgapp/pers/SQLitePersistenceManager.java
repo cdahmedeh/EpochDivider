@@ -59,8 +59,8 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
 
             ResultSet rs0 = statementContext.executeQuery("select name, color from contextlist");
             ResultSet rs1 = statementGoal.executeQuery("select contextname, startdate, enddate, duration from goalstable");
-            ResultSet rs2 = statementTask.executeQuery("select title, context, due, duration, completed, event from tasklist");
-            ResultSet rs3 = statementTime.executeQuery("select taskname, start, end from timeblocks");
+            ResultSet rs2 = statementTask.executeQuery("select id, title, context, due, duration, completed, event from tasklist");
+            ResultSet rs3 = statementTime.executeQuery("select taskid, start, end from timeblocks");
 			
             DataContainer dataContainer = new DataContainer();
         	ArrayList<Context> contexts = new ArrayList<>();
@@ -86,19 +86,20 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             dataContainer.setContexts(contexts);
             
             while(rs2.next()){
-            	String name = rs2.getString(1);
+            	int id = rs2.getInt(1);
+            	String name = rs2.getString(2);
             	Task task = new Task(name);
-            	task.setContext(contextList.get(rs2.getString(2)));//TODO: approve shortcut. Less space in database, more space while loading data
-            	if (rs2.getString(3).equals("null"))
+            	task.setContext(contextList.get(rs2.getString(3)));//TODO: approve shortcut. Less space in database, more space while loading data
+            	if (rs2.getString(4).equals("null"))
             		task.setDue(null);
             	else
-            		task.setDue(new DateTime(rs2.getString(3)));
-            	task.setEstimate(new Duration(rs2.getString(4)));
-            	task.setCompleted(rs2.getBoolean(5));
-            	task.setEvent(rs2.getBoolean(6));
-            	rs3 = statementTime.executeQuery("select taskname, start, end from timeblocks");
+            		task.setDue(new DateTime(rs2.getString(4)));
+            	task.setEstimate(new Duration(rs2.getString(5)));
+            	task.setCompleted(rs2.getBoolean(6));
+            	task.setEvent(rs2.getBoolean(7));
+            	rs3 = statementTime.executeQuery("select taskid, start, end from timeblocks");
             	while(rs3.next()){
-            		if (rs3.getString(1).equals(name)){
+            		if (rs3.getInt(1) == (id)){
             			task.assignToTimeBlock(new TimeBlock((new DateTime(rs3.getString(2))),(new DateTime(rs3.getString(3)))));
             		}
             	}
@@ -159,8 +160,8 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             //Tables that deal with the tasks arraylist
             statementTask.executeUpdate("drop table if exists tasklist");
             statementTime.executeUpdate("drop table if exists timeblocks");
-            statementTask.executeUpdate("create table tasklist (title string, context string, due string, duration string, completed boolean, event boolean)");
-            statementTime.executeUpdate("create table timeblocks (taskname string, start string, end string)");
+            statementTask.executeUpdate("create table tasklist (id int, title string, context string, due string, duration string, completed boolean, event boolean)");
+            statementTime.executeUpdate("create table timeblocks (taskid int, start string, end string)");
             
             //Saving the tables for the contexts
             for (Context context: dataContainer.getContexts()){
@@ -175,14 +176,16 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             //Saving the tables for the tasks
             for (Task task: dataContainer.getTasks()){
             	if (task.isDue()){
-            		statementTask.executeUpdate("insert into tasklist values('"+ task.getTitle() +
+            		statementTask.executeUpdate("insert into tasklist values('"+ task.getId() +
+                			"', '"+ task.getTitle() +
                 			"', '"+ task.getContext().getName() +
                 			"', '"+ task.getDue().toString() +
                 			"', '"+ task.getEstimate().toString() +
                 			"', '"+ task.isCompleted() +
                 			"', '"+ task.isEvent() +"')");
             	} else {
-            		statementTask.executeUpdate("insert into tasklist values('"+ task.getTitle() +
+            		statementTask.executeUpdate("insert into tasklist values('"+ task.getId() +
+                			"', '"+ task.getTitle() +
                 			"', '"+ task.getContext().getName() +
                 			"', '"+ null +
                 			"', '"+ task.getEstimate().toString() +
@@ -190,7 +193,7 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
                 			"', '"+ task.isEvent() +"')");
             	}
             	for(TimeBlock timeblock: task.getAllTimeBlocks()){
-            		statementTime.executeUpdate("insert into timeblocks values('"+ task.getTitle() +"', '"+ timeblock.getStart().toString() +"', '"+ timeblock.getEnd().toString()+"')");
+            		statementTime.executeUpdate("insert into timeblocks values('"+ task.getId() +"', '"+ timeblock.getStart().toString() +"', '"+ timeblock.getEnd().toString()+"')");
             	}
             }
             
