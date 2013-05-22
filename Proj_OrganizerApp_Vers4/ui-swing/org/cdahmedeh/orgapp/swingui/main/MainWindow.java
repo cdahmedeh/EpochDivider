@@ -62,6 +62,7 @@ public class MainWindow {
 	// - Data -
 	private DataContainer dataContainer;
 	private PersistanceManagerInterface pm;
+	private File currentFile = null;
 	
 	public MainWindow() {
 		//Prepare logger
@@ -156,9 +157,14 @@ public class MainWindow {
 		mnFile.add(mntmSave);
 		
 		mntmSave.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
-			File saveLocation = openFileDialog();
-			if (saveLocation != null){
-				 pm.saveDataContainer(saveLocation, dataContainer);
+			
+			if (currentFile != null){
+				 pm.saveDataContainer(currentFile, dataContainer);
+			} else {
+				File saveLocation = openFileDialog();
+				if (saveLocation != null){
+					pm.saveDataContainer(saveLocation, dataContainer);
+				}
 			}
 		}});
 
@@ -221,7 +227,10 @@ public class MainWindow {
 		jFileChooser.setCurrentDirectory(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toString()));
 		int openDialogReturn = jFileChooser.showOpenDialog(frame.getContentPane());
 		if (openDialogReturn == JFileChooser.APPROVE_OPTION) {
-			return jFileChooser.getSelectedFile();
+			File selectedFile = jFileChooser.getSelectedFile();
+			this.currentFile = selectedFile; 
+			this.frame.setTitle(UIConstants.WINDOW_TITLE + " - " + currentFile.getName());
+			return selectedFile;
 		}
 		return null;
 	}
