@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
-import org.cdahmedeh.orgapp.tools.FuzzyDateParser;
+import org.cdahmedeh.orgapp.parsers.FuzzyDurationParser;
 import org.cdahmedeh.orgapp.types.time.TripleDurationInfo;
 import org.joda.time.Duration;
 
@@ -30,11 +30,11 @@ public class RoundedTripleDurationCellRenderer extends DefaultTableCellRenderer 
 		
 		if (value instanceof TripleDurationInfo){
 			setText(
-				FuzzyDateParser.durationToFuzzyString(((TripleDurationInfo)value).getTotalPassed()) +
+				FuzzyDurationParser.durationToFuzzyString(((TripleDurationInfo)value).getTotalPassed()) +
 				" / " +
-				FuzzyDateParser.durationToFuzzyString(((TripleDurationInfo)value).getTotalScheduled()) +
+				FuzzyDurationParser.durationToFuzzyString(((TripleDurationInfo)value).getTotalScheduled()) +
 				" / " +
-				FuzzyDateParser.durationToFuzzyString(((TripleDurationInfo)value).getEstimate()) +
+				FuzzyDurationParser.durationToFuzzyString(((TripleDurationInfo)value).getEstimate()) +
 				" ");
 		} else if (value instanceof String){
 			super.setValue(value);

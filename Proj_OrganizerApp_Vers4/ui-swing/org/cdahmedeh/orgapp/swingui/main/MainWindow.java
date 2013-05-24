@@ -136,6 +136,18 @@ public class MainWindow {
 		
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
+
+		JMenuItem mntmNew = new JMenuItem("New");
+		mntmNew.setIcon(new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/new.gif")));
+		mnFile.add(mntmNew);
+		
+		mntmNew.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
+			DataContainer dataContainer2 = new DataContainer();
+			dataContainer2.generateDefaults();
+			updateDataContainer(dataContainer2);
+		}});
+		
+		mnFile.addSeparator();
 		
 		/* Load */
 		JMenuItem mntmLoad = new JMenuItem("Open");

@@ -68,7 +68,8 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 		case TaskListPanelDefaults.COLUMN_TASK_TITLE: return "Task";
 		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT: return "Context";
 		case TaskListPanelDefaults.COLUMN_TASK_DUE: return "Due";
-		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS: return "Progress (Completed/Scheduled/Estimate)";
+//		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS: return "Progress (Completed/Scheduled/Estimate)"; TODO: FIXME
+		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS: return "Progress";
 		}
 		return "";
 	}

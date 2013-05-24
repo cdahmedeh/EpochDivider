@@ -19,8 +19,8 @@ public class TimeBlock {
 		this.end = end;
 	}
 
-	public TimeBlock(){this(DateReference.getNow(), TimeConstants.DEFAULT_DURATION);}
-	public TimeBlock(DateTime start){this(start, TimeConstants.DEFAULT_DURATION);}
+	public TimeBlock(){this(DateReference.getNow(), TimeBlockConstants.DEFAULT_DURATION);}
+	public TimeBlock(DateTime start){this(start, TimeBlockConstants.DEFAULT_DURATION);}
 	public TimeBlock(DateTime start, Duration duration){
 		this.start = start;
 		this.end = start.plus(duration);

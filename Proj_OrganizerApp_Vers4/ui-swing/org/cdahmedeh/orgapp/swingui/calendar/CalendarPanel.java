@@ -12,6 +12,7 @@ import javax.swing.JToolBar;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 
+import org.cdahmedeh.orgapp.swingui.calendar.scheduler.SchedulerPanel;
 import org.cdahmedeh.orgapp.swingui.helpers.ToolbarHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.ContextsChangedNotification;

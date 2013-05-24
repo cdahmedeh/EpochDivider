@@ -3,7 +3,7 @@ package org.cdahmedeh.orgapp.swingui.components;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import org.cdahmedeh.orgapp.tools.FuzzyDateParser;
+import org.cdahmedeh.orgapp.parsers.FuzzyDurationParser;
 import org.cdahmedeh.orgapp.types.time.TripleDurationInfo;
 
 /**
@@ -21,17 +21,17 @@ public class DurationCellEditor extends AbstractParserEntryCellEditor<TripleDura
 
 	@Override
 	protected String parseTypeToString(Object value) {
-		return FuzzyDateParser.durationToFuzzyString(((TripleDurationInfo)value).getEstimate());
+		return FuzzyDurationParser.durationToFuzzyString(((TripleDurationInfo)value).getEstimate());
 	}
 
 	@Override
 	protected TripleDurationInfo parseStringToType(String context) {
-		return new TripleDurationInfo(null, null, FuzzyDateParser.fuzzyStringToDuration(context));
+		return new TripleDurationInfo(null, null, FuzzyDurationParser.fuzzyStringToDuration(context));
 	}
 
 	@Override
 	protected String previewParseToString(TripleDurationInfo dateValue) {
-		return FuzzyDateParser.durationToFuzzyString(dateValue.getEstimate()) + " hours";
+		return FuzzyDurationParser.durationToFuzzyString(dateValue.getEstimate()) + " hours";
 	}
 
 	@Override

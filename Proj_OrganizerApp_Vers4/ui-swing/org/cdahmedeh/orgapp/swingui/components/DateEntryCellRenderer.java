@@ -2,7 +2,7 @@ package org.cdahmedeh.orgapp.swingui.components;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
-import org.cdahmedeh.orgapp.tools.FuzzyDateParser;
+import org.cdahmedeh.orgapp.parsers.FuzzyDateParser;
 import org.joda.time.DateTime;
 
 public class DateEntryCellRenderer extends DefaultTableCellRenderer {

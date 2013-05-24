@@ -1,14 +1,12 @@
-package org.cdahmedeh.orgapp.tools;
+package org.cdahmedeh.orgapp.parsers;
 
-import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.cdahmedeh.orgapp.tools.DateReference;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
-import org.joda.time.Duration;
 import org.joda.time.LocalTime;
 
 import com.joestelmach.natty.CalendarSource;
@@ -77,34 +75,5 @@ public class FuzzyDateParser {
 		
 		//Methods should check the null value to know that the parser failed.
 		return null;
-	}
-	
-	/**
-	 * Returns a human readable String for a Duration object.
-	 *
-	 * Just gives the numbers of hours with one decimal number precision.
-	 * (example: 3 hours 30 minutes is rendered as 3.5)
-	 * 
-	 */
-	public static String durationToFuzzyString(Duration duration){
-		long minutes = duration.getStandardMinutes();
-		return new DecimalFormat("#0.0").format((double)minutes/DateTimeConstants.MINUTES_PER_HOUR); 
-	}
-	
-	/**
-	 * Given a human readable duration, converts it to a Duration object. The
-	 * excepted input is a number of hours such as '3.5' hours. 
-	 * If parsing fails, then Duration.ZERO is returned.
-	 */
-	public static Duration fuzzyStringToDuration(String fuzzy){
-		try {
-			double parsedDouble = Double.parseDouble(fuzzy);
-			return new Duration((long)(parsedDouble*DateTimeConstants.MILLIS_PER_HOUR));
-		} catch (NumberFormatException e){
-			//If parsing fails, just fail gracefully move on to returning a 
-			//Duration of zero.
-		}
-				
-		return Duration.ZERO;
 	}
 }
