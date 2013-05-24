@@ -1,27 +1,13 @@
 package org.cdahmedeh.orgapp.swingui.calendar;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.JPanel;
-
-import org.cdahmedeh.orgapp.types.calendar.View;
-import org.cdahmedeh.orgapp.types.container.DataContainer;
-import org.cdahmedeh.orgapp.types.task.Task;
-import org.cdahmedeh.orgapp.types.time.TimeBlock;
-import org.jgrapht.Graphs;
 import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.experimental.alg.color.ImpvGreedyColoring;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
-
-import com.google.common.collect.ArrayListMultimap;
 
 public class TimeBlockIntersectionHandler {
 	public static void processIntersections(ArrayList<BRectangle> renderedTimeBlocks) {

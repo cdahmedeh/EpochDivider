@@ -4,10 +4,6 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeMap;
 
 import javax.swing.JPanel;
 
@@ -16,13 +12,7 @@ import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.TreeMultimap;
 
 public class TimeBlockPainter {
 	public static void renderTimeBlock(Graphics g, Task task, TimeBlock timeBlock, BRectangle rect, DataContainer dataContainer, JPanel panel){

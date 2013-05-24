@@ -1,9 +1,6 @@
 package org.cdahmedeh.orgapp.run;
 
-import org.jgrapht.DirectedGraph;
-import org.jgrapht.experimental.alg.color.GreedyColoring;
 import org.jgrapht.experimental.alg.color.ImpvGreedyColoring;
-import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
