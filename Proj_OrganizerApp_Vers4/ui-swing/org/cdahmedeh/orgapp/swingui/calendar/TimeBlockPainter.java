@@ -11,7 +11,6 @@ import java.util.TreeMap;
 
 import javax.swing.JPanel;
 
-import org.cdahmedeh.orgapp.swingui.calendar.scheduler.BRectangle;
 import org.cdahmedeh.orgapp.tools.DateReference;
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.container.DataContainer;

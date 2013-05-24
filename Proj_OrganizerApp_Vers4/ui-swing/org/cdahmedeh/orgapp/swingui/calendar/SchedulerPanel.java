@@ -1,4 +1,4 @@
-package org.cdahmedeh.orgapp.swingui.calendar.scheduler;
+package org.cdahmedeh.orgapp.swingui.calendar;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -12,10 +12,6 @@ import java.util.ArrayList;
 
 import javax.swing.TransferHandler;
 
-import org.cdahmedeh.orgapp.swingui.calendar.CalendarConstants;
-import org.cdahmedeh.orgapp.swingui.calendar.CalendarUIMode;
-import org.cdahmedeh.orgapp.swingui.calendar.GridPainter;
-import org.cdahmedeh.orgapp.swingui.calendar.TimeBlockPainter;
 import org.cdahmedeh.orgapp.swingui.helpers.GraphicsHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.ContextsChangedNotification;
@@ -65,9 +61,15 @@ public class SchedulerPanel extends CPanel {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		System.out.println(g.getClipBounds());
 		GraphicsHelper.enableDefaultAASettings(g);
-		
+
+		generateTimeBlockRenders();
+		drawGrid(g);
+		if (drawTasks) drawTimeBlocks(g);
+		drawCurrentTimeLine(g);
+	}
+	
+	private void generateTimeBlockRenders() {
 		if (renderedTimeBlocks == null) return;
 		renderedTimeBlocks.clear();
 
@@ -77,23 +79,29 @@ public class SchedulerPanel extends CPanel {
 				e.generateRectangles();
 				renderedTimeBlocks.add(e);
 			}
-		}		
+		}
+	}
+	
+	private void drawGrid(Graphics g) {
 		//Draw grid in the background
 		GridPainter.drawTimeLines(g, this.getWidth(), this.getHeight(), CalendarConstants.SCHEDULER_GRID_HOUR_COLOR, CalendarConstants.SCHEDULER_GRID_MINUTE_COLOR, CalendarConstants.SCHEDULER_MINUTES_RESOLUTION, false);
 		GridPainter.drawDateLines(g, this.getWidth(), this.getHeight(), CalendarConstants.SCHEDULER_GRID_HOUR_COLOR, dataContainer.getView(), false);
-		
+	}
+
+	private void drawTimeBlocks(Graphics g) {
 		//Draw the time-blocks for all tasks.
-		if (drawTasks) {
-			for (TimeBlockRender rtb: renderedTimeBlocks){ 
-				for (BRectangle rect: rtb.getRects()){
-					TimeBlockPainter.renderTimeBlock(g, rtb.getTask(), rtb.getTimeBlock(), rect, dataContainer, this);
-				}
+		for (TimeBlockRender rtb: renderedTimeBlocks){ 
+			for (BRectangle rect: rtb.getRects()){
+				TimeBlockPainter.renderTimeBlock(g, rtb.getTask(), rtb.getTimeBlock(), rect, dataContainer, this);
 			}
 		}
-		
+	}
+
+	private void drawCurrentTimeLine(Graphics g) {
 		//Draw the current time line.
 		GridPainter.drawCurrentTime(g, this.getWidth(), this.getHeight(), dataContainer.getView());
 	}
+
 
 	private void enabledCalendarMouseActions() {
 		addMouseMotionListener(new MouseAdapter() {
@@ -146,8 +154,6 @@ public class SchedulerPanel extends CPanel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				//If we we're dragging, and we release, then, stop dragging and
-				//tell everyone that data has changed.
 				if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_TOP_TIMEBLOCK){
 					endDragging();
 				}

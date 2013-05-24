@@ -1,4 +1,4 @@
-package org.cdahmedeh.orgapp.swingui.calendar.scheduler;
+package org.cdahmedeh.orgapp.swingui.calendar;
 
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.joda.time.DateTimeConstants;
