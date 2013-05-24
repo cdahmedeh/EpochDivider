@@ -35,20 +35,7 @@ public class TimeBlockRender {
 		this.pHeight = height;
 	}
 
-	public void move(int x, int y){
-		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
-		timeBlock.moveStart(PixelsToDate.roundToMins(timeFromMouse.minus(timeClickedOffset) , 15));
-	}
-	
-	public void resizeTop(int x, int y){
-		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
-		timeBlock.setStart(PixelsToDate.roundToMins(timeFromMouse, 15));
-	}
-	
-	public void resizeBottom(int x, int y){
-		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
-		timeBlock.setEnd(PixelsToDate.roundToMins(timeFromMouse, 15));
-	}
+
 	
 	private TimeBlockClickLocation click = null;
 	
@@ -113,21 +100,29 @@ public class TimeBlockRender {
 					DateToPixels.getHorizontalPositionFromDate(tEndDate.plusDays(1), panelWidth, view) - DateToPixels.getHorizontalPositionFromDate(tEndDate, panelWidth, view), 
 					DateToPixels.getHeightFromInterval(midnight, tEndTime, panelHeight, view)));
 		}
-
-
-	}
-
-	public boolean needsRegen() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	public TimeBlockClickLocation click() {
 		return click;
 	}
 
-	public void setOffset(int x, int y) {
+	public void setMoveOffset(int x, int y) {
 		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
 		timeClickedOffset = new Duration(timeBlock.getStart(), timeFromMouse);							
+	}
+	
+	public void move(int x, int y){
+		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
+		timeBlock.moveStart(PixelsToDate.roundToMins(timeFromMouse.minus(timeClickedOffset) , 15));
+	}
+	
+	public void resizeTop(int x, int y){
+		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
+		timeBlock.setStart(PixelsToDate.roundToMins(timeFromMouse, 15));
+	}
+	
+	public void resizeBottom(int x, int y){
+		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
+		timeBlock.setEnd(PixelsToDate.roundToMins(timeFromMouse, 15));
 	}
 }

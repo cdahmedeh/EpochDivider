@@ -33,7 +33,7 @@ public class SchedulerPanel extends CPanel {
 	
 	@Override protected Object getEventRecorder() {return new Object(){
 		@Subscribe public void tasksUpdated(TasksChangedNotification notification){
-			regenerateRenders(true);
+			regenerateRenders();
 			repaint();
 		}
 	};}
@@ -45,9 +45,10 @@ public class SchedulerPanel extends CPanel {
 
 	@Override protected void postWindowInit() {
 		drawTasks = true;
-		regenerateRenders(true);
+		regenerateRenders();
 		repaint();
 		enabledCalendarMouseActions();
+		setupDragFrom();
 	}
 	
 	// -- Data --
@@ -60,6 +61,7 @@ public class SchedulerPanel extends CPanel {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
+		System.out.println(g.getClipBounds());
 		GraphicsHelper.enableDefaultAASettings(g);
 		
 		//Draw grid in the background
@@ -68,8 +70,6 @@ public class SchedulerPanel extends CPanel {
 		
 		//Draw the time-blocks for all tasks.
 		if (drawTasks) {
-			regenerateRenders(true);
-			
 			for (TimeBlockRender rtb: renderedTimeBlocks){ 
 				for (Rectangle rect: rtb.getRects()){
 					TimeBlockPainter.renderTimeBlock(g, rtb.getTask(), rtb.getTimeBlock(), rect, dataContainer, this);
@@ -81,22 +81,21 @@ public class SchedulerPanel extends CPanel {
 		GridPainter.drawCurrentTime(g, this.getWidth(), this.getHeight(), dataContainer.getView());
 	}
 
-	private void regenerateRenders(boolean all) {
-		if (all) {
-			renderedTimeBlocks.clear();
-			
-			for (Task task: dataContainer.getTasks()){
-				for (TimeBlock timeBlock: task.getAllTimeBlocks()) {
-					TimeBlockRender e = new TimeBlockRender(task, timeBlock, dataContainer.getView(), this.getWidth(), this.getHeight());
-					e.generateRectangles();
-					renderedTimeBlocks.add(e);
-				}
-			}
-		} else {
-			for (TimeBlockRender tbr: renderedTimeBlocks){
-				if (tbr.needsRegen()){
-					tbr.generateRectangles();
-				}
+	@Override
+	public void repaint() {
+		regenerateRenders();
+		super.repaint();
+	}
+	
+	private void regenerateRenders() {
+		if (renderedTimeBlocks == null) return;
+		renderedTimeBlocks.clear();
+
+		for (Task task: dataContainer.getTasks()){
+			for (TimeBlock timeBlock: task.getAllTimeBlocks()) {
+				TimeBlockRender e = new TimeBlockRender(task, timeBlock, dataContainer.getView(), this.getWidth(), this.getHeight());
+				e.generateRectangles();
+				renderedTimeBlocks.add(e);
 			}
 		}
 	}
@@ -111,7 +110,7 @@ public class SchedulerPanel extends CPanel {
 					TimeBlockRender clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
 					if (clickedTimeBlock != null) {
 						tbrSelected = clickedTimeBlock;
-						tbrSelected.setOffset(e.getX(), e.getY());
+						tbrSelected.setMoveOffset(e.getX(), e.getY());
 						if (tbrSelected.click() == TimeBlockClickLocation.BOTTOM){
 							uiMode = CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK;
 						} else if (tbrSelected.click() == TimeBlockClickLocation.TOP){
@@ -122,12 +121,15 @@ public class SchedulerPanel extends CPanel {
 					}
 				} else if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK) {
 					tbrSelected.move(e.getX(), e.getY());
+					tbrSelected.generateRectangles();
 					repaint();
 				} else if (uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK) {
 					tbrSelected.resizeBottom(e.getX(), e.getY());
+					tbrSelected.generateRectangles();
 					repaint();
 				} else if (uiMode == CalendarUIMode.RESIZE_TOP_TIMEBLOCK) {
 					tbrSelected.resizeTop(e.getX(), e.getY());
+					tbrSelected.generateRectangles();
 					repaint();
 				}
 			}
@@ -180,7 +182,9 @@ public class SchedulerPanel extends CPanel {
 							
 							//Add a new TimeBlock to the Task and start dragging it.
 							TimeBlock timeBlock = dataContainer.assignNewTimeBlockToTask(task);
-//							timeBlockSelected = timeBlock;
+							TimeBlockRender timeBlockRender = new TimeBlockRender(task, timeBlock, dataContainer.getView(), getWidth(), getHeight());
+							renderedTimeBlocks.add(timeBlockRender);
+							tbrSelected = timeBlockRender;							
 							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
 //							timeClickedOffset = Duration.ZERO;
 							repaint();
@@ -191,7 +195,9 @@ public class SchedulerPanel extends CPanel {
 							if (context == null) return false;
 							
 							TimeBlock timeBlock = dataContainer.createNewTaskAndTimeBlockWithContext(context);
-//							timeBlockSelected = timeBlock;
+							TimeBlockRender timeBlockRender = new TimeBlockRender(new Task(""), timeBlock, dataContainer.getView(), getWidth(), getHeight());
+							renderedTimeBlocks.add(timeBlockRender);
+							tbrSelected = timeBlockRender;							
 							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
 //							timeClickedOffset = Duration.ZERO;
 							repaint();
