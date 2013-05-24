@@ -65,7 +65,10 @@ public class SchedulerPanel extends CPanel {
 
 		generateTimeBlockRenders();
 		drawGrid(g);
-		if (drawTasks) drawTimeBlocks(g);
+		if (drawTasks) {
+			processIntersections();
+			drawTimeBlocks(g);
+		}
 		drawCurrentTimeLine(g);
 	}
 	
@@ -97,6 +100,14 @@ public class SchedulerPanel extends CPanel {
 		}
 	}
 
+	private void processIntersections() {
+		ArrayList<BRectangle> rects = new ArrayList<>();
+		for (TimeBlockRender rtb: renderedTimeBlocks){ 
+			rects.addAll(rtb.getRects());
+		}
+		TimeBlockIntersectionHandler.processIntersections(rects);
+	}
+	
 	private void drawCurrentTimeLine(Graphics g) {
 		//Draw the current time line.
 		GridPainter.drawCurrentTime(g, this.getWidth(), this.getHeight(), dataContainer.getView());
