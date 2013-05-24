@@ -1,5 +1,6 @@
 package org.cdahmedeh.orgapp.swingui.calendar.scheduler;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.datatransfer.DataFlavor;
@@ -33,7 +34,9 @@ public class SchedulerPanel extends CPanel {
 	
 	@Override protected Object getEventRecorder() {return new Object(){
 		@Subscribe public void tasksUpdated(TasksChangedNotification notification){
-			regenerateRenders();
+			repaint();
+		}
+		@Subscribe public void contextsUpdated(ContextsChangedNotification notification){
 			repaint();
 		}
 	};}
@@ -45,8 +48,8 @@ public class SchedulerPanel extends CPanel {
 
 	@Override protected void postWindowInit() {
 		drawTasks = true;
-		regenerateRenders();
 		repaint();
+		
 		enabledCalendarMouseActions();
 		setupDragFrom();
 	}
@@ -57,6 +60,7 @@ public class SchedulerPanel extends CPanel {
 	private CalendarUIMode uiMode = CalendarUIMode.NONE;
 	
 	private TimeBlockRender tbrSelected = null;
+	private TimeBlockClickLocation clickLocation;
 	
 	@Override
 	public void paint(Graphics g) {
@@ -64,6 +68,16 @@ public class SchedulerPanel extends CPanel {
 		System.out.println(g.getClipBounds());
 		GraphicsHelper.enableDefaultAASettings(g);
 		
+		if (renderedTimeBlocks == null) return;
+		renderedTimeBlocks.clear();
+
+		for (Task task: dataContainer.getTasks()){
+			for (TimeBlock timeBlock: task.getAllTimeBlocks()) {
+				TimeBlockRender e = new TimeBlockRender(task, timeBlock, dataContainer.getView(), this.getWidth(), this.getHeight());
+				e.generateRectangles();
+				renderedTimeBlocks.add(e);
+			}
+		}		
 		//Draw grid in the background
 		GridPainter.drawTimeLines(g, this.getWidth(), this.getHeight(), CalendarConstants.SCHEDULER_GRID_HOUR_COLOR, CalendarConstants.SCHEDULER_GRID_MINUTE_COLOR, CalendarConstants.SCHEDULER_MINUTES_RESOLUTION, false);
 		GridPainter.drawDateLines(g, this.getWidth(), this.getHeight(), CalendarConstants.SCHEDULER_GRID_HOUR_COLOR, dataContainer.getView(), false);
@@ -81,26 +95,6 @@ public class SchedulerPanel extends CPanel {
 		GridPainter.drawCurrentTime(g, this.getWidth(), this.getHeight(), dataContainer.getView());
 	}
 
-	@Override
-	public void repaint() {
-		regenerateRenders();
-		super.repaint();
-	}
-	
-	private void regenerateRenders() {
-		if (renderedTimeBlocks == null) return;
-		renderedTimeBlocks.clear();
-
-		for (Task task: dataContainer.getTasks()){
-			for (TimeBlock timeBlock: task.getAllTimeBlocks()) {
-				TimeBlockRender e = new TimeBlockRender(task, timeBlock, dataContainer.getView(), this.getWidth(), this.getHeight());
-				e.generateRectangles();
-				renderedTimeBlocks.add(e);
-			}
-		}
-	}
-	
-
 	private void enabledCalendarMouseActions() {
 		addMouseMotionListener(new MouseAdapter() {
 			@Override
@@ -111,9 +105,9 @@ public class SchedulerPanel extends CPanel {
 					if (clickedTimeBlock != null) {
 						tbrSelected = clickedTimeBlock;
 						tbrSelected.setMoveOffset(e.getX(), e.getY());
-						if (tbrSelected.getClickPosition() == TimeBlockClickLocation.BOTTOM){
+						if (clickLocation == TimeBlockClickLocation.BOTTOM){
 							uiMode = CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK;
-						} else if (tbrSelected.getClickPosition() == TimeBlockClickLocation.TOP){
+						} else if (clickLocation == TimeBlockClickLocation.TOP){
 							uiMode = CalendarUIMode.RESIZE_TOP_TIMEBLOCK;
 						} else {
 							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
@@ -121,34 +115,31 @@ public class SchedulerPanel extends CPanel {
 					}
 				} else if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK) {
 					tbrSelected.move(e.getX(), e.getY());
-					tbrSelected.generateRectangles();
 					repaint();
 				} else if (uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK) {
 					tbrSelected.resizeBottom(e.getX(), e.getY());
-					tbrSelected.generateRectangles();
 					repaint();
 				} else if (uiMode == CalendarUIMode.RESIZE_TOP_TIMEBLOCK) {
 					tbrSelected.resizeTop(e.getX(), e.getY());
-					tbrSelected.generateRectangles();
 					repaint();
 				}
 			}
 			
 			@Override
 			public void mouseMoved(MouseEvent e) {
-//				//Support for changing mouse cursor depending on position over a TimeBlock.
-//				TimeBlockRender clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
-//				if (getClickedTimeBlock(e.getX(), e.getY()) != null) {
-//					if (isNearTop(e, clickedTimeBlock)){
-//						setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-//					} else if (isNearBottom(e, clickedTimeBlock)){
-//						setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
-//					} else {
-//						setCursor(new Cursor(Cursor.MOVE_CURSOR));
-//					}
-//				} else {
-//					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-//				}
+				//Support for changing mouse cursor depending on position over a TimeBlock.
+				TimeBlockRender clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
+				if (getClickedTimeBlock(e.getX(), e.getY()) != null) {
+					if (clickLocation == TimeBlockClickLocation.TOP){
+						setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+					} else if (clickLocation == TimeBlockClickLocation.BOTTOM){
+						setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
+					} else {
+						setCursor(new Cursor(Cursor.MOVE_CURSOR));
+					}
+				} else {
+					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				}
 			}
 		});
 		
@@ -186,7 +177,6 @@ public class SchedulerPanel extends CPanel {
 							renderedTimeBlocks.add(timeBlockRender);
 							tbrSelected = timeBlockRender;							
 							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
-//							timeClickedOffset = Duration.ZERO;
 							tbrSelected.resetOffset();
 							repaint();
 							return true;
@@ -201,7 +191,6 @@ public class SchedulerPanel extends CPanel {
 							tbrSelected = timeBlockRender;							
 							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
 							tbrSelected.resetOffset();
-//							timeClickedOffset = Duration.ZERO;
 							repaint();
 							return true;
 						}
@@ -231,7 +220,9 @@ public class SchedulerPanel extends CPanel {
 	// --- Helpers ---
 	private TimeBlockRender getClickedTimeBlock(int x, int y){
 		for (TimeBlockRender rt: renderedTimeBlocks){
-			if (rt.pointerWithin(x, y)) {
+			TimeBlockClickLocation pointerWithin = rt.pointerWithin(x, y);
+			if (pointerWithin != TimeBlockClickLocation.NONE) {
+				clickLocation = pointerWithin;
 				return rt;
 			}
 		}

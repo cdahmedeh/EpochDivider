@@ -37,22 +37,19 @@ public class TimeBlockRender {
 
 
 	
-	private TimeBlockClickLocation clickPosition = null;
-	
-	public boolean pointerWithin(int x, int y) {
+	public TimeBlockClickLocation pointerWithin(int x, int y) {
 		for (BRectangle rect : rects) {
 			if (rect.isWithin(x, y)){
 				if (y-rect.y < 5) {
-					clickPosition = TimeBlockClickLocation.TOP;
+					return TimeBlockClickLocation.TOP;
 				} else if (y-rect.y > rect.height-10) {
-					clickPosition = TimeBlockClickLocation.BOTTOM;
+					return TimeBlockClickLocation.BOTTOM;
 				} else {
-					clickPosition = TimeBlockClickLocation.MIDDLE;
+					return TimeBlockClickLocation.MIDDLE;
 				}
-				return true;
 			}
 		}
-		return false;
+		return TimeBlockClickLocation.NONE;
 	}
 	
 	public void generateRectangles() {
@@ -100,10 +97,6 @@ public class TimeBlockRender {
 					DateToPixels.getHorizontalPositionFromDate(tEndDate.plusDays(1), panelWidth, view) - DateToPixels.getHorizontalPositionFromDate(tEndDate, panelWidth, view), 
 					DateToPixels.getHeightFromInterval(midnight, tEndTime, panelHeight, view)));
 		}
-	}
-
-	public TimeBlockClickLocation getClickPosition() {
-		return clickPosition;
 	}
 
 	public void resetOffset() {

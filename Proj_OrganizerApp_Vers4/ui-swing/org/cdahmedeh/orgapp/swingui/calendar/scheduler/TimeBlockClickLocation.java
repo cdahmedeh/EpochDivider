@@ -3,5 +3,5 @@ package org.cdahmedeh.orgapp.swingui.calendar.scheduler;
 public enum TimeBlockClickLocation {
 MIDDLE,
 TOP,
-BOTTOM;
+BOTTOM, NONE;
 }
