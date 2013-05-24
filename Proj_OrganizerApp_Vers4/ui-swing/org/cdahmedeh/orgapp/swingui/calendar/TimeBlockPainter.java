@@ -11,7 +11,7 @@ import java.util.TreeMap;
 
 import javax.swing.JPanel;
 
-import org.cdahmedeh.orgapp.swingui.calendar.scheduler.Rectangle;
+import org.cdahmedeh.orgapp.swingui.calendar.scheduler.BRectangle;
 import org.cdahmedeh.orgapp.tools.DateReference;
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
@@ -26,7 +26,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
 
 public class TimeBlockPainter {
-	public static void renderTimeBlock(Graphics g, Task task, TimeBlock timeBlock, Rectangle rect, DataContainer dataContainer, JPanel panel){
+	public static void renderTimeBlock(Graphics g, Task task, TimeBlock timeBlock, BRectangle rect, DataContainer dataContainer, JPanel panel){
 		LocalTime tBeginTime = timeBlock.getStart().toLocalTime();
 		LocalTime tEndTime = timeBlock.getEnd().toLocalTime();
 		

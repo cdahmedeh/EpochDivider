@@ -71,7 +71,7 @@ public class SchedulerPanel extends CPanel {
 		//Draw the time-blocks for all tasks.
 		if (drawTasks) {
 			for (TimeBlockRender rtb: renderedTimeBlocks){ 
-				for (Rectangle rect: rtb.getRects()){
+				for (BRectangle rect: rtb.getRects()){
 					TimeBlockPainter.renderTimeBlock(g, rtb.getTask(), rtb.getTimeBlock(), rect, dataContainer, this);
 				}
 			}
@@ -111,9 +111,9 @@ public class SchedulerPanel extends CPanel {
 					if (clickedTimeBlock != null) {
 						tbrSelected = clickedTimeBlock;
 						tbrSelected.setMoveOffset(e.getX(), e.getY());
-						if (tbrSelected.click() == TimeBlockClickLocation.BOTTOM){
+						if (tbrSelected.getClickPosition() == TimeBlockClickLocation.BOTTOM){
 							uiMode = CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK;
-						} else if (tbrSelected.click() == TimeBlockClickLocation.TOP){
+						} else if (tbrSelected.getClickPosition() == TimeBlockClickLocation.TOP){
 							uiMode = CalendarUIMode.RESIZE_TOP_TIMEBLOCK;
 						} else {
 							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
@@ -187,6 +187,7 @@ public class SchedulerPanel extends CPanel {
 							tbrSelected = timeBlockRender;							
 							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
 //							timeClickedOffset = Duration.ZERO;
+							tbrSelected.resetOffset();
 							repaint();
 							return true;
 						} else if (support.getTransferable().isDataFlavorSupported(new DataFlavor(Context.class, "Context"))){
@@ -199,6 +200,7 @@ public class SchedulerPanel extends CPanel {
 							renderedTimeBlocks.add(timeBlockRender);
 							tbrSelected = timeBlockRender;							
 							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
+							tbrSelected.resetOffset();
 //							timeClickedOffset = Duration.ZERO;
 							repaint();
 							return true;

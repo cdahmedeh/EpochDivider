@@ -32,7 +32,7 @@ public class RenderedTimeBlock {
 	public void setTimeBlock(TimeBlock timeBlock) {this.timeBlock = timeBlock;}
 	
 	//Is x,y within the rectangle?
-	//TODO: Code is from SWT Rectangle.
+	//TODO: Code is from SWT BRectangle.
 	public boolean isWithin(int x, int y) {
 		return (x >= this.x) && (y >= this.y) && x < (this.x + width) && y < (this.y + height);
 	}

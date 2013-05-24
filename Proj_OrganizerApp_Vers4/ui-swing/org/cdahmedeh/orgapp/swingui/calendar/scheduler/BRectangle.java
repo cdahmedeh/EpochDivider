@@ -1,13 +1,13 @@
 package org.cdahmedeh.orgapp.swingui.calendar.scheduler;
 
-public class Rectangle {
+public class BRectangle {
 	public int x;
 	public int y;
 	public int oridWidth;
 	public int width;
 	public int height;
 	
-	public Rectangle(int x, int y, int width, int height) {
+	public BRectangle(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;

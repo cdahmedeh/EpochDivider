@@ -23,9 +23,9 @@ public class TimeBlockRender {
 	private Task task;
 	public Task getTask() {return task;}
 
-	private ArrayList<Rectangle> rects = new ArrayList<>();
+	private ArrayList<BRectangle> rects = new ArrayList<>();
 	private ReadableDuration timeClickedOffset;
-	public ArrayList<Rectangle> getRects() {return rects;}
+	public ArrayList<BRectangle> getRects() {return rects;}
 
 	public TimeBlockRender(Task task, TimeBlock timeBlock, View view, int width, int height) {
 		this.task = task;
@@ -37,17 +37,17 @@ public class TimeBlockRender {
 
 
 	
-	private TimeBlockClickLocation click = null;
+	private TimeBlockClickLocation clickPosition = null;
 	
 	public boolean pointerWithin(int x, int y) {
-		for (Rectangle rect : rects) {
+		for (BRectangle rect : rects) {
 			if (rect.isWithin(x, y)){
 				if (y-rect.y < 5) {
-					click = TimeBlockClickLocation.TOP;
+					clickPosition = TimeBlockClickLocation.TOP;
 				} else if (y-rect.y > rect.height-10) {
-					click = TimeBlockClickLocation.BOTTOM;
+					clickPosition = TimeBlockClickLocation.BOTTOM;
 				} else {
-					click = TimeBlockClickLocation.MIDDLE;
+					clickPosition = TimeBlockClickLocation.MIDDLE;
 				}
 				return true;
 			}
@@ -72,13 +72,13 @@ public class TimeBlockRender {
 		rects.clear();
 
 		if (daysSpanning == 0) {
-			rects.add(new Rectangle(
+			rects.add(new BRectangle(
 					DateToPixels.getHorizontalPositionFromDate(tBeginDate, panelWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(tBeginTime, panelHeight),
 					DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(1), panelWidth, view) - DateToPixels.getHorizontalPositionFromDate(tBeginDate, panelWidth, view), 
 					DateToPixels.getHeightFromInterval(tBeginTime, tEndTime, panelHeight, view)));
 		} else {
-			rects.add(new Rectangle(
+			rects.add(new BRectangle(
 					DateToPixels.getHorizontalPositionFromDate(tBeginDate, panelWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(tBeginTime, panelHeight),
 					DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(1), panelWidth, view) - DateToPixels.getHorizontalPositionFromDate(tBeginDate, panelWidth, view), 
@@ -86,7 +86,7 @@ public class TimeBlockRender {
 			));
 			if (daysSpanning > 1) {
 				for (int i = 1; i < daysSpanning; i++) {
-					rects.add(new Rectangle(
+					rects.add(new BRectangle(
 							DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(i), panelWidth, view), 
 							DateToPixels.getVerticalPositionFromTime(midnight, panelHeight),
 							DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(i).plusDays(1), panelWidth, view) - DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(i), panelWidth,view), 
@@ -94,7 +94,7 @@ public class TimeBlockRender {
 					));
 				}
 			}
-			rects.add(new Rectangle(
+			rects.add(new BRectangle(
 					DateToPixels.getHorizontalPositionFromDate(tEndDate, panelWidth, view), 
 					DateToPixels.getVerticalPositionFromTime(midnight, panelHeight),
 					DateToPixels.getHorizontalPositionFromDate(tEndDate.plusDays(1), panelWidth, view) - DateToPixels.getHorizontalPositionFromDate(tEndDate, panelWidth, view), 
@@ -102,10 +102,14 @@ public class TimeBlockRender {
 		}
 	}
 
-	public TimeBlockClickLocation click() {
-		return click;
+	public TimeBlockClickLocation getClickPosition() {
+		return clickPosition;
 	}
 
+	public void resetOffset() {
+		timeClickedOffset = Duration.ZERO;
+	}
+	
 	public void setMoveOffset(int x, int y) {
 		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
 		timeClickedOffset = new Duration(timeBlock.getStart(), timeFromMouse);							
