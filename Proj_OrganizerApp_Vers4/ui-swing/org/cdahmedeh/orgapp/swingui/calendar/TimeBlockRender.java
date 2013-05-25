@@ -35,21 +35,24 @@ public class TimeBlockRender {
 		this.pHeight = height;
 	}
 
-
+	TimeBlockClickLocation tbcl = TimeBlockClickLocation.NONE;
 	
-	public TimeBlockClickLocation pointerWithin(int x, int y) {
+	public boolean pointerWithin(int x, int y) {
 		for (BRectangle rect : rects) {
 			if (rect.isWithin(x, y)){
 				if (y-rect.y < 5) {
-					return TimeBlockClickLocation.TOP;
+					this.tbcl = TimeBlockClickLocation.TOP;
+					return true;
 				} else if (y-rect.y > rect.height-10) {
-					return TimeBlockClickLocation.BOTTOM;
+					this.tbcl = TimeBlockClickLocation.BOTTOM;
+					return true;
 				} else {
-					return TimeBlockClickLocation.MIDDLE;
+					this.tbcl = TimeBlockClickLocation.MIDDLE;
+					return true;
 				}
 			}
 		}
-		return TimeBlockClickLocation.NONE;
+		return false;
 	}
 	
 	public void generateRectangles() {
@@ -69,37 +72,22 @@ public class TimeBlockRender {
 		rects.clear();
 
 		if (daysSpanning == 0) {
-			rects.add(new BRectangle(
-					DateToPixels.getHorizontalPositionFromDate(tBeginDate, panelWidth, view), 
-					DateToPixels.getVerticalPositionFromTime(tBeginTime, panelHeight),
-					DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(1), panelWidth, view) - DateToPixels.getHorizontalPositionFromDate(tBeginDate, panelWidth, view), 
-					DateToPixels.getHeightFromInterval(tBeginTime, tEndTime, panelHeight, view)));
+			rects.add(DateToRectangles.rectangleForTimeBlockRight(panelWidth, panelHeight, tBeginDate, tBeginTime, tEndTime, view));
 		} else {
-			rects.add(new BRectangle(
-					DateToPixels.getHorizontalPositionFromDate(tBeginDate, panelWidth, view), 
-					DateToPixels.getVerticalPositionFromTime(tBeginTime, panelHeight),
-					DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(1), panelWidth, view) - DateToPixels.getHorizontalPositionFromDate(tBeginDate, panelWidth, view), 
-					DateToPixels.getHeightFromInterval(tBeginTime, endOfDay, panelHeight, view) + 1 // TODO: +1 temp
-			));
+			rects.add(DateToRectangles.rectangelForTimeBlockLeft(panelWidth, panelHeight, endOfDay, tBeginDate, tBeginTime, view));
 			if (daysSpanning > 1) {
 				for (int i = 1; i < daysSpanning; i++) {
-					rects.add(new BRectangle(
-							DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(i), panelWidth, view), 
-							DateToPixels.getVerticalPositionFromTime(midnight, panelHeight),
-							DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(i).plusDays(1), panelWidth, view) - DateToPixels.getHorizontalPositionFromDate(tBeginDate.plusDays(i), panelWidth,view), 
-							DateToPixels.getHeightFromInterval(midnight, endOfDay, panelHeight, view) + 1 // TODO: +1 temp
-					));
+					rects.add(DateToRectangles.rectangleForTimeBlockMiddle(panelWidth, panelHeight, midnight, endOfDay, tBeginDate, i, view));
 				}
 			}
-			rects.add(new BRectangle(
-					DateToPixels.getHorizontalPositionFromDate(tEndDate, panelWidth, view), 
-					DateToPixels.getVerticalPositionFromTime(midnight, panelHeight),
-					DateToPixels.getHorizontalPositionFromDate(tEndDate.plusDays(1), panelWidth, view) - DateToPixels.getHorizontalPositionFromDate(tEndDate, panelWidth, view), 
-					DateToPixels.getHeightFromInterval(midnight, tEndTime, panelHeight, view)));
+			rects.add(DateToRectangles.rectangleForTimeBlockRight(panelWidth, panelHeight, tEndDate, midnight, tEndTime, view));
 		}
 	}
 
+
+
 	public void resetOffset() {
+		this.tbcl = TimeBlockClickLocation.MIDDLE;
 		timeClickedOffset = Duration.ZERO;
 	}
 	
@@ -110,16 +98,12 @@ public class TimeBlockRender {
 	
 	public void move(int x, int y){
 		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
-		timeBlock.moveStart(PixelsToDate.roundToMins(timeFromMouse.minus(timeClickedOffset) , 15));
-	}
-	
-	public void resizeTop(int x, int y){
-		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
-		timeBlock.setStart(PixelsToDate.roundToMins(timeFromMouse, 15));
-	}
-	
-	public void resizeBottom(int x, int y){
-		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
-		timeBlock.setEnd(PixelsToDate.roundToMins(timeFromMouse, 15));
+		if (tbcl == TimeBlockClickLocation.MIDDLE){
+			timeBlock.moveStart(PixelsToDate.roundToMins(timeFromMouse.minus(timeClickedOffset) , 15));
+		} else if (tbcl == TimeBlockClickLocation.TOP) {
+			timeBlock.setStart(PixelsToDate.roundToMins(timeFromMouse, 15));
+		} else if (tbcl == TimeBlockClickLocation.BOTTOM) {
+			timeBlock.setEnd(PixelsToDate.roundToMins(timeFromMouse, 15));
+		}
 	}
 }
