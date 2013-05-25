@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.TransferHandler;
 
+import org.cdahmedeh.orgapp.swingui.calendar.timeblock.BRectangle;
 import org.cdahmedeh.orgapp.swingui.calendar.timeblock.PixelsToDate;
 import org.cdahmedeh.orgapp.swingui.calendar.timeblock.TimeBlockIntersectionHandler;
 import org.cdahmedeh.orgapp.swingui.calendar.timeblock.TimeBlockPainter;
@@ -126,19 +127,17 @@ public class SchedulerPanel extends CPanel {
 					TimeBlockRender clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
 					if (clickedTimeBlock != null) {
 						tbrSelected = clickedTimeBlock;
-						tbrSelected.setMoveOffset(e.getX(), e.getY());
-						uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
+						uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
 					} else {
 						//Create new event
-						uiMode = CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK;
+						uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
 						TimeBlock tb = dataContainer.createNewTaskAndTimeBlockWithContext(dataContainer.getSelectedContext());
 						tb.setStart(PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()));
 						TimeBlockRender timeBlockRender = new TimeBlockRender(new Task("Event"), tb, dataContainer.getView(), getWidth(), getHeight());
 						tbrSelected = timeBlockRender;
-						tbrSelected.setMoveOffset(e.getX(), e.getY());
 						renderedTimeBlocks.add(timeBlockRender);
 					}
-				} else if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK) {
+				} else if (uiMode == CalendarUIMode.ADJUST_TIMEBLOCK) {
 					tbrSelected.move(e.getX(), e.getY());
 					repaint();
 				}
@@ -165,7 +164,7 @@ public class SchedulerPanel extends CPanel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_TOP_TIMEBLOCK){
+				if (uiMode == CalendarUIMode.ADJUST_TIMEBLOCK){
 					endDragging();
 				}
 			}
@@ -193,7 +192,7 @@ public class SchedulerPanel extends CPanel {
 							TimeBlockRender timeBlockRender = new TimeBlockRender(task, timeBlock, dataContainer.getView(), getWidth(), getHeight());
 							renderedTimeBlocks.add(timeBlockRender);
 							tbrSelected = timeBlockRender;							
-							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
+							uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
 							tbrSelected.resetOffset();
 							repaint();
 							return true;
@@ -206,13 +205,13 @@ public class SchedulerPanel extends CPanel {
 							TimeBlockRender timeBlockRender = new TimeBlockRender(new Task(""), timeBlock, dataContainer.getView(), getWidth(), getHeight());
 							renderedTimeBlocks.add(timeBlockRender);
 							tbrSelected = timeBlockRender;							
-							uiMode = CalendarUIMode.MOVE_TIMEBLOCK;
+							uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
 							tbrSelected.resetOffset();
 							repaint();
 							return true;
 						}
 					}
-					else if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK) {
+					else if (uiMode == CalendarUIMode.ADJUST_TIMEBLOCK) {
 						tbrSelected.move((int)support.getDropLocation().getDropPoint().getX(), (int)support.getDropLocation().getDropPoint().getY());
 						repaint();
 						return true;
@@ -225,7 +224,7 @@ public class SchedulerPanel extends CPanel {
 			
 			@Override
 			public boolean importData(TransferSupport support) {
-				if (uiMode == CalendarUIMode.MOVE_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_BOTTOM_TIMEBLOCK || uiMode == CalendarUIMode.RESIZE_TOP_TIMEBLOCK){
+				if (uiMode == CalendarUIMode.ADJUST_TIMEBLOCK){
 					endDragging();
 					return true;
 				}

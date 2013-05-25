@@ -1,4 +1,4 @@
-package org.cdahmedeh.orgapp.swingui.calendar;
+package org.cdahmedeh.orgapp.swingui.calendar.timeblock;
 
 public class BRectangle {
 	public int x;

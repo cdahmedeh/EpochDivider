@@ -2,7 +2,6 @@ package org.cdahmedeh.orgapp.swingui.calendar.timeblock;
 
 import java.util.ArrayList;
 
-import org.cdahmedeh.orgapp.swingui.calendar.BRectangle;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
@@ -41,16 +40,15 @@ public class TimeBlockRender {
 	public boolean pointerWithin(int x, int y) {
 		for (BRectangle rect : rects) {
 			if (rect.isWithin(x, y)){
+				setMoveOffset(x, y);
 				if (y-rect.y < 5) {
 					this.tbcl = TimeBlockClickLocation.TOP;
-					return true;
 				} else if (y-rect.y > rect.height-10) {
 					this.tbcl = TimeBlockClickLocation.BOTTOM;
-					return true;
 				} else {
 					this.tbcl = TimeBlockClickLocation.MIDDLE;
-					return true;
 				}
+				return true;
 			}
 		}
 		return false;
@@ -92,7 +90,7 @@ public class TimeBlockRender {
 		timeClickedOffset = Duration.ZERO;
 	}
 	
-	public void setMoveOffset(int x, int y) {
+	private void setMoveOffset(int x, int y) {
 		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
 		timeClickedOffset = new Duration(timeBlock.getStart(), timeFromMouse);							
 	}

@@ -1,6 +1,5 @@
 package org.cdahmedeh.orgapp.swingui.calendar.timeblock;
 
-import org.cdahmedeh.orgapp.swingui.calendar.BRectangle;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
