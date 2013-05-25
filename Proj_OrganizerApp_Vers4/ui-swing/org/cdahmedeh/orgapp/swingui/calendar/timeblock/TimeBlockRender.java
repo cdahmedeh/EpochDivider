@@ -31,8 +31,8 @@ public class TimeBlockRender {
 		this.task = task;
 		this.timeBlock = timeBlock;
 		this.view = view;
-		this.pWidth = width;
-		this.pHeight = height;
+		this.pWidth = width - 1;
+		this.pHeight = height - 1;
 	}
 
 	TimeBlockClickLocation tbcl = TimeBlockClickLocation.NONE;
@@ -55,9 +55,6 @@ public class TimeBlockRender {
 	}
 	
 	public void generateRectangles() {
-		int panelWidth = pWidth - 1;
-		int panelHeight = pHeight - 1;
-
 		LocalTime midnight = new LocalTime(0, 0);
 		LocalTime endOfDay = new LocalTime(23, 59, 59, 999);
 
@@ -71,32 +68,32 @@ public class TimeBlockRender {
 		rects.clear();
 
 		if (daysSpanning == 0) {
-			rects.add(DateToRectangles.rectangleForTimeBlockRight(panelWidth, panelHeight, tBeginDate, tBeginTime, tEndTime, view));
+			rects.add(DateToRectangles.rectangleForTimeBlockRight(pWidth, pHeight, tBeginDate, tBeginTime, tEndTime, view));
 		} else {
-			rects.add(DateToRectangles.rectangelForTimeBlockLeft(panelWidth, panelHeight, endOfDay, tBeginDate, tBeginTime, view));
+			rects.add(DateToRectangles.rectangelForTimeBlockLeft(pWidth, pHeight, endOfDay, tBeginDate, tBeginTime, view));
 			if (daysSpanning > 1) {
 				for (int i = 1; i < daysSpanning; i++) {
-					rects.add(DateToRectangles.rectangleForTimeBlockMiddle(panelWidth, panelHeight, midnight, endOfDay, tBeginDate, i, view));
+					rects.add(DateToRectangles.rectangleForTimeBlockMiddle(pWidth, pHeight, midnight, endOfDay, tBeginDate, i, view));
 				}
 			}
-			rects.add(DateToRectangles.rectangleForTimeBlockRight(panelWidth, panelHeight, tEndDate, midnight, tEndTime, view));
+			rects.add(DateToRectangles.rectangleForTimeBlockRight(pWidth, pHeight, tEndDate, midnight, tEndTime, view));
 		}
 	}
 
 
 
-	public void resetOffset() {
+	public void forceMove() {
 		this.tbcl = TimeBlockClickLocation.MIDDLE;
 		timeClickedOffset = Duration.ZERO;
 	}
 	
 	private void setMoveOffset(int x, int y) {
-		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
-		timeClickedOffset = new Duration(timeBlock.getStart(), timeFromMouse);							
+		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth, pHeight, view);
+		timeClickedOffset = new Duration(timeBlock.getStart(), timeFromMouse);		
 	}
 	
 	public void move(int x, int y){
-		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth-1, pHeight-1, view);
+		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth, pHeight, view);
 		if (tbcl == TimeBlockClickLocation.MIDDLE){
 			timeBlock.moveStart(PixelsToDate.roundToMins(timeFromMouse.minus(timeClickedOffset) , 15));
 		} else if (tbcl == TimeBlockClickLocation.TOP) {

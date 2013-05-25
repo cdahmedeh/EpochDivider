@@ -70,7 +70,7 @@ public class SchedulerPanel extends CPanel {
 		generateTimeBlockRenders();
 		drawGrid(g);
 		if (drawTasks) {
-			processIntersections();
+//			processIntersections();
 			drawTimeBlocks(g);
 		}
 		drawCurrentTimeLine(g);
@@ -128,37 +128,12 @@ public class SchedulerPanel extends CPanel {
 					if (clickedTimeBlock != null) {
 						tbrSelected = clickedTimeBlock;
 						uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
-					} else {
-						//Create new event
-						uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
-						TimeBlock tb = dataContainer.createNewTaskAndTimeBlockWithContext(dataContainer.getSelectedContext());
-						tb.setStart(PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()));
-						TimeBlockRender timeBlockRender = new TimeBlockRender(new Task("Event"), tb, dataContainer.getView(), getWidth(), getHeight());
-						tbrSelected = timeBlockRender;
-						renderedTimeBlocks.add(timeBlockRender);
 					}
 				} else if (uiMode == CalendarUIMode.ADJUST_TIMEBLOCK) {
 					tbrSelected.move(e.getX(), e.getY());
 					repaint();
 				}
 			}
-			
-//			@Override
-//			public void mouseMoved(MouseEvent e) {
-//				//Support for changing mouse cursor depending on position over a TimeBlock.
-//				TimeBlockRender clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
-//				if (getClickedTimeBlock(e.getX(), e.getY()) != null) {
-//					if (clickLocation == TimeBlockClickLocation.TOP){
-//						setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-//					} else if (clickLocation == TimeBlockClickLocation.BOTTOM){
-//						setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
-//					} else {
-//						setCursor(new Cursor(Cursor.MOVE_CURSOR));
-//					}
-//				} else {
-//					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-//				}
-//			}
 		});
 		
 		addMouseListener(new MouseAdapter() {
@@ -193,7 +168,7 @@ public class SchedulerPanel extends CPanel {
 							renderedTimeBlocks.add(timeBlockRender);
 							tbrSelected = timeBlockRender;							
 							uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
-							tbrSelected.resetOffset();
+							tbrSelected.forceMove();
 							repaint();
 							return true;
 						} else if (support.getTransferable().isDataFlavorSupported(new DataFlavor(Context.class, "Context"))){
@@ -206,7 +181,7 @@ public class SchedulerPanel extends CPanel {
 							renderedTimeBlocks.add(timeBlockRender);
 							tbrSelected = timeBlockRender;							
 							uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
-							tbrSelected.resetOffset();
+							tbrSelected.forceMove();
 							repaint();
 							return true;
 						}
