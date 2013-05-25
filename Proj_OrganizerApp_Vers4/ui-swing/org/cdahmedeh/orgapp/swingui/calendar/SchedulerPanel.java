@@ -1,6 +1,5 @@
 package org.cdahmedeh.orgapp.swingui.calendar;
 
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.datatransfer.DataFlavor;
@@ -9,11 +8,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeMap;
 
 import javax.swing.TransferHandler;
 
 import org.cdahmedeh.orgapp.swingui.calendar.timeblock.BRectangle;
-import org.cdahmedeh.orgapp.swingui.calendar.timeblock.PixelsToDate;
 import org.cdahmedeh.orgapp.swingui.calendar.timeblock.TimeBlockIntersectionHandler;
 import org.cdahmedeh.orgapp.swingui.calendar.timeblock.TimeBlockPainter;
 import org.cdahmedeh.orgapp.swingui.calendar.timeblock.TimeBlockRender;
@@ -57,7 +57,7 @@ public class SchedulerPanel extends CPanel {
 	
 	// -- Data --
 	private boolean drawTasks = false;
-	private ArrayList<TimeBlockRender> renderedTimeBlocks = new ArrayList<>();
+	private HashMap<TimeBlock, TimeBlockRender> renderedTimeBlocks = new HashMap<>();
 	private CalendarUIMode uiMode = CalendarUIMode.NONE;
 	
 	private TimeBlockRender tbrSelected = null;
@@ -76,6 +76,12 @@ public class SchedulerPanel extends CPanel {
 		drawCurrentTimeLine(g);
 	}
 	
+	@Override
+	public void repaint() {
+		// TODO Auto-generated method stub
+		super.repaint();
+	}
+	
 	private void generateTimeBlockRenders() {
 		if (renderedTimeBlocks == null) return;
 		renderedTimeBlocks.clear();
@@ -84,7 +90,7 @@ public class SchedulerPanel extends CPanel {
 			for (TimeBlock timeBlock: task.getAllTimeBlocks()) {
 				TimeBlockRender e = new TimeBlockRender(task, timeBlock, dataContainer.getView(), this.getWidth(), this.getHeight());
 				e.generateRectangles();
-				renderedTimeBlocks.add(e);
+				renderedTimeBlocks.put(timeBlock, e);
 			}
 		}
 	}
@@ -97,7 +103,7 @@ public class SchedulerPanel extends CPanel {
 
 	private void drawTimeBlocks(Graphics g) {
 		//Draw the time-blocks for all tasks.
-		for (TimeBlockRender rtb: renderedTimeBlocks){ 
+		for (TimeBlockRender rtb: renderedTimeBlocks.values()){ 
 			for (BRectangle rect: rtb.getRects()){
 				TimeBlockPainter.renderTimeBlock(g, rtb.getTask(), rtb.getTimeBlock(), rect, dataContainer, this);
 			}
@@ -106,7 +112,7 @@ public class SchedulerPanel extends CPanel {
 
 	private void processIntersections() {
 		ArrayList<BRectangle> rects = new ArrayList<>();
-		for (TimeBlockRender rtb: renderedTimeBlocks){ 
+		for (TimeBlockRender rtb: renderedTimeBlocks.values()){ 
 			rects.addAll(rtb.getRects());
 		}
 		TimeBlockIntersectionHandler.processIntersections(rects);
@@ -164,9 +170,8 @@ public class SchedulerPanel extends CPanel {
 							
 							//Add a new TimeBlock to the Task and start dragging it.
 							TimeBlock timeBlock = dataContainer.assignNewTimeBlockToTask(task);
-							TimeBlockRender timeBlockRender = new TimeBlockRender(task, timeBlock, dataContainer.getView(), getWidth(), getHeight());
-							renderedTimeBlocks.add(timeBlockRender);
-							tbrSelected = timeBlockRender;							
+							generateTimeBlockRenders();
+							tbrSelected = renderedTimeBlocks.get(timeBlock);							
 							uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
 							tbrSelected.forceMove();
 							repaint();
@@ -177,9 +182,8 @@ public class SchedulerPanel extends CPanel {
 							if (context == null) return false;
 							
 							TimeBlock timeBlock = dataContainer.createNewTaskAndTimeBlockWithContext(context);
-							TimeBlockRender timeBlockRender = new TimeBlockRender(new Task(""), timeBlock, dataContainer.getView(), getWidth(), getHeight());
-							renderedTimeBlocks.add(timeBlockRender);
-							tbrSelected = timeBlockRender;							
+							generateTimeBlockRenders();
+							tbrSelected = renderedTimeBlocks.get(timeBlock);
 							uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
 							tbrSelected.forceMove();
 							repaint();
@@ -210,7 +214,7 @@ public class SchedulerPanel extends CPanel {
 	
 	// --- Helpers ---
 	private TimeBlockRender getClickedTimeBlock(int x, int y){
-		for (TimeBlockRender rt: renderedTimeBlocks){
+		for (TimeBlockRender rt: renderedTimeBlocks.values()){
 			if (rt.pointerWithin(x, y)) {
 				return rt;
 			}
