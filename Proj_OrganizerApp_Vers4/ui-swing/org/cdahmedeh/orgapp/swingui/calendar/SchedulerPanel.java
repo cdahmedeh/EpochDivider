@@ -12,6 +12,10 @@ import java.util.ArrayList;
 
 import javax.swing.TransferHandler;
 
+import org.cdahmedeh.orgapp.swingui.calendar.timeblock.PixelsToDate;
+import org.cdahmedeh.orgapp.swingui.calendar.timeblock.TimeBlockIntersectionHandler;
+import org.cdahmedeh.orgapp.swingui.calendar.timeblock.TimeBlockPainter;
+import org.cdahmedeh.orgapp.swingui.calendar.timeblock.TimeBlockRender;
 import org.cdahmedeh.orgapp.swingui.helpers.GraphicsHelper;
 import org.cdahmedeh.orgapp.swingui.main.CPanel;
 import org.cdahmedeh.orgapp.swingui.notification.ContextsChangedNotification;

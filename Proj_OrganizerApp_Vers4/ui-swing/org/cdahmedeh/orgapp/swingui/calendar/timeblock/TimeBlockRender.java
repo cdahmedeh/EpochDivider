@@ -1,7 +1,8 @@
-package org.cdahmedeh.orgapp.swingui.calendar;
+package org.cdahmedeh.orgapp.swingui.calendar.timeblock;
 
 import java.util.ArrayList;
 
+import org.cdahmedeh.orgapp.swingui.calendar.BRectangle;
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;

@@ -1,4 +1,4 @@
-package org.cdahmedeh.orgapp.swingui.calendar;
+package org.cdahmedeh.orgapp.swingui.calendar.timeblock;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
@@ -7,6 +7,8 @@ import java.util.ArrayDeque;
 
 import javax.swing.JPanel;
 
+import org.cdahmedeh.orgapp.swingui.calendar.BRectangle;
+import org.cdahmedeh.orgapp.swingui.calendar.CalendarConstants;
 import org.cdahmedeh.orgapp.tools.DateReference;
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.container.DataContainer;

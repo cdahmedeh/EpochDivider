@@ -1,9 +1,10 @@
-package org.cdahmedeh.orgapp.swingui.calendar;
+package org.cdahmedeh.orgapp.swingui.calendar.timeblock;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.cdahmedeh.orgapp.swingui.calendar.BRectangle;
 import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.experimental.alg.color.ImpvGreedyColoring;
 import org.jgrapht.graph.DefaultEdge;
