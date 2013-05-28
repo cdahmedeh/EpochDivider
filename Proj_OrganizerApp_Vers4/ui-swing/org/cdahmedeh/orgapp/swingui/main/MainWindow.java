@@ -208,6 +208,9 @@ public class MainWindow {
 		JMenuItem mntmTestDataMuch = new JMenuItem("Test Data with too much Information");
 		mnSwitchTestData.add(mntmTestDataMuch);
 		
+		JMenuItem mntmTestDataMuchSpread = new JMenuItem("Test Data with too much Information Spread Out");
+		mnSwitchTestData.add(mntmTestDataMuchSpread);
+		
 		JMenuItem mntmTestDataFor = new JMenuItem("Test Data For Stressing Calendar Renderer");
 		mnSwitchTestData.add(mntmTestDataFor);
 		
@@ -221,7 +224,10 @@ public class MainWindow {
 				updateDataContainer(TestDataGenerator.generateDataContainerWithLotsOfData());}});
 		
 		mntmTestDataMuch.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
-				updateDataContainer(TestDataGenerator.generateDataContainerWithTooMuchData());}});
+			updateDataContainer(TestDataGenerator.generateDataContainerWithTooMuchData());}});
+		
+		mntmTestDataMuchSpread.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
+				updateDataContainer(TestDataGenerator.generateDataContainerWithTooMuchDataSpreadOut());}});
 		
 		mntmTestDataFor.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
 				updateDataContainer(TestDataGenerator.generateDataContainerForStressingCalendarPainter());}});

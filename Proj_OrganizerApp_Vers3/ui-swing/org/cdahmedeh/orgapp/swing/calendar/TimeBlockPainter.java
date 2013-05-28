@@ -80,11 +80,11 @@ public class TimeBlockPainter {
 				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5f));
 			}
 			
-			//task before now should be very transparent
-			if (timeBlock.getEnd().isBeforeNow()){
-				Color color = e.getColor();
-				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.1f));
-			}
+//			//task before now should be very transparent
+//			if (timeBlock.getEnd().isBeforeNow()){
+//				Color color = e.getColor();
+//				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.1f));
+//			}
 			
 			e.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);
 			
@@ -92,7 +92,7 @@ public class TimeBlockPainter {
 			
 			if (timeBlock.getEnd().isBeforeNow()){
 				Color color = e.getColor();
-				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.4f));
+				e.setColor(new Color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.8f));
 			}
 			
 			e.drawRoundRect(rect.x, rect.y, rect.width, rect.height, 2, 2);

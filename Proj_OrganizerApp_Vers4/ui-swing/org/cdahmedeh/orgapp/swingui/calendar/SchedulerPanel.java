@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.swingui.calendar;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.MouseAdapter;
@@ -9,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 import javax.swing.TransferHandler;
 
@@ -25,6 +25,7 @@ import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
+import org.joda.time.Interval;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -88,9 +89,11 @@ public class SchedulerPanel extends CPanel {
 
 		for (Task task: dataContainer.getTasks()){
 			for (TimeBlock timeBlock: task.getAllTimeBlocks()) {
+				if (dataContainer.getView().getInterval().contains(new Interval(timeBlock.getStart(), timeBlock.getEnd()))){ //TODO: Premature optimization takes all out
 				TimeBlockRender e = new TimeBlockRender(task, timeBlock, dataContainer.getView(), this.getWidth(), this.getHeight());
 				e.generateRectangles();
 				renderedTimeBlocks.put(timeBlock, e);
+				}
 			}
 		}
 	}
@@ -191,7 +194,8 @@ public class SchedulerPanel extends CPanel {
 						}
 					}
 					else if (uiMode == CalendarUIMode.ADJUST_TIMEBLOCK) {
-						tbrSelected.move((int)support.getDropLocation().getDropPoint().getX(), (int)support.getDropLocation().getDropPoint().getY());
+						Point dropPoint = support.getDropLocation().getDropPoint();
+						tbrSelected.move((int)dropPoint.getX(), (int)dropPoint.getY());
 						repaint();
 						return true;
 					}

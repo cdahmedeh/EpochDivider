@@ -246,6 +246,69 @@ public class TestDataGenerator {
 	
 	/**
 	 * Generate an instance of dataContainer with data designed to stress 
+	 * the application. The amount of data is not realistic.
+	 */
+	public static DataContainer generateDataContainerWithTooMuchDataSpreadOut(){
+		DataContainer dataContainer = new DataContainer();
+		
+		//Set the view for the calendar.
+		View view = new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27));
+		dataContainer.setView(view);
+		
+		//Generate some contexts
+		ArrayList<Context> contextList = new ArrayList<>();
+		
+		//Default contexts
+		contextList.add(new AllContextsContext());
+		contextList.add(new NoContextContext());
+		
+		contextList.add(new DueTodayContext());
+		contextList.add(new DueTomorrowContext());
+		contextList.add(new DueThisViewContext());
+		contextList.add(new NoDueDateContext());
+		
+		//Generate 300 contexts.
+		for (int i = 0; i < 300; i++) {
+			Context context = new Context("Context " + i);
+			context.setGoal(view, Duration.standardMinutes(new Random().nextInt(10*60)));
+			contextList.add(context);
+		}
+		
+		//Generate some 50000 tasks
+		ArrayList<Task> taskList = new ArrayList<>();
+		
+		for (int i = 0; i < 50000; i++) {
+			Task task = new Task("Task " + i);
+			task.setEstimate(Duration.standardMinutes(new Random().nextInt(20*60)));
+			while (task.getContext().equals(new NoContextContext()) || !task.getContext().isSelectable()){
+				task.setContext(contextList.get(new Random().nextInt(contextList.size())));
+			}
+			if (new Random().nextInt(5) == 0) {
+				task.setDue(DateReference.getNow().plusMinutes(new Random().nextInt(1000)*30));
+			}
+			if (new Random().nextInt(3) == 0) {
+				task.setTitle("Event " + i);
+				task.setEvent(true);
+			}
+			task.setCompleted(new Random().nextBoolean());
+			taskList.add(task);
+		}
+		
+		//Assign 7000 timeblocks
+		for (int i = 0; i < 7000; i++) {
+			taskList.get(new Random().nextInt(taskList.size())).assignToTimeBlock(new TimeBlock(view.getStartDate().toDateTimeAtStartOfDay().plusMinutes(new Random().nextInt(100000)*30), Duration.standardMinutes((new Random().nextInt(12)+1)*30)));
+		}
+		
+		//Put the task and context lists into the container.
+		dataContainer.loadContexts(contextList);
+		dataContainer.loadTasks(taskList);
+		
+		return dataContainer;
+		
+	}
+	
+	/**
+	 * Generate an instance of dataContainer with data designed to stress 
 	 * the calendar renderer.
 	 */
 	public static DataContainer generateDataContainerForStressingCalendarPainter(){

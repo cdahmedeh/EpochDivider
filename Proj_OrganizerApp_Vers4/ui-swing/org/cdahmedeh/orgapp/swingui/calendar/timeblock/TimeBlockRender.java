@@ -80,8 +80,6 @@ public class TimeBlockRender {
 		}
 	}
 
-
-
 	public void forceMove() {
 		this.tbcl = TimeBlockClickLocation.MIDDLE;
 		timeClickedOffset = Duration.ZERO;
