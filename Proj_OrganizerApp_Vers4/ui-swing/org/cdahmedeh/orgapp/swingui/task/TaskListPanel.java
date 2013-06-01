@@ -215,14 +215,14 @@ public class TaskListPanel extends CPanel {
 		final String[] labelsForAddButton = new String[]{"Add Task", "Add Event"};
 		final String[] labelsForSwitcher = new String[]{"Switch to Events", "Switch back to Tasks"};
 		final String[] iconsForSwitcher = new String[]{"/org/cdahmedeh/orgapp/imt/icons/events.gif", "/org/cdahmedeh/orgapp/imt/icons/tasks.gif"};
+
+		final JButton switchBetweenTasksAndEventsButton = ToolbarHelper.createToolbarButton(toolbar, labelsForSwitcher[showEvents], TaskListPanel.class.getResource(iconsForSwitcher[showEvents]));
+		switchBetweenTasksAndEventsButton.setBackground(taskListTable.getBackground());
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
 		
 		final JToggleButton showCompletedTasks = ToolbarHelper.createToolbarToggleButton(toolbar, "Show Completed", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/completed.gif"));
 		showCompletedTasks.setBackground(taskListTable.getBackground());
-		
-		final JButton switchBetweenTasksAndEventsButton = ToolbarHelper.createToolbarButton(toolbar, labelsForSwitcher[showEvents], TaskListPanel.class.getResource(iconsForSwitcher[showEvents]));
-		switchBetweenTasksAndEventsButton.setBackground(taskListTable.getBackground());
 		
 		ToolbarHelper.createToolbarSeperator(toolbar);
 		

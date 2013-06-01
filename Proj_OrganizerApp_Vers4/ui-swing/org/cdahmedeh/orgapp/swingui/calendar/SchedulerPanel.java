@@ -36,9 +36,11 @@ public class SchedulerPanel extends CPanel {
 	
 	@Override protected Object getEventRecorder() {return new Object(){
 		@Subscribe public void tasksUpdated(TasksChangedNotification notification){
+			generateTimeBlockRenders();
 			repaint();
 		}
 		@Subscribe public void contextsUpdated(ContextsChangedNotification notification){
+			generateTimeBlockRenders();
 			repaint();
 		}
 	};}
@@ -174,7 +176,8 @@ public class SchedulerPanel extends CPanel {
 							//Add a new TimeBlock to the Task and start dragging it.
 							TimeBlock timeBlock = dataContainer.assignNewTimeBlockToTask(task);
 							generateTimeBlockRenders();
-							tbrSelected = renderedTimeBlocks.get(timeBlock);							
+							tbrSelected = renderedTimeBlocks.get(timeBlock);
+							System.out.println(tbrSelected);
 							uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
 							tbrSelected.forceMove();
 							repaint();
