@@ -57,6 +57,7 @@ public class Task {
 	public void setEvent(boolean event) {this.event = event;}
 	
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
+	public void setTimeBlocks(ArrayList<TimeBlock> timeBlocks) {this.timeBlocks = timeBlocks == null ? this.timeBlocks : timeBlocks;} //TODO: FIXME!
 	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
 	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}
 	
