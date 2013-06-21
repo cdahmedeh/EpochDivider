@@ -9,7 +9,7 @@ import org.cdahmedeh.orgapp.types.calendar.View;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 
-public class GoalsModel implements ModelInterface<Entry<View, Duration>, String> {
+public class GoalsModel implements ModelInterface<Entry<View, Duration>, String, Object> {
 
 	public String objectToSQL(Entry<View, Duration> goal, String name) {
 		StringBuilder sql = new StringBuilder();
@@ -25,7 +25,7 @@ public class GoalsModel implements ModelInterface<Entry<View, Duration>, String>
 		return sql.toString();
 	}
 
-	public HashMap<String, HashMap<View, Duration>> resultSetToObject(ResultSet rs) throws SQLException {
+	public HashMap<String, HashMap<View, Duration>> resultSetToObject(ResultSet rs, Object object) throws SQLException {
 		HashMap<String, HashMap<View, Duration>> contextGoalHashmaps = new HashMap<>();
 		
 		while (rs.next()){
@@ -56,6 +56,6 @@ public class GoalsModel implements ModelInterface<Entry<View, Duration>, String>
 
 	@Override
 	public String createTableSQL() {
-		return "create table GoalsTable (name string, startDate string, endDate string, duration String)";
+		return "create table GoalsTable (name string, startDate string, endDate string, duration string)";
 	}
 }

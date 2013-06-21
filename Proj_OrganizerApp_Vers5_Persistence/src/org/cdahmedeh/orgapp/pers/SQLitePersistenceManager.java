@@ -26,13 +26,6 @@ import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 
 public class SQLitePersistenceManager implements PersistanceManagerInterface {
-	public static void main(String[] args) {
-//		DataContainer dataContainer = TestDataGenerator.generateDataContainer();
-		PersistanceManagerInterface pm = new SQLitePersistenceManager();
-//		pm.saveDataContainer("database.db", dataContainer);
-//		pm.loadDataContainer("database.db");
-		System.out.println("Done");
-	}
 
 	public DataContainer loadDataContainer(File file) {
 		//Loading Models
@@ -74,14 +67,18 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             ResultSet rsTimeBlocks = statementTimeBlocks.executeQuery(timeBlocksModel.loadResultSetSQL());
           
             //Load data
-            DataContainer dataContainer = dataContainerModel.resultSetToObject(rsDataContainer);
-			ArrayList<Context> contextList = contextListModel.resultSetToObject(rsContextList);
-			HashMap<String, HashMap<View,Duration>> contextGoalHashmaps = goalsModel.resultSetToObject(rsGoals);
+            DataContainer dataContainer = dataContainerModel.resultSetToObject(rsDataContainer, null);
+			ArrayList<Context> contextList = contextListModel.resultSetToObject(rsContextList, null);
+			HashMap<String, HashMap<View,Duration>> contextGoalHashmaps = goalsModel.resultSetToObject(rsGoals, null);
+			HashMap<String, Context> contextByName = new HashMap<>();
 			for (Context context: contextList){
 				context.setGoals(contextGoalHashmaps.get(context.getName()));
 			}
-			ArrayList<Task> tasks = taskListModel.resultSetToObject(rsTaskList);
-			HashMap<Integer,ArrayList<TimeBlock>> taskTimeblocks = timeBlocksModel.resultSetToObject(rsTimeBlocks);
+			for (Context context: contextList){
+				contextByName.put(context.getName(), context);
+			}
+			ArrayList<Task> tasks = taskListModel.resultSetToObject(rsTaskList, contextByName);
+			HashMap<Integer,ArrayList<TimeBlock>> taskTimeblocks = timeBlocksModel.resultSetToObject(rsTimeBlocks, null);
 			for (Task task: tasks){
 				task.setTimeBlocks(taskTimeblocks.get(task.getId()));
 			}
@@ -159,7 +156,6 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             e.printStackTrace();
         } finally {
         	try {
-        		System.out.println("close connection");
 				connection.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

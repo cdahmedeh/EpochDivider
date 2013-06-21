@@ -8,7 +8,7 @@ import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTime;
 
 
-public class TimeBlocksModel implements ModelInterface<TimeBlock, Integer>{
+public class TimeBlocksModel implements ModelInterface<TimeBlock, Integer, Object>{
 
 	public String objectToSQL(TimeBlock timeblock, Integer id) {
 		StringBuilder sql = new StringBuilder();
@@ -22,7 +22,7 @@ public class TimeBlocksModel implements ModelInterface<TimeBlock, Integer>{
 		return sql.toString();
 	}
 
-	public HashMap<Integer,ArrayList<TimeBlock>> resultSetToObject(ResultSet rs) throws SQLException {
+	public HashMap<Integer,ArrayList<TimeBlock>> resultSetToObject(ResultSet rs, Object object) throws SQLException {
 		HashMap<Integer,ArrayList<TimeBlock>> timeblocks = new HashMap<>();
 		
 		while (rs.next()){
@@ -51,6 +51,6 @@ public class TimeBlocksModel implements ModelInterface<TimeBlock, Integer>{
 
 	@Override
 	public String createTableSQL() {
-		return "create table TimeBlockTable (id int, start Strings, end Strings)";
+		return "create table TimeBlockTable (id int, start string, end string)";
 	}
 }
