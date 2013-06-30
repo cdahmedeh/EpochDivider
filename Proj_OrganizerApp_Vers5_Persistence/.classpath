@@ -8,6 +8,8 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/Proj_OrganizerApp_Vers5_Persistence/slibs/sqlite-jdbc-3.7.2-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="elibs/snakeyaml-1.11.jar" sourcepath="slibs/snakeyaml-1.11-sources.jar"/>
+	<classpathentry kind="lib" path="elibs/commons-io-2.4.jar" sourcepath="slibs/commons-io-2.4-sources.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Proj_OrganizerApp_Vers5_Core"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
