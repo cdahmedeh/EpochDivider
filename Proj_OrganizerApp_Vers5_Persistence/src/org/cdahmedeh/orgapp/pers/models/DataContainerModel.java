@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
+import org.cdahmedeh.orgapp.types.task.TaskType;
 import org.joda.time.LocalDate;
 
 public class DataContainerModel implements ModelInterface<DataContainer, Object, Object> {
@@ -12,7 +13,7 @@ public class DataContainerModel implements ModelInterface<DataContainer, Object,
 	public String objectToSQL(DataContainer dataContainer, Object object) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into DataContainerTable values('");
-		sql.append(dataContainer.getShowEvents());
+		sql.append(dataContainer.getShowType());
 		sql.append("', '");
 		sql.append(dataContainer.getShowCompleted());
 		sql.append("', '");
@@ -40,7 +41,7 @@ public class DataContainerModel implements ModelInterface<DataContainer, Object,
 	 */
 	public DataContainer resultSetToObject(ResultSet rs, Object object) throws SQLException {
 		DataContainer dataContainer = new DataContainer();
-		dataContainer.setShowEvents(rs.getString(1).equals("true")? true: false);
+		dataContainer.setShowType(TaskType.valueOf(rs.getString(1)));
 		dataContainer.setShowCompleted(rs.getString(2).equals("true")? true: false);
 		dataContainer.setDimPast(rs.getString(3).equals("true")? true: false);
 		dataContainer.setView(new View((new LocalDate(rs.getString(6))),(new LocalDate (rs.getString(7)))));		
@@ -49,7 +50,7 @@ public class DataContainerModel implements ModelInterface<DataContainer, Object,
 
 	@Override
 	public String loadResultSetSQL() {
-		return "select showEvents, showCompleted, dimPast, colorCounter, idCounter, startDate, endDate from DataContainerTable";
+		return "select showType, showCompleted, dimPast, colorCounter, idCounter, startDate, endDate from DataContainerTable";
 	}
 
 	@Override
@@ -59,6 +60,6 @@ public class DataContainerModel implements ModelInterface<DataContainer, Object,
 
 	@Override
 	public String createTableSQL() {
-		return "create table DataContainerTable (showEvents string, showCompleted string, dimPast string, colorCounter int, idCounter int, startDate string, endDate string)";
+		return "create table DataContainerTable (showType string, showCompleted string, dimPast string, colorCounter int, idCounter int, startDate string, endDate string)";
 	}
 }

@@ -37,6 +37,7 @@ import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.cdahmedeh.orgapp.types.task.TaskType;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
@@ -247,7 +248,7 @@ public class TaskListPanel extends CPanel {
 				addTaskButton.setText(labelsForAddButton[showEvents]);
 				switchBetweenTasksAndEventsButton.setText(labelsForSwitcher[showEvents]);
 				switchBetweenTasksAndEventsButton.setIcon(new ImageIcon(TaskListPanel.class.getResource(iconsForSwitcher[showEvents])));
-				dataContainer.setShowEvents(showEvents == 1);
+				dataContainer.setShowType(showEvents == 1 ? TaskType.EVENT : TaskType.TASK);
 				taskListMatcherEditor.matcherChangedNotify();
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
@@ -286,7 +287,7 @@ public class TaskListPanel extends CPanel {
 		}
 		
 		//Create a new task.
-		dataContainer.createNewBlankTask(dataContainer.getShowEvents());
+		dataContainer.createNewBlankTask(dataContainer.getShowType());
 		
 		//Refresh task list table and notify others.
 		eventBus.post(new TasksChangedNotification());

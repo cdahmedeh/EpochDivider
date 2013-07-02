@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.cdahmedeh.orgapp.types.task.TaskType;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -32,7 +33,7 @@ public class TaskListModel implements ModelInterface<Task, Object,HashMap<String
 		sql.append("', '");
 		sql.append(task.isCompleted());
 		sql.append("', '");
-		sql.append(task.isEvent());
+		sql.append(task.getType().toString());
 		sql.append("')");
 		return sql.toString();
 	}
@@ -52,7 +53,7 @@ public class TaskListModel implements ModelInterface<Task, Object,HashMap<String
 			}
 			task.setEstimate(new Duration(rs.getString(5)));
 			task.setCompleted(rs.getString(6).equals("true")? true: false);
-			task.setEvent(rs.getString(7).equals("true")? true: false);
+			task.setType(TaskType.valueOf(rs.getString(7)));
 			tasks.add(task);
 		}
 		return tasks;
@@ -60,7 +61,7 @@ public class TaskListModel implements ModelInterface<Task, Object,HashMap<String
 
 	@Override
 	public String loadResultSetSQL() {
-		return "select id, title, context, due, estimate, completed, event from TaskListTable";
+		return "select id, title, context, due, estimate, completed, type from TaskListTable";
 	}
 
 	@Override
@@ -70,6 +71,6 @@ public class TaskListModel implements ModelInterface<Task, Object,HashMap<String
 
 	@Override
 	public String createTableSQL() {
-		return "create table TaskListTable (id int, title string, context string, due string, estimate string, completed string, event string)";
+		return "create table TaskListTable (id int, title string, context string, due string, estimate string, completed string, type string)";
 	}
 }

@@ -14,6 +14,7 @@ import org.cdahmedeh.orgapp.types.context.DueTomorrowContext;
 import org.cdahmedeh.orgapp.types.context.NoContextContext;
 import org.cdahmedeh.orgapp.types.context.NoDueDateContext;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.cdahmedeh.orgapp.types.task.TaskType;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -162,7 +163,7 @@ public class TestDataGenerator {
 			}
 			if (new Random().nextInt(3) == 0) {
 				task.setTitle("Event " + i);
-				task.setEvent(true);
+				task.setType(TaskType.EVENT);
 			}
 			task.setCompleted(new Random().nextBoolean());
 			taskList.add(task);
@@ -225,7 +226,7 @@ public class TestDataGenerator {
 			}
 			if (new Random().nextInt(3) == 0) {
 				task.setTitle("Event " + i);
-				task.setEvent(true);
+				task.setType(TaskType.EVENT);
 			}
 			task.setCompleted(new Random().nextBoolean());
 			taskList.add(task);
@@ -288,7 +289,7 @@ public class TestDataGenerator {
 			}
 			if (new Random().nextInt(3) == 0) {
 				task.setTitle("Event " + i);
-				task.setEvent(true);
+				task.setType(TaskType.EVENT);
 			}
 			task.setCompleted(new Random().nextBoolean());
 			taskList.add(task);
@@ -459,19 +460,19 @@ public class TestDataGenerator {
 		Task sleepEvent = new Task("Sleep");
 		sleepEvent.setContext(sleepContext);
 		sleepEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,20,23,00).plusDays(i),new DateTime(2013,04,21,6,00).plusDays(i)));
-		sleepEvent.setEvent(true);
+		sleepEvent.setType(TaskType.EVENT);
 		taskList.add(sleepEvent);
 		
 		Task faithEvent = new Task("Faith");
 		faithEvent.setContext(faithContext);
 		faithEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,21,6,00).plusDays(i),new DateTime(2013,04,21,6,30).plusDays(i)));
-		faithEvent.setEvent(true);
+		faithEvent.setType(TaskType.EVENT);
 		taskList.add(faithEvent);
 		
 		Task catchingUpEvent = new Task("Catching Up");
 		catchingUpEvent.setContext(catchingUpContext);
 		catchingUpEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,21,6,30).plusDays(i),new DateTime(2013,04,21,7,00).plusDays(i)));
-		catchingUpEvent.setEvent(true);
+		catchingUpEvent.setType(TaskType.EVENT);
 		taskList.add(catchingUpEvent);
 		}
 		
@@ -486,7 +487,7 @@ public class TestDataGenerator {
 				workEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,8,00).plusDays(i),new DateTime(2013,04,22,12,00).plusDays(i)));
 				workEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,14,00).plusDays(i),new DateTime(2013,04,22,17,00).plusDays(i)));
 			}
-			workEvent.setEvent(true);
+			workEvent.setType(TaskType.EVENT);
 			taskList.add(workEvent);
 			
 			Task driveFirstEvent = new Task("Drive");
@@ -496,20 +497,20 @@ public class TestDataGenerator {
 			} else {
 				driveFirstEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,7,00).plusDays(i),new DateTime(2013,04,22,8,00).plusDays(i)));
 			}
-			driveFirstEvent.setEvent(true);
+			driveFirstEvent.setType(TaskType.EVENT);
 			taskList.add(driveFirstEvent);
 			
 			Task driveLastEvent = new Task("Drive");
 			driveLastEvent.setContext(transportContext);
 			driveLastEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,17,00).plusDays(i),new DateTime(2013,04,22,18,00).plusDays(i)));
-			driveLastEvent.setEvent(true);
+			driveLastEvent.setType(TaskType.EVENT);
 			taskList.add(driveLastEvent);
 		}
 		
 		Task faithEvent = new Task("Friday Prayer");
 		faithEvent.setContext(faithContext);
 		faithEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,26,12,00),new DateTime(2013,04,26,14,00)));
-		faithEvent.setEvent(true);
+		faithEvent.setType(TaskType.EVENT);
 		taskList.add(faithEvent);
 		
 		//Generate some tasks

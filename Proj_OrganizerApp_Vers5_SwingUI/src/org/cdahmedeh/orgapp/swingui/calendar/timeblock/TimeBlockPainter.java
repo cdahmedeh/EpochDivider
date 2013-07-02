@@ -12,6 +12,7 @@ import org.cdahmedeh.orgapp.tools.DateReference;
 import org.cdahmedeh.orgapp.tools.MiscHelper;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.task.Task;
+import org.cdahmedeh.orgapp.types.task.TaskType;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.LocalTime;
 
@@ -23,7 +24,7 @@ public class TimeBlockPainter {
 		//Render the rectangles
 			//Set the background color
 			//Events should be much darker
-			if (!task.isEvent()){
+			if (!(task.getType() == TaskType.EVENT)){
 				Color timeBlockColor = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, CalendarConstants.TIMEBLOCK_SATURATION, CalendarConstants.TIMEBLOCK_BRIGHTNESS));
 				g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_OPACITY));
 			} else {
