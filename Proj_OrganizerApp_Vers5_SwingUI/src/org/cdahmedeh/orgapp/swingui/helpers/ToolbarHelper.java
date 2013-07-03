@@ -6,6 +6,7 @@ import java.net.URL;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
@@ -28,6 +29,12 @@ public class ToolbarHelper {
 		return seperator;		
 	}
 	
+	public static Component createToolbarInvisibleSeperator(JToolBar toolbar) {
+		Component seperator = Box.createHorizontalStrut(5);
+		toolbar.add(seperator);
+		return seperator;		
+	}
+	
 	public static JButton createToolbarButton(JToolBar toolbar, String label, URL iconURL){
 		JButton toolbarButton = new JButton(label);
 		toolbarButton.setIcon(new ImageIcon(iconURL));
@@ -42,5 +49,12 @@ public class ToolbarHelper {
 		toolbarToggleButton.setFocusable(false);
 		toolbar.add(toolbarToggleButton);
 		return toolbarToggleButton;
+	}
+	
+	public static JRadioButton createToolbarRadio(JToolBar toolbar, String label){
+		JRadioButton toolbarRadioButton = new JRadioButton(label);
+		toolbarRadioButton.setFocusable(false);
+		toolbar.add(toolbarRadioButton);
+		return toolbarRadioButton;
 	}
 }

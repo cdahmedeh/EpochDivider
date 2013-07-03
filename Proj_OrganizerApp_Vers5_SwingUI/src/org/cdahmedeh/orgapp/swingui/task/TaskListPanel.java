@@ -8,11 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -82,9 +84,6 @@ public class TaskListPanel extends CPanel {
 	private EventList<Task> taskEventList;
 	private AdvancedTableModel<Task> taskListTableModel;
 	private EventList<Context> contextEventList;
-	
-	// - States -
-	private int showEvents = 0; //0 for showing only tasks, and 1 for only events. 
 	
 	@Override
 	protected void windowInit() {
@@ -213,12 +212,25 @@ public class TaskListPanel extends CPanel {
 		toolbar.setBackground(taskListTable.getBackground());
 		add(toolbar, BorderLayout.SOUTH);
 
-		final String[] labelsForAddButton = new String[]{"Add Task", "Add Event"};
-		final String[] labelsForSwitcher = new String[]{"Switch to Events", "Switch back to Tasks"};
-		final String[] iconsForSwitcher = new String[]{"/org/cdahmedeh/orgapp/imt/icons/events.gif", "/org/cdahmedeh/orgapp/imt/icons/tasks.gif"};
+		// TODO: Cleanup
+		ButtonGroup group = new ButtonGroup();
 
-		final JButton switchBetweenTasksAndEventsButton = ToolbarHelper.createToolbarButton(toolbar, labelsForSwitcher[showEvents], TaskListPanel.class.getResource(iconsForSwitcher[showEvents]));
-		switchBetweenTasksAndEventsButton.setBackground(taskListTable.getBackground());
+		for (final TaskType type: TaskType.values()){
+			ToolbarHelper.createToolbarInvisibleSeperator(toolbar);
+
+			JRadioButton radioButton = ToolbarHelper.createToolbarRadio(toolbar, type.getTitle() + "s");
+			group.add(radioButton);
+			radioButton.setBackground(taskListTable.getBackground());
+			radioButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					dataContainer.setShowType(type);
+					taskListMatcherEditor.matcherChangedNotify();
+					taskListTable.repaint(); //TODO: temporary call to fix redraw bug
+				}
+			});
+			
+		}
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
 		
@@ -227,7 +239,7 @@ public class TaskListPanel extends CPanel {
 		
 		ToolbarHelper.createToolbarSeperator(toolbar);
 		
-		final JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, labelsForAddButton[showEvents], TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif"));
+		final JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, "Add", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif"));
 		addTaskButton.setBackground(taskListTable.getBackground());
 		
 		//ToolBar button actions
@@ -236,19 +248,6 @@ public class TaskListPanel extends CPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dataContainer.setShowCompleted(showCompletedTasks.isSelected());
-				taskListMatcherEditor.matcherChangedNotify();
-				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
-			}
-		});
-		
-		switchBetweenTasksAndEventsButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				showEvents = showEvents == 0 ? 1 : 0;
-				addTaskButton.setText(labelsForAddButton[showEvents]);
-				switchBetweenTasksAndEventsButton.setText(labelsForSwitcher[showEvents]);
-				switchBetweenTasksAndEventsButton.setIcon(new ImageIcon(TaskListPanel.class.getResource(iconsForSwitcher[showEvents])));
-				dataContainer.setShowType(showEvents == 1 ? TaskType.EVENT : TaskType.TASK);
 				taskListMatcherEditor.matcherChangedNotify();
 				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
 			}
