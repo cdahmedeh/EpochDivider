@@ -91,11 +91,11 @@ public class SchedulerPanel extends CPanel {
 
 		for (Task task: dataContainer.getTasks()){
 			for (TimeBlock timeBlock: task.getAllTimeBlocks()) {
-				if (dataContainer.getView().getInterval().contains(new Interval(timeBlock.getStart(), timeBlock.getEnd()))){ //TODO: Premature optimization takes all out
+//				if (dataContainer.getView().getInterval().contains(new Interval(timeBlock.getStart(), timeBlock.getEnd()))){ //TODO: Premature optimization takes all out
 				TimeBlockRender e = new TimeBlockRender(task, timeBlock, dataContainer.getView(), this.getWidth(), this.getHeight());
 				e.generateRectangles();
 				renderedTimeBlocks.put(timeBlock, e);
-				}
+//				}
 			}
 		}
 	}
