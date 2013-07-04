@@ -102,4 +102,25 @@ public class CategoryTest {
 		assertEquals(context2, category.getContextAtIndex(1));
 		assertEquals(context3, category.getContextAtIndex(2));
 	}
+	
+	@Test
+	public void testGetIndexOfContext(){
+		Category category = new Category("");
+		
+		Context context1 = new Context("one");
+		Context context2 = new Context("two");
+		Context context3 = new Context("three");
+		
+		category.addContext(context1);
+		category.addContext(context2);
+		category.addContext(context3);
+		
+		//Indexes should be in order
+		assertEquals(0, category.getIndexOfContext(context1));
+		assertEquals(1, category.getIndexOfContext(context2));
+		assertEquals(2, category.getIndexOfContext(context3));
+		
+		//For a context not within the category, we should get -1
+		assertEquals(-1, category.getIndexOfContext(new Context("blank")));
+	}
 }

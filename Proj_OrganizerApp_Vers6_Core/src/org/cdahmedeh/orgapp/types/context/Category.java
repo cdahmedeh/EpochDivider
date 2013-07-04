@@ -38,4 +38,5 @@ public class Category {
 	public void addContext(Context context) {this.contexts.add(context);}
 	public Context getContextAtIndex(int index) {return this.contexts.get(index);}
 	public int getContextsAmount() {return this.contexts.size();}
+	public int getIndexOfContext(Context context) {return this.contexts.indexOf(context);}
 }
