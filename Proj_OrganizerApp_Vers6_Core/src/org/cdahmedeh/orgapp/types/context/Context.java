@@ -17,6 +17,11 @@ public class Context {
 	
 	/* --- Primary Data --- */
 
+	// Id //
+	private static int idCounter = 0;
+	private int id = idCounter++;
+	public int getId() {return id;}
+	
 	// Display name of this context //
 	private String name = "";
 	public String getName() {return name;}

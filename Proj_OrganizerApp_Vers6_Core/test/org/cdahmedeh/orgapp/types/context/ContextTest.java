@@ -2,9 +2,25 @@ package org.cdahmedeh.orgapp.types.context;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Field;
+
 import org.junit.Test;
 
 public class ContextTest {
+	@Test
+	public void testContextIdsShouldIncrementInOrder() throws Exception {
+		//Reset id counter back to 0 using Java Reflection
+		Field idCounterField = Context.class.getDeclaredField("idCounter");
+		idCounterField.setAccessible(true);
+		idCounterField.set(null, 0);
+		
+		assertEquals(0, new Context("").getId());
+		assertEquals(1, new Context("").getId());
+		assertEquals(2, new Context("").getId());
+		assertEquals(3, new Context("").getId());
+		assertEquals(4, new Context("").getId());
+	}
+	
 	@Test
 	public void testCreatingContextsWithNameShouldSetName() {
 		assertEquals("Context", new Context("Context").getName());
