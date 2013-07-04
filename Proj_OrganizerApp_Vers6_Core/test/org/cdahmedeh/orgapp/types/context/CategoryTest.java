@@ -74,4 +74,32 @@ public class CategoryTest {
 		testCategory.setName(null);
 		assertEquals("", testCategory.getName());
 	}
+	
+	@Test
+	public void testNewCategoryShouldHaveEmptyContextsList(){
+		Category category = new Category("");
+
+		assertEquals(0, category.getContextsAmount());
+	}
+	
+	@Test
+	public void testAddingContextsToCategory(){
+		Category category = new Category("");
+		
+		Context context1 = new Context("one");
+		Context context2 = new Context("two");
+		Context context3 = new Context("three");
+		
+		category.addContext(context1);
+		category.addContext(context2);
+		category.addContext(context3);
+		
+		//Size should be three
+		assertEquals(3, category.getContextsAmount());
+		
+		//Contexts should be the right ones and in order
+		assertEquals(context1, category.getContextAtIndex(0));
+		assertEquals(context2, category.getContextAtIndex(1));
+		assertEquals(context3, category.getContextAtIndex(2));
+	}
 }
