@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import org.cdahmedeh.orgapp.types.context.Category;
+import org.cdahmedeh.orgapp.types.context.Context;
 import org.junit.Test;
 
 public class DataContainerTest {
@@ -12,22 +12,22 @@ public class DataContainerTest {
 	@Test
 	public void testCategoriesListBasically() {
 		DataContainer dataContainer = new DataContainer();
-		ArrayList<Category> categories = dataContainer.getCategories();
+		ArrayList<Context> contexts = dataContainer.getContexts();
 		
-		//By default, the data container should have no categories.
-		assertTrue(categories.isEmpty());
+		//By default, the data container should have no contexts.
+		assertTrue(contexts.isEmpty());
 		
-		//Add some categories 
-		Category category0 = new Category("zero");
-		Category category1 = new Category("one");
+		//Add some contexts 
+		Context context0 = new Context("zero");
+		Context context1 = new Context("one");
 		
-		categories.add(category0);
-		categories.add(category1);
+		contexts.add(context0);
+		contexts.add(context1);
 		
 		//Check size and equality
-		assertEquals(2, categories.size());
-		assertEquals(category0, categories.get(0));
-		assertEquals(category1, categories.get(1));
+		assertEquals(2, contexts.size());
+		assertEquals(context0, contexts.get(0));
+		assertEquals(context1, contexts.get(1));
 	}
 
 }

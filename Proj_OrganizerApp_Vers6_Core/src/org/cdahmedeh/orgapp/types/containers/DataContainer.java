@@ -2,7 +2,7 @@ package org.cdahmedeh.orgapp.types.containers;
 
 import java.util.ArrayList;
 
-import org.cdahmedeh.orgapp.types.context.Category;
+import org.cdahmedeh.orgapp.types.context.Context;
 
 /**
  * {@link DataContainer} is an object with contains references to relevant
@@ -15,6 +15,6 @@ public class DataContainer {
 	/* - Main data - */
 	
 	// List of categories (which contain the contexts) //
-	private ArrayList<Category> categories = new ArrayList<>();
-	public ArrayList<Category> getCategories() {return categories;}
+	private ArrayList<Context> contexts = new ArrayList<>();
+	public ArrayList<Context> getContexts() {return contexts;}
 }

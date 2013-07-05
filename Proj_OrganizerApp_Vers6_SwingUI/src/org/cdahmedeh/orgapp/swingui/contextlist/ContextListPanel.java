@@ -5,12 +5,12 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JToolBar;
 
 import org.cdahmedeh.orgapp.imt.icons.Icons;
 import org.cdahmedeh.orgapp.types.containers.DataContainer;
 
-import de.sciss.treetable.j.TreeTable;
 import javax.swing.JButton;
 import java.awt.Component;
 import javax.swing.Box;
@@ -23,16 +23,15 @@ public class ContextListPanel extends JPanel {
 	private DataContainer dataContainer;
 
 	// Data Models
-	private ContextListTreeModel contextListTreeModel;
-	private ContextListTreeColumnModel contextListTreeColumnModel;
+	private ContextListTableModel contextListTableModel;
 	
 	public ContextListPanel(DataContainer dataContainer) {
 		this.dataContainer = dataContainer;
 
 		preparePanel();
 		createToolbar();
-		prepareContextListTreeTableModels();	
-		createContextListTreeTable();
+		prepareContextListTableModel();	
+		createContextListTable();
 	}
 
 	private void preparePanel() {
@@ -48,25 +47,18 @@ public class ContextListPanel extends JPanel {
 		Component horizontalGlue = Box.createHorizontalGlue();
 		toolbar.add(horizontalGlue);
 		
-		JButton btnAddCategory = new JButton("Add Category");
-		btnAddCategory.setIcon(new ImageIcon(ContextListPanel.class.getResource(Icons.ADD)));
-		toolbar.add(btnAddCategory);
-		
 		JButton btnAddContext = new JButton("Add Context");
 		btnAddContext.setIcon(new ImageIcon(ContextListPanel.class.getResource(Icons.ADD)));
 		toolbar.add(btnAddContext);
 	}
 	
-	private void prepareContextListTreeTableModels() {
-		contextListTreeModel = new ContextListTreeModel(dataContainer.getCategories());
-		contextListTreeColumnModel = new ContextListTreeColumnModel();
+	private void prepareContextListTableModel() {
+		contextListTableModel = new ContextListTableModel(dataContainer.getContexts());
 	}
 	
-	private void createContextListTreeTable() {
-		TreeTable contextListTreeTable = new TreeTable(contextListTreeModel, contextListTreeColumnModel);
-		contextListTreeTable.setRootVisible(false);
-		contextListTreeTable.setShowsRootHandles(true);
-		contextListTreeTable.setNodeSortingEnabled(false);
+	private void createContextListTable() {
+		JTable contextListTreeTable = new JTable();
+		contextListTreeTable.setModel(contextListTableModel);
 
 		JScrollPane contextListScrollPane = new JScrollPane();
 		add(contextListScrollPane, BorderLayout.CENTER);
