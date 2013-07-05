@@ -22,8 +22,11 @@ public class DataContainerGenerator {
 		leisureCategory.addContext(new Context("Gaming"));
 		leisureCategory.addContext(new Context("Tinkering"));
 		
+		Category projectsCategory = new Category("Projects");
+		
 		dataContainer.getCategories().add(essentialsCategory);
 		dataContainer.getCategories().add(leisureCategory);
+		dataContainer.getCategories().add(projectsCategory);
 		
 		return dataContainer;
 	}

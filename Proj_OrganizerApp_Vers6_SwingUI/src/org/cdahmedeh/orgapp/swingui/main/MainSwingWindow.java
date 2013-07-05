@@ -11,6 +11,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.cdahmedeh.orgapp.generators.DataContainerGenerator;
+import org.cdahmedeh.orgapp.imt.icons.Icons;
 import org.cdahmedeh.orgapp.swingui.contextlist.ContextListPanel;
 import org.cdahmedeh.orgapp.types.containers.DataContainer;
 import org.jdesktop.swingx.JXMultiSplitPane;
@@ -18,6 +19,8 @@ import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import com.jidesoft.plaf.LookAndFeelFactory;
+import com.jidesoft.swing.JideTabbedPane;
+import javax.swing.ImageIcon;
 
 public class MainSwingWindow {
 	public static void main(String[] args) {
@@ -42,6 +45,7 @@ public class MainSwingWindow {
 
 	//UI Components
 	private JFrame frame;
+	private JideTabbedPane tabbedPane;
 	
 	public MainSwingWindow() {
 		prepareLogger();
@@ -82,16 +86,23 @@ public class MainSwingWindow {
 				MainSwingWindowConstants.MAIN_WINDOW_DEFAULT_WIDTH,	MainSwingWindowConstants.MAIN_WINDOW_DEFAULT_HEIGHT
 		);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new GridLayout(1, 1));
+		frame.getContentPane().setLayout(new GridLayout(1, 1));
 		
-		// Main Split Pane
-		JXMultiSplitPane mainMultiSplitPane = new JXMultiSplitPane();
-		mainMultiSplitPane.setModel(new DefaultSplitPaneModel());
-		frame.getContentPane().add(mainMultiSplitPane);
+		tabbedPane = new JideTabbedPane();
+		frame.getContentPane().add(tabbedPane);
+				
+		createTasksTab();
+	}
+
+	private void createTasksTab() {
+		// Tasks Pane
+		JXMultiSplitPane tasksMultiSplitPane = new JXMultiSplitPane();
+		tasksMultiSplitPane.setModel(new DefaultSplitPaneModel());
+		tabbedPane.addTab(MainSwingWindowConstants.TASKS_LABEL, new ImageIcon(MainSwingWindow.class.getResource(Icons.TASKS)), tasksMultiSplitPane);
 		
 		// Context List Panel
-		ContextListPanel contextListPanel = new ContextListPanel(dataContainer);
-		mainMultiSplitPane.add(contextListPanel, DefaultSplitPaneModel.LEFT);
+		ContextListPanel tasksContextListPanel = new ContextListPanel(dataContainer);
+		tasksMultiSplitPane.add(tasksContextListPanel, DefaultSplitPaneModel.LEFT);
 	}
 
 	private void displayWindow() {
