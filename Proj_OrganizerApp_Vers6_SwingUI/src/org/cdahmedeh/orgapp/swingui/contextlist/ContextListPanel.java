@@ -10,6 +10,13 @@ import javax.swing.JToolBar;
 
 import org.cdahmedeh.orgapp.imt.icons.Icons;
 import org.cdahmedeh.orgapp.types.containers.DataContainer;
+import org.cdahmedeh.orgapp.types.context.Context;
+
+import ca.odell.glazedlists.BasicEventList;
+import ca.odell.glazedlists.EventList;
+import ca.odell.glazedlists.GlazedLists;
+import ca.odell.glazedlists.swing.AdvancedTableModel;
+import ca.odell.glazedlists.swing.GlazedListsSwing;
 
 import javax.swing.JButton;
 import java.awt.Component;
@@ -22,16 +29,16 @@ public class ContextListPanel extends JPanel {
 	// Data Container
 	private DataContainer dataContainer;
 
-	// Data Models
-	private ContextListTableModel contextListTableModel;
-	
+	// Components
+	private JTable contextListTable;
+
 	public ContextListPanel(DataContainer dataContainer) {
 		this.dataContainer = dataContainer;
 
 		preparePanel();
 		createToolbar();
-		prepareContextListTableModel();	
 		createContextListTable();
+		prepareContextListTableModel();	
 	}
 
 	private void preparePanel() {
@@ -51,17 +58,21 @@ public class ContextListPanel extends JPanel {
 		btnAddContext.setIcon(new ImageIcon(ContextListPanel.class.getResource(Icons.ADD)));
 		toolbar.add(btnAddContext);
 	}
-	
-	private void prepareContextListTableModel() {
-		contextListTableModel = new ContextListTableModel(dataContainer.getContexts());
-	}
-	
+
 	private void createContextListTable() {
-		JTable contextListTreeTable = new JTable();
-		contextListTreeTable.setModel(contextListTableModel);
+		contextListTable = new JTable();
 
 		JScrollPane contextListScrollPane = new JScrollPane();
 		add(contextListScrollPane, BorderLayout.CENTER);
-		contextListScrollPane.setViewportView(contextListTreeTable);
+		contextListScrollPane.setViewportView(contextListTable);
+	}
+	
+	private void prepareContextListTableModel() {
+		EventList<Context> contextEventList = new BasicEventList<>();
+		ContextListTableFormat contextListTableFormat = new ContextListTableFormat();
+		contextEventList.addAll(dataContainer.getContexts());
+		
+		AdvancedTableModel<Context> advancedTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(contextEventList, contextListTableFormat);
+		contextListTable.setModel(advancedTableModel);
 	}
 }
