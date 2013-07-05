@@ -2,6 +2,7 @@ package org.cdahmedeh.orgapp.swingui.main;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -12,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
@@ -36,6 +38,8 @@ import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 import com.google.common.eventbus.EventBus;
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import com.jidesoft.plaf.LookAndFeelFactory;
+import com.jidesoft.swing.JideTabbedPane;
+import java.awt.SystemColor;
 
 public class MainWindow {
 	public static void main(String[] args) {
@@ -107,13 +111,24 @@ public class MainWindow {
 		frame.setBounds(UIConstants.DEFAULT_WINDOW_XPOS, UIConstants.DEFAULT_WINDOW_YPOS, UIConstants.DEFAULT_WINDOW_WIDTH, UIConstants.DEFAULT_WINDOW_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		JideTabbedPane jideTabbedPane = new JideTabbedPane();
+//		jideTabbedPane.setBackground(SystemColor.control);
+		jideTabbedPane.setColorTheme(JideTabbedPane.COLOR_THEME_OFFICE2003);
+		jideTabbedPane.setContentBorderInsets(new Insets(1, 1, 1, 1));
+		frame.getContentPane().add(jideTabbedPane, BorderLayout.CENTER);
+		jideTabbedPane.setTabShape(JideTabbedPane.SHAPE_FLAT);
+		
+		
 		//Split pane
 		JXMultiSplitPane mainSplitPane = new JXMultiSplitPane();
 		mainSplitPane.setBorder(new EmptyBorder(UIConstants.DEFAULT_PANEL_MARGIN_WIDTH-1, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH));
 		mainSplitPane.setDividerSize(UIConstants.DEFAULT_PANEL_MARGIN_WIDTH);
 		mainSplitPane.setModel(new DefaultSplitPaneModel());
 		mainSplitPane.setContinuousLayout(true);
-		frame.getContentPane().add(mainSplitPane, BorderLayout.CENTER);
+		jideTabbedPane.addTab("Tasks", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/tasks.gif")), mainSplitPane);
+		jideTabbedPane.addTab("Events", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/events.gif")), new JPanel());
+		jideTabbedPane.addTab("Notifications", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/week.gif")), new JPanel());
+		jideTabbedPane.addTab("Statistics", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/statistic.gif")), new JPanel());
 		
 		//Context list
 		ContextListPanel contextListPanel = new ContextListPanel(dataContainer, eventBus);
