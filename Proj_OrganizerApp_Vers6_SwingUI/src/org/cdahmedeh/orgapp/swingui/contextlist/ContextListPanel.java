@@ -40,6 +40,7 @@ public class ContextListPanel extends JPanel {
 		TreeTable contextListTreeTable = new TreeTable(contextListTreeModel, contextListTreeColumnModel);
 		contextListTreeTable.setRootVisible(false);
 		contextListTreeTable.setShowsRootHandles(true);
+		contextListTreeTable.setNodeSortingEnabled(false);
 
 		JScrollPane contextListScrollPane = new JScrollPane();
 		add(contextListScrollPane);
