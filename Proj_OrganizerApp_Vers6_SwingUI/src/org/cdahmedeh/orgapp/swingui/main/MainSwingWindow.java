@@ -52,6 +52,7 @@ public class MainSwingWindow {
 		loadData();
 		configureLookAndFeel();
 		createUIComponents();
+		createTasksTab();
 		displayWindow();
 	}
 
@@ -90,8 +91,6 @@ public class MainSwingWindow {
 		
 		tabbedPane = new JideTabbedPane();
 		frame.getContentPane().add(tabbedPane);
-				
-		createTasksTab();
 	}
 
 	private void createTasksTab() {
