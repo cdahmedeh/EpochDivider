@@ -24,7 +24,7 @@ public class TimeBlockPainter {
 			//Set the background color
 			//Events should be much darker
 			if (true){
-				Color timeBlockColor = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, CalendarConstants.TIMEBLOCK_EVENT_SATURATION, CalendarConstants.TIMEBLOCK_EVENT_BRIGHTNESS));
+				Color timeBlockColor = new Color(Color.HSBtoRGB(task.getContext().getColor()/255f, CalendarConstants.TIMEBLOCK_SATURATION, CalendarConstants.TIMEBLOCK_BRIGHTNESS));
 				g.setColor(new Color(timeBlockColor.getRed()/255f, timeBlockColor.getGreen()/255f, timeBlockColor.getBlue()/255f, CalendarConstants.TIMEBLOCK_OPACITY));
 			}
 			
