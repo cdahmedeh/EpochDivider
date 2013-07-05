@@ -19,15 +19,11 @@ public class TaskMatcher {
 		return false;
 	}
 	
-	public static boolean matchByType(Task item, TaskType type){
-		return item.getType() == type;
-	}
-	
 	public static boolean matchByIsCompleted(Task item, boolean showCompleted){
 		return !(!showCompleted && item.isCompleted());
 	}
 
-	public static boolean matches(Task item, Context context, View view, TaskType type, boolean showCompleted) {
-		return matchByContext(item, context, view) && matchByType(item, type) && matchByIsCompleted(item, showCompleted);
+	public static boolean matches(Task item, Context context, View view, boolean showCompleted) {
+		return matchByContext(item, context, view) && matchByIsCompleted(item, showCompleted);
 	}
 }

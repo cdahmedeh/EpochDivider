@@ -8,13 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -39,7 +37,6 @@ import org.cdahmedeh.orgapp.swingui.notification.TasksChangedNotification;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.task.Task;
-import org.cdahmedeh.orgapp.types.task.TaskType;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
@@ -212,26 +209,6 @@ public class TaskListPanel extends CPanel {
 		toolbar.setBackground(taskListTable.getBackground());
 		add(toolbar, BorderLayout.SOUTH);
 
-		// TODO: Cleanup
-		ButtonGroup group = new ButtonGroup();
-
-		for (final TaskType type: TaskType.values()){
-			ToolbarHelper.createToolbarInvisibleSeperator(toolbar);
-
-			JRadioButton radioButton = ToolbarHelper.createToolbarRadio(toolbar, type.getTitle() + "s");
-			group.add(radioButton);
-			radioButton.setBackground(taskListTable.getBackground());
-			radioButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					dataContainer.setShowType(type);
-					taskListMatcherEditor.matcherChangedNotify();
-					taskListTable.repaint(); //TODO: temporary call to fix redraw bug
-				}
-			});
-			
-		}
-		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
 		
 		final JToggleButton showCompletedTasks = ToolbarHelper.createToolbarToggleButton(toolbar, "Show Completed", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/completed.gif"));
@@ -286,7 +263,7 @@ public class TaskListPanel extends CPanel {
 		}
 		
 		//Create a new task.
-		dataContainer.createNewBlankTask(dataContainer.getShowType());
+		dataContainer.createNewBlankTask();
 		
 		//Refresh task list table and notify others.
 		eventBus.post(new TasksChangedNotification());

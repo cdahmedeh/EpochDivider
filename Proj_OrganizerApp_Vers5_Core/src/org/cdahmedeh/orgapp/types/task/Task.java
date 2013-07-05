@@ -52,10 +52,6 @@ public class Task {
 	public boolean isCompleted() {return completed;}
 	public void setCompleted(boolean completed) {this.completed = completed;}
 	
-	private TaskType type = TaskType.TASK;
-	public TaskType getType() {return type;}
-	public void setType(TaskType type) {this.type = type;}
-	
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
 	public void setTimeBlocks(ArrayList<TimeBlock> timeBlocks) {this.timeBlocks = timeBlocks == null ? this.timeBlocks : timeBlocks;} //TODO: FIXME!
 	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}

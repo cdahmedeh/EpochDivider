@@ -24,7 +24,6 @@ public class TaskListMatcherEditor extends AbstractMatcherEditor<Task>{
 			return TaskMatcher.matches(item, 
 					dataContainer.getSelectedContext(), 
 					dataContainer.getView(), 
-					dataContainer.getShowType(), 
 					dataContainer.getShowCompleted());
 		}
 	}

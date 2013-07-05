@@ -12,7 +12,6 @@ import org.cdahmedeh.orgapp.types.context.DueTomorrowContext;
 import org.cdahmedeh.orgapp.types.context.NoContextContext;
 import org.cdahmedeh.orgapp.types.context.NoDueDateContext;
 import org.cdahmedeh.orgapp.types.task.Task;
-import org.cdahmedeh.orgapp.types.task.TaskType;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
 import org.joda.time.DateTimeConstants;
 
@@ -37,10 +36,6 @@ public class DataContainer {
 	private Context selectedContext = new AllContextsContext();
 	public Context getSelectedContext() {return selectedContext;}
 	public void setSelectedContext(Context selectedContext) {this.selectedContext = selectedContext;}
-	
-	private TaskType showType = TaskType.TASK;
-	public TaskType getShowType() {return showType;}
-	public void setShowType(TaskType showEvents) {this.showType = showEvents;}
 	
 	private boolean showCompleted = false;;
 	public boolean getShowCompleted() {return showCompleted;}
@@ -122,7 +117,6 @@ public class DataContainer {
 		this.tasks = dataContainer.getTasks();
 		this.selectedContext = dataContainer.getSelectedContext();
 		this.view = dataContainer.getView();
-		this.showType = dataContainer.getShowType();
 		this.showCompleted = dataContainer.getShowCompleted();
 		this.dimPast = dataContainer.getDimPast();
 	}
@@ -173,7 +167,7 @@ public class DataContainer {
 	 *  asEvent determines if the task will be set as an event or not.
 	 *  TODO: Fix comment
 	 */
-	public void createNewBlankTask(TaskType type){
+	public void createNewBlankTask(){
 		//Create a new task.
 		Task newTask = new Task("");
 		
@@ -181,9 +175,6 @@ public class DataContainer {
 		if (getSelectedContext().isSelectable()){
 			newTask.setContext(getSelectedContext());
 		}
-		
-		//Set the task to event if we are in event mode.
-		newTask.setType(type);
 		
 		//Add new task to the dataContainer and refresh task list table.
 		getTasks().add(newTask);
