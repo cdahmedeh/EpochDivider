@@ -17,6 +17,7 @@ import org.jdesktop.swingx.JXMultiSplitPane;
 import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
+import com.jidesoft.plaf.LookAndFeelFactory;
 
 public class MainSwingWindow {
 	public static void main(String[] args) {
@@ -66,6 +67,7 @@ public class MainSwingWindow {
 	private void configureLookAndFeel() {
 		try {
 			UIManager.setLookAndFeel(new WindowsLookAndFeel());
+	        LookAndFeelFactory.installJideExtension(LookAndFeelFactory.VSNET_STYLE_WITHOUT_MENU);
 			logger.info("Look and Feel setup complete");
 		} catch (UnsupportedLookAndFeelException e) {
 			logger.error(e.getMessage(), e);
