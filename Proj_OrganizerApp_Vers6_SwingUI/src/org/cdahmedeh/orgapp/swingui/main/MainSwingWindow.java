@@ -51,7 +51,7 @@ public class MainSwingWindow {
 		prepareLogger();
 		loadData();
 		configureLookAndFeel();
-		createUIComponents();
+		createMainFrameAndTabsContainer();
 		createTasksTab();
 		displayWindow();
 	}
@@ -79,7 +79,7 @@ public class MainSwingWindow {
 		}
 	}
 	
-	private void createUIComponents() {
+	private void createMainFrameAndTabsContainer() {
 		//Main frame basic preparations
 		frame = new JFrame();
 		frame.setBounds(
