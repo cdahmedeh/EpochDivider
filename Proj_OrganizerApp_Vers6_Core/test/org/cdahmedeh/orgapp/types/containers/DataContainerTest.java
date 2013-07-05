@@ -10,7 +10,7 @@ import org.junit.Test;
 public class DataContainerTest {
 
 	@Test
-	public void testCategoriesListBasically() {
+	public void testContextsListBasically() {
 		DataContainer dataContainer = new DataContainer();
 		ArrayList<Context> contexts = dataContainer.getContexts();
 		
