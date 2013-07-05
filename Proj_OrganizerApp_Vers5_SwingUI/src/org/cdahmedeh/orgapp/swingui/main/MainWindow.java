@@ -114,14 +114,14 @@ public class MainWindow {
 		JideTabbedPane jideTabbedPane = new JideTabbedPane();
 //		jideTabbedPane.setBackground(SystemColor.control);
 		jideTabbedPane.setColorTheme(JideTabbedPane.COLOR_THEME_OFFICE2003);
-		jideTabbedPane.setContentBorderInsets(new Insets(1, 1, 1, 1));
+		jideTabbedPane.setContentBorderInsets(new Insets(1, 0, 0, 0));
 		frame.getContentPane().add(jideTabbedPane, BorderLayout.CENTER);
 		jideTabbedPane.setTabShape(JideTabbedPane.SHAPE_FLAT);
 		
 		
 		//Split pane
 		JXMultiSplitPane mainSplitPane = new JXMultiSplitPane();
-		mainSplitPane.setBorder(new EmptyBorder(UIConstants.DEFAULT_PANEL_MARGIN_WIDTH-1, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH));
+		mainSplitPane.setBorder(new EmptyBorder(UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH));
 		mainSplitPane.setDividerSize(UIConstants.DEFAULT_PANEL_MARGIN_WIDTH);
 		mainSplitPane.setModel(new DefaultSplitPaneModel());
 		mainSplitPane.setContinuousLayout(true);
