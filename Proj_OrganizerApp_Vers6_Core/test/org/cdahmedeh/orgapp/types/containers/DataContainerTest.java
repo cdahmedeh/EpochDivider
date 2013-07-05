@@ -29,5 +29,21 @@ public class DataContainerTest {
 		assertEquals(context0, contexts.get(0));
 		assertEquals(context1, contexts.get(1));
 	}
+	
+	@Test
+	public void testEmAddNewContext() {
+		DataContainer dataContainer = new DataContainer();
+		
+		int oldSize = dataContainer.getContexts().size();
+		dataContainer.emAddNewContext();
+		int newSize = dataContainer.getContexts().size();
+		
+		//Contexts list should grow by one unit
+		assertEquals(1, newSize - oldSize);
+		
+		//The last one should be the new context
+		Context context = dataContainer.getContexts().get(dataContainer.getContexts().size()-1);
+		assertEquals("", context.getName());
+	}
 
 }

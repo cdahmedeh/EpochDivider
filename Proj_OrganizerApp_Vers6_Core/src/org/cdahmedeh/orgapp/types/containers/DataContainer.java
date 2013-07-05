@@ -17,4 +17,14 @@ public class DataContainer {
 	// List of categories (which contain the contexts) //
 	private ArrayList<Context> contexts = new ArrayList<>();
 	public ArrayList<Context> getContexts() {return contexts;}
+	
+	
+	/* - Easy Modifiers - */
+	
+	/**
+	 * Creates a new Context with a blank name and adds it to the contexts list.
+	 */
+	public void emAddNewContext() {
+		contexts.add(new Context(null));
+	}
 }

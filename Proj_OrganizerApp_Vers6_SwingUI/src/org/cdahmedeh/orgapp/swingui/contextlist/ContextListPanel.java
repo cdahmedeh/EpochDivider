@@ -20,6 +20,9 @@ import ca.odell.glazedlists.swing.GlazedListsSwing;
 
 import javax.swing.JButton;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 
@@ -31,6 +34,10 @@ public class ContextListPanel extends JPanel {
 
 	// Components
 	private JTable contextListTable;
+	private JButton btnAddContext;
+
+	// Models
+	private EventList<Context> contextEventList;
 
 	public ContextListPanel(DataContainer dataContainer) {
 		this.dataContainer = dataContainer;
@@ -38,7 +45,8 @@ public class ContextListPanel extends JPanel {
 		preparePanel();
 		createToolbar();
 		createContextListTable();
-		prepareContextListTableModel();	
+		prepareContextListTableModel();
+		setupAddButtonListener();
 	}
 
 	private void preparePanel() {
@@ -54,7 +62,7 @@ public class ContextListPanel extends JPanel {
 		Component horizontalGlue = Box.createHorizontalGlue();
 		toolbar.add(horizontalGlue);
 		
-		JButton btnAddContext = new JButton("Add Context");
+		btnAddContext = new JButton("Add Context");
 		btnAddContext.setIcon(new ImageIcon(ContextListPanel.class.getResource(Icons.ADD)));
 		toolbar.add(btnAddContext);
 	}
@@ -68,11 +76,33 @@ public class ContextListPanel extends JPanel {
 	}
 	
 	private void prepareContextListTableModel() {
-		EventList<Context> contextEventList = new BasicEventList<>();
+		contextEventList = new BasicEventList<>();
 		ContextListTableFormat contextListTableFormat = new ContextListTableFormat();
 		contextEventList.addAll(dataContainer.getContexts());
 		
 		AdvancedTableModel<Context> advancedTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(contextEventList, contextListTableFormat);
 		contextListTable.setModel(advancedTableModel);
+	}
+	
+	private void setupAddButtonListener() {
+		btnAddContext.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				addContext();
+			}
+		});
+	}
+	
+	
+	/* - Non-sequential methods - */
+
+	private void addContext() {
+		dataContainer.emAddNewContext();
+		refreshContextListTable();
+	}
+
+	private void refreshContextListTable() {
+		contextEventList.clear();
+		contextEventList.addAll(dataContainer.getContexts());
 	}
 }
