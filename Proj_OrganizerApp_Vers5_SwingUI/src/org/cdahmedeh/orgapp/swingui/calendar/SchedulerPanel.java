@@ -32,7 +32,7 @@ import com.google.common.eventbus.Subscribe;
 
 public class SchedulerPanel extends CPanel {
 	private static final long serialVersionUID = 3673536421097243610L;
-	public SchedulerPanel(final DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
+	public SchedulerPanel(final DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus, "Scheduler");}
 	
 	@Override protected Object getEventRecorder() {return new Object(){
 		@Subscribe public void tasksUpdated(TasksChangedNotification notification){

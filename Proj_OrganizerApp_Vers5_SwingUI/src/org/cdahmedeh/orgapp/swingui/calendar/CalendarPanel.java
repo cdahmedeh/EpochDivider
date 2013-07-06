@@ -23,7 +23,7 @@ import com.jidesoft.swing.JideScrollPane;
 
 public class CalendarPanel extends CPanel {
 	private static final long serialVersionUID = -4789321610128363432L;
-	public CalendarPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
+	public CalendarPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus, "Calendar");}
 	@Override protected Object getEventRecorder() {return new Object(){};}
 	
 	@Override

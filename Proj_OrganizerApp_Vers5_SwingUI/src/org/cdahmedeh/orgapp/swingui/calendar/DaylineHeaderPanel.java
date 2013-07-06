@@ -11,7 +11,7 @@ import com.google.common.eventbus.EventBus;
 
 public class DaylineHeaderPanel extends CPanel {
 	private static final long serialVersionUID = 8555200615702209829L;
-	public DaylineHeaderPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
+	public DaylineHeaderPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus, "Dayline");}
 	@Override protected Object getEventRecorder() {return new Object(){};}
 		
 	@Override

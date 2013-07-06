@@ -26,8 +26,11 @@ public abstract class CPanel extends JPanel {
 	protected EventBus eventBus;
 	protected Logger logger;
 
+	// - Display Name for Logger output -
+	private String displayName;
+
 	// - Construct -
-	public CPanel(DataContainer dataContainer, EventBus eventBus) {
+	public CPanel(DataContainer dataContainer, EventBus eventBus, String displayName) {
 		this.dataContainer = dataContainer;
 		
 		this.logger = Logger.getLogger("org.cdahmedeh.orgapp.log");
@@ -35,6 +38,8 @@ public abstract class CPanel extends JPanel {
 		this.eventBus = eventBus;
 		this.eventBus.register(new DefaultEventRecorder());
 		this.eventBus.register(getEventRecorder());
+
+		this.displayName = displayName;
 		
 		windowInit();
 	}
@@ -44,7 +49,7 @@ public abstract class CPanel extends JPanel {
 		// This event is invoked in MainWindow after creating all panels.
 		@Subscribe public void changedSelectedContext(WindowLoadedNotification notification){
 			postWindowInit();
-			logger.info("Post-load event done."); //TODO: Specify class name.
+			logger.info("Post-load event done for: " + displayName); //TODO: Specify class name.
 		}
 	}
 	

@@ -54,7 +54,7 @@ import com.google.common.eventbus.Subscribe;
 
 public class TaskListPanel extends CPanel {
 	private static final long serialVersionUID = -8250528552031443184L;
-	public TaskListPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
+	public TaskListPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus, "Task List");}
 	
 	@Override
 	protected Object getEventRecorder() {

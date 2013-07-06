@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -40,7 +39,6 @@ import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.swing.JideTabbedPane;
-import java.awt.SystemColor;
 
 public class MainWindow {
 	public static void main(String[] args) {
@@ -59,15 +57,16 @@ public class MainWindow {
 	private EventBus eventBus;
 	private Logger logger = Logger.getLogger("org.cdahmedeh.orgapp.log");
 	
-	// - Components -
-	private JFrame frame;
-	private JideTabbedPane jideTabbedPane;
-
 	// - Data -
 	private DataContainer dataContainer;
 	private PersistanceManagerInterface pm;
 	private File currentFile = null;
 
+	// - Components -
+	private JFrame frame;
+	private JideTabbedPane jideTabbedPane;
+
+	// - Sequential Methods - //
 	
 	public MainWindow() {
 		//Prepare logger
@@ -95,8 +94,8 @@ public class MainWindow {
 	
 	private void prepareLogger() {
 		BasicConfigurator.configure();
-		logger.setLevel(Level.INFO);
-		logger.info("Epoch Divider has started!");
+		logger.setLevel(Level.DEBUG);
+		logger.info("Logger configured to level: " + logger.getLevel());
 	}
 	
 	private void prepareLookAndFeel() {
@@ -104,20 +103,22 @@ public class MainWindow {
 			UIManager.setLookAndFeel(new WindowsLookAndFeel());
 	        LookAndFeelFactory.installJideExtension(LookAndFeelFactory.VSNET_STYLE_WITHOUT_MENU);
 		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
-		logger.info("Configured Look and Feel");
+		logger.info("Look and Feel configured successfully");
 	}
 	
 	private void preparePersistenceWithDefaults() {
 		pm = new SQLitePersistenceManager();
+		logger.info("Persistence Manager prepared");
 		dataContainer = new DataContainer();
 		dataContainer.generateDefaults();
-		logger.info("Data Loaded");
+		logger.info("Default Data generated");
 	}
 	
 	private void prepareEventHandling() {
 		eventBus = new EventBus();
+		logger.info("EventBus instantiated");
 	}
 	
 	private void notifyToPostLoad() {
@@ -127,7 +128,7 @@ public class MainWindow {
 				eventBus.post(new LoadContextListPanelRequest());
 			}
 		});
-		logger.info("Post-load events sent");
+		logger.info("Post-load request event sent");
 	}
 
 	private void createMainWindow() {
@@ -138,7 +139,6 @@ public class MainWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		jideTabbedPane = new JideTabbedPane();
-//		jideTabbedPane.setBackground(SystemColor.control);
 		jideTabbedPane.setColorTheme(JideTabbedPane.COLOR_THEME_WIN2K);
 		jideTabbedPane.setContentBorderInsets(new Insets(1, 0, 0, 0));
 		frame.getContentPane().add(jideTabbedPane, BorderLayout.CENTER);
@@ -293,7 +293,8 @@ public class MainWindow {
 		logger.info("Window initialized");
 	}
 	
-	// - Non-sequential methods -
+	// - Non-sequential methods - //
+	
 	private File openFileDialog() {
 		JFileChooser jFileChooser = new JFileChooser();
 		jFileChooser.setFileSelectionMode(JFileChooser.APPROVE_OPTION);

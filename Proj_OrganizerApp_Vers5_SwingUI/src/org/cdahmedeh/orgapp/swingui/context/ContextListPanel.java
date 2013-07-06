@@ -50,7 +50,7 @@ import com.google.common.eventbus.Subscribe;
 
 public class ContextListPanel extends CPanel {
 	private static final long serialVersionUID = -8250528552031443184L;
-	public ContextListPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus);}
+	public ContextListPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus, "Context List");}
 
 	@Override 
 	protected Object getEventRecorder() {
