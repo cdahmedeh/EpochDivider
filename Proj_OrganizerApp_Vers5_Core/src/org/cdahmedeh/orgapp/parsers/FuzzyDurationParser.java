@@ -25,7 +25,7 @@ public class FuzzyDurationParser {
 	 */
 	public static String durationToFuzzyString(Duration duration){
 		long minutes = duration.getStandardMinutes();
-		return new DecimalFormat("#0.0").format((double)minutes/DateTimeConstants.MINUTES_PER_HOUR); 
+		return new DecimalFormat("#0.#").format((double)minutes/DateTimeConstants.MINUTES_PER_HOUR); 
 	}
 
 	/**

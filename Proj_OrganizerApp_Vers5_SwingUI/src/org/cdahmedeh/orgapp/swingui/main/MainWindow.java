@@ -38,6 +38,7 @@ import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 import com.google.common.eventbus.EventBus;
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import com.jidesoft.plaf.LookAndFeelFactory;
+import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.swing.JideTabbedPane;
 import java.awt.SystemColor;
 
@@ -60,19 +61,45 @@ public class MainWindow {
 	
 	// - Components -
 	private JFrame frame;
+	private JideTabbedPane jideTabbedPane;
 
 	// - Data -
 	private DataContainer dataContainer;
 	private PersistanceManagerInterface pm;
 	private File currentFile = null;
+
 	
 	public MainWindow() {
 		//Prepare logger
+		prepareLogger();
+		
+		//Set look and feel
+		prepareLookAndFeel();
+
+		//Load some data
+		preparePersistenceWithDefaults();
+		
+		//Setup EventBus
+		prepareEventHandling();
+		
+		//Show the application window
+		createMainWindow();
+		createEventsTab();
+		createOtherTabs();
+		createMenu();
+		showMainWindow();
+		
+		//Let components do post-window load tasks.
+		notifyToPostLoad();
+	}
+	
+	private void prepareLogger() {
 		BasicConfigurator.configure();
 		logger.setLevel(Level.INFO);
 		logger.info("Epoch Divider has started!");
-		
-		//Set look and feel
+	}
+	
+	private void prepareLookAndFeel() {
 		try {
 			UIManager.setLookAndFeel(new WindowsLookAndFeel());
 	        LookAndFeelFactory.installJideExtension(LookAndFeelFactory.VSNET_STYLE_WITHOUT_MENU);
@@ -80,21 +107,20 @@ public class MainWindow {
 			e.printStackTrace();
 		}
 		logger.info("Configured Look and Feel");
-
-		//Load some data
+	}
+	
+	private void preparePersistenceWithDefaults() {
 		pm = new SQLitePersistenceManager();
 		dataContainer = new DataContainer();
 		dataContainer.generateDefaults();
-		eventBus = new EventBus();
 		logger.info("Data Loaded");
-		
-		//Show the application window
-		initialize();
-		createMenu();
-		this.frame.setVisible(true);
-		logger.info("Window initialized");
-		
-		//Let components do post-window load tasks.
+	}
+	
+	private void prepareEventHandling() {
+		eventBus = new EventBus();
+	}
+	
+	private void notifyToPostLoad() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				eventBus.post(new WindowLoadedNotification());
@@ -104,21 +130,22 @@ public class MainWindow {
 		logger.info("Post-load events sent");
 	}
 
-	private void initialize() {
+	private void createMainWindow() {
 		frame = new JFrame();
 		frame.setTitle(UIConstants.WINDOW_TITLE);
 
 		frame.setBounds(UIConstants.DEFAULT_WINDOW_XPOS, UIConstants.DEFAULT_WINDOW_YPOS, UIConstants.DEFAULT_WINDOW_WIDTH, UIConstants.DEFAULT_WINDOW_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JideTabbedPane jideTabbedPane = new JideTabbedPane();
+		jideTabbedPane = new JideTabbedPane();
 //		jideTabbedPane.setBackground(SystemColor.control);
-		jideTabbedPane.setColorTheme(JideTabbedPane.COLOR_THEME_OFFICE2003);
+		jideTabbedPane.setColorTheme(JideTabbedPane.COLOR_THEME_WIN2K);
 		jideTabbedPane.setContentBorderInsets(new Insets(1, 0, 0, 0));
 		frame.getContentPane().add(jideTabbedPane, BorderLayout.CENTER);
 		jideTabbedPane.setTabShape(JideTabbedPane.SHAPE_FLAT);
-		
-		
+	}
+
+	private void createEventsTab() {
 		//Split pane
 		JXMultiSplitPane mainSplitPane = new JXMultiSplitPane();
 		mainSplitPane.setBorder(new EmptyBorder(UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH));
@@ -126,9 +153,6 @@ public class MainWindow {
 		mainSplitPane.setModel(new DefaultSplitPaneModel());
 		mainSplitPane.setContinuousLayout(true);
 		jideTabbedPane.addTab("Tasks", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/tasks.gif")), mainSplitPane);
-		jideTabbedPane.addTab("Events", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/events.gif")), new JPanel());
-		jideTabbedPane.addTab("Notifications", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/week.gif")), new JPanel());
-		jideTabbedPane.addTab("Statistics", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/statistic.gif")), new JPanel());
 		
 		//Context list
 		ContextListPanel contextListPanel = new ContextListPanel(dataContainer, eventBus);
@@ -143,12 +167,23 @@ public class MainWindow {
 		mainSplitPane.add(taskListPanel, DefaultSplitPaneModel.BOTTOM);
 	}
 	
+	private void createOtherTabs() {
+		jideTabbedPane.addTab("Events", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/events.gif")), new JPanel());
+		jideTabbedPane.addTab("Reminders", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/week.gif")), new JPanel());
+		jideTabbedPane.addTab("Statistics", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/statistic.gif")), new JPanel());
+	}
+	
 	private void createMenu() {
-		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
+		JideSplitButton menuButton = new JideSplitButton("Menu");
+		menuButton.setAlwaysDropdown(true);
+		jideTabbedPane.setTabLeadingComponent(menuButton);
+		
+		//		frame.setJMenuBar(menuBar);
+		
+//		splitButton.add(menuBar);
 		
 		JMenu mnFile = new JMenu("File");
-		menuBar.add(mnFile);
+		menuButton.add(mnFile);
 
 		JMenuItem mntmNew = new JMenuItem("New");
 		mntmNew.setIcon(new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/new.gif")));
@@ -209,7 +244,7 @@ public class MainWindow {
 		/* Test Data */
 		
 		JMenu mnDebug = new JMenu("Debug");
-		menuBar.add(mnDebug);
+		menuButton.add(mnDebug);
 		
 		JMenu mnSwitchTestData = new JMenu("Switch Test Data");
 		mnDebug.add(mnSwitchTestData);
@@ -253,6 +288,12 @@ public class MainWindow {
 		/* End Test Data */
 	}
 	
+	private void showMainWindow() {
+		this.frame.setVisible(true);
+		logger.info("Window initialized");
+	}
+	
+	// - Non-sequential methods -
 	private File openFileDialog() {
 		JFileChooser jFileChooser = new JFileChooser();
 		jFileChooser.setFileSelectionMode(JFileChooser.APPROVE_OPTION);
@@ -267,7 +308,6 @@ public class MainWindow {
 		return null;
 	}
 
-	// - Non-sequential methods -
 	private void updateDataContainer(DataContainer dataContainer){
 		this.dataContainer.replace(dataContainer);
 		

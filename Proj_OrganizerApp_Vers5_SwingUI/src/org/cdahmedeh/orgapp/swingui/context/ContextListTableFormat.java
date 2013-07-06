@@ -25,6 +25,12 @@ public class ContextListTableFormat implements AdvancedTableFormat<Context>, Wri
 
 	@Override
 	public String getColumnName(int column) {
+		switch(column){
+		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
+			return "Context";
+		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
+			return "Goal";
+		}
 		return "";
 	}
 

@@ -30,10 +30,10 @@ public class RoundedTripleDurationCellRenderer extends DefaultTableCellRenderer 
 		
 		if (value instanceof TripleDurationInfo){
 			setText(
-				FuzzyDurationParser.durationToFuzzyString(((TripleDurationInfo)value).getTotalPassed()) +
-				" / " +
-				FuzzyDurationParser.durationToFuzzyString(((TripleDurationInfo)value).getTotalScheduled()) +
-				" / " +
+//				FuzzyDurationParser.durationToFuzzyString(((TripleDurationInfo)value).getTotalPassed()) +
+//				" / " +
+//				FuzzyDurationParser.durationToFuzzyString(((TripleDurationInfo)value).getTotalScheduled()) +
+//				" / " +
 				FuzzyDurationParser.durationToFuzzyString(((TripleDurationInfo)value).getEstimate()) +
 				" ");
 		} else if (value instanceof String){
