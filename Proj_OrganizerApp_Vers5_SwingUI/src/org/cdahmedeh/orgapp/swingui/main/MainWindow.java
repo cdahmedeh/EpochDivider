@@ -21,6 +21,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.cdahmedeh.orgapp.generators.TestDataGenerator;
+import org.cdahmedeh.orgapp.imt.icons.IconsLocation;
 import org.cdahmedeh.orgapp.pers.PersistanceManagerInterface;
 import org.cdahmedeh.orgapp.pers.SQLitePersistenceManager;
 import org.cdahmedeh.orgapp.swingui.calendar.CalendarPanel;
@@ -64,7 +65,8 @@ public class MainWindow {
 
 	// - Components -
 	private JFrame frame;
-	private JideTabbedPane jideTabbedPane;
+	private JideTabbedPane mainTabbedPane;
+	private JideSplitButton menuButton;
 
 	// - Sequential Methods - //
 	
@@ -85,7 +87,9 @@ public class MainWindow {
 		createMainWindow();
 		createEventsTab();
 		createOtherTabs();
-		createMenu();
+		createMenuButton();
+		createFileMenu();
+		createDebugMenu();
 		showMainWindow();
 		
 		//Let components do post-window load tasks.
@@ -111,6 +115,7 @@ public class MainWindow {
 	private void preparePersistenceWithDefaults() {
 		pm = new SQLitePersistenceManager();
 		logger.info("Persistence Manager prepared");
+		
 		dataContainer = new DataContainer();
 		dataContainer.generateDefaults();
 		logger.info("Default Data generated");
@@ -132,61 +137,78 @@ public class MainWindow {
 	}
 
 	private void createMainWindow() {
+		// Main frame
 		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle(UIConstants.WINDOW_TITLE);
 
-		frame.setBounds(UIConstants.DEFAULT_WINDOW_XPOS, UIConstants.DEFAULT_WINDOW_YPOS, UIConstants.DEFAULT_WINDOW_WIDTH, UIConstants.DEFAULT_WINDOW_HEIGHT);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(
+				UIConstants.DEFAULT_WINDOW_XPOS, UIConstants.DEFAULT_WINDOW_YPOS, 
+				UIConstants.DEFAULT_WINDOW_WIDTH, UIConstants.DEFAULT_WINDOW_HEIGHT
+		);
 
-		jideTabbedPane = new JideTabbedPane();
-		jideTabbedPane.setColorTheme(JideTabbedPane.COLOR_THEME_WIN2K);
-		jideTabbedPane.setContentBorderInsets(new Insets(1, 0, 0, 0));
-		frame.getContentPane().add(jideTabbedPane, BorderLayout.CENTER);
-		jideTabbedPane.setTabShape(JideTabbedPane.SHAPE_FLAT);
+		// Prepare tab container
+		mainTabbedPane = new JideTabbedPane();
+		mainTabbedPane.setTabShape(JideTabbedPane.SHAPE_FLAT);
+		mainTabbedPane.setColorTheme(JideTabbedPane.COLOR_THEME_WIN2K);
+		mainTabbedPane.setContentBorderInsets(new Insets(
+				UIConstants.DEFAULT_TAB_BORDER_WIDTH + 1, 
+				UIConstants.DEFAULT_TAB_BORDER_WIDTH, 
+				UIConstants.DEFAULT_TAB_BORDER_WIDTH, 
+				UIConstants.DEFAULT_TAB_BORDER_WIDTH
+		));
+		frame.getContentPane().add(mainTabbedPane, BorderLayout.CENTER);
 	}
 
 	private void createEventsTab() {
 		//Split pane
-		JXMultiSplitPane mainSplitPane = new JXMultiSplitPane();
-		mainSplitPane.setBorder(new EmptyBorder(UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, UIConstants.DEFAULT_PANEL_MARGIN_WIDTH));
-		mainSplitPane.setDividerSize(UIConstants.DEFAULT_PANEL_MARGIN_WIDTH);
-		mainSplitPane.setModel(new DefaultSplitPaneModel());
-		mainSplitPane.setContinuousLayout(true);
-		jideTabbedPane.addTab("Tasks", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/tasks.gif")), mainSplitPane);
+		JXMultiSplitPane tasksSplitPane = new JXMultiSplitPane();
+		tasksSplitPane.setContinuousLayout(true);
+		tasksSplitPane.setModel(new DefaultSplitPaneModel());
+		tasksSplitPane.setDividerSize(UIConstants.DEFAULT_PANEL_MARGIN_WIDTH);
+		tasksSplitPane.setBorder(new EmptyBorder(
+				UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
+				UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
+				UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
+				UIConstants.DEFAULT_PANEL_MARGIN_WIDTH
+		));
 		
 		//Context list
 		ContextListPanel contextListPanel = new ContextListPanel(dataContainer, eventBus);
-		mainSplitPane.add(contextListPanel, DefaultSplitPaneModel.LEFT);
+		tasksSplitPane.add(contextListPanel, DefaultSplitPaneModel.LEFT);
 		
 		//Calendar 
 		CalendarPanel calendarPanel = new CalendarPanel(dataContainer, eventBus);
-		mainSplitPane.add(calendarPanel, DefaultSplitPaneModel.TOP);
+		tasksSplitPane.add(calendarPanel, DefaultSplitPaneModel.TOP);
 		
 		//Task list
 		TaskListPanel taskListPanel = new TaskListPanel(dataContainer, eventBus);
-		mainSplitPane.add(taskListPanel, DefaultSplitPaneModel.BOTTOM);
+		tasksSplitPane.add(taskListPanel, DefaultSplitPaneModel.BOTTOM);
+		
+		//Add pane as Tab
+		mainTabbedPane.addTab(UIConstants.TASKS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.TASKS)), tasksSplitPane);
 	}
 	
 	private void createOtherTabs() {
-		jideTabbedPane.addTab("Events", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/events.gif")), new JPanel());
-		jideTabbedPane.addTab("Reminders", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/week.gif")), new JPanel());
-		jideTabbedPane.addTab("Statistics", new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/statistic.gif")), new JPanel());
+		mainTabbedPane.addTab(UIConstants.EVENTS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.EVENTS)), new JPanel());
+		mainTabbedPane.addTab(UIConstants.REMINDERS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.WEEK)), new JPanel());
+		mainTabbedPane.addTab(UIConstants.STATISTICS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.STATISTICS)), new JPanel());
 	}
 	
-	private void createMenu() {
-		JideSplitButton menuButton = new JideSplitButton("Menu");
+	private void createMenuButton() {
+		menuButton = new JideSplitButton("Menu");
 		menuButton.setAlwaysDropdown(true);
-		jideTabbedPane.setTabLeadingComponent(menuButton);
+		mainTabbedPane.setTabLeadingComponent(menuButton);
 		
-		//		frame.setJMenuBar(menuBar);
-		
-//		splitButton.add(menuBar);
-		
+		createDebugMenu();
+	}
+
+	private void createFileMenu() {
 		JMenu mnFile = new JMenu("File");
 		menuButton.add(mnFile);
 
 		JMenuItem mntmNew = new JMenuItem("New");
-		mntmNew.setIcon(new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/new.gif")));
+		mntmNew.setIcon(new ImageIcon(MainWindow.class.getResource(IconsLocation.NEW)));
 		mnFile.add(mntmNew);
 		
 		mntmNew.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
@@ -199,7 +221,7 @@ public class MainWindow {
 		
 		/* Load */
 		JMenuItem mntmLoad = new JMenuItem("Open");
-		mntmLoad.setIcon(new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/open.gif")));
+		mntmLoad.setIcon(new ImageIcon(MainWindow.class.getResource(IconsLocation.OPEN)));
 		mnFile.add(mntmLoad);
 		
 		mntmLoad.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
@@ -214,7 +236,7 @@ public class MainWindow {
 		mnFile.addSeparator();
 		
 		JMenuItem mntmSave = new JMenuItem("Save");
-		mntmSave.setIcon(new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/save.gif")));
+		mntmSave.setIcon(new ImageIcon(MainWindow.class.getResource(IconsLocation.SAVE)));
 		mnFile.add(mntmSave);
 		
 		mntmSave.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
@@ -231,7 +253,7 @@ public class MainWindow {
 
 		
 		JMenuItem mntmSaveAs = new JMenuItem("Save As...");
-		mntmSaveAs.setIcon(new ImageIcon(MainWindow.class.getResource("/org/cdahmedeh/orgapp/imt/icons/saveas.gif")));
+		mntmSaveAs.setIcon(new ImageIcon(MainWindow.class.getResource(IconsLocation.SAVE_AS)));
 		mnFile.add(mntmSaveAs);
 		
 		mntmSaveAs.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
@@ -240,7 +262,9 @@ public class MainWindow {
 				pm.saveDataContainer(saveLocation, dataContainer);
 			}
 		}});
-		
+	}
+	
+	private void createDebugMenu() {
 		/* Test Data */
 		
 		JMenu mnDebug = new JMenu("Debug");
@@ -287,14 +311,15 @@ public class MainWindow {
 		
 		/* End Test Data */
 	}
-	
+
 	private void showMainWindow() {
 		this.frame.setVisible(true);
 		logger.info("Window initialized");
 	}
 	
-	// - Non-sequential methods - //
 	
+	// - Non-sequential methods - //
+
 	private File openFileDialog() {
 		JFileChooser jFileChooser = new JFileChooser();
 		jFileChooser.setFileSelectionMode(JFileChooser.APPROVE_OPTION);
