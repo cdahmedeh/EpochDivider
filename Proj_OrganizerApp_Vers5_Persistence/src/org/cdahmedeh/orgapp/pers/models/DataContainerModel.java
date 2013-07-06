@@ -38,9 +38,9 @@ public class DataContainerModel implements ModelInterface<DataContainer, Object,
 	 */
 	public DataContainer resultSetToObject(ResultSet rs, Object object) throws SQLException {
 		DataContainer dataContainer = new DataContainer();
-		dataContainer.setShowCompleted(rs.getString(2).equals("true")? true: false);
-		dataContainer.setDimPast(rs.getString(3).equals("true")? true: false);
-		dataContainer.setView(new View((new LocalDate(rs.getString(6))),(new LocalDate (rs.getString(7)))));		
+		dataContainer.setShowCompleted(rs.getString(1).equals("true")? true: false);
+		dataContainer.setDimPast(rs.getString(2).equals("true")? true: false);
+		dataContainer.setView(new View((new LocalDate(rs.getString(5))),(new LocalDate (rs.getString(6)))));		
 		return dataContainer;
 	}
 
