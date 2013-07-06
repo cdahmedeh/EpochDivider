@@ -209,62 +209,41 @@ public class MainWindow {
 		mntmNew.setIcon(new ImageIcon(MainWindow.class.getResource(IconsLocation.NEW)));
 		mnFile.add(mntmNew);
 		
-		mntmNew.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
-			DataContainer dataContainer2 = new DataContainer();
-			dataContainer2.generateDefaults();
-			updateDataContainer(dataContainer2);
-		}});
-		
 		mnFile.addSeparator();
 		
-		/* Load */
 		JMenuItem mntmLoad = new JMenuItem("Open");
 		mntmLoad.setIcon(new ImageIcon(MainWindow.class.getResource(IconsLocation.OPEN)));
 		mnFile.add(mntmLoad);
-		
-		mntmLoad.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
-			File saveLocation = openFileDialog();
-			if (saveLocation != null){
-				updateDataContainer(pm.loadDataContainer(saveLocation));
-				dataContainer.setView(TestDataGenerator.generateDataContainer().getView());
-			}
-		}});
-		
-		/* Save */
+
 		mnFile.addSeparator();
 		
 		JMenuItem mntmSave = new JMenuItem("Save");
 		mntmSave.setIcon(new ImageIcon(MainWindow.class.getResource(IconsLocation.SAVE)));
 		mnFile.add(mntmSave);
 		
-		mntmSave.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
-			
-			if (currentFile != null){
-				 pm.saveDataContainer(currentFile, dataContainer);
-			} else {
-				File saveLocation = openFileDialog();
-				if (saveLocation != null){
-					pm.saveDataContainer(saveLocation, dataContainer);
-				}
-			}
-		}});
-
-		
 		JMenuItem mntmSaveAs = new JMenuItem("Save As...");
 		mntmSaveAs.setIcon(new ImageIcon(MainWindow.class.getResource(IconsLocation.SAVE_AS)));
 		mnFile.add(mntmSaveAs);
 		
+		//Action listeners
+		mntmNew.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
+			replaceWithNewDataContainer();
+		}});
+		
+		mntmLoad.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
+			openDataContainer();
+		}});
+		
+		mntmSave.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
+			saveDataContainer();
+		}});
+		
 		mntmSaveAs.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
-			File saveLocation = openFileDialog();
-			if (saveLocation != null){
-				pm.saveDataContainer(saveLocation, dataContainer);
-			}
+			saveDataContainerAsFile();
 		}});
 	}
 	
 	private void createDebugMenu() {
-		/* Test Data */
-		
 		JMenu mnDebug = new JMenu("Debug");
 		menuButton.add(mnDebug);
 		
@@ -306,8 +285,6 @@ public class MainWindow {
 		
 		mntmTestDataAhmed.addActionListener(new ActionListener() {@Override	public void actionPerformed(ActionEvent e) {
 				updateDataContainer(TestDataGenerator.generateDataContainerWithAhmedsData());}});
-		
-		/* End Test Data */
 	}
 
 	private void showMainWindow() {
@@ -337,5 +314,34 @@ public class MainWindow {
 		
 		eventBus.post(new ContextsChangedNotification());
 		eventBus.post(new TasksChangedNotification());
+	}
+	
+	private void replaceWithNewDataContainer() {
+		DataContainer newDataContainer = new DataContainer();
+		newDataContainer.generateDefaults();
+		updateDataContainer(newDataContainer);
+	}
+	
+	private void openDataContainer() {
+		File openLocation = openFileDialog();
+		if (openLocation != null){
+			updateDataContainer(pm.loadDataContainer(openLocation));
+			dataContainer.setView(TestDataGenerator.generateDataContainer().getView());
+		}
+	}
+	
+	private void saveDataContainerAsFile() {
+		File saveLocation = openFileDialog();
+		if (saveLocation != null){
+			pm.saveDataContainer(saveLocation, dataContainer);
+		}
+	}
+	
+	private void saveDataContainer() {
+		if (currentFile != null){
+			 pm.saveDataContainer(currentFile, dataContainer);
+		} else {
+			saveDataContainerAsFile();
+		}
 	}
 }

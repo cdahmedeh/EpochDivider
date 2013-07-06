@@ -6,13 +6,13 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 public abstract class ObjectTransferable<T> implements Transferable {
-	private Class<T> classType;
+	private Class<T> clazz;
 	private T object;
 	private final DataFlavor[] SUPPORTED_FLAVOURS;
 	
-	public ObjectTransferable(Class<T> classType, T task) {
-		SUPPORTED_FLAVOURS = new DataFlavor[] {new DataFlavor(classType, classType.getSimpleName())};
-		this.classType = classType;
+	public ObjectTransferable(Class<T> clazz, T task) {
+		SUPPORTED_FLAVOURS = new DataFlavor[] {new DataFlavor(clazz, clazz.getSimpleName())};
+		this.clazz = clazz;
 		this.object = task;
 	}
 	
@@ -35,7 +35,7 @@ public abstract class ObjectTransferable<T> implements Transferable {
 			throw new IOException("Object is null in ObjectTransferable");
 		}
 		
-		if (flavor.getHumanPresentableName().equals(classType.getSimpleName())){
+		if (flavor.getHumanPresentableName().equals(clazz.getSimpleName())){
 			return object;
 		} else {
 			throw new UnsupportedFlavorException(flavor);
