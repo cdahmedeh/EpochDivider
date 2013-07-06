@@ -199,8 +199,6 @@ public class MainWindow {
 		menuButton = new JideSplitButton("Menu");
 		menuButton.setAlwaysDropdown(true);
 		mainTabbedPane.setTabLeadingComponent(menuButton);
-		
-		createDebugMenu();
 	}
 
 	private void createFileMenu() {
