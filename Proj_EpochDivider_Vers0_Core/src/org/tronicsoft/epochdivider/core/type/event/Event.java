@@ -10,11 +10,7 @@ import org.tronicsoft.epochdivider.core.type.timeblock.TimeBlock;
  * 
  */
 public class Event {
-	// =-- Constructs --= //
-	
-	public Event(String title) {this.setTitle(title);}
-	
-	
+
 	// =-- Main Attributes --= //
 
 	private static int idCounter = 0;

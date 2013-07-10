@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import java.lang.reflect.Field;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
+import org.tronicsoft.epochdivider.core.type.timeblock.TimeBlock;
 
 public class EventTest {
 
@@ -15,33 +17,16 @@ public class EventTest {
 		idCounterField.setAccessible(true);
 		idCounterField.set(null, 0);
 
-		assertEquals(0, new Event("").getId());
-		assertEquals(1, new Event("").getId());
-		assertEquals(2, new Event("").getId());
-		assertEquals(3, new Event("").getId());
-		assertEquals(4, new Event("").getId());
-	}
-
-	@Test
-	public void testCreatingEventsWithNameShouldSetName() {
-		assertEquals("Event", new Event("Event").getTitle());
-		assertEquals("Test Event", new Event("Test Event").getTitle());
-		assertEquals("SomeEvent", new Event("SomeEvent").getTitle());
-		assertEquals("   SomeEvent", new Event("   SomeEvent").getTitle());
-		assertEquals("   SomeEve  nn   tt   ", new Event("   SomeEve  nn   tt   ").getTitle());
-		assertEquals("", new Event("").getTitle());
-		assertEquals(" ", new Event(" ").getTitle());
-		assertEquals("  ", new Event("  ").getTitle());
-	}
-
-	@Test
-	public void testCreatingEventWithNullNameShouldSetNameToBlankString(){
-		assertEquals("", new Event(null).getTitle());
+		assertEquals(0, new Event().getId());
+		assertEquals(1, new Event().getId());
+		assertEquals(2, new Event().getId());
+		assertEquals(3, new Event().getId());
+		assertEquals(4, new Event().getId());
 	}
 
 	@Test
 	public void testSetAndGetEventName() {
-		Event testEvent = new Event("");
+		Event testEvent = new Event();
 
 		testEvent.setTitle("Event");
 		assertEquals("Event", testEvent.getTitle());
@@ -70,10 +55,20 @@ public class EventTest {
 
 	@Test
 	public void testSettingEventWithNullNameShouldSetNameToBlankString(){
-		Event testEvent = new Event("Event");
+		Event testEvent = new Event();
 
 		testEvent.setTitle(null);
 		assertEquals("", testEvent.getTitle());
+	}
+	
+	@Test
+	public void testBasicSetAndGetForTimeBlock(){
+		Event testEvent = new Event();
+		
+		TimeBlock timeBlock = new TimeBlock(DateTime.now(), DateTime.now());
+		testEvent.setTimeBlock(timeBlock);
+		
+		assertEquals(timeBlock, testEvent.getTimeBlock());
 	}
 
 }

@@ -9,11 +9,16 @@ import org.tronicsoft.epochdivider.core.type.timeblock.TimeBlock;
 public class DataContainer {
 	// =-- Main Data Lists --= //
 	private List<Event> events = new ArrayList<Event>();
-
+	public List<Event> getEvents() {return events;}
 	
 	// =-- Easy Modifiers --= //
 	
 	public void emEventCreate(String eventTitle, TimeBlock timeBlock){
-		events.add(new Event(eventTitle));
+		Event newEvent = new Event();
+		
+		newEvent.setTitle(eventTitle);
+		newEvent.setTimeBlock(timeBlock);
+		
+		events.add(newEvent);
 	}
 }
