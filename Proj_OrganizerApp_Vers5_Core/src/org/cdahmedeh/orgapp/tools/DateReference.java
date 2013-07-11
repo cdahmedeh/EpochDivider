@@ -1,5 +1,6 @@
 package org.cdahmedeh.orgapp.tools;
 
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
@@ -16,6 +17,10 @@ public class DateReference {
 	 */
 	public static DateTime getNow() {
 		return DateTime.now();
+	}
+	
+	public static DateMidnight getNowAtMidnight(){
+		return getNow().toDateMidnight();
 	}
 	
 	/**

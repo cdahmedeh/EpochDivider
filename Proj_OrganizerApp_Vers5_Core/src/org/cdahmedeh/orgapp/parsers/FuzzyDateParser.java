@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.cdahmedeh.orgapp.tools.DateReference;
+import org.cdahmedeh.orgapp.tools.TimeHelper;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -25,14 +26,14 @@ public class FuzzyDateParser {
 	 * Returns a human readable string for a certain date.
 	 */
 	public static String dateTimeToFuzzyString(DateTime dateTime){
-		DateMidnight todayAtMidnight = DateReference.getNow().toDateMidnight();
+		DateMidnight todayAtMidnight = DateReference.getNowAtMidnight();
 		DateMidnight dateTimeAtMidnight = dateTime.toDateMidnight();
 		
 		//Get number of days between today and 'dateTime'.
 		long days = Days.daysBetween(todayAtMidnight, dateTimeAtMidnight).getDays();
 		
 		//The time of the day is only shown if it is not midnight.
-		String time = dateTime.toLocalTime().isEqual(LocalTime.MIDNIGHT) ? "" : dateTime.toString(" @ HH:mm");
+		String time = TimeHelper.isAtMidnight(dateTime) ? "" : dateTime.toString(" @ HH:mm");
 		
 		if (days < -1) {												//If it is was before yesterday, then show "n days ago".
 			return -days + " days ago"  + time;

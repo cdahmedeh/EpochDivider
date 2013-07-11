@@ -33,7 +33,7 @@ public abstract class CPanel extends JPanel {
 	public CPanel(DataContainer dataContainer, EventBus eventBus, String displayName) {
 		this.dataContainer = dataContainer;
 		
-		this.logger = Logger.getLogger("org.cdahmedeh.orgapp.log");
+		this.logger = Logger.getLogger(AppConstants.MAIN_LOGGER);
 		
 		this.eventBus = eventBus;
 		this.eventBus.register(new DefaultEventRecorder());

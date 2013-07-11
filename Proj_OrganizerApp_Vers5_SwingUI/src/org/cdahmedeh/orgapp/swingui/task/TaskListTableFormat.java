@@ -18,11 +18,16 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 	@Override
 	public Object getColumnValue(Task baseObject, int column) {
 		switch(column){
-		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED: return baseObject.isCompleted();
-		case TaskListPanelDefaults.COLUMN_TASK_TITLE: return baseObject.getTitle();
-		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT: return baseObject.getContext();				
-		case TaskListPanelDefaults.COLUMN_TASK_DUE: return baseObject.getDue();				
-		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS: return baseObject.getProgressInfo();				
+		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED: 
+			return baseObject.isCompleted();
+		case TaskListPanelDefaults.COLUMN_TASK_TITLE: 
+			return baseObject.getTitle();
+		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT: 
+			return baseObject.getContext();				
+		case TaskListPanelDefaults.COLUMN_TASK_DUE: 
+			return baseObject.getDue();				
+		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS: 
+			return baseObject.getProgressInfo();				
 		}
 		
 		return "";

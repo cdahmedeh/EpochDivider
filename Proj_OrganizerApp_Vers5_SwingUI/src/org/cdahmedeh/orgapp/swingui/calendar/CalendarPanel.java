@@ -28,16 +28,19 @@ public class CalendarPanel extends CPanel {
 	
 	@Override
 	protected void windowInit() {
-		setPreferredSize(new Dimension(CalendarConstants.CALENDAR_DEFAULT_WIDTH, CalendarConstants.CALENDAR_DEFAULT_HEIGHT));
-		setBorder(UIManager.getBorder("ScrollPane.border"));
-		setLayout(new BorderLayout());
-		
+		setupPanel();
 		createToolbar();
 		createCalendarPane();		
 	}
 
 	@Override
 	protected void postWindowInit() {
+	}
+
+	private void setupPanel() {
+		setPreferredSize(new Dimension(CalendarConstants.CALENDAR_DEFAULT_WIDTH, CalendarConstants.CALENDAR_DEFAULT_HEIGHT));
+		setBorder(UIManager.getBorder("ScrollPane.border"));
+		setLayout(new BorderLayout());
 	}
 	
 	private void createCalendarPane() {

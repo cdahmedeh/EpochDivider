@@ -19,35 +19,16 @@ public class ContextListTableFormat implements AdvancedTableFormat<Context>, Wri
 	}
 
 	@Override
-	public int getColumnCount() {
-		return 3;
-	}
-
-	@Override
 	public String getColumnName(int column) {
 		switch(column){
 		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
-			return "Context";
+			return ContextListPanelDefaults.COLUMN_CONTEXT_LABEL;
 		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
-			return "Goal";
+			return ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS_LABEL;
 		}
 		return "";
 	}
 
-	@Override public Class<?> getColumnClass(int columnIndex) { 
-		return String.class;
-	}
-
-	@Override
-	public boolean isEditable(Context baseObject, int column) {
-		return true;
-	}
-
-	@Override
-	public Comparator<?> getColumnComparator(int column) {
-		return null;
-	}
-	
 	@Override
 	public Object getColumnValue(Context baseObject, int column) {
 		switch(column){
@@ -79,5 +60,24 @@ public class ContextListTableFormat implements AdvancedTableFormat<Context>, Wri
 			break;
 		}
 		return baseObject;
+	}
+	
+	@Override
+	public int getColumnCount() {
+		return 2;
+	}
+	
+	@Override public Class<?> getColumnClass(int columnIndex) { 
+		return String.class;
+	}
+
+	@Override
+	public boolean isEditable(Context baseObject, int column) {
+		return true;
+	}
+
+	@Override
+	public Comparator<?> getColumnComparator(int column) {
+		return null;
 	}
 }

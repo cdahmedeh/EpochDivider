@@ -56,7 +56,7 @@ public class MainWindow {
 	
 	// - Events and Logging -
 	private EventBus eventBus;
-	private Logger logger = Logger.getLogger("org.cdahmedeh.orgapp.log");
+	private Logger logger = Logger.getLogger(AppConstants.MAIN_LOGGER);
 	
 	// - Data -
 	private DataContainer dataContainer;
@@ -86,6 +86,7 @@ public class MainWindow {
 		//Show the application window
 		createMainWindow();
 		createEventsTab();
+		createTasksTab();
 		createOtherTabs();
 		createMenuButton();
 		createFileMenu();
@@ -140,11 +141,11 @@ public class MainWindow {
 		// Main frame
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle(UIConstants.WINDOW_TITLE);
+		frame.setTitle(MainWindowConstants.WINDOW_TITLE);
 
 		frame.setBounds(
-				UIConstants.DEFAULT_WINDOW_XPOS, UIConstants.DEFAULT_WINDOW_YPOS, 
-				UIConstants.DEFAULT_WINDOW_WIDTH, UIConstants.DEFAULT_WINDOW_HEIGHT
+				MainWindowConstants.DEFAULT_WINDOW_XPOS, MainWindowConstants.DEFAULT_WINDOW_YPOS, 
+				MainWindowConstants.DEFAULT_WINDOW_WIDTH, MainWindowConstants.DEFAULT_WINDOW_HEIGHT
 		);
 
 		// Prepare tab container
@@ -152,25 +153,54 @@ public class MainWindow {
 		mainTabbedPane.setTabShape(JideTabbedPane.SHAPE_FLAT);
 		mainTabbedPane.setColorTheme(JideTabbedPane.COLOR_THEME_WIN2K);
 		mainTabbedPane.setContentBorderInsets(new Insets(
-				UIConstants.DEFAULT_TAB_BORDER_WIDTH + 1, 
-				UIConstants.DEFAULT_TAB_BORDER_WIDTH, 
-				UIConstants.DEFAULT_TAB_BORDER_WIDTH, 
-				UIConstants.DEFAULT_TAB_BORDER_WIDTH
+				MainWindowConstants.DEFAULT_TAB_BORDER_WIDTH + 1, 
+				MainWindowConstants.DEFAULT_TAB_BORDER_WIDTH, 
+				MainWindowConstants.DEFAULT_TAB_BORDER_WIDTH, 
+				MainWindowConstants.DEFAULT_TAB_BORDER_WIDTH
 		));
 		frame.getContentPane().add(mainTabbedPane, BorderLayout.CENTER);
 	}
 
 	private void createEventsTab() {
 		//Split pane
+		JXMultiSplitPane eventsSplitPane = new JXMultiSplitPane();
+		eventsSplitPane.setContinuousLayout(true);
+		eventsSplitPane.setModel(new DefaultSplitPaneModel());
+		eventsSplitPane.setDividerSize(MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH);
+		eventsSplitPane.setBorder(new EmptyBorder(
+				MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
+				MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
+				MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
+				MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH
+		));
+		
+		//Context list
+		ContextListPanel contextListPanel = new ContextListPanel(dataContainer, eventBus);
+		eventsSplitPane.add(contextListPanel, DefaultSplitPaneModel.LEFT);
+		
+		//Calendar 
+		CalendarPanel calendarPanel = new CalendarPanel(dataContainer, eventBus);
+		eventsSplitPane.add(calendarPanel, DefaultSplitPaneModel.TOP);
+		
+		//Task list
+		TaskListPanel taskListPanel = new TaskListPanel(dataContainer, eventBus);
+		eventsSplitPane.add(taskListPanel, DefaultSplitPaneModel.BOTTOM);
+		
+		//Add pane as Tab
+		mainTabbedPane.addTab(MainWindowConstants.EVENTS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.EVENTS)), eventsSplitPane);
+	}
+	
+	private void createTasksTab() {
+		//Split pane
 		JXMultiSplitPane tasksSplitPane = new JXMultiSplitPane();
 		tasksSplitPane.setContinuousLayout(true);
 		tasksSplitPane.setModel(new DefaultSplitPaneModel());
-		tasksSplitPane.setDividerSize(UIConstants.DEFAULT_PANEL_MARGIN_WIDTH);
+		tasksSplitPane.setDividerSize(MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH);
 		tasksSplitPane.setBorder(new EmptyBorder(
-				UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
-				UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
-				UIConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
-				UIConstants.DEFAULT_PANEL_MARGIN_WIDTH
+				MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
+				MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
+				MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
+				MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH
 		));
 		
 		//Context list
@@ -186,13 +216,12 @@ public class MainWindow {
 		tasksSplitPane.add(taskListPanel, DefaultSplitPaneModel.BOTTOM);
 		
 		//Add pane as Tab
-		mainTabbedPane.addTab(UIConstants.TASKS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.TASKS)), tasksSplitPane);
+		mainTabbedPane.addTab(MainWindowConstants.TASKS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.TASKS)), tasksSplitPane);
 	}
 	
 	private void createOtherTabs() {
-		mainTabbedPane.addTab(UIConstants.EVENTS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.EVENTS)), new JPanel());
-		mainTabbedPane.addTab(UIConstants.REMINDERS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.WEEK)), new JPanel());
-		mainTabbedPane.addTab(UIConstants.STATISTICS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.STATISTICS)), new JPanel());
+		mainTabbedPane.addTab(MainWindowConstants.REMINDERS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.WEEK)), new JPanel());
+		mainTabbedPane.addTab(MainWindowConstants.STATISTICS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.STATISTICS)), new JPanel());
 	}
 	
 	private void createMenuButton() {
@@ -303,7 +332,7 @@ public class MainWindow {
 		if (openDialogReturn == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jFileChooser.getSelectedFile();
 			this.currentFile = selectedFile; 
-			this.frame.setTitle(UIConstants.WINDOW_TITLE + " - " + currentFile.getName());
+			this.frame.setTitle(MainWindowConstants.WINDOW_TITLE + " - " + currentFile.getName());
 			return selectedFile;
 		}
 		return null;

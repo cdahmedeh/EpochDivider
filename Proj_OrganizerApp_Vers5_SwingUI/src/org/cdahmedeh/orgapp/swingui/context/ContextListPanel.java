@@ -262,7 +262,7 @@ public class ContextListPanel extends CPanel {
 				//Make sure that we can drop only on selectable contexts.
 				int row = ((JTable.DropLocation)support.getDropLocation()).getRow();
 				Context context = getContextAtRowInTable(row);
-				return dataContainer.dropSupported(context);
+				return dataContainer.emContextIsAssignable(context);
 			}
 			return false;
 		}
@@ -305,7 +305,7 @@ public class ContextListPanel extends CPanel {
 				}
 				
 				//Change the context of task that was dragged in.
-				boolean changed = dataContainer.setTaskToContext(task, context);
+				boolean changed = dataContainer.emTaskSetContext(task, context);
 				
 				//Let everyone know that we refreshed.
 				eventBus.post(new ContextsChangedNotification());

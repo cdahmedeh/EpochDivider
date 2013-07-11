@@ -11,6 +11,14 @@ import org.joda.time.LocalDate;
 
 public class GoalsModel implements ModelInterface<Entry<View, Duration>, String, Object> {
 
+	public String getTableName() {
+		return "GoalsTable";
+	}
+	
+	public String[] getFieldNames() {
+		return new String[]{"name", "startDate", "endDate", "duration"};
+	}
+	
 	public String objectToSQL(Entry<View, Duration> goal, String name) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into GoalsTable values('");
@@ -51,7 +59,8 @@ public class GoalsModel implements ModelInterface<Entry<View, Duration>, String,
 
 	@Override
 	public String dropTableSQL() {
-		return "drop table if exists GoalsTable";
+//		return "drop table if exists GoalsTable";
+		return "drop table if exists " + getTableName(); 
 	}
 
 	@Override

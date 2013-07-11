@@ -144,7 +144,7 @@ public class DataContainer {
 	/**
 	 * Set the context of the provided task. 
 	 */
-	public boolean setTaskToContext(Task task, Context context) {
+	public boolean emTaskSetContext(Task task, Context context) {
 		if (context.isSelectable()){
 			task.setContext(context);
 			return true;
@@ -157,7 +157,7 @@ public class DataContainer {
 	/**
 	 * Checks if the context can be assigned to a task.
 	 */
-	public boolean dropSupported(Context context) {
+	public boolean emContextIsAssignable(Context context) {
 		return context != null && context.isSelectable();
 	}
 	
@@ -167,7 +167,7 @@ public class DataContainer {
 	 *  asEvent determines if the task will be set as an event or not.
 	 *  TODO: Fix comment
 	 */
-	public void createNewBlankTask(){
+	public void emTaskCreate(){
 		//Create a new task.
 		Task newTask = new Task("");
 		
@@ -183,7 +183,7 @@ public class DataContainer {
 	/**
 	 * Remove task
 	 */
-	public void removeTask(Task task) {
+	public void emTaskRemove(Task task) {
 		getTasks().remove(task);
 	}
 	

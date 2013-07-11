@@ -196,7 +196,7 @@ public class TaskListPanel extends CPanel {
 			public void actionPerformed(ActionEvent e) {
 				Task selectedTaskInTable = getSelectedTaskInTable();
 				if (selectedTaskInTable != null){
-					dataContainer.removeTask(selectedTaskInTable);
+					dataContainer.emTaskRemove(selectedTaskInTable);
 					eventBus.post(new TasksChangedNotification());
 				}
 			}
@@ -263,7 +263,7 @@ public class TaskListPanel extends CPanel {
 		}
 		
 		//Create a new task.
-		dataContainer.createNewBlankTask();
+		dataContainer.emTaskCreate();
 		
 		//Refresh task list table and notify others.
 		eventBus.post(new TasksChangedNotification());

@@ -1,6 +1,6 @@
 package org.cdahmedeh.orgapp.swingui.main;
 
-public class UIConstants {
+public class MainWindowConstants {
 	public static final String WINDOW_TITLE = "Epoch Divider";
 
 	public static final String TASKS_TAB_LABEL = "Tasks";
