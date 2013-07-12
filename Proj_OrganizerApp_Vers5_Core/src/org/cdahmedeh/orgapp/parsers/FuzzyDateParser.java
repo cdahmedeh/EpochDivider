@@ -8,7 +8,6 @@ import org.cdahmedeh.orgapp.tools.TimeHelper;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.joda.time.LocalTime;
 
 import com.joestelmach.natty.CalendarSource;
 import com.joestelmach.natty.DateGroup;
@@ -22,12 +21,13 @@ import com.joestelmach.natty.Parser;
  * @author Ahmed El-Hajjar
  */
 public class FuzzyDateParser {
+	
 	/**
-	 * Returns a human readable string for a certain date.
+	 * Gives a human readable string for a specified date.
 	 */
 	public static String dateTimeToFuzzyString(DateTime dateTime){
-		DateMidnight todayAtMidnight = DateReference.getNowAtMidnight();
-		DateMidnight dateTimeAtMidnight = dateTime.toDateMidnight();
+		DateMidnight todayAtMidnight	= DateReference.getTodayAtMidnight();
+		DateMidnight dateTimeAtMidnight	= dateTime.toDateMidnight();
 		
 		//Get number of days between today and 'dateTime'.
 		long days = Days.daysBetween(todayAtMidnight, dateTimeAtMidnight).getDays();
@@ -57,10 +57,10 @@ public class FuzzyDateParser {
 	 * fails, then a null value is returned.
 	 */
 	public static DateTime fuzzyStringToDateTime(String fuzzy){
-		//We will be using the natty parser for parsing the date.
+		//We will be using the Natty parser for parsing the date.
 		
 		//Prepare parser. Set the base date for the parser to today at midnight.
-		Date baseDate = DateReference.getNow().toDateMidnight().toDate();
+		Date baseDate = DateReference.getTodayAtMidnight().toDate();
 		CalendarSource.setBaseDate(baseDate);
 		Parser parser = new Parser();
 

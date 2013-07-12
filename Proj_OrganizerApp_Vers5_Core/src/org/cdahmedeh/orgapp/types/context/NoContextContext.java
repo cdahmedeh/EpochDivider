@@ -6,7 +6,7 @@ package org.cdahmedeh.orgapp.types.context;
  * @author Ahmed El-Hajjar
  */
 public class NoContextContext extends Context {
-	public NoContextContext() {super("No Context");}
+	public NoContextContext() {super("Unsorted Tasks");}
 	public boolean isSelectable() {return true;}
 	public int getColor() {return 0;} 
 }

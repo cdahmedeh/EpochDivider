@@ -5,7 +5,7 @@ package org.cdahmedeh.orgapp.types.context;
  * @author Ahmed El-Hajjar
  */
 public class AllContextsContext extends Context {
-	public AllContextsContext() {super("All Contexts");}
+	public AllContextsContext() {super("All Tasks");}
 	public boolean isSelectable() {return false;}
 	public int getColor() {return 0;} 
 }

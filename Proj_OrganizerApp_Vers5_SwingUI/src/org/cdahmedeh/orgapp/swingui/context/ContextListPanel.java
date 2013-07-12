@@ -3,6 +3,7 @@ package org.cdahmedeh.orgapp.swingui.context;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.SystemColor;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -20,7 +21,6 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.TransferHandler;
-import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
@@ -80,7 +80,8 @@ public class ContextListPanel extends CPanel {
 	protected void windowInit() {
 		setPreferredSize(new Dimension(ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_WIDTH, ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_HEIGHT));
 		setLayout(new BorderLayout());
-		setBorder(UIManager.getBorder("ScrollPane.border"));
+//		setBorder(UIManager.getBorder("ScrollPane.border"));
+		setBorder(BorderFactory.createEmptyBorder());
 		
 		createContextListTable();
 		createToolbar();
@@ -104,7 +105,8 @@ public class ContextListPanel extends CPanel {
 		contextListTable.setIntercellSpacing(new Dimension(0,0));
 		contextListTable.setShowHorizontalLines(true);
 		contextListTable.setShowVerticalLines(false);
-//		contextListTable.getTableHeader().setPreferredSize(new Dimension(0,0));
+		contextListTable.setBackground(SystemColor.control);
+		contextListTable.getTableHeader().setPreferredSize(new Dimension(0,0));
 		contextListTable.setRowHeight(20);
 		contextListPane.setViewportView(contextListTable);
 	}
@@ -160,6 +162,7 @@ public class ContextListPanel extends CPanel {
 	
 	private void adjustContextListTableColumnWidths() {
 		contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR).setMaxWidth(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR_MAX_WIDTH);
+		contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS).setMaxWidth(ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS_MAX_WIDTH);
 	}
 	
 	private void enableDragRearrange() {

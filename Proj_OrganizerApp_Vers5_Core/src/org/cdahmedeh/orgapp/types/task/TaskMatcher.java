@@ -1,6 +1,7 @@
 package org.cdahmedeh.orgapp.types.task;
 
 import org.cdahmedeh.orgapp.types.calendar.View;
+import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.AllContextsContext;
 import org.cdahmedeh.orgapp.types.context.Context;
 import org.cdahmedeh.orgapp.types.context.DueThisViewContext;
@@ -23,7 +24,7 @@ public class TaskMatcher {
 		return !(!showCompleted && item.isCompleted());
 	}
 
-	public static boolean matches(Task item, Context context, View view, boolean showCompleted) {
-		return matchByContext(item, context, view) && matchByIsCompleted(item, showCompleted);
+	public static boolean matches(Task item, DataContainer dataContainer) {
+		return matchByContext(item, dataContainer.getSelectedContext(), dataContainer.getView()) && matchByIsCompleted(item, dataContainer.getShowCompleted());
 	}
 }

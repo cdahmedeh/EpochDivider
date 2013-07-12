@@ -12,4 +12,5 @@ public class ContextListPanelDefaults {
 	public static final String COLUMN_CONTEXT_PROGRESS_LABEL = "Goal";
 	
 	public static final int COLUMN_CONTEXT_COLOR_MAX_WIDTH = 19;
+	public static final int COLUMN_CONTEXT_PROGRESS_MAX_WIDTH = 70;
 }

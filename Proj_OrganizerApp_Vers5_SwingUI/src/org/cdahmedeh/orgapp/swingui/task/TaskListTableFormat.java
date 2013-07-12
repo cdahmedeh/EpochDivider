@@ -18,15 +18,15 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 	@Override
 	public Object getColumnValue(Task baseObject, int column) {
 		switch(column){
-		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED: 
+		case TaskListPanelConstants.COLUMN_TASK_COMPLETED: 
 			return baseObject.isCompleted();
-		case TaskListPanelDefaults.COLUMN_TASK_TITLE: 
+		case TaskListPanelConstants.COLUMN_TASK_TITLE: 
 			return baseObject.getTitle();
-		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT: 
+		case TaskListPanelConstants.COLUMN_TASK_CONTEXT: 
 			return baseObject.getContext();				
-		case TaskListPanelDefaults.COLUMN_TASK_DUE: 
+		case TaskListPanelConstants.COLUMN_TASK_DUE: 
 			return baseObject.getDue();				
-		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS: 
+		case TaskListPanelConstants.COLUMN_TASK_PROGRESS: 
 			return baseObject.getProgressInfo();				
 		}
 		
@@ -36,25 +36,25 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 	@Override
 	public Task setColumnValue(Task baseObject, Object editedValue, int column) {
 		switch(column){
-		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED:
+		case TaskListPanelConstants.COLUMN_TASK_COMPLETED:
 			baseObject.setCompleted((boolean) editedValue);
 			break;
-		case TaskListPanelDefaults.COLUMN_TASK_TITLE:
+		case TaskListPanelConstants.COLUMN_TASK_TITLE:
 			baseObject.setTitle((String) editedValue);
 			break;
-		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT:
+		case TaskListPanelConstants.COLUMN_TASK_CONTEXT:
 			if (editedValue != null && editedValue instanceof Context){
 				baseObject.setContext((Context)editedValue);
 			}
 			break;
-		case TaskListPanelDefaults.COLUMN_TASK_DUE:
+		case TaskListPanelConstants.COLUMN_TASK_DUE:
 			if (editedValue == null){
 				baseObject.setDue(null);
 			} else if (editedValue instanceof DateTime){
 				baseObject.setDue((DateTime)editedValue);
 			}
 			break;
-		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS:
+		case TaskListPanelConstants.COLUMN_TASK_PROGRESS:
 			if (editedValue == null){
 				baseObject.setEstimate(Duration.ZERO);
 			} else if (editedValue instanceof TripleDurationInfo){
@@ -69,12 +69,11 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 	@Override
 	public String getColumnName(int column) {
 		switch(column){
-		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED: return "";
-		case TaskListPanelDefaults.COLUMN_TASK_TITLE: return "Task";
-		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT: return "Context";
-		case TaskListPanelDefaults.COLUMN_TASK_DUE: return "Due";
-//		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS: return "Progress (Completed/Scheduled/Estimate)"; TODO: FIXME
-		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS: return "Progress";
+		case TaskListPanelConstants.COLUMN_TASK_COMPLETED: 	return "";
+		case TaskListPanelConstants.COLUMN_TASK_TITLE: 		return "Task";
+		case TaskListPanelConstants.COLUMN_TASK_CONTEXT: 	return "Context";
+		case TaskListPanelConstants.COLUMN_TASK_DUE: 		return "Due";
+		case TaskListPanelConstants.COLUMN_TASK_PROGRESS: 	return "Progress";
 		}
 		return "";
 	}
@@ -82,11 +81,11 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 	@Override
 	public Class<?> getColumnClass(int column) {
 		switch(column){
-		case TaskListPanelDefaults.COLUMN_TASK_COMPLETED: return Boolean.class;
-		case TaskListPanelDefaults.COLUMN_TASK_TITLE: return String.class;
-		case TaskListPanelDefaults.COLUMN_TASK_CONTEXT: return Context.class;
-		case TaskListPanelDefaults.COLUMN_TASK_DUE: return DateTime.class;
-		case TaskListPanelDefaults.COLUMN_TASK_PROGRESS: return TripleDurationInfo.class;
+		case TaskListPanelConstants.COLUMN_TASK_COMPLETED: 	return Boolean.class;
+		case TaskListPanelConstants.COLUMN_TASK_TITLE: 		return String.class;
+		case TaskListPanelConstants.COLUMN_TASK_CONTEXT: 	return Context.class;
+		case TaskListPanelConstants.COLUMN_TASK_DUE: 		return DateTime.class;
+		case TaskListPanelConstants.COLUMN_TASK_PROGRESS: 	return TripleDurationInfo.class;
 		}
 		return null;
 	}
@@ -104,8 +103,8 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 	@Override
 	public Comparator<?> getColumnComparator(int column) {
 		switch(column){
-		case TaskListPanelDefaults.COLUMN_TASK_TITLE: return new TaskTitleComparator();
-		case TaskListPanelDefaults.COLUMN_TASK_DUE: return new TaskDueDateComparator();
+		case TaskListPanelConstants.COLUMN_TASK_TITLE: 	return new TaskTitleComparator();
+		case TaskListPanelConstants.COLUMN_TASK_DUE: 	return new TaskDueDateComparator();
 		}
 		return null;
 	}

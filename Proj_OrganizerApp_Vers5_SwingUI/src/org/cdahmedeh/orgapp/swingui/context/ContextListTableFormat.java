@@ -64,7 +64,7 @@ public class ContextListTableFormat implements AdvancedTableFormat<Context>, Wri
 	
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return 3;
 	}
 	
 	@Override public Class<?> getColumnClass(int columnIndex) { 

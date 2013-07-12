@@ -84,7 +84,7 @@ public class TaskListPanel extends CPanel {
 	
 	@Override
 	protected void windowInit() {
-		setPreferredSize(new Dimension(TaskListPanelDefaults.DEFAULT_TASK_PANEL_WIDTH, TaskListPanelDefaults.DEFAULT_TASK_PANEL_HEIGHT));
+		setPreferredSize(new Dimension(TaskListPanelConstants.DEFAULT_TASK_PANEL_WIDTH, TaskListPanelConstants.DEFAULT_TASK_PANEL_HEIGHT));
 		setLayout(new BorderLayout());
 		setBorder(UIManager.getBorder("ScrollPane.border"));
 		
@@ -142,26 +142,26 @@ public class TaskListPanel extends CPanel {
 		AutoCompleteCellEditor<Context> contextTableCellEditor = AutoCompleteSupport.createTableCellEditor(contextEventList);
 		
 		//Setup context cell editor
-		TableColumn contextColumn = taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_CONTEXT);
+		TableColumn contextColumn = taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_CONTEXT);
 		contextColumn.setCellEditor(contextTableCellEditor);
 		
 		//Setup renderer and editor for due date column
-		TableColumn dueDateColumn = taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_DUE);
+		TableColumn dueDateColumn = taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_DUE);
 		dueDateColumn.setCellRenderer(new DateEntryCellRenderer());
 		dueDateColumn.setCellEditor(new DateEntryCellEditor(new JTextField()));
 		
 		//Setup renderer and editor for estimate column
-		TableColumn estimateColumn = taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_PROGRESS);
+		TableColumn estimateColumn = taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_PROGRESS);
 		estimateColumn.setCellRenderer(new TripleDurationCellRenderer());
 		estimateColumn.setCellEditor(new DurationCellEditor(new JTextField()));
 	}
 	
 	private void adjustTaskListTableColumnWidths() {
-		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_COMPLETED).setMaxWidth(20);
-		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_TITLE).setPreferredWidth(200);
-		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_CONTEXT).setPreferredWidth(50);
-		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_DUE).setPreferredWidth(50);
-		taskListTable.getColumnModel().getColumn(TaskListPanelDefaults.COLUMN_TASK_PROGRESS).setPreferredWidth(50);
+		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_COMPLETED).setMaxWidth(20);
+		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_TITLE).setPreferredWidth(200);
+		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_CONTEXT).setPreferredWidth(50);
+		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_DUE).setPreferredWidth(50);
+		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_PROGRESS).setPreferredWidth(50);
 		
 	}
 
@@ -220,7 +220,6 @@ public class TaskListPanel extends CPanel {
 		addTaskButton.setBackground(taskListTable.getBackground());
 		
 		//ToolBar button actions
-		
 		showCompletedTasks.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -269,7 +268,7 @@ public class TaskListPanel extends CPanel {
 		eventBus.post(new TasksChangedNotification());
 
 		//Init. editing the title of the new tasks and focus the editor.
-		taskListTable.editCellAt(taskListTable.getRowCount()-1, TaskListPanelDefaults.COLUMN_TASK_TITLE);
+		taskListTable.editCellAt(taskListTable.getRowCount()-1, TaskListPanelConstants.COLUMN_TASK_TITLE);
 		
 		Component editorComponent = taskListTable.getEditorComponent();
 		if (editorComponent != null) {

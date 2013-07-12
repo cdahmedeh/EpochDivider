@@ -19,7 +19,10 @@ public class DateReference {
 		return DateTime.now();
 	}
 	
-	public static DateMidnight getNowAtMidnight(){
+	/**
+	 * @return A DateMidminght reference to the current day at midnight.
+	 */
+	public static DateMidnight getTodayAtMidnight(){
 		return getNow().toDateMidnight();
 	}
 	

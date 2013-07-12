@@ -7,24 +7,29 @@ import org.cdahmedeh.orgapp.types.task.TaskMatcher;
 import ca.odell.glazedlists.matchers.AbstractMatcherEditor;
 import ca.odell.glazedlists.matchers.Matcher;
 
-public class TaskListMatcherEditor extends AbstractMatcherEditor<Task>{
+/**
+ * GlazedLists AbstractMatcherEditor implementation for filtering tasks on the
+ * task list table.  
+ * 
+ * @author Ahmed El-Hajjar
+ */
+public class TaskListMatcherEditor extends AbstractMatcherEditor<Task> {
 	private DataContainer dataContainer;
-
 	private Matcher<Task> matcher;
+
 	public TaskListMatcherEditor(DataContainer dataContainer) {
 		this.dataContainer = dataContainer;
-		matcher = new TaskListMatcher();
+		this.matcher = new TaskListMatcher();
 	}
-	
-	public void matcherChangedNotify() {this.fireChanged(matcher);}
-	
+
+	public void matcherChangedNotify() {
+		this.fireChanged(matcher);
+	}
+
 	private final class TaskListMatcher implements Matcher<Task> {
 		@Override
 		public boolean matches(Task item) {
-			return TaskMatcher.matches(item, 
-					dataContainer.getSelectedContext(), 
-					dataContainer.getView(), 
-					dataContainer.getShowCompleted());
+			return TaskMatcher.matches(item, dataContainer);
 		}
 	}
 }
