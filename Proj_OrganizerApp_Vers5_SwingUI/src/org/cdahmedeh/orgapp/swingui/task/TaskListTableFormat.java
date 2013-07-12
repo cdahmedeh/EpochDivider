@@ -91,6 +91,15 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 	}
 	
 	@Override
+	public Comparator<?> getColumnComparator(int column) {
+		switch(column){
+		case TaskListPanelConstants.COLUMN_TASK_TITLE: 	return new TaskTitleComparator();
+		case TaskListPanelConstants.COLUMN_TASK_DUE: 	return new TaskDueDateComparator();
+		}
+		return null;
+	}
+	
+	@Override
 	public boolean isEditable(Task baseObject, int column) {
 		return true;
 	}
@@ -99,13 +108,5 @@ public class TaskListTableFormat implements AdvancedTableFormat<Task>, WritableT
 	public int getColumnCount() {
 		return 5;
 	}
-
-	@Override
-	public Comparator<?> getColumnComparator(int column) {
-		switch(column){
-		case TaskListPanelConstants.COLUMN_TASK_TITLE: 	return new TaskTitleComparator();
-		case TaskListPanelConstants.COLUMN_TASK_DUE: 	return new TaskDueDateComparator();
-		}
-		return null;
-	}
+	
 }

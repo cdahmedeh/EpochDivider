@@ -23,6 +23,7 @@ import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.table.TableColumn;
 
+import org.cdahmedeh.orgapp.imt.icons.IconsLocation;
 import org.cdahmedeh.orgapp.swingui.components.DateEntryCellEditor;
 import org.cdahmedeh.orgapp.swingui.components.DateEntryCellRenderer;
 import org.cdahmedeh.orgapp.swingui.components.DurationCellEditor;
@@ -54,14 +55,16 @@ import com.google.common.eventbus.Subscribe;
 
 public class TaskListPanel extends CPanel {
 	private static final long serialVersionUID = -8250528552031443184L;
-	public TaskListPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus, "Task List");}
+	
+	public TaskListPanel(DataContainer dataContainer, EventBus eventBus) {
+		super(dataContainer, eventBus, TaskListPanelConstants.COMPONENT_NAME);
+	}
 	
 	@Override
 	protected Object getEventRecorder() {
 		return new Object(){
 			@Subscribe public void selectedContextChanged(SelectedContextChangedNotification notification){
-				taskListMatcherEditor.matcherChangedNotify();
-				taskListTable.repaint(); //TODO: Temporary call to repaint() to fix redraw bug.
+				matcherChangedNotify();
 			}
 			@Subscribe public void taskListChanged(TasksChangedNotification notification) throws Exception {
 				refreshTaskListTable();
@@ -84,10 +87,7 @@ public class TaskListPanel extends CPanel {
 	
 	@Override
 	protected void windowInit() {
-		setPreferredSize(new Dimension(TaskListPanelConstants.DEFAULT_TASK_PANEL_WIDTH, TaskListPanelConstants.DEFAULT_TASK_PANEL_HEIGHT));
-		setLayout(new BorderLayout());
-		setBorder(UIManager.getBorder("ScrollPane.border"));
-		
+		preparePanel();
 		createTaskListTable();
 		createToolbar();
 	}
@@ -104,6 +104,15 @@ public class TaskListPanel extends CPanel {
 		eventBus.post(new TaskListPanelPostInitCompleteNotification());
 	}
 
+	private void preparePanel() {
+		setPreferredSize(new Dimension(
+				TaskListPanelConstants.DEFAULT_TASK_PANEL_WIDTH, 
+				TaskListPanelConstants.DEFAULT_TASK_PANEL_HEIGHT
+		));
+		setBorder(UIManager.getBorder("ScrollPane.border"));
+		setLayout(new BorderLayout());
+	}
+	
 	private void createTaskListTable() {
 		taskListPane = new JScrollPane();
 		taskListPane.setBorder(BorderFactory.createEmptyBorder());
@@ -117,20 +126,22 @@ public class TaskListPanel extends CPanel {
 
 	private void prepareTaskListTableModel() {
 		//Fill Event list with Tasks
-		TableFormat<Task> taskTableFormat = new TaskListTableFormat();
 		taskEventList = new BasicEventList<>();
 		taskEventList.addAll(dataContainer.getTasks());
 		
-		//Prepare Matcher for filtering by the Context that is selected by the user
+		//Prepare Matcher for filtering (by selected context, etc...)
 		taskListMatcherEditor = new TaskListMatcherEditor(dataContainer);
-		FilterList<Task> filteredByContextList = new FilterList<>(taskEventList, taskListMatcherEditor);
+		FilterList<Task> filterTaskList = new FilterList<>(taskEventList, taskListMatcherEditor);
 
 		//Prepare sorting
-		SortedList<Task> sortedTaskList = new SortedList<>(filteredByContextList, null);
-		
+		SortedList<Task> sortedTaskList = new SortedList<>(filterTaskList, null);
+
+		//Create Model and set it to table
+		TableFormat<Task> taskTableFormat = new TaskListTableFormat();
 		taskListTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(sortedTaskList, taskTableFormat);
 		taskListTable.setModel(taskListTableModel);
 		
+		//Install sorting mechanism for table
 		TableComparatorChooser.install(taskListTable, sortedTaskList, TableComparatorChooser.SINGLE_COLUMN);
 	}
 
@@ -157,12 +168,11 @@ public class TaskListPanel extends CPanel {
 	}
 	
 	private void adjustTaskListTableColumnWidths() {
-		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_COMPLETED).setMaxWidth(20);
-		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_TITLE).setPreferredWidth(200);
-		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_CONTEXT).setPreferredWidth(50);
-		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_DUE).setPreferredWidth(50);
-		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_PROGRESS).setPreferredWidth(50);
-		
+		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_COMPLETED).setMaxWidth(TaskListPanelConstants.COLUMN_TASK_COMPLETED_MAX_WIDTH);
+		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_TITLE).setPreferredWidth(TaskListPanelConstants.COLUMN_TASK_TITLE_WIDTH);
+		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_CONTEXT).setPreferredWidth(TaskListPanelConstants.COLUMN_TASK_CONTEXT_WIDTH);
+		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_DUE).setPreferredWidth(TaskListPanelConstants.COLUMN_TASK_DUE_WIDTH);
+		taskListTable.getColumnModel().getColumn(TaskListPanelConstants.COLUMN_TASK_PROGRESS).setPreferredWidth(TaskListPanelConstants.COLUMN_TASK_PROGRESS_WIDTH);
 	}
 
 	private void setupTaskDragAndDrop() {
@@ -187,18 +197,15 @@ public class TaskListPanel extends CPanel {
 		//Setup popup menu for the Task List Table. 
 		TableHelper.setupPopupMenu(taskListTable, popupMenu);
 		
-		JMenuItem removeTaskMenuItem = new JMenuItem("Delete Task");
-		removeTaskMenuItem.setIcon(new ImageIcon(TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/delete.gif")));
+		//Delete task menu item
+		JMenuItem removeTaskMenuItem = new JMenuItem(TaskListPanelConstants.REMOVE_TASK_LABEL);
+		removeTaskMenuItem.setIcon(new ImageIcon(TaskListPanel.class.getResource(IconsLocation.DELETE)));
 		popupMenu.add(removeTaskMenuItem);
 		
 		removeTaskMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Task selectedTaskInTable = getSelectedTaskInTable();
-				if (selectedTaskInTable != null){
-					dataContainer.emTaskRemove(selectedTaskInTable);
-					eventBus.post(new TasksChangedNotification());
-				}
+				deleteSelectedTask();
 			}
 		});
 	}
@@ -211,12 +218,12 @@ public class TaskListPanel extends CPanel {
 
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
 		
-		final JToggleButton showCompletedTasks = ToolbarHelper.createToolbarToggleButton(toolbar, "Show Completed", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/completed.gif"));
+		final JToggleButton showCompletedTasks = ToolbarHelper.createToolbarToggleButton(toolbar, TaskListPanelConstants.SHOW_COMPLETED_LABEL, TaskListPanel.class.getResource(IconsLocation.COMPLETED));
 		showCompletedTasks.setBackground(taskListTable.getBackground());
 		
 		ToolbarHelper.createToolbarSeperator(toolbar);
 		
-		final JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, "Add", TaskListPanel.class.getResource("/org/cdahmedeh/orgapp/imt/icons/add.gif"));
+		final JButton addTaskButton = ToolbarHelper.createToolbarButton(toolbar, TaskListPanelConstants.ADD_TASK_LABEL, TaskListPanel.class.getResource(IconsLocation.ADD));
 		addTaskButton.setBackground(taskListTable.getBackground());
 		
 		//ToolBar button actions
@@ -224,8 +231,7 @@ public class TaskListPanel extends CPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dataContainer.setShowCompleted(showCompletedTasks.isSelected());
-				taskListMatcherEditor.matcherChangedNotify();
-				taskListTable.repaint(); //TODO: temporary call to fix redraw bug
+				matcherChangedNotify();
 			}
 		});
 		
@@ -279,5 +285,18 @@ public class TaskListPanel extends CPanel {
 	private Task getSelectedTaskInTable() {
 		//TODO: There might be a better way to get the selected task.
 		return taskListTableModel.getElementAt(taskListTable.getSelectedRow());
+	}
+	
+	private void matcherChangedNotify() {
+		taskListMatcherEditor.matcherChangedNotify();
+		taskListTable.repaint(); //TODO: Temporary call to repaint() to fix redraw bug.
+	}
+	
+	private void deleteSelectedTask() {
+		Task selectedTaskInTable = getSelectedTaskInTable();
+		if (selectedTaskInTable != null){
+			dataContainer.emTaskRemove(selectedTaskInTable);
+			eventBus.post(new TasksChangedNotification());
+		}
 	}
 }
