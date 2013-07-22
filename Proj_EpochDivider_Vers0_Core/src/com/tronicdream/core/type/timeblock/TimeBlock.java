@@ -10,15 +10,12 @@ import org.joda.time.DateTime;
  */
 public class TimeBlock {
 	
-	/* - Constructs - */
-	
-	public TimeBlock(DateTime startTime, DateTime endTime) {
-		this.setStartTime(startTime);
-		this.setEndTime(endTime);
-	}
-	
 	/* - Primary Fields - */
 
+	private int id = -1;
+	public int getId() {return id;}
+	public void setId(int id) {this.id = id;}
+	
 	private DateTime startTime = null;
 	public DateTime getStartTime() {return startTime;}
 	public void setStartTime(DateTime startTime) {this.startTime = startTime;}
