@@ -9,14 +9,14 @@ import com.tronicdream.core.type.event.Event;
 import com.tronicdream.core.type.timeblock.TimeBlock;
 
 /**
- * A {@link DataContainer} instance contains all the necessary data for a single
+ * A {@link DataContainer} instance contains all the necessary data for one
  * user in Epoch Divider. It contains the following:
  * 
  *  - Lists of all the users data such as tasks, events and contexts.
  *  - Instances of UI states such as currently selected context.
  * 
- * All data modification is expected to done through the DataContainer with the
- * methods prefixed with em.
+ * All data modification is expected to be done through the DataContainer with
+ * the methods prefixed with em.
  * 
  * @author Ahmed El-Hajjar
  */
@@ -25,7 +25,16 @@ public class DataContainer {
 	/* - Main Data Lists - */
 
 	private List<TimeBlock> timeBlocks = new ArrayList<>();
+	public List<TimeBlock> getTimeBlocks() {return timeBlocks;}
+	
 	private List<Event> events = new ArrayList<>();
+	public List<Event> getEvents() {return events;}
+	
+	
+	/* - Id Counters - */
+	
+	private int timeBlockIdCounter = 0;
+	private int eventIdCounter = 0;
 	
 	
 	/* - Easy Modifiers - */
@@ -36,6 +45,7 @@ public class DataContainer {
 	public TimeBlock emTimeBlockNew(DateTime startTime, DateTime endTime) {
 		TimeBlock timeBlock = new TimeBlock();
 		
+		timeBlock.setId(timeBlockIdCounter++);
 		timeBlock.setStartTime(startTime);
 		timeBlock.setEndTime(endTime);
 		
@@ -50,6 +60,8 @@ public class DataContainer {
 	public Event emEventNew() {
 		Event event = new Event();
 		
+		event.setId(eventIdCounter++);
+		
 		events.add(event);
 		
 		return event;
@@ -60,7 +72,7 @@ public class DataContainer {
 	 */
 	public void emEventSetTimeBlock(Event event, TimeBlock timeBlock) {
 		event.setTimeBlock(timeBlock);
-		timeBlock.setOwner(timeBlock);
+		timeBlock.setOwner(event);
 	}
 	
 }

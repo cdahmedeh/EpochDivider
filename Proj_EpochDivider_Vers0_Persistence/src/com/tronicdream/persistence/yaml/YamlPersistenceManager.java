@@ -32,6 +32,7 @@ public class YamlPersistenceManager implements PersistenceManagerInterface {
 		try {
 			String result = FileUtils.readFileToString(file);
 			Object load = yaml.load(result);
+			return (DataContainer) load;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
