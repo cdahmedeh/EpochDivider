@@ -8,22 +8,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import org.cdahmedeh.orgapp.pers.models.ContextListModel;
 import org.cdahmedeh.orgapp.pers.models.DataContainerModel;
-import org.cdahmedeh.orgapp.pers.models.GoalsModel;
 import org.cdahmedeh.orgapp.pers.models.TaskListModel;
 import org.cdahmedeh.orgapp.pers.models.TimeBlocksModel;
-import org.cdahmedeh.orgapp.types.calendar.View;
 import org.cdahmedeh.orgapp.types.container.DataContainer;
 import org.cdahmedeh.orgapp.types.context.Context;
-import org.cdahmedeh.orgapp.types.context.NoContextContext;
 import org.cdahmedeh.orgapp.types.task.Task;
 import org.cdahmedeh.orgapp.types.time.TimeBlock;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.LocalDate;
 
 public class SQLitePersistenceManager implements PersistanceManagerInterface {
 
@@ -31,7 +24,6 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
 		//Loading Models
 		DataContainerModel dataContainerModel = new DataContainerModel();
 		ContextListModel contextListModel = new ContextListModel();
-		GoalsModel goalsModel = new GoalsModel();
 		TaskListModel taskListModel = new TaskListModel();
 		TimeBlocksModel timeBlocksModel = new TimeBlocksModel();
 		
@@ -62,14 +54,12 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             //Populate result sets
             ResultSet rsDataContainer = statementDataContainer.executeQuery(dataContainerModel.loadResultSetSQL());
             ResultSet rsContextList = statementContextList.executeQuery(contextListModel.loadResultSetSQL());
-            ResultSet rsGoals = statementGoals.executeQuery(goalsModel.loadResultSetSQL());
             ResultSet rsTaskList = statementTaskList.executeQuery(taskListModel.loadResultSetSQL());
             ResultSet rsTimeBlocks = statementTimeBlocks.executeQuery(timeBlocksModel.loadResultSetSQL());
           
             //Load data
             DataContainer dataContainer = dataContainerModel.resultSetToObject(rsDataContainer, null);
 			ArrayList<Context> contextList = contextListModel.resultSetToObject(rsContextList, null);
-			HashMap<String, HashMap<View,Duration>> contextGoalHashmaps = goalsModel.resultSetToObject(rsGoals, null);
 			HashMap<String, Context> contextByName = new HashMap<>();
 			for (Context context: contextList){
 				contextByName.put(context.getName(), context);
@@ -94,7 +84,6 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
 		//Loading Models
 		DataContainerModel dataContainerModel = new DataContainerModel();
 		ContextListModel contextListModel = new ContextListModel();
-		GoalsModel goalsModel = new GoalsModel();
 		TaskListModel taskListModel = new TaskListModel();
 		TimeBlocksModel timeBlocksModel = new TimeBlocksModel();
 		
@@ -125,14 +114,12 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             //Drop tables
             statementDataContainer.executeUpdate(dataContainerModel.dropTableSQL());
             statementContextList.executeUpdate(contextListModel.dropTableSQL());
-            statementGoals.executeUpdate(goalsModel.dropTableSQL());
             statementTaskList.executeUpdate(taskListModel.dropTableSQL());
             statementTimeBlocks.executeUpdate(timeBlocksModel.dropTableSQL());
             
             //Create tables
             statementDataContainer.executeUpdate(dataContainerModel.createTableSQL());
             statementContextList.executeUpdate(contextListModel.createTableSQL());
-            statementGoals.executeUpdate(goalsModel.createTableSQL());
             statementTaskList.executeUpdate(taskListModel.createTableSQL());
             statementTimeBlocks.executeUpdate(timeBlocksModel.createTableSQL());
             
