@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import com.tronicdream.core.state.view.View;
 import com.tronicdream.core.type.event.Event;
 import com.tronicdream.core.type.timeblock.TimeBlock;
 
@@ -26,15 +27,29 @@ public class DataContainer {
 
 	private List<TimeBlock> timeBlocks = new ArrayList<>();
 	public List<TimeBlock> getTimeBlocks() {return timeBlocks;}
+	public void setTimeBlocks(List<TimeBlock> timeBlocks) {this.timeBlocks = timeBlocks;}
 	
 	private List<Event> events = new ArrayList<>();
 	public List<Event> getEvents() {return events;}
-	
+	public void setEvents(List<Event> events) {this.events = events;}
+
 	
 	/* - Id Counters - */
 	
 	private int timeBlockIdCounter = 0;
+	public int getTimeBlockIdCounter() {return timeBlockIdCounter;}
+	public void setTimeBlockIdCounter(int timeBlockIdCounter) {this.timeBlockIdCounter = timeBlockIdCounter;}
+	
 	private int eventIdCounter = 0;
+	public int getEventIdCounter() {return eventIdCounter;}
+	public void setEventIdCounter(int eventIdCounter) {this.eventIdCounter = eventIdCounter;}
+
+	
+	/* - Main UI States - */
+
+	private View view = new View();
+	public View getView() {return view;}
+	public void setView(View view) {this.view = view;}
 	
 	
 	/* - Easy Modifiers - */

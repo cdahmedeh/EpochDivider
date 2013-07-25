@@ -5,7 +5,7 @@ import java.io.File;
 import com.tronicdream.core.container.DataContainer;
 
 /**
- * Interface for saving and loading DataContainer with files.
+ * Interface for saving and loading DataContainer using files.
  * 
  * @author Ahmed El-Hajjar
  */

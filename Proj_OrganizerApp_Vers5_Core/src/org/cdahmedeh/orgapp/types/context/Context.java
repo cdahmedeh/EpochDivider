@@ -38,13 +38,6 @@ public class Context {
 	public int getColor() {return color;}
 	public void setColor(int color) {this.color = color;}
 	
-	private HashMap<View, Duration> goals = new HashMap<>();
-	public HashMap<View, Duration> getGoals(){return goals;}
-	public void setGoals(HashMap<View, Duration> goals){this.goals= goals == null ? this.goals : goals;} //TODO: Fix me or else (I won't fix myself, sorry)
-	public Duration getGoal(View view){return goals.get(view) == null ? Duration.ZERO : goals.get(view);}
-	public void setGoal(View date, Duration duration) {goals.put(date, duration);}
-
-	
 	/* ---- Reader methods ---- */
 	
 	/**
@@ -104,7 +97,7 @@ public class Context {
 		return new TripleDurationInfo(
 				this.getDurationPassedSince(view.getStartDate().toDateTimeAtStartOfDay(), DateReference.getNow(), tasks), 
 				this.getDurationScheduled(view.getStartDate().toDateTimeAtStartOfDay(), view.getEndDate().plusDays(1).toDateTimeAtStartOfDay(), tasks), 
-				this.getGoal(view));
+				this.getDurationScheduled(view.getStartDate().toDateTimeAtStartOfDay(), view.getEndDate().plusDays(1).toDateTimeAtStartOfDay(), tasks));
 	}
 	
 	

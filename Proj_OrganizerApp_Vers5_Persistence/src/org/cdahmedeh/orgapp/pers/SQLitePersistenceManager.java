@@ -72,9 +72,6 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
 			HashMap<String, HashMap<View,Duration>> contextGoalHashmaps = goalsModel.resultSetToObject(rsGoals, null);
 			HashMap<String, Context> contextByName = new HashMap<>();
 			for (Context context: contextList){
-				context.setGoals(contextGoalHashmaps.get(context.getName()));
-			}
-			for (Context context: contextList){
 				contextByName.put(context.getName(), context);
 			}
 			ArrayList<Task> tasks = taskListModel.resultSetToObject(rsTaskList, contextByName);
@@ -143,9 +140,6 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             statementDataContainer.executeUpdate(dataContainerModel.objectToSQL(dataContainer,null));
             for (Context context: dataContainer.getContexts()){
             	statementContextList.executeUpdate(contextListModel.objectToSQL(context,null));
-            	context.getGoals();
-            	for (Entry<View,Duration> set: context.getGoals().entrySet())
-            		statementGoals.executeUpdate(goalsModel.objectToSQL(set, context.getName()));
             }
             for (Task task: dataContainer.getTasks()){
             	statementTaskList.executeUpdate(taskListModel.objectToSQL(task,null));

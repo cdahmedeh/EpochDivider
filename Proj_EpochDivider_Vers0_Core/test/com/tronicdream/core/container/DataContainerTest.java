@@ -5,8 +5,11 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.LocalDate;
 import org.junit.Test;
 
+import com.tronicdream.core.state.view.View;
 import com.tronicdream.core.type.event.Event;
 import com.tronicdream.core.type.timeblock.TimeBlock;
 
@@ -63,6 +66,16 @@ public class DataContainerTest {
 		
 		//TimeBlock should be owned by event
 		assertEquals(event, timeBlock.getOwner());
+	}
+	
+	@Test
+	public void condViewShouldBeThisWeekByDefault(){
+		DataContainer dataContainer = new DataContainer();
+		View view = dataContainer.getView();
+		
+		assertEquals(LocalDate.now().withDayOfWeek(DateTimeConstants.SUNDAY), view.getStartDate());
+		assertEquals(LocalDate.now().withDayOfWeek(DateTimeConstants.SUNDAY).plusDays(DateTimeConstants.DAYS_PER_WEEK-1), view.getEndDate());
+		assertEquals(DateTimeConstants.DAYS_PER_WEEK, view.getNumberOfDaysVisible());
 	}
 
 }

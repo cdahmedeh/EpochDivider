@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
+import com.tronicdream.swingui.calendar.CalendarPanel;
+
 public class MainSwingWindow {
 
 	private JFrame frame;
@@ -38,6 +40,8 @@ public class MainSwingWindow {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frame.getContentPane().add(new CalendarPanel());
 	}
 
 }

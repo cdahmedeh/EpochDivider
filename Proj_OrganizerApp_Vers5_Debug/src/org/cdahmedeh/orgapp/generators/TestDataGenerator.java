@@ -49,39 +49,30 @@ public class TestDataGenerator {
 		contextList.add(new NoDueDateContext());
 		
 		Context faithContext = new Context("Faith");
-		faithContext.setGoal(view, Duration.standardMinutes((long) (5.5*60)));
 		contextList.add(faithContext);
 		
 		Context sleepContext = new Context("Sleep");
-		sleepContext.setGoal(view, Duration.standardMinutes((long) (49*60)));
 		contextList.add(sleepContext);
 		
 		Context relaxingContext = new Context("Relaxing");
-		relaxingContext.setGoal(view, Duration.standardMinutes((long) (3.5*60)));
 		contextList.add(relaxingContext);
 		
 		Context exerciseContext = new Context("Exercise");
-		exerciseContext.setGoal(view, Duration.standardMinutes((long) (2.5*60)));
 		contextList.add(exerciseContext);
 		
 		Context studyContext = new Context("Study");
-		studyContext.setGoal(view, Duration.standardMinutes((long) (19*60)));
 		contextList.add(studyContext);
 	
 		Context coursesContext = new Context("Courses");
-		coursesContext.setGoal(view, Duration.standardMinutes((long) (21*60)));
 		contextList.add(coursesContext);
 		
 		Context miscContext = new Context("Misc");
-		miscContext.setGoal(view, Duration.standardMinutes((long) (1*60)));
 		contextList.add(miscContext);
 	
 		Context projectContext = new Context("Projects");
-		projectContext.setGoal(view, Duration.standardMinutes((long) (15*60)));
 		contextList.add(projectContext);
 		
 		Context readingContext = new Context("Reading");
-		readingContext.setGoal(view, Duration.standardMinutes((long) (8*60)));
 		contextList.add(readingContext);
 		
 		//Generate some tasks
@@ -144,7 +135,6 @@ public class TestDataGenerator {
 		//Generate 100 contexts.
 		for (int i = 0; i < 100; i++) {
 			Context context = new Context("Context " + i);
-			context.setGoal(view, Duration.standardMinutes(new Random().nextInt(10*60)));
 			contextList.add(context);
 		}
 		
@@ -206,7 +196,6 @@ public class TestDataGenerator {
 		//Generate 300 contexts.
 		for (int i = 0; i < 300; i++) {
 			Context context = new Context("Context " + i);
-			context.setGoal(view, Duration.standardMinutes(new Random().nextInt(10*60)));
 			contextList.add(context);
 		}
 		
@@ -268,7 +257,6 @@ public class TestDataGenerator {
 		//Generate 300 contexts.
 		for (int i = 0; i < 300; i++) {
 			Context context = new Context("Context " + i);
-			context.setGoal(view, Duration.standardMinutes(new Random().nextInt(10*60)));
 			contextList.add(context);
 		}
 		
@@ -374,79 +362,60 @@ public class TestDataGenerator {
 		contextList.add(new NoDueDateContext());
 		
 		Context faithContext = new Context("Faith");
-		faithContext.setGoal(view, Duration.standardMinutes((long) (5*60)));
 		contextList.add(faithContext);
 		
 		Context sleepContext = new Context("Sleep");
-		sleepContext.setGoal(view, Duration.standardMinutes((long) (49*60)));
 		contextList.add(sleepContext);
 		
 		Context catchingUpContext = new Context("Catching Up");
-		catchingUpContext.setGoal(view, Duration.standardMinutes((long) (3.5*60)));
 		contextList.add(catchingUpContext);
 		
 		Context relaxingContext = new Context("Relaxing");
-		relaxingContext.setGoal(view, Duration.standardMinutes((long) (3.5*60)));
 		contextList.add(relaxingContext);
 		
 		Context exerciseContext = new Context("Exercise");
-		exerciseContext.setGoal(view, Duration.standardMinutes((long) (2.5*60)));
 		contextList.add(exerciseContext);
 		
 		Context studyContext = new Context("Study");
-		studyContext.setGoal(view, Duration.standardMinutes((long) (0*60)));
 		contextList.add(studyContext);
 	
 		Context coursesContext = new Context("Courses");
-		coursesContext.setGoal(view, Duration.standardMinutes((long) (0*60)));
 		contextList.add(coursesContext);
 		
 		Context workContext = new Context("Work");
-		workContext.setGoal(view, Duration.standardMinutes((long) (40*60)));
 		contextList.add(workContext);
 		
 		Context transportContext = new Context("Transportation");
-		transportContext.setGoal(view, Duration.standardMinutes((long) (11*60)));
 		contextList.add(transportContext);
 		
 		Context miscContext = new Context("Misc");
-		miscContext.setGoal(view, Duration.standardMinutes((long) (1.5*60)));
 		contextList.add(miscContext);
 	
 		Context choresContext = new Context("Chores");
-		choresContext.setGoal(view, Duration.standardMinutes((long) (2*60)));
 		contextList.add(choresContext);
 		
 		Context tinkeringContext = new Context("Tinkering");
-		tinkeringContext.setGoal(view, Duration.standardMinutes((long) (4.5*60)));
 		contextList.add(tinkeringContext);
 		
 		Context gamingContext = new Context("Gaming");
-		gamingContext.setGoal(view, Duration.standardMinutes((long) (7*60)));
 		contextList.add(gamingContext);
 		
 		Context techReadingContext = new Context("Tech Reading");
-		techReadingContext.setGoal(view, Duration.standardMinutes((long) (4*60)));
 		contextList.add(techReadingContext);
 		
 		Context religionReadingContext = new Context("Religion Reading");
-		religionReadingContext.setGoal(view, Duration.standardMinutes((long) (4*60)));
 		contextList.add(religionReadingContext);
 		
 		Context projectEpochDividerContext = new Context("Epoch Divider");
-		projectEpochDividerContext.setGoal(view, Duration.standardMinutes((long) (13*60)));
 		contextList.add(projectEpochDividerContext);
 		
 		Context projectOrbitHubContext = new Context("OrbitHub");
-		projectOrbitHubContext.setGoal(view, Duration.standardMinutes((long) (5*60)));
 		contextList.add(projectOrbitHubContext);
 		
 		Context projectIslamWebContext = new Context("Islam Web Portal");
-		projectIslamWebContext.setGoal(view, Duration.standardMinutes((long) (3*60)));
 		contextList.add(projectIslamWebContext);
 		
 		Context projectMisc = new Context("Other Projects");
-		projectMisc.setGoal(view, Duration.standardMinutes((long) (0*60)));
 		contextList.add(projectMisc);		
 		
 		ArrayList<Task> taskList = new ArrayList<>();

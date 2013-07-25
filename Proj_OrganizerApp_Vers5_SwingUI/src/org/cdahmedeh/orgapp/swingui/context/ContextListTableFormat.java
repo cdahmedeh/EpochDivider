@@ -50,14 +50,6 @@ public class ContextListTableFormat implements AdvancedTableFormat<Context>, Wri
 				baseObject.setName((String) editedValue);	
 			}
 			break;
-		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
-			View view = dataContainer.getView();
-			if (editedValue == null){
-				baseObject.setGoal(view, Duration.ZERO);
-			} else if (editedValue instanceof TripleDurationInfo){
-				baseObject.setGoal(view, ((TripleDurationInfo)editedValue).getEstimate());
-			}
-			break;
 		}
 		return baseObject;
 	}

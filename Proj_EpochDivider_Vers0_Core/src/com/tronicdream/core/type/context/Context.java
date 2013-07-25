@@ -1,7 +1,5 @@
 package com.tronicdream.core.type.context;
 
-import com.tronicdream.core.type.category.Category;
-
 /**
  * A {@link Context} groups multiple Events or Tasks together.
  * 
@@ -18,12 +16,5 @@ public class Context {
 	private String name = "";
 	public String getName() {return name;}
 	public void setName(String name) {this.name = name;}
-	
-	
-	/* - Relationships - */
-	
-	private Category category = null;
-	public Category getCategory() {return category;}
-	public void setCategory(Category category) {this.category = category;}
 	
 }
