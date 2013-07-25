@@ -74,6 +74,16 @@ public class Context {
 		return duration;
 	}
 	
+	public Duration getTotalEstimates(ArrayList<Task> taskContainer){
+		Duration duration = Duration.ZERO;
+		for (Task task: taskContainer){
+			if (task.getContext().equals(this)){
+				duration = duration.plus(task.getEstimate());
+			}
+		}
+		return duration;
+	}
+	
 	
 	/* ---- Object methods ---- */
 	
@@ -98,7 +108,7 @@ public class Context {
 		return new TripleDurationInfo(
 				this.getDurationPassedSince(view.getStartDate().toDateTimeAtStartOfDay(), DateReference.getNow(), tasks), 
 				this.getDurationScheduled(view.getStartDate().toDateTimeAtStartOfDay(), view.getEndDate().plusDays(1).toDateTimeAtStartOfDay(), tasks), 
-				this.getDurationScheduled(view.getStartDate().toDateTimeAtStartOfDay(), view.getEndDate().plusDays(1).toDateTimeAtStartOfDay(), tasks));
+				this.getTotalEstimates(tasks));
 	}
 	
 	
