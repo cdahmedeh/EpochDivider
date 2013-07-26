@@ -25,6 +25,6 @@ public class TaskMatcher {
 	}
 
 	public static boolean matches(Task item, DataContainer dataContainer) {
-		return matchByContext(item, dataContainer.getSelectedContext(), dataContainer.getView()) && matchByIsCompleted(item, dataContainer.getShowCompleted());
+		return matchByContext(item, dataContainer.getSelectedTaskContext(), dataContainer.getView()) && matchByIsCompleted(item, dataContainer.getShowCompleted());
 	}
 }

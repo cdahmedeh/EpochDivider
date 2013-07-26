@@ -89,15 +89,13 @@ public class SchedulerPanel extends CPanel {
 		if (renderedTimeBlocks == null) return;
 		renderedTimeBlocks.clear();
 
-		for (Task task: dataContainer.getTasks()){
-			for (TimeBlock timeBlock: task.getAllTimeBlocks()) {
+			for (TimeBlock timeBlock: dataContainer.getTimeBlocks()) {
 //				if (dataContainer.getView().getInterval().contains(new Interval(timeBlock.getStart(), timeBlock.getEnd()))){ //TODO: Premature optimization takes all out
-				TimeBlockRender e = new TimeBlockRender(task, timeBlock, dataContainer.getView(), this.getWidth(), this.getHeight());
+				TimeBlockRender e = new TimeBlockRender((Task) timeBlock.getOwner(), timeBlock, dataContainer.getView(), this.getWidth(), this.getHeight());
 				e.generateRectangles();
 				renderedTimeBlocks.put(timeBlock, e);
 //				}
 			}
-		}
 	}
 	
 	private void drawGrid(Graphics g) {

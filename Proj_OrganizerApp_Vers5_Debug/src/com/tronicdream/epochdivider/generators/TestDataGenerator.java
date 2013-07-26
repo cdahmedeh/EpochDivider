@@ -104,8 +104,8 @@ public class TestDataGenerator {
 		taskList.add(task04);
 		
 		//Put the task and context lists into the container.
-		dataContainer.loadContexts(contextList);
-		dataContainer.loadTasks(taskList);
+		dataContainer.setTaskContexts(contextList);
+		dataContainer.setTasks(taskList);
 		
 		return dataContainer;
 	}
@@ -164,8 +164,8 @@ public class TestDataGenerator {
 		}
 		
 		//Put the task and context lists into the container.
-		dataContainer.loadContexts(contextList);
-		dataContainer.loadTasks(taskList);
+		dataContainer.setTaskContexts(contextList);
+		dataContainer.setTasks(taskList);
 		
 		return dataContainer;
 		
@@ -225,8 +225,8 @@ public class TestDataGenerator {
 		}
 		
 		//Put the task and context lists into the container.
-		dataContainer.loadContexts(contextList);
-		dataContainer.loadTasks(taskList);
+		dataContainer.setTaskContexts(contextList);
+		dataContainer.setTasks(taskList);
 		
 		return dataContainer;
 		
@@ -286,8 +286,8 @@ public class TestDataGenerator {
 		}
 		
 		//Put the task and context lists into the container.
-		dataContainer.loadContexts(contextList);
-		dataContainer.loadTasks(taskList);
+		dataContainer.setTaskContexts(contextList);
+		dataContainer.setTasks(taskList);
 		
 		return dataContainer;
 		
@@ -332,8 +332,8 @@ public class TestDataGenerator {
 		}
 		
 		//Put the task and context lists into the container.
-		dataContainer.loadContexts(contextList);
-		dataContainer.loadTasks(taskList);
+		dataContainer.setTaskContexts(contextList);
+		dataContainer.setTasks(taskList);
 		
 		return dataContainer;
 
@@ -518,8 +518,8 @@ public class TestDataGenerator {
 		taskList.add(task06);
 		
 		//Put the task and context lists into the container.
-		dataContainer.loadContexts(contextList);
-		dataContainer.loadTasks(taskList);
+		dataContainer.setTaskContexts(contextList);
+		dataContainer.setTasks(taskList);
 		
 		return dataContainer;
 	}

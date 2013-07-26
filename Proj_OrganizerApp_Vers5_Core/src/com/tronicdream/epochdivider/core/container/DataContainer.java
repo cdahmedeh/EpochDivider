@@ -1,6 +1,7 @@
 package com.tronicdream.epochdivider.core.container;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.joda.time.DateTimeConstants;
 
@@ -16,42 +17,79 @@ import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.core.types.view.View;
 
+import core.tronicdream.epochdivider.core.types.event.Event;
+
 /**
- * In memory version of data references used by main UI. 
+ * A {@link DataContainer} instance contains all the necessary data for one
+ * user in Epoch Divider. In other words, it is an in memory model of the a 
+ * user database. It contains the following:
+ * 
+ *  - Lists of all the users data such as tasks, events and contexts.
+ *  - Instances of UI states such as currently selected context.
+ * 
+ * All data modification is expected to be done through the DataContainer with
+ * the methods prefixed with em.
  * 
  * @author Ahmed El-Hajjar
  */
 public class DataContainer {
-	// -- Data and Loaders --
-	private ArrayList<Context> contexts;
-	public void loadContexts(ArrayList<Context> contexts) {this.contexts = contexts;}
 	
-	private ArrayList<Task> tasks;
-	public void loadTasks(ArrayList<Task> tasks) {this.tasks = tasks;}
+	/* - Constructs - */
+	
+	public DataContainer() {
+		taskContexts = this.generateDefaultContexts();
+		tasks = new ArrayList<>();
+		timeBlocks = new ArrayList<>();
+		view = new View(DateReference.getToday().withDayOfWeek(DateTimeConstants.SUNDAY).minusDays(7), DateReference.getToday().withDayOfWeek(DateTimeConstants.SUNDAY).plusDays(-1));
+		selectedTaskContext = taskContexts.get(0);
+	}
+	
+	
+	/* - Main Data Lists - */
 
-	// -- UI States --
+	private List<TimeBlock> timeBlocks;
+	public List<TimeBlock> getTimeBlocks() {return timeBlocks;}
+	public void setTimeBlocks(List<TimeBlock> timeBlocks) {this.timeBlocks = timeBlocks;}
+	
+	private List<Task> tasks;
+	public List<Task> getTasks() {return tasks;}
+	public void setTasks(List<Task> tasks) {this.tasks = tasks;}
+	
+	private List<Context> taskContexts;
+	public List<Context> getTaskContexts() {return taskContexts;}
+	public void setTaskContexts(List<Context> taskContexts) {this.taskContexts = taskContexts;}
+
+	private List<Event> events;
+	public List<Event> getEvents() {return events;}
+	public void setEvents(List<Event> events) {this.events = events;}
+	
+	private List<Context> eventContexts;
+	public List<Context> getEventContexts() {return eventContexts;}
+	public void setEventContexts(List<Context> eventContexts) {this.eventContexts = eventContexts;}
+	
+	
+	/* - Main UI States - */
+	
 	private View view;
 	public View getView() {return view;}
 	public void setView(View view) {this.view = view;}
 	
-	private Context selectedContext = new AllContextsContext();
-	public Context getSelectedContext() {return selectedContext;}
-	public void setSelectedContext(Context selectedContext) {this.selectedContext = selectedContext;}
+	private Context selectedTaskContext;
+	public Context getSelectedTaskContext() {return selectedTaskContext;}
+	public void setSelectedTaskContext(Context selectedTaskContext) {this.selectedTaskContext = selectedTaskContext;}
 	
-	private boolean showCompleted = false;;
-	public boolean getShowCompleted() {return showCompleted;}
-	public void setShowCompleted(boolean showCompleted) {this.showCompleted = showCompleted;}
+	
+	/* - Secondary UI States - */
 	
 	private boolean dimPast = false;
 	public boolean getDimPast() {return dimPast;}
 	public void setDimPast(boolean dimPast) {this.dimPast = dimPast;}
+
+	private boolean showCompleted = false;;
+	public boolean getShowCompleted() {return showCompleted;}
+	public void setShowCompleted(boolean showCompleted) {this.showCompleted = showCompleted;}
 	
-	public void generateDefaults(){
-		contexts = this.generateDefaultContexts();
-		tasks = new ArrayList<>();
-		view = new View(DateReference.getToday().withDayOfWeek(DateTimeConstants.SUNDAY).minusDays(7), DateReference.getToday().withDayOfWeek(DateTimeConstants.SUNDAY).plusDays(-1));
-		selectedContext = contexts.get(0);
-	}
+	
 	
 	public ArrayList<Context> generateDefaultContexts() {
 		//Generate some contexts
@@ -68,45 +106,23 @@ public class DataContainer {
 		
 		return contextList;
 	}
+
+	
 	
 	// -- Readers --
 	
-	/**
-	 * Get all contexts that exist.
-	 */
-	public ArrayList<Context> getContexts() {
-		return contexts;
-	}
 	
-	/**
-	 * Set all contexts that exist.
-	 */
-	public void setContexts(ArrayList<Context> contexts) {
-		this.contexts = contexts;
-	}
 
 	/**
 	 * Get all contexts that can be assigned to a task.
 	 */
 	public ArrayList<Context> getSelectableContexts() {
 		ArrayList<Context> contextsList = new ArrayList<>();
-		for (Context context: contexts) if (context.isSelectable()) contextsList.add(context);
+		for (Context context: taskContexts) if (context.isSelectable()) contextsList.add(context);
 		return contextsList;
 	}
 
-	/**
-	 * Get all tasks that exist.
-	 */
-	public ArrayList<Task> getTasks() {
-		return tasks;
-	}
 	
-	/**
-	 * Set all tasks that exist.
-	 */
-	public void setTasks(ArrayList<Task> tasks) {
-		this.tasks = tasks;
-	}
 	
 	// -- Helpers --
 	/**
@@ -114,9 +130,9 @@ public class DataContainer {
 	 * TODO: Keep updated
 	 */
 	public void replace(DataContainer dataContainer) {
-		this.contexts = dataContainer.getContexts();
+		this.taskContexts = dataContainer.getTaskContexts();
 		this.tasks = dataContainer.getTasks();
-		this.selectedContext = dataContainer.getSelectedContext();
+		this.selectedTaskContext = dataContainer.getSelectedTaskContext();
 		this.view = dataContainer.getView();
 		this.showCompleted = dataContainer.getShowCompleted();
 		this.dimPast = dataContainer.getDimPast();
@@ -128,17 +144,17 @@ public class DataContainer {
 	 * Creates a new context with a blank name.
 	 */
 	public void createNewBlankContext() {
-		this.getContexts().add(new Context(""));		
+		this.getTaskContexts().add(new Context(""));		
 	}
 	
 	/**
 	 * Move 'context' to 'index' and return the new index of the context. 
 	 */
 	public int moveContextToRowAndGiveNewIndex(Context context, int index) {
-		int indexOf = this.getContexts().indexOf(context);
-		this.getContexts().remove(context);
+		int indexOf = this.getTaskContexts().indexOf(context);
+		this.getTaskContexts().remove(context);
 		int newIndexForMovedContext = indexOf >= index ? index : index -1;
-		this.getContexts().add(newIndexForMovedContext , context);
+		this.getTaskContexts().add(newIndexForMovedContext , context);
 		return newIndexForMovedContext;
 	}
 	
@@ -173,8 +189,8 @@ public class DataContainer {
 		Task newTask = new Task("");
 		
 		//Set the context to the currently selected Context.
-		if (getSelectedContext().isSelectable()){
-			newTask.setContext(getSelectedContext());
+		if (getSelectedTaskContext().isSelectable()){
+			newTask.setContext(getSelectedTaskContext());
 		}
 		
 		//Add new task to the dataContainer and refresh task list table.
@@ -193,6 +209,8 @@ public class DataContainer {
 	 */
 	public TimeBlock assignNewTimeBlockToTask(Task task) {
 		TimeBlock timeBlock = new TimeBlock();
+		timeBlocks.add(timeBlock);
+		timeBlock.setOwner(task);
 		task.assignToTimeBlock(timeBlock);
 		return timeBlock;
 	}
@@ -207,6 +225,8 @@ public class DataContainer {
 		TimeBlock timeBlock = new TimeBlock();
 		task.assignToTimeBlock(timeBlock);
 		task.setContext(context);
+		timeBlocks.add(timeBlock);
+		timeBlock.setOwner(task);
 		return timeBlock;
 	}
 	
@@ -217,4 +237,5 @@ public class DataContainer {
 	public void moveViewByAmountOfDays(int days) {
 		this.view.moveAmountOfDays(days);
 	}
+
 }

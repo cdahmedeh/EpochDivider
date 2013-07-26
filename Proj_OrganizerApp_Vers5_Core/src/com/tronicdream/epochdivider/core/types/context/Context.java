@@ -2,6 +2,7 @@ package com.tronicdream.epochdivider.core.types.context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -48,9 +49,9 @@ public class Context {
 	 * TimeBlocks that are within until are not counted.
 	 * TimeBlocks that are within since are counted partially
 	 */
-	public Duration getDurationPassedSince(DateTime since, DateTime until, ArrayList<Task> taskContainer){
+	public Duration getDurationPassedSince(DateTime since, DateTime until, List<Task> list){
 		Duration duration = Duration.ZERO;
-		for (Task task: taskContainer){
+		for (Task task: list){
 			if (task.getContext().equals(this)){
 				duration = duration.plus(task.getDurationPassedSince(since, until));
 			}
@@ -64,9 +65,9 @@ public class Context {
 	 * 
 	 * TimeBlocks that are within since and until are counted partially.
 	 */
-	public Duration getDurationScheduled(DateTime since, DateTime until, ArrayList<Task> taskContainer){
+	public Duration getDurationScheduled(DateTime since, DateTime until, List<Task> list){
 		Duration duration = Duration.ZERO;
-		for (Task task: taskContainer){
+		for (Task task: list){
 			if (task.getContext().equals(this)){
 				duration = duration.plus(task.getDurationScheduled(since, until));
 			}
@@ -74,9 +75,9 @@ public class Context {
 		return duration;
 	}
 	
-	public Duration getTotalEstimates(ArrayList<Task> taskContainer){
+	public Duration getTotalEstimates(List<Task> list){
 		Duration duration = Duration.ZERO;
-		for (Task task: taskContainer){
+		for (Task task: list){
 			if (task.getContext().equals(this)){
 				duration = duration.plus(task.getEstimate());
 			}
@@ -104,11 +105,11 @@ public class Context {
 			return false;
 		}
 	}
-	public TripleDurationInfo getProgress(ArrayList<Task> tasks, View view) {
+	public TripleDurationInfo getProgress(List<Task> list, View view) {
 		return new TripleDurationInfo(
-				this.getDurationPassedSince(view.getStartDate().toDateTimeAtStartOfDay(), DateReference.getNow(), tasks), 
-				this.getDurationScheduled(view.getStartDate().toDateTimeAtStartOfDay(), view.getEndDate().plusDays(1).toDateTimeAtStartOfDay(), tasks), 
-				this.getTotalEstimates(tasks));
+				this.getDurationPassedSince(view.getStartDate().toDateTimeAtStartOfDay(), DateReference.getNow(), list), 
+				this.getDurationScheduled(view.getStartDate().toDateTimeAtStartOfDay(), view.getEndDate().plusDays(1).toDateTimeAtStartOfDay(), list), 
+				this.getTotalEstimates(list));
 	}
 	
 	

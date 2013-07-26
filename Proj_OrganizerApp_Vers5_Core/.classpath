@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="elibs/joda-time-2.2.jar" sourcepath="slibs/joda-time-2.2-sources.jar"/>
 	<classpathentry kind="lib" path="elibs/antlr-2.7.7.jar"/>
 	<classpathentry kind="lib" path="elibs/antlr-runtime-3.2.jar" sourcepath="slibs/antlr-runtime-3.2-sources.jar"/>
 	<classpathentry kind="lib" path="elibs/ical4j-1.0.4.jar" sourcepath="slibs/ical4j-1.0.4-sources.jar"/>
 	<classpathentry kind="lib" path="elibs/natty-0.7.jar" sourcepath="slibs/natty-0.7-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -120,7 +120,6 @@ public class MainWindow {
 		logger.info("Persistence Manager prepared");
 		
 		dataContainer = new DataContainer();
-		dataContainer.generateDefaults();
 		logger.info("Default Data generated");
 	}
 	
@@ -349,7 +348,6 @@ public class MainWindow {
 	
 	private void replaceWithNewDataContainer() {
 		DataContainer newDataContainer = new DataContainer();
-		newDataContainer.generateDefaults();
 		updateDataContainer(newDataContainer);
 	}
 	

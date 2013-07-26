@@ -131,7 +131,7 @@ public class ContextListPanel extends CPanel {
 		//Create EventList and Table Format. Put all Contexts from data container.
 		contextEventList = new BasicEventList<>();
 		contextListTableFormat = new ContextListTableFormat(dataContainer);
-		contextEventList.addAll(dataContainer.getContexts());
+		contextEventList.addAll(dataContainer.getTaskContexts());
 		
 		//Prepare and set Table Model.
 		AdvancedTableModel<Context> advancedTableModel = GlazedListsSwing.eventTableModelWithThreadProxyList(contextEventList, contextListTableFormat);
@@ -178,7 +178,7 @@ public class ContextListPanel extends CPanel {
 		
 		//TODO: Correctly refresh table.
 		contextEventList.clear();
-		contextEventList.addAll(dataContainer.getContexts());
+		contextEventList.addAll(dataContainer.getTaskContexts());
 		
 		//Reset the selection to what was original selected before.
 		selectItemInContextListTable(row);
@@ -188,7 +188,7 @@ public class ContextListPanel extends CPanel {
 	private void notifyThatSelectedContextChanged() {
 		Context selectedContext = getSelectedContextInTable();
 		if (selectedContext != null) {
-			dataContainer.setSelectedContext(selectedContext);
+			dataContainer.setSelectedTaskContext(selectedContext);
 			eventBus.post(new SelectedContextChangedNotification());
 		}
 	}

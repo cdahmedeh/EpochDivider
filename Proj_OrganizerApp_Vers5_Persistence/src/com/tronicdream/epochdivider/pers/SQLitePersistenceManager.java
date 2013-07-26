@@ -69,7 +69,7 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
 			for (Task task: tasks){
 				task.setTimeBlocks(taskTimeblocks.get(task.getId()));
 			}
-			dataContainer.setContexts(contextList);
+			dataContainer.setTaskContexts(contextList);
 			dataContainer.setTasks(tasks);
             return dataContainer;
 		} catch (Exception e) {
@@ -125,7 +125,7 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             
             //Saving tables
             statementDataContainer.executeUpdate(dataContainerModel.objectToSQL(dataContainer,null));
-            for (Context context: dataContainer.getContexts()){
+            for (Context context: dataContainer.getTaskContexts()){
             	statementContextList.executeUpdate(contextListModel.objectToSQL(context,null));
             }
             for (Task task: dataContainer.getTasks()){

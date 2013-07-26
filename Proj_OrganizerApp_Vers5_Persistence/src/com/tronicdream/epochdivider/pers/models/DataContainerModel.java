@@ -17,7 +17,7 @@ public class DataContainerModel implements ModelInterface<DataContainer, Object,
 		sql.append("', '");
 		sql.append(dataContainer.getDimPast());
 		sql.append("', '");
-		if (!(dataContainer.getContexts().isEmpty())){
+		if (!(dataContainer.getTaskContexts().isEmpty())){
 			sql.append("1");//TODO: Remove this line once it's been decided how this data would be saved
 //			sql.append(dataContainer.getContexts().get(0).getColorCounter());
 		}
