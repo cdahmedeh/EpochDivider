@@ -1,8 +1,8 @@
 package com.tronicdream.epochdivider.swingui.task;
 
-import com.tronicdream.epochdivider.types.container.DataContainer;
-import com.tronicdream.epochdivider.types.task.Task;
-import com.tronicdream.epochdivider.types.task.TaskMatcher;
+import com.tronicdream.epochdivider.core.container.DataContainer;
+import com.tronicdream.epochdivider.core.types.task.Task;
+import com.tronicdream.epochdivider.core.types.task.TaskMatcher;
 
 import ca.odell.glazedlists.matchers.AbstractMatcherEditor;
 import ca.odell.glazedlists.matchers.Matcher;

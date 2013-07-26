@@ -1,6 +1,7 @@
 package com.tronicdream.epochdivider.swingui.calendar.timeblock;
 
-import com.tronicdream.epochdivider.types.calendar.View;
+import com.tronicdream.epochdivider.core.types.view.View;
+
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 

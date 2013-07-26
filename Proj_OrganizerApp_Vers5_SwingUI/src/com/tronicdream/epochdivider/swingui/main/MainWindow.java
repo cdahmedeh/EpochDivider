@@ -20,11 +20,13 @@ import javax.swing.border.EmptyBorder;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+
+import com.tronicdream.epochdivider.core.container.DataContainer;
 import com.tronicdream.epochdivider.generators.TestDataGenerator;
 import com.tronicdream.epochdivider.imt.icons.IconsLocation;
 import com.tronicdream.epochdivider.pers.PersistanceManagerInterface;
 import com.tronicdream.epochdivider.pers.SQLitePersistenceManager;
-import com.tronicdream.epochdivider.types.container.DataContainer;
+
 import org.jdesktop.swingx.JXMultiSplitPane;
 import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 

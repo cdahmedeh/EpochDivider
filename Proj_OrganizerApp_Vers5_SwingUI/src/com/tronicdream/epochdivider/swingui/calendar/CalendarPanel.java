@@ -12,11 +12,11 @@ import javax.swing.JToolBar;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 
-import com.tronicdream.epochdivider.types.container.DataContainer;
 import org.joda.time.DateTimeConstants;
 
 import com.google.common.eventbus.EventBus;
 import com.jidesoft.swing.JideScrollPane;
+import com.tronicdream.epochdivider.core.container.DataContainer;
 import com.tronicdream.epochdivider.swingui.helpers.ToolbarHelper;
 import com.tronicdream.epochdivider.swingui.main.CPanel;
 import com.tronicdream.epochdivider.swingui.notification.ContextsChangedNotification;

@@ -7,7 +7,7 @@ import java.util.ArrayDeque;
 
 import javax.swing.JFrame;
 
-import com.tronicdream.epochdivider.tools.MiscHelper;
+import com.tronicdream.epochdivider.core.tools.MiscHelper;
 
 public class Run003TextWrapDrawExpr {
 

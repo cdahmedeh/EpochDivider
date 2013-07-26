@@ -2,7 +2,8 @@ package com.tronicdream.epochdivider.swingui.components;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
-import com.tronicdream.epochdivider.parsers.FuzzyDateParser;
+import com.tronicdream.epochdivider.core.parsers.FuzzyDateParser;
+
 import org.joda.time.DateTime;
 
 public class DateEntryCellRenderer extends DefaultTableCellRenderer {

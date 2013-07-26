@@ -5,8 +5,9 @@ import java.awt.Graphics;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
-import com.tronicdream.epochdivider.parsers.FuzzyDurationParser;
-import com.tronicdream.epochdivider.types.time.TripleDurationInfo;
+import com.tronicdream.epochdivider.core.parsers.FuzzyDurationParser;
+import com.tronicdream.epochdivider.core.types.timeblock.TripleDurationInfo;
+
 import org.joda.time.Duration;
 
 /**

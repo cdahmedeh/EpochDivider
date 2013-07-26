@@ -23,10 +23,10 @@ import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.table.TableColumn;
 
+import com.tronicdream.epochdivider.core.container.DataContainer;
+import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.imt.icons.IconsLocation;
-import com.tronicdream.epochdivider.types.container.DataContainer;
-import com.tronicdream.epochdivider.types.context.Context;
-import com.tronicdream.epochdivider.types.task.Task;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;

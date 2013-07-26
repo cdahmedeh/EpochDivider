@@ -1,6 +1,6 @@
 package com.tronicdream.epochdivider.run;
 
-import com.tronicdream.epochdivider.types.task.Task;
+import com.tronicdream.epochdivider.core.types.task.Task;
 
 public class Run004ClassNameTesting {
 	public static void main(String[] args) {

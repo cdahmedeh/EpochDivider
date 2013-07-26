@@ -7,8 +7,7 @@ import java.sql.Statement;
 
 import com.tronicdream.epochdivider.pers.PersistanceManagerInterface;
 import com.tronicdream.epochdivider.pers.SQLitePersistenceManager;
-import com.tronicdream.epochdivider.types.container.DataContainer;
-
+import com.tronicdream.epochdivider.core.container.DataContainer;
 import com.tronicdream.epochdivider.generators.TestDataGenerator;
 
 public class Run001PersistenceManager {

@@ -1,13 +1,13 @@
-package com.tronicdream.epochdivider.types.task;
+package com.tronicdream.epochdivider.core.types.task;
 
-import com.tronicdream.epochdivider.types.calendar.View;
-import com.tronicdream.epochdivider.types.container.DataContainer;
-import com.tronicdream.epochdivider.types.context.AllContextsContext;
-import com.tronicdream.epochdivider.types.context.Context;
-import com.tronicdream.epochdivider.types.context.DueThisViewContext;
-import com.tronicdream.epochdivider.types.context.DueTodayContext;
-import com.tronicdream.epochdivider.types.context.DueTomorrowContext;
-import com.tronicdream.epochdivider.types.context.NoDueDateContext;
+import com.tronicdream.epochdivider.core.container.DataContainer;
+import com.tronicdream.epochdivider.core.types.context.AllContextsContext;
+import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.context.DueThisViewContext;
+import com.tronicdream.epochdivider.core.types.context.DueTodayContext;
+import com.tronicdream.epochdivider.core.types.context.DueTomorrowContext;
+import com.tronicdream.epochdivider.core.types.context.NoDueDateContext;
+import com.tronicdream.epochdivider.core.types.view.View;
 
 public class TaskMatcher {
 	public static boolean matchByContext(Task item, Context context, View view) {

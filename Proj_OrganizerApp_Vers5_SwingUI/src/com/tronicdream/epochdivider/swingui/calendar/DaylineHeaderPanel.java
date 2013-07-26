@@ -3,9 +3,8 @@ package com.tronicdream.epochdivider.swingui.calendar;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import com.tronicdream.epochdivider.types.container.DataContainer;
-
 import com.google.common.eventbus.EventBus;
+import com.tronicdream.epochdivider.core.container.DataContainer;
 import com.tronicdream.epochdivider.swingui.helpers.GraphicsHelper;
 import com.tronicdream.epochdivider.swingui.main.CPanel;
 

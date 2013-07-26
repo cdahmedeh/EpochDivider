@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.tronicdream.epochdivider.types.context.*;
+import com.tronicdream.epochdivider.core.types.context.*;
 
 public class ContextListModel implements
 		ModelInterface<Context, Object, Object> {

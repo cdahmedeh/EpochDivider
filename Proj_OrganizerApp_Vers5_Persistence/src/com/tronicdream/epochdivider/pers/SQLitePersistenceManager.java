@@ -9,11 +9,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.tronicdream.epochdivider.types.container.DataContainer;
-import com.tronicdream.epochdivider.types.context.Context;
-import com.tronicdream.epochdivider.types.task.Task;
-import com.tronicdream.epochdivider.types.time.TimeBlock;
-
+import com.tronicdream.epochdivider.core.container.DataContainer;
+import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.task.Task;
+import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.pers.models.ContextListModel;
 import com.tronicdream.epochdivider.pers.models.DataContainerModel;
 import com.tronicdream.epochdivider.pers.models.TaskListModel;

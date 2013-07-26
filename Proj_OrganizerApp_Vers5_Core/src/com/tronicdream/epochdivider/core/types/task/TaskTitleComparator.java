@@ -1,4 +1,4 @@
-package com.tronicdream.epochdivider.types.task;
+package com.tronicdream.epochdivider.core.types.task;
 
 import java.util.Comparator;
 

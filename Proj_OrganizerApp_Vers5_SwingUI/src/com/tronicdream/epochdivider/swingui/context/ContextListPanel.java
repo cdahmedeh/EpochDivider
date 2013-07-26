@@ -25,10 +25,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
-import com.tronicdream.epochdivider.types.container.DataContainer;
-import com.tronicdream.epochdivider.types.context.Context;
-import com.tronicdream.epochdivider.types.task.Task;
-
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.swing.AdvancedTableModel;
@@ -37,6 +33,9 @@ import ca.odell.glazedlists.swing.GlazedListsSwing;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import com.tronicdream.epochdivider.core.container.DataContainer;
+import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.swingui.components.ColorHueCellRenderer;
 import com.tronicdream.epochdivider.swingui.components.DurationCellEditor;
 import com.tronicdream.epochdivider.swingui.components.RoundedTripleDurationCellRenderer;

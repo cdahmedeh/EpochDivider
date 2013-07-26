@@ -1,4 +1,4 @@
-package com.tronicdream.epochdivider.tools;
+package com.tronicdream.epochdivider.core.tools;
 
 import java.util.ArrayDeque;
 

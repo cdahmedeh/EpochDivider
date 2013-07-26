@@ -1,4 +1,4 @@
-package com.tronicdream.epochdivider.types.time;
+package com.tronicdream.epochdivider.core.types.timeblock;
 
 import org.joda.time.Duration;
 

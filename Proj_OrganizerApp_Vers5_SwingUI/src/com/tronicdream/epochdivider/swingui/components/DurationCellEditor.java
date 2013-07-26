@@ -3,8 +3,8 @@ package com.tronicdream.epochdivider.swingui.components;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import com.tronicdream.epochdivider.parsers.FuzzyDurationParser;
-import com.tronicdream.epochdivider.types.time.TripleDurationInfo;
+import com.tronicdream.epochdivider.core.parsers.FuzzyDurationParser;
+import com.tronicdream.epochdivider.core.types.timeblock.TripleDurationInfo;
 
 /**
  * Editor for duration. 

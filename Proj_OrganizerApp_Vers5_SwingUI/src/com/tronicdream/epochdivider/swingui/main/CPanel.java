@@ -3,10 +3,10 @@ package com.tronicdream.epochdivider.swingui.main;
 import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
-import com.tronicdream.epochdivider.types.container.DataContainer;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import com.tronicdream.epochdivider.core.container.DataContainer;
 import com.tronicdream.epochdivider.swingui.notification.WindowLoadedNotification;
 
 /**

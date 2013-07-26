@@ -2,10 +2,11 @@ package com.tronicdream.epochdivider.swingui.context;
 
 import java.util.Comparator;
 
-import com.tronicdream.epochdivider.types.calendar.View;
-import com.tronicdream.epochdivider.types.container.DataContainer;
-import com.tronicdream.epochdivider.types.context.Context;
-import com.tronicdream.epochdivider.types.time.TripleDurationInfo;
+import com.tronicdream.epochdivider.core.container.DataContainer;
+import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.timeblock.TripleDurationInfo;
+import com.tronicdream.epochdivider.core.types.view.View;
+
 import org.joda.time.Duration;
 
 import ca.odell.glazedlists.gui.AdvancedTableFormat;

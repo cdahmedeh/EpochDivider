@@ -1,4 +1,4 @@
-package com.tronicdream.epochdivider.types.calendar;
+package com.tronicdream.epochdivider.core.types.view;
 
 import org.joda.time.Days;
 import org.joda.time.Interval;

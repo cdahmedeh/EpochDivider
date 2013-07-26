@@ -7,13 +7,13 @@ import java.util.ArrayDeque;
 
 import javax.swing.JPanel;
 
-import com.tronicdream.epochdivider.tools.DateReference;
-import com.tronicdream.epochdivider.tools.MiscHelper;
-import com.tronicdream.epochdivider.types.container.DataContainer;
-import com.tronicdream.epochdivider.types.task.Task;
-import com.tronicdream.epochdivider.types.time.TimeBlock;
 import org.joda.time.LocalTime;
 
+import com.tronicdream.epochdivider.core.container.DataContainer;
+import com.tronicdream.epochdivider.core.tools.DateReference;
+import com.tronicdream.epochdivider.core.tools.MiscHelper;
+import com.tronicdream.epochdivider.core.types.task.Task;
+import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.swingui.calendar.CalendarConstants;
 
 public class TimeBlockPainter {

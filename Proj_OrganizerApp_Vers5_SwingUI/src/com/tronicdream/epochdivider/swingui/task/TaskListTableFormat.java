@@ -2,11 +2,12 @@ package com.tronicdream.epochdivider.swingui.task;
 
 import java.util.Comparator;
 
-import com.tronicdream.epochdivider.types.context.Context;
-import com.tronicdream.epochdivider.types.task.Task;
-import com.tronicdream.epochdivider.types.task.TaskDueDateComparator;
-import com.tronicdream.epochdivider.types.task.TaskTitleComparator;
-import com.tronicdream.epochdivider.types.time.TripleDurationInfo;
+import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.task.Task;
+import com.tronicdream.epochdivider.core.types.task.TaskDueDateComparator;
+import com.tronicdream.epochdivider.core.types.task.TaskTitleComparator;
+import com.tronicdream.epochdivider.core.types.timeblock.TripleDurationInfo;
+
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 

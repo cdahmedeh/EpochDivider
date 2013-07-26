@@ -1,10 +1,10 @@
-package com.tronicdream.epochdivider.types.time;
+package com.tronicdream.epochdivider.core.types.timeblock;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Duration;
 
-import com.tronicdream.epochdivider.tools.DateReference;
+import com.tronicdream.epochdivider.core.tools.DateReference;
 
 /**
  * A TimeBlock represents a scheduled time block for a task. 

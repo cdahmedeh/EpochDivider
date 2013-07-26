@@ -5,9 +5,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.tronicdream.epochdivider.types.context.Context;
-import com.tronicdream.epochdivider.types.task.Task;
-import com.tronicdream.epochdivider.types.time.TimeBlock;
+import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.task.Task;
+import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
+
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 

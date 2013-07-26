@@ -1,17 +1,17 @@
-package com.tronicdream.epochdivider.types.task;
+package com.tronicdream.epochdivider.core.types.task;
 
 import java.util.ArrayList;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
-import com.tronicdream.epochdivider.tools.DateReference;
-import com.tronicdream.epochdivider.tools.MiscHelper;
-import com.tronicdream.epochdivider.types.calendar.View;
-import com.tronicdream.epochdivider.types.context.Context;
-import com.tronicdream.epochdivider.types.context.NoContextContext;
-import com.tronicdream.epochdivider.types.time.TimeBlock;
-import com.tronicdream.epochdivider.types.time.TripleDurationInfo;
+import com.tronicdream.epochdivider.core.tools.DateReference;
+import com.tronicdream.epochdivider.core.tools.MiscHelper;
+import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.context.NoContextContext;
+import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
+import com.tronicdream.epochdivider.core.types.timeblock.TripleDurationInfo;
+import com.tronicdream.epochdivider.core.types.view.View;
 
 /**
  * Data type class for one Task. 

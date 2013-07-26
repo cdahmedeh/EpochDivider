@@ -1,20 +1,20 @@
-package com.tronicdream.epochdivider.types.container;
+package com.tronicdream.epochdivider.core.container;
 
 import java.util.ArrayList;
 
 import org.joda.time.DateTimeConstants;
 
-import com.tronicdream.epochdivider.tools.DateReference;
-import com.tronicdream.epochdivider.types.calendar.View;
-import com.tronicdream.epochdivider.types.context.AllContextsContext;
-import com.tronicdream.epochdivider.types.context.Context;
-import com.tronicdream.epochdivider.types.context.DueThisViewContext;
-import com.tronicdream.epochdivider.types.context.DueTodayContext;
-import com.tronicdream.epochdivider.types.context.DueTomorrowContext;
-import com.tronicdream.epochdivider.types.context.NoContextContext;
-import com.tronicdream.epochdivider.types.context.NoDueDateContext;
-import com.tronicdream.epochdivider.types.task.Task;
-import com.tronicdream.epochdivider.types.time.TimeBlock;
+import com.tronicdream.epochdivider.core.tools.DateReference;
+import com.tronicdream.epochdivider.core.types.context.AllContextsContext;
+import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.context.DueThisViewContext;
+import com.tronicdream.epochdivider.core.types.context.DueTodayContext;
+import com.tronicdream.epochdivider.core.types.context.DueTomorrowContext;
+import com.tronicdream.epochdivider.core.types.context.NoContextContext;
+import com.tronicdream.epochdivider.core.types.context.NoDueDateContext;
+import com.tronicdream.epochdivider.core.types.task.Task;
+import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
+import com.tronicdream.epochdivider.core.types.view.View;
 
 /**
  * In memory version of data references used by main UI. 

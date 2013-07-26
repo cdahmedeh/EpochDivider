@@ -13,14 +13,14 @@ import java.util.HashMap;
 
 import javax.swing.TransferHandler;
 
-import com.tronicdream.epochdivider.types.container.DataContainer;
-import com.tronicdream.epochdivider.types.context.Context;
-import com.tronicdream.epochdivider.types.task.Task;
-import com.tronicdream.epochdivider.types.time.TimeBlock;
 import org.joda.time.Interval;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import com.tronicdream.epochdivider.core.container.DataContainer;
+import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.task.Task;
+import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.swingui.calendar.timeblock.BRectangle;
 import com.tronicdream.epochdivider.swingui.calendar.timeblock.TimeBlockIntersectionHandler;
 import com.tronicdream.epochdivider.swingui.calendar.timeblock.TimeBlockPainter;

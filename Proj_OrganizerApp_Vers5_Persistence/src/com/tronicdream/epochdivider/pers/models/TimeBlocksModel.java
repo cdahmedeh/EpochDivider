@@ -4,7 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import com.tronicdream.epochdivider.types.time.TimeBlock;
+
+import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
+
 import org.joda.time.DateTime;
 
 

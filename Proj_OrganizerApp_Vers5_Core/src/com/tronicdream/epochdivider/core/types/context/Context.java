@@ -1,4 +1,4 @@
-package com.tronicdream.epochdivider.types.context;
+package com.tronicdream.epochdivider.core.types.context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,11 +6,11 @@ import java.util.HashMap;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
-import com.tronicdream.epochdivider.tools.DateReference;
-import com.tronicdream.epochdivider.tools.MiscHelper;
-import com.tronicdream.epochdivider.types.calendar.View;
-import com.tronicdream.epochdivider.types.task.Task;
-import com.tronicdream.epochdivider.types.time.TripleDurationInfo;
+import com.tronicdream.epochdivider.core.tools.DateReference;
+import com.tronicdream.epochdivider.core.tools.MiscHelper;
+import com.tronicdream.epochdivider.core.types.task.Task;
+import com.tronicdream.epochdivider.core.types.timeblock.TripleDurationInfo;
+import com.tronicdream.epochdivider.core.types.view.View;
 
 /**
  * A context represents a category that tasks can be assigned to. For example,

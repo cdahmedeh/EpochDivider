@@ -1,4 +1,4 @@
-package com.tronicdream.epochdivider.parsers;
+package com.tronicdream.epochdivider.core.parsers;
 
 import java.text.DecimalFormat;
 

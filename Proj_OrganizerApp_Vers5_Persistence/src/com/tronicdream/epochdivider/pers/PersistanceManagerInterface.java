@@ -2,7 +2,7 @@ package com.tronicdream.epochdivider.pers;
 
 import java.io.File;
 
-import com.tronicdream.epochdivider.types.container.DataContainer;
+import com.tronicdream.epochdivider.core.container.DataContainer;
 
 public interface PersistanceManagerInterface {
 

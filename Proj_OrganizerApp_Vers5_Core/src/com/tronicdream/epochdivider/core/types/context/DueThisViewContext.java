@@ -1,4 +1,4 @@
-package com.tronicdream.epochdivider.types.context;
+package com.tronicdream.epochdivider.core.types.context;
 
 /**
  * Meta-context for tasks that have a due date within the current View. 

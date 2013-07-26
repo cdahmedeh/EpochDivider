@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import com.tronicdream.epochdivider.types.container.DataContainer;
+
+import com.tronicdream.epochdivider.core.container.DataContainer;
+
 import org.yaml.snakeyaml.Yaml;
 
 public class YAMLPersistenceManager implements PersistanceManagerInterface {

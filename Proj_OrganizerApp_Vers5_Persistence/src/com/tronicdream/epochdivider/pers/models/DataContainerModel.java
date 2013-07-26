@@ -3,8 +3,9 @@ package com.tronicdream.epochdivider.pers.models;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.tronicdream.epochdivider.types.calendar.View;
-import com.tronicdream.epochdivider.types.container.DataContainer;
+import com.tronicdream.epochdivider.core.container.DataContainer;
+import com.tronicdream.epochdivider.core.types.view.View;
+
 import org.joda.time.LocalDate;
 
 public class DataContainerModel implements ModelInterface<DataContainer, Object, Object> {

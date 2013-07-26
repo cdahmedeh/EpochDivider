@@ -1,4 +1,4 @@
-package com.tronicdream.epochdivider.tools;
+package com.tronicdream.epochdivider.core.tools;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;

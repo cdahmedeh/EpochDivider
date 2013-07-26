@@ -2,9 +2,10 @@ package com.tronicdream.epochdivider.swingui.calendar.timeblock;
 
 import java.util.ArrayList;
 
-import com.tronicdream.epochdivider.types.calendar.View;
-import com.tronicdream.epochdivider.types.task.Task;
-import com.tronicdream.epochdivider.types.time.TimeBlock;
+import com.tronicdream.epochdivider.core.types.task.Task;
+import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
+import com.tronicdream.epochdivider.core.types.view.View;
+
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;

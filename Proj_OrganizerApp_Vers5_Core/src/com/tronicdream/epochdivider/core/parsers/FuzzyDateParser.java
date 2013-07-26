@@ -1,4 +1,4 @@
-package com.tronicdream.epochdivider.parsers;
+package com.tronicdream.epochdivider.core.parsers;
 
 import java.util.Date;
 import java.util.List;
@@ -10,8 +10,8 @@ import org.joda.time.Days;
 import com.joestelmach.natty.CalendarSource;
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
-import com.tronicdream.epochdivider.tools.DateReference;
-import com.tronicdream.epochdivider.tools.TimeHelper;
+import com.tronicdream.epochdivider.core.tools.DateReference;
+import com.tronicdream.epochdivider.core.tools.TimeHelper;
 
 /**
  * Helper class for dealing with fuzzy date displays and parsing.

@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayDeque;
 
-import com.tronicdream.epochdivider.tools.DateReference;
-import com.tronicdream.epochdivider.tools.MiscHelper;
-import com.tronicdream.epochdivider.types.calendar.View;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
+import com.tronicdream.epochdivider.core.tools.DateReference;
+import com.tronicdream.epochdivider.core.tools.MiscHelper;
+import com.tronicdream.epochdivider.core.types.view.View;
 import com.tronicdream.epochdivider.swingui.calendar.timeblock.DateToPixels;
 
 /**
