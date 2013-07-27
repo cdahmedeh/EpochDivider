@@ -1,7 +1,5 @@
 package com.tronicdream.epochdivider.core.types.context;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -28,6 +26,10 @@ public class Context {
 	
 	
 	/* ---- Main Data ---- */
+	
+	private int id;
+	public int getId() {return id;}
+	public void setId(int id) {this.id = id;}
 	
 	private String name = "";
 	public String getName() {return name;}

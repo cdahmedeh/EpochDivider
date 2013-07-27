@@ -201,7 +201,7 @@ public class ContextListPanel extends CPanel {
 		}
 		
 		//Create a new context, add it to the data container, and refresh the context list table.
-		dataContainer.createNewBlankContext();
+		dataContainer.emTaskContextNew();
 		refreshContextListTreeTable();
 		
 		//Init. editing the title of the new context and focus the editor.

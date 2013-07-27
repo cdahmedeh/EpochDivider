@@ -22,6 +22,8 @@ import com.tronicdream.epochdivider.core.types.view.View;
  * All data modification is expected to be done through the DataContainer with
  * the methods prefixed with em.
  * 
+ * Reading filtering data is done through the reader methods prefixed with rd. 
+ * 
  * @author Ahmed El-Hajjar
  */
 public class DataContainer {
@@ -177,10 +179,16 @@ public class DataContainer {
 	}
 	
 	/**
-	 * Creates a new context with a blank name.
+	 * Create a new blank Task Context.
 	 */
-	public void createNewBlankContext() {
-		this.getTaskContexts().add(new Context(""));		
+	public Context emTaskContextNew() {
+		Context context = new Context("");
+
+		context.setId(taskIdCounter++);
+		
+		taskContexts.add(context);
+		
+		return context;
 	}
 	
 	/**
