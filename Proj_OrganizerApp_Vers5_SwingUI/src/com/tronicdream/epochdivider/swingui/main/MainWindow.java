@@ -20,13 +20,6 @@ import javax.swing.border.EmptyBorder;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
-import com.tronicdream.epochdivider.core.container.DataContainer;
-import com.tronicdream.epochdivider.generators.TestDataGenerator;
-import com.tronicdream.epochdivider.imt.icons.IconsLocation;
-import com.tronicdream.epochdivider.pers.PersistanceManagerInterface;
-import com.tronicdream.epochdivider.pers.SQLitePersistenceManager;
-
 import org.jdesktop.swingx.JXMultiSplitPane;
 import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 
@@ -35,6 +28,11 @@ import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.swing.JideTabbedPane;
+import com.tronicdream.epochdivider.core.container.DataContainer;
+import com.tronicdream.epochdivider.generators.TestDataGenerator;
+import com.tronicdream.epochdivider.imt.icons.IconsLocation;
+import com.tronicdream.epochdivider.pers.PersistanceManagerInterface;
+import com.tronicdream.epochdivider.pers.YAMLPersistenceManager;
 import com.tronicdream.epochdivider.swingui.calendar.CalendarPanel;
 import com.tronicdream.epochdivider.swingui.context.ContextListPanel;
 import com.tronicdream.epochdivider.swingui.notification.ContextsChangedNotification;
@@ -116,7 +114,7 @@ public class MainWindow {
 	}
 	
 	private void preparePersistenceWithDefaults() {
-		pm = new SQLitePersistenceManager();
+		pm = new YAMLPersistenceManager();
 		logger.info("Persistence Manager prepared");
 		
 		dataContainer = new DataContainer();

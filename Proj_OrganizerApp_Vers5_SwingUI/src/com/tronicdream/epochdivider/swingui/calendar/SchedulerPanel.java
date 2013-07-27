@@ -82,7 +82,6 @@ public class SchedulerPanel extends CPanel {
 		renderedTimeBlocks.clear();
 
 			for (TimeBlock timeBlock: dataContainer.getTimeBlocks()) {
-//				if (dataContainer.getView().getInterval().contains(new Interval(timeBlock.getStart(), timeBlock.getEnd()))){ //TODO: Premature optimization takes all out
 				TimeBlockRender e = new TimeBlockRender(timeBlock, dataContainer.getView(), this.getWidth(), this.getHeight());
 				e.generateRectangles();
 				renderedTimeBlocks.put(timeBlock, e);
