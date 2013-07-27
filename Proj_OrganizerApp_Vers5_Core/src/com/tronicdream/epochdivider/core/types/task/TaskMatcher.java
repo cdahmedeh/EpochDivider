@@ -9,6 +9,11 @@ import com.tronicdream.epochdivider.core.types.context.DueTomorrowContext;
 import com.tronicdream.epochdivider.core.types.context.NoDueDateContext;
 import com.tronicdream.epochdivider.core.types.view.View;
 
+/**
+ * For matching task to certain criteria. 
+ * 
+ * @author Ahmed El-Hajjar
+ */
 public class TaskMatcher {
 	public static boolean matchByContext(Task item, Context context, View view) {
 		if (context instanceof AllTasksContext) return true;

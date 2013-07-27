@@ -8,7 +8,7 @@ import org.joda.time.Duration;
 import com.tronicdream.epochdivider.core.tools.DateReference;
 import com.tronicdream.epochdivider.core.tools.MiscHelper;
 import com.tronicdream.epochdivider.core.types.context.Context;
-import com.tronicdream.epochdivider.core.types.context.NoContextContext;
+import com.tronicdream.epochdivider.core.types.context.UnsortedTaskContext;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.core.types.timeblock.TripleDurationInfo;
 import com.tronicdream.epochdivider.core.types.view.View;
@@ -46,20 +46,23 @@ public class Task {
 	
 	/* - Relationships - */
 
-	private Context context = new NoContextContext();
-	public void setContext(Context context) {this.context = context == null ? new NoContextContext() : context;}
+	private Context context = new UnsortedTaskContext();
+	public void setContext(Context context) {this.context = context == null ? new UnsortedTaskContext() : context;}
 	public Context getContext() {return context;}
 	
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
-	public void setTimeBlocks(ArrayList<TimeBlock> timeBlocks) {this.timeBlocks = timeBlocks == null ? this.timeBlocks : timeBlocks;} //TODO: FIXME!
-	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
 	public ArrayList<TimeBlock> getTimeBlocks() {return timeBlocks;}
+	public void setTimeBlocks(ArrayList<TimeBlock> timeBlocks) {this.timeBlocks = timeBlocks == null ? this.timeBlocks : timeBlocks;} //TODO: FIXME!
+	public void addTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
 	
+	
+	/* - Object API Methods - */
 	
 	@Override
 	public String toString() {
 		return this.getTitle();
 	}
+	
 	
 	/* - Reader methods - */
 	

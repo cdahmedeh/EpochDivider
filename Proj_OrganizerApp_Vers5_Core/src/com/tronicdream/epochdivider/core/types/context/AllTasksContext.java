@@ -5,7 +5,11 @@ package com.tronicdream.epochdivider.core.types.context;
  * @author Ahmed El-Hajjar
  */
 public class AllTasksContext extends Context {
-	public AllTasksContext() {super("All Tasks");}
+	public AllTasksContext() {
+		super();
+		setName("All Tasks");
+	}
+	
 	public boolean isSelectable() {return false;}
 	public int getColor() {return ContextConstants.META_CONTEXT_COLOR;} 
 }

@@ -4,7 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.tronicdream.epochdivider.core.types.context.*;
+import com.tronicdream.epochdivider.core.types.context.AllTasksContext;
+import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.context.DueThisViewContext;
+import com.tronicdream.epochdivider.core.types.context.DueTodayContext;
+import com.tronicdream.epochdivider.core.types.context.DueTomorrowContext;
+import com.tronicdream.epochdivider.core.types.context.NoDueDateContext;
+import com.tronicdream.epochdivider.core.types.context.UnsortedTaskContext;
 
 public class ContextListModel implements
 		ModelInterface<Context, Object, Object> {
@@ -50,7 +56,8 @@ public class ContextListModel implements
 			Context context = null;
 			switch (rs.getString(3)) {
 			case ("Context"):
-				context = new Context(rs.getString(1));
+				context = new Context();
+				context.setName(rs.getString(1));
 				break;
 			case ("DueThisViewContext"):
 				context = new DueThisViewContext();
@@ -62,7 +69,7 @@ public class ContextListModel implements
 				context = new DueTomorrowContext();
 				break;
 			case ("NoContextContext"):
-				context = new NoContextContext();
+				context = new UnsortedTaskContext();
 				break;
 			case ("NoDueDateContext"):
 				context = new NoDueDateContext();

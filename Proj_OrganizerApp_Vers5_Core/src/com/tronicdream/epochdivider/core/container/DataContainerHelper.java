@@ -7,7 +7,7 @@ import com.tronicdream.epochdivider.core.types.context.Context;
 import com.tronicdream.epochdivider.core.types.context.DueThisViewContext;
 import com.tronicdream.epochdivider.core.types.context.DueTodayContext;
 import com.tronicdream.epochdivider.core.types.context.DueTomorrowContext;
-import com.tronicdream.epochdivider.core.types.context.NoContextContext;
+import com.tronicdream.epochdivider.core.types.context.UnsortedTaskContext;
 import com.tronicdream.epochdivider.core.types.context.NoDueDateContext;
 
 /**
@@ -22,7 +22,7 @@ public class DataContainerHelper {
 		
 		//Default contexts
 		contextList.add(new AllTasksContext());
-		contextList.add(new NoContextContext());
+		contextList.add(new UnsortedTaskContext());
 		
 		contextList.add(new DueTodayContext());
 		contextList.add(new DueTomorrowContext());

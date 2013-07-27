@@ -191,16 +191,17 @@ public class DataContainer {
 	public TimeBlock emTaskSetNewTimeBlock(Task task) {
 		TimeBlock timeBlock = emTimeBlockNew(DateReference.getNow(), DateReference.getNow().plus(TimeBlockConstants.DEFAULT_DURATION));
 		
-		task.assignToTimeBlock(timeBlock);
+		task.addTimeBlock(timeBlock);
 		timeBlock.setOwner(task);
 
 		return timeBlock;
 	}
 	
 	public Context emTaskContextNew() {
-		Context context = new Context("");
+		Context context = new Context();
 
 		context.setId(taskContextIdCounter++);
+		context.setName("");
 		
 		taskContexts.add(context);
 		

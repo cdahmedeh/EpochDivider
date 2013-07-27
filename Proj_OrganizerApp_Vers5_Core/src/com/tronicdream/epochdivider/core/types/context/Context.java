@@ -20,12 +20,7 @@ import com.tronicdream.epochdivider.core.types.view.View;
  */
 public class Context {
 
-	/* ---- Constructs ---- */
-	
-	public Context(String name) {this.setName(name);}
-	
-	
-	/* ---- Main Data ---- */
+	/* - Primary Fields - */
 	
 	private int id = -1;
 	public int getId() {return id;}
@@ -41,6 +36,7 @@ public class Context {
 	private int color = 25*colorCounter++ % 255;
 	public int getColor() {return color;}
 	public void setColor(int color) {this.color = color;}
+	
 	
 	/* ---- Reader methods ---- */
 	
@@ -86,9 +82,23 @@ public class Context {
 		}
 		return duration;
 	}
+
+	/**
+	 * TODO: Comment
+	 * 
+	 * @param list
+	 * @param view
+	 * @return
+	 */
+	public TripleDurationInfo getProgress(List<Task> list, View view) {
+		return new TripleDurationInfo(
+				this.getDurationPassedSince(view.getStartDate().toDateTimeAtStartOfDay(), DateReference.getNow(), list), 
+				this.getDurationScheduled(view.getStartDate().toDateTimeAtStartOfDay(), view.getEndDate().plusDays(1).toDateTimeAtStartOfDay(), list), 
+				this.getTotalEstimates(list));
+	}
 	
 	
-	/* ---- Object methods ---- */
+	/* ---- Object API methods ---- */
 	
 	@Override
 	public String toString() {
@@ -107,12 +117,4 @@ public class Context {
 			return false;
 		}
 	}
-	public TripleDurationInfo getProgress(List<Task> list, View view) {
-		return new TripleDurationInfo(
-				this.getDurationPassedSince(view.getStartDate().toDateTimeAtStartOfDay(), DateReference.getNow(), list), 
-				this.getDurationScheduled(view.getStartDate().toDateTimeAtStartOfDay(), view.getEndDate().plusDays(1).toDateTimeAtStartOfDay(), list), 
-				this.getTotalEstimates(list));
-	}
-	
-	
 }

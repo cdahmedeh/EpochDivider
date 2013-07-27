@@ -5,7 +5,11 @@ package com.tronicdream.epochdivider.core.types.context;
  * @author Ahmed El-Hajjar
  */
 public class DueTomorrowContext extends Context {
-	public DueTomorrowContext() {super("Due Tomorrow");}
+	public DueTomorrowContext() {
+		super();
+		setName("Due Tomorrow");
+	}
+	
 	public boolean isSelectable() {return false;}
 	public int getColor() {return ContextConstants.DUE_DATE_CONTEXT_COLOR;}
 }
