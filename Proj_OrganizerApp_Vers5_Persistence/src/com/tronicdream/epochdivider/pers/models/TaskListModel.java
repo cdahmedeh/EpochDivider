@@ -5,12 +5,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.tronicdream.epochdivider.core.types.context.Context;
-import com.tronicdream.epochdivider.core.types.task.Task;
-import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
-
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+
+import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.task.Task;
 
 public class TaskListModel implements ModelInterface<Task, Object,HashMap<String,Context>> {
 
@@ -39,7 +38,8 @@ public class TaskListModel implements ModelInterface<Task, Object,HashMap<String
 	public ArrayList<Task> resultSetToObject(ResultSet rs, HashMap<String,Context> contexts) throws SQLException {
 		ArrayList<Task> tasks = new ArrayList<>();
 		while (rs.next()){
-			Task task = new Task(rs.getString(2));
+			Task task = new Task();
+			task.setTitle(rs.getString(2));
 			task.setId(rs.getInt(1));
 			String context = rs.getString(3);
 			if (!context.equals("No Context")){

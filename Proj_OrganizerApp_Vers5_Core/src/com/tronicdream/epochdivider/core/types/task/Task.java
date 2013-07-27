@@ -20,12 +20,6 @@ import com.tronicdream.epochdivider.core.types.view.View;
  */
 public class Task {
 	
-	/* ---- Constructs ---- */
-	
-	public Task() {}
-	//TODO: Remove
-	public Task(String title) {this.setTitle(title);}
-	
 	/* - Primary Fields - */
 	
 	private int id = -1;
@@ -35,10 +29,6 @@ public class Task {
 	private String title = "";
 	public String getTitle() {return title;}
 	public void setTitle(String title) {this.title = MiscHelper.safeTrim(title);}
-	
-	private Context context = new NoContextContext();
-	public void setContext(Context context) {this.context = context == null ? new NoContextContext() : context;}
-	public Context getContext() {return context;}
 	
 	private DateTime due = null;
 	public boolean isDue() {return due != null;}
@@ -52,6 +42,13 @@ public class Task {
 	private boolean completed = false;
 	public boolean isCompleted() {return completed;}
 	public void setCompleted(boolean completed) {this.completed = completed;}
+	
+	
+	/* - Relationships - */
+
+	private Context context = new NoContextContext();
+	public void setContext(Context context) {this.context = context == null ? new NoContextContext() : context;}
+	public Context getContext() {return context;}
 	
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
 	public void setTimeBlocks(ArrayList<TimeBlock> timeBlocks) {this.timeBlocks = timeBlocks == null ? this.timeBlocks : timeBlocks;} //TODO: FIXME!
