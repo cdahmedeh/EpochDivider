@@ -3,12 +3,13 @@ package com.tronicdream.epochdivider.core.container;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.event.Event;
 import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.core.types.view.View;
-
-import core.tronicdream.epochdivider.core.types.event.Event;
 
 /**
  * A {@link DataContainer} instance contains all the necessary data for one
@@ -83,6 +84,29 @@ public class DataContainer {
 	public void setEventContexts(List<Context> eventContexts) {this.eventContexts = eventContexts;}
 	
 	
+	/* - Id Counters for Main Data - */
+	
+	private int timeBlockIdCounter = 0;
+	public int getTimeBlockIdCounter() {return timeBlockIdCounter;}
+	public void setTimeBlockIdCounter(int timeBlockIdCounter) {this.timeBlockIdCounter = timeBlockIdCounter;}
+
+	private int taskIdCounter = 0;
+	public int gettaskIdCounter() {return taskIdCounter;}
+	public void settaskIdCounter(int taskIdCounter) {this.taskIdCounter = taskIdCounter;}
+	
+	private int taskContextIdCounter = 0;
+	public int gettaskContextIdCounter() {return taskContextIdCounter;}
+	public void settaskContextIdCounter(int taskContextIdCounter) {this.taskContextIdCounter = taskContextIdCounter;}
+	
+	private int eventIdCounter = 0;
+	public int getEventIdCounter() {return eventIdCounter;}
+	public void setEventIdCounter(int eventIdCounter) {this.eventIdCounter = eventIdCounter;}
+	
+	private int eventContextIdCounter = 0;
+	public int geteventContextIdCounter() {return eventContextIdCounter;}
+	public void seteventContextIdCounter(int eventContextIdCounter) {this.eventContextIdCounter = eventContextIdCounter;}
+	
+	
 	/* - Main UI States - */
 	
 	private View view;
@@ -115,6 +139,42 @@ public class DataContainer {
 
 	
 	/* - Easy Modifiers - */
+	
+	/**
+	 * Create a new TimeBlock with the provided start and end times.
+	 */
+	public TimeBlock emTimeBlockNew(DateTime startTime, DateTime endTime) {
+		TimeBlock timeBlock = new TimeBlock();
+		
+		timeBlock.setId(timeBlockIdCounter++);
+		timeBlock.setStart(startTime);
+		timeBlock.setEnd(endTime);
+		
+		timeBlocks.add(timeBlock);
+		
+		return timeBlock;
+	}
+
+	/**
+	 * Create a new blank Event. 
+	 */
+	public Event emEventNew() {
+		Event event = new Event();
+		
+		event.setId(eventIdCounter++);
+		
+		events.add(event);
+		
+		return event;
+	}
+	
+	/**
+	 * Assign the Event to the provided TimeBlock. 
+	 */
+	public void emEventSetTimeBlock(Event event, TimeBlock timeBlock) {
+		event.setTimeBlock(timeBlock);
+		timeBlock.setOwner(event);
+	}
 	
 	/**
 	 * Creates a new context with a blank name.
@@ -162,7 +222,8 @@ public class DataContainer {
 	 */
 	public void emTaskCreate(){
 		//Create a new task.
-		Task newTask = new Task("");
+		Task newTask = new Task();
+		newTask.setTitle("");
 		
 		//Set the context to the currently selected Context.
 		if (getSelectedTaskContext().isSelectable()){

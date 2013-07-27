@@ -20,17 +20,11 @@ import com.tronicdream.epochdivider.core.types.view.View;
  */
 public class Task {
 	
-	/* ---- Constructs ---- */
+	/* - Primary Fields - */
 	
-	public Task(String title) {this.setTitle(title);}
-	
-	
-	/* ---- Main Data ---- */
-	
-	private static int idCounter = 0;
-	private int id = idCounter++;
+	private int id;
 	public int getId() {return id;}
-	public void setId(int id) {this.id = id;} //TODO: How to protect?
+	public void setId(int id) {this.id = id;}
 	
 	private String title = "";
 	public String getTitle() {return title;}

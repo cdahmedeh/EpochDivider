@@ -5,7 +5,6 @@ import org.joda.time.Days;
 import org.joda.time.Duration;
 
 import com.tronicdream.epochdivider.core.tools.DateReference;
-import com.tronicdream.epochdivider.core.types.task.Task;
 
 /**
  * A TimeBlock represents a scheduled time block for a task. 
@@ -31,15 +30,19 @@ public class TimeBlock {
 	
 	/* ---- Main Data ---- */
 	
+	private int id = -1;
+	public int getId() {return id;}
+	public void setId(int id) {this.id = id;}
+	
 	private DateTime start = null;
 	public void setStart(DateTime start) {this.start = start;}
 	public DateTime getStart() {return start;}
 	
 	private DateTime end = null;
-	private Object owner;
 	public void setEnd(DateTime end) {this.end = end;}
 	public DateTime getEnd() {return end;}
 
+	private Object owner;
 	
 	/* ---- Reader Methods ---- */
 
