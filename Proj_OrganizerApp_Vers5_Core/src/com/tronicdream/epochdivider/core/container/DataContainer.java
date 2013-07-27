@@ -3,16 +3,7 @@ package com.tronicdream.epochdivider.core.container;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.DateTimeConstants;
-
-import com.tronicdream.epochdivider.core.tools.DateReference;
-import com.tronicdream.epochdivider.core.types.context.AllContextsContext;
 import com.tronicdream.epochdivider.core.types.context.Context;
-import com.tronicdream.epochdivider.core.types.context.DueThisViewContext;
-import com.tronicdream.epochdivider.core.types.context.DueTodayContext;
-import com.tronicdream.epochdivider.core.types.context.DueTomorrowContext;
-import com.tronicdream.epochdivider.core.types.context.NoContextContext;
-import com.tronicdream.epochdivider.core.types.context.NoDueDateContext;
 import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.core.types.view.View;
@@ -34,16 +25,40 @@ import core.tronicdream.epochdivider.core.types.event.Event;
  */
 public class DataContainer {
 	
-	/* - Constructs - */
+	/* - Constructs and Replacements - */
 	
 	public DataContainer() {
-		taskContexts = this.generateDefaultContexts();
-		tasks = new ArrayList<>();
 		timeBlocks = new ArrayList<>();
-		view = new View(DateReference.getToday().withDayOfWeek(DateTimeConstants.SUNDAY).minusDays(7), DateReference.getToday().withDayOfWeek(DateTimeConstants.SUNDAY).plusDays(-1));
+		
+		tasks = new ArrayList<>();
+		taskContexts = DataContainerHelper.generateDefaultTaskContexts();
+
+		events = new ArrayList<>();
+		eventContexts = DataContainerHelper.generateDefaultTaskContexts();
+		
+		view = new View();
 		selectedTaskContext = taskContexts.get(0);
+		
+		dimPast = false;
+		showCompleted = false;
 	}
 	
+	public void replace(DataContainer dataContainer) {
+		timeBlocks = dataContainer.getTimeBlocks();
+		
+		tasks = dataContainer.getTasks();
+		taskContexts = dataContainer.getTaskContexts();
+
+		events = dataContainer.getEvents();
+		eventContexts = dataContainer.getEventContexts();
+		
+		view = dataContainer.getView();
+		selectedTaskContext = dataContainer.getSelectedTaskContext();
+
+		dimPast = dataContainer.getDimPast();
+		showCompleted = dataContainer.getShowCompleted();
+	}
+
 	
 	/* - Main Data Lists - */
 
@@ -81,41 +96,17 @@ public class DataContainer {
 	
 	/* - Secondary UI States - */
 	
-	private boolean dimPast = false;
+	private boolean dimPast;
 	public boolean getDimPast() {return dimPast;}
 	public void setDimPast(boolean dimPast) {this.dimPast = dimPast;}
 
-	private boolean showCompleted = false;;
+	private boolean showCompleted;
 	public boolean getShowCompleted() {return showCompleted;}
 	public void setShowCompleted(boolean showCompleted) {this.showCompleted = showCompleted;}
 	
 	
-	
-	public ArrayList<Context> generateDefaultContexts() {
-		//Generate some contexts
-		ArrayList<Context> contextList = new ArrayList<>();
-		
-		//Default contexts
-		contextList.add(new AllContextsContext());
-		contextList.add(new NoContextContext());
-		
-		contextList.add(new DueTodayContext());
-		contextList.add(new DueTomorrowContext());
-		contextList.add(new DueThisViewContext());
-		contextList.add(new NoDueDateContext());
-		
-		return contextList;
-	}
+	/* - Readers - */
 
-	
-	
-	// -- Readers --
-	
-	
-
-	/**
-	 * Get all contexts that can be assigned to a task.
-	 */
 	public ArrayList<Context> getSelectableContexts() {
 		ArrayList<Context> contextsList = new ArrayList<>();
 		for (Context context: taskContexts) if (context.isSelectable()) contextsList.add(context);
@@ -123,22 +114,7 @@ public class DataContainer {
 	}
 
 	
-	
-	// -- Helpers --
-	/**
-	 * Replaces data within this container with the data of another one.
-	 * TODO: Keep updated
-	 */
-	public void replace(DataContainer dataContainer) {
-		this.taskContexts = dataContainer.getTaskContexts();
-		this.tasks = dataContainer.getTasks();
-		this.selectedTaskContext = dataContainer.getSelectedTaskContext();
-		this.view = dataContainer.getView();
-		this.showCompleted = dataContainer.getShowCompleted();
-		this.dimPast = dataContainer.getDimPast();
-	}
-	
-	// -- Easy Modifiers --
+	/* - Easy Modifiers - */
 	
 	/**
 	 * Creates a new context with a blank name.
@@ -212,21 +188,6 @@ public class DataContainer {
 		timeBlocks.add(timeBlock);
 		timeBlock.setOwner(task);
 		task.assignToTimeBlock(timeBlock);
-		return timeBlock;
-	}
-	
-	/**
-	 * Creates a new task with the supplied context, and generates a new 
-	 * timeBlock for that new task and returns the timeBlock.
-	 */
-	public TimeBlock createNewTaskAndTimeBlockWithContext(Context context) {
-		Task task = new Task(context.getName());
-		this.getTasks().add(task);
-		TimeBlock timeBlock = new TimeBlock();
-		task.assignToTimeBlock(timeBlock);
-		task.setContext(context);
-		timeBlocks.add(timeBlock);
-		timeBlock.setOwner(task);
 		return timeBlock;
 	}
 	

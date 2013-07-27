@@ -3,6 +3,9 @@ package com.tronicdream.epochdivider.generators;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+
 import com.tronicdream.epochdivider.core.container.DataContainer;
 import com.tronicdream.epochdivider.core.tools.DateReference;
 import com.tronicdream.epochdivider.core.types.context.AllContextsContext;
@@ -15,10 +18,6 @@ import com.tronicdream.epochdivider.core.types.context.NoDueDateContext;
 import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.core.types.view.View;
-
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.LocalDate;
 
 /**
  * Contains method to generate some test data.
@@ -34,7 +33,7 @@ public class TestDataGenerator {
 		DataContainer dataContainer = new DataContainer();
 	
 		//Set the view for the calendar.
-		View view = new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27));
+		View view = new View();
 		dataContainer.setView(view);
 		
 		//Generate some contexts
@@ -118,7 +117,7 @@ public class TestDataGenerator {
 		DataContainer dataContainer = new DataContainer();
 		
 		//Set the view for the calendar.
-		View view = new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27));
+		View view = new View();
 		dataContainer.setView(view);
 		
 		//Generate some contexts
@@ -179,7 +178,7 @@ public class TestDataGenerator {
 		DataContainer dataContainer = new DataContainer();
 		
 		//Set the view for the calendar.
-		View view = new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27));
+		View view = new View();
 		dataContainer.setView(view);
 		
 		//Generate some contexts
@@ -240,7 +239,7 @@ public class TestDataGenerator {
 		DataContainer dataContainer = new DataContainer();
 		
 		//Set the view for the calendar.
-		View view = new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27));
+		View view = new View();
 		dataContainer.setView(view);
 		
 		//Generate some contexts
@@ -301,7 +300,7 @@ public class TestDataGenerator {
 		DataContainer dataContainer = new DataContainer();
 		
 		//Set the view for the calendar.
-		View view = new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27));
+		View view = new View();
 		dataContainer.setView(view);
 		
 		//Generate some contexts
@@ -347,7 +346,7 @@ public class TestDataGenerator {
 		DataContainer dataContainer = new DataContainer();
 	
 		//Set the view for the calendar.
-		View view = new View(new LocalDate(2013, 04, 21), new LocalDate(2013, 04, 27));
+		View view = new View();
 		dataContainer.setView(view);
 		
 		//Generate some contexts
@@ -362,33 +361,12 @@ public class TestDataGenerator {
 		contextList.add(new DueThisViewContext());
 		contextList.add(new NoDueDateContext());
 		
-		Context faithContext = new Context("Faith");
-		contextList.add(faithContext);
-		
-		Context sleepContext = new Context("Sleep");
-		contextList.add(sleepContext);
-		
-		Context catchingUpContext = new Context("Catching Up");
-		contextList.add(catchingUpContext);
-		
-		Context relaxingContext = new Context("Relaxing");
-		contextList.add(relaxingContext);
-		
 		Context exerciseContext = new Context("Exercise");
 		contextList.add(exerciseContext);
 		
 		Context studyContext = new Context("Study");
 		contextList.add(studyContext);
 	
-		Context coursesContext = new Context("Courses");
-		contextList.add(coursesContext);
-		
-		Context workContext = new Context("Work");
-		contextList.add(workContext);
-		
-		Context transportContext = new Context("Transportation");
-		contextList.add(transportContext);
-		
 		Context miscContext = new Context("Misc");
 		contextList.add(miscContext);
 	
@@ -420,57 +398,6 @@ public class TestDataGenerator {
 		contextList.add(projectMisc);		
 		
 		ArrayList<Task> taskList = new ArrayList<>();
-		
-		//Generate some events
-		for (int i=0; i<8; i++){
-		Task sleepEvent = new Task("Sleep");
-		sleepEvent.setContext(sleepContext);
-		sleepEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,20,23,00).plusDays(i),new DateTime(2013,04,21,6,00).plusDays(i)));
-		taskList.add(sleepEvent);
-		
-		Task faithEvent = new Task("Faith");
-		faithEvent.setContext(faithContext);
-		faithEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,21,6,00).plusDays(i),new DateTime(2013,04,21,6,30).plusDays(i)));
-		taskList.add(faithEvent);
-		
-		Task catchingUpEvent = new Task("Catching Up");
-		catchingUpEvent.setContext(catchingUpContext);
-		catchingUpEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,21,6,30).plusDays(i),new DateTime(2013,04,21,7,00).plusDays(i)));
-		taskList.add(catchingUpEvent);
-		}
-		
-		for (int i=0; i<5; i++){
-			Task workEvent = new Task("Work");
-			workEvent.setContext(workContext);
-			if (i<3) {
-				workEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,9,00).plusDays(i),new DateTime(2013,04,22,17,00).plusDays(i)));
-			} else if (i==3) {
-				workEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,8,00).plusDays(i),new DateTime(2013,04,22,17,00).plusDays(i)));
-			} else if (i==4) {
-				workEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,8,00).plusDays(i),new DateTime(2013,04,22,12,00).plusDays(i)));
-				workEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,14,00).plusDays(i),new DateTime(2013,04,22,17,00).plusDays(i)));
-			}
-			taskList.add(workEvent);
-			
-			Task driveFirstEvent = new Task("Drive");
-			driveFirstEvent.setContext(transportContext);
-			if (i<3) {
-				driveFirstEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,8,00).plusDays(i),new DateTime(2013,04,22,9,00).plusDays(i)));
-			} else {
-				driveFirstEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,7,00).plusDays(i),new DateTime(2013,04,22,8,00).plusDays(i)));
-			}
-			taskList.add(driveFirstEvent);
-			
-			Task driveLastEvent = new Task("Drive");
-			driveLastEvent.setContext(transportContext);
-			driveLastEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,17,00).plusDays(i),new DateTime(2013,04,22,18,00).plusDays(i)));
-			taskList.add(driveLastEvent);
-		}
-		
-		Task faithEvent = new Task("Friday Prayer");
-		faithEvent.setContext(faithContext);
-		faithEvent.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,26,12,00),new DateTime(2013,04,26,14,00)));
-		taskList.add(faithEvent);
 		
 		//Generate some tasks
 		Task task01 = new Task("Refactor code for Epoch Divider");

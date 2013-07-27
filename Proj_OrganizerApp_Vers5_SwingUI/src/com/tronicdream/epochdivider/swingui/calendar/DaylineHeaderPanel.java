@@ -23,8 +23,8 @@ public class DaylineHeaderPanel extends CPanel {
 	protected void postWindowInit() {}
 	
 	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		GraphicsHelper.enableDefaultAASettings(g);
 		
 		g.setColor(CalendarConstants.DAYLINE_GRID_COLOR);

@@ -41,7 +41,10 @@ public class DataContainerModel implements ModelInterface<DataContainer, Object,
 		DataContainer dataContainer = new DataContainer();
 		dataContainer.setShowCompleted(rs.getString(1).equals("true")? true: false);
 		dataContainer.setDimPast(rs.getString(2).equals("true")? true: false);
-		dataContainer.setView(new View((new LocalDate(rs.getString(5))),(new LocalDate (rs.getString(6)))));		
+		View view = new View();
+		view.setStartDate(new LocalDate(rs.getString(5)));
+		view.setEndDate(new LocalDate (rs.getString(6)));		
+		dataContainer.setView(view);		
 		return dataContainer;
 	}
 

@@ -2,6 +2,7 @@ package com.tronicdream.epochdivider.core.tools;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 
 /**
@@ -31,5 +32,19 @@ public class DateReference {
 	 */
 	public static LocalDate getToday() {
 		return getNow().toLocalDate();
+	}
+	
+	/**
+	 * @return A LocalDate instance to the beginning of this week
+	 */
+	public static LocalDate getSundayOfThisWeek(){
+		return getToday().withDayOfWeek(DateTimeConstants.SUNDAY);
+	}
+	
+	/**
+	 * @return A LocalDate instance to the end of this week
+	 */
+	public static LocalDate getSaturdayOfThisWeek(){
+		return getSundayOfThisWeek().plusDays(DateTimeConstants.DAYS_PER_WEEK-1);
 	}
 }

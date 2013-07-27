@@ -16,8 +16,8 @@ public class TimelinePanel extends JPanel {
 	}
 
 	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		GraphicsHelper.enableDefaultAASettings(g);
 		GridPainter.drawTimeLines(g, 
 				this.getWidth(), 

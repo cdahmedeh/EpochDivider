@@ -4,6 +4,8 @@ import org.joda.time.Days;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 
+import com.tronicdream.epochdivider.core.tools.DateReference;
+
 /**
  * The View represents a time window that is viewable in a Calendar. It is 
  * defined by the first day that is visible (startDate) and the last day that is
@@ -13,21 +15,13 @@ import org.joda.time.LocalDate;
  */
 public class View {
 	
-	/* ---- Constructs ---- */
-	
-	public View(LocalDate startDate, LocalDate endDate) {
-		this.startDate = startDate;
-		this.endDate = endDate;
-	}
-	
-	
 	/* ---- Main Data ---- */
 	
-	private LocalDate startDate = null;
+	private LocalDate startDate = DateReference.getSundayOfThisWeek();
 	public LocalDate getStartDate() {return startDate;}
 	public void setStartDate(LocalDate start) {this.startDate = start;}
 	
-	private LocalDate endDate = null;
+	private LocalDate endDate = DateReference.getSaturdayOfThisWeek();
 	public LocalDate getEndDate() {return endDate;}
 	public void setEndDate(LocalDate end) {this.endDate = end;}
 	

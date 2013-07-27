@@ -1,7 +1,7 @@
 package com.tronicdream.epochdivider.swingui.context;
 
 public class ContextListPanelDefaults {
-	public static final int DEFAULT_CONTEXT_PANEL_WIDTH = 200;
+	public static final int DEFAULT_CONTEXT_PANEL_WIDTH = 160;
 	public static final int DEFAULT_CONTEXT_PANEL_HEIGHT = 600;
 	
 	public static final int COLUMN_CONTEXT_COLOR = 0;
@@ -12,5 +12,5 @@ public class ContextListPanelDefaults {
 	public static final String COLUMN_CONTEXT_PROGRESS_LABEL = "Goal";
 	
 	public static final int COLUMN_CONTEXT_COLOR_MAX_WIDTH = 19;
-	public static final int COLUMN_CONTEXT_PROGRESS_MAX_WIDTH = 70;
+	public static final int COLUMN_CONTEXT_PROGRESS_MAX_WIDTH = 40;
 }

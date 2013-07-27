@@ -13,12 +13,9 @@ import java.util.HashMap;
 
 import javax.swing.TransferHandler;
 
-import org.joda.time.Interval;
-
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.tronicdream.epochdivider.core.container.DataContainer;
-import com.tronicdream.epochdivider.core.types.context.Context;
 import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.swingui.calendar.timeblock.BRectangle;
@@ -66,8 +63,9 @@ public class SchedulerPanel extends CPanel {
 	private TimeBlockRender tbrSelected = null;
 	
 	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
 		GraphicsHelper.enableDefaultAASettings(g);
 
 		generateTimeBlockRenders();
@@ -79,19 +77,13 @@ public class SchedulerPanel extends CPanel {
 		drawCurrentTimeLine(g);
 	}
 	
-	@Override
-	public void repaint() {
-		// TODO Auto-generated method stub
-		super.repaint();
-	}
-	
 	private void generateTimeBlockRenders() {
 		if (renderedTimeBlocks == null) return;
 		renderedTimeBlocks.clear();
 
 			for (TimeBlock timeBlock: dataContainer.getTimeBlocks()) {
 //				if (dataContainer.getView().getInterval().contains(new Interval(timeBlock.getStart(), timeBlock.getEnd()))){ //TODO: Premature optimization takes all out
-				TimeBlockRender e = new TimeBlockRender((Task) timeBlock.getOwner(), timeBlock, dataContainer.getView(), this.getWidth(), this.getHeight());
+				TimeBlockRender e = new TimeBlockRender(timeBlock, dataContainer.getView(), this.getWidth(), this.getHeight());
 				e.generateRectangles();
 				renderedTimeBlocks.put(timeBlock, e);
 //				}
@@ -108,7 +100,7 @@ public class SchedulerPanel extends CPanel {
 		//Draw the time-blocks for all tasks.
 		for (TimeBlockRender rtb: renderedTimeBlocks.values()){ 
 			for (BRectangle rect: rtb.getRects()){
-				TimeBlockPainter.renderTimeBlock(g, rtb.getTask(), rtb.getTimeBlock(), rect, dataContainer, this);
+				TimeBlockPainter.renderTimeBlock(g, rtb.getOwner(), rtb.getTimeBlock(), rect, dataContainer, this);
 			}
 		}
 	}
@@ -173,19 +165,6 @@ public class SchedulerPanel extends CPanel {
 							
 							//Add a new TimeBlock to the Task and start dragging it.
 							TimeBlock timeBlock = dataContainer.assignNewTimeBlockToTask(task);
-							generateTimeBlockRenders();
-							tbrSelected = renderedTimeBlocks.get(timeBlock);
-							System.out.println(tbrSelected);
-							uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
-							tbrSelected.forceMove();
-							repaint();
-							return true;
-						} else if (support.getTransferable().isDataFlavorSupported(new DataFlavor(Context.class, "Context"))){
-							//Get the context being dragged
-							Context context = (Context) support.getTransferable().getTransferData(new DataFlavor(Context.class, "Context"));
-							if (context == null) return false;
-							
-							TimeBlock timeBlock = dataContainer.createNewTaskAndTimeBlockWithContext(context);
 							generateTimeBlockRenders();
 							tbrSelected = renderedTimeBlocks.get(timeBlock);
 							uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
