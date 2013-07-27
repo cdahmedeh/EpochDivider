@@ -4,47 +4,37 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Duration;
 
-import com.tronicdream.epochdivider.core.tools.DateReference;
-
 /**
- * A TimeBlock represents a scheduled time block for a task. 
+ * A {@link TimeBlock} is a time interval between two instants. The beginning
+ * instant is part of the interval, but the end instant is excluded. 
  * 
- * @author ahmed
+ * @author Ahmed El-Hajjar
  */
 public class TimeBlock {
 	
-	/* ---- Constructs ---- */
-
-	public TimeBlock(DateTime start, DateTime end) {
-		this.start = start;
-		this.end = end;
-	}
-
-	public TimeBlock(){this(DateReference.getNow(), TimeBlockConstants.DEFAULT_DURATION);}
-	public TimeBlock(DateTime start){this(start, TimeBlockConstants.DEFAULT_DURATION);}
-	public TimeBlock(DateTime start, Duration duration){
-		this.start = start;
-		this.end = start.plus(duration);
-	}
-
-	
-	/* ---- Main Data ---- */
+	/* - Primary Fields - */
 	
 	private int id = -1;
 	public int getId() {return id;}
 	public void setId(int id) {this.id = id;}
 	
 	private DateTime start = null;
-	public void setStart(DateTime start) {this.start = start;}
 	public DateTime getStart() {return start;}
+	public void setStart(DateTime start) {this.start = start;}
 	
 	private DateTime end = null;
-	public void setEnd(DateTime end) {this.end = end;}
 	public DateTime getEnd() {return end;}
+	public void setEnd(DateTime end) {this.end = end;}
 
-	private Object owner;
 	
-	/* ---- Reader Methods ---- */
+	/* - Relationships - */
+	
+	private Object owner;
+	public Object getOwner() {return owner;}
+	public void setOwner(Object owner) {this.owner = owner;}
+	
+	
+	/* - Reader Methods - */
 
 	/**
 	 * Get duration of TimeBlock.
@@ -67,13 +57,11 @@ public class TimeBlock {
 		return Days.daysBetween(start.toLocalDate(), end.toLocalDate()).getDays();
 	}
 	
-	/* ---- Modifier Methods ---- */
+	/* - Modifier Methods - */
 	
 	/**
 	 * Moves the TimeBlock to 'start' time. It is similar to setStart(..) except
 	 * that the duration of the TimeBlock does not change. 
-	 * 
-	 * @param start
 	 */
 	public void moveStart(DateTime start) {
 		Duration originalDuration = this.getDuration();
@@ -81,11 +69,5 @@ public class TimeBlock {
 		this.setEnd(start.plus(originalDuration));
 	}
 
-	public void setOwner(Object owner) {
-		this.owner = owner;
-	}
-	
-	public Object getOwner() {
-		return owner;
-	}
+
 }

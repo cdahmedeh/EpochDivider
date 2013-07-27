@@ -264,7 +264,7 @@ public class ContextListPanel extends CPanel {
 				//Make sure that we can drop only on selectable contexts.
 				int row = ((JTable.DropLocation)support.getDropLocation()).getRow();
 				Context context = getContextAtRowInTable(row);
-				return dataContainer.emContextIsAssignable(context);
+				return dataContainer.vlContextIsAssignable(context);
 			}
 			return false;
 		}
@@ -282,7 +282,7 @@ public class ContextListPanel extends CPanel {
 
 				//Put the context into the new location.
 				int row = ((JTable.DropLocation)support.getDropLocation()).getRow();
-				int newIndexForMovedContext = dataContainer.moveContextToRowAndGiveNewIndex(context, row);
+				int newIndexForMovedContext = dataContainer.emTaskContextMoveToIndex(context, row);
 
 				//Update table and select the moved context.
 				eventBus.post(new ContextsChangedNotification());

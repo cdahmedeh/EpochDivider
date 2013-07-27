@@ -105,7 +105,7 @@ public class CalendarPanel extends CPanel {
 	}
 	
 	private void moveViewByDays(int days) {
-		dataContainer.emViewMoveByDays(days);
+		dataContainer.csViewMoveByDays(days);
 		repaint();
 		eventBus.post(new ContextsChangedNotification());
 	}

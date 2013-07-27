@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
-
 import org.joda.time.DateTime;
+
+import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 
 
 public class TimeBlocksModel implements ModelInterface<TimeBlock, Integer, Object>{
@@ -29,7 +29,9 @@ public class TimeBlocksModel implements ModelInterface<TimeBlock, Integer, Objec
 		
 		while (rs.next()){
 			int id = rs.getInt(1);
-			TimeBlock timeblock = new TimeBlock(new DateTime(rs.getString(2)),new DateTime(rs.getString(3)));
+			TimeBlock timeblock = new TimeBlock();
+			timeblock.setStart(new DateTime(rs.getString(2)));
+			timeblock.setEnd(new DateTime(rs.getString(3)));
 			if (timeblocks.get(id) == null){
 				ArrayList<TimeBlock> block = new ArrayList<>();
 				block.add(timeblock);

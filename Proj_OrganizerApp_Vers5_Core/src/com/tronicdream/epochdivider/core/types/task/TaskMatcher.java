@@ -1,7 +1,7 @@
 package com.tronicdream.epochdivider.core.types.task;
 
 import com.tronicdream.epochdivider.core.container.DataContainer;
-import com.tronicdream.epochdivider.core.types.context.AllContextsContext;
+import com.tronicdream.epochdivider.core.types.context.AllTasksContext;
 import com.tronicdream.epochdivider.core.types.context.Context;
 import com.tronicdream.epochdivider.core.types.context.DueThisViewContext;
 import com.tronicdream.epochdivider.core.types.context.DueTodayContext;
@@ -11,7 +11,7 @@ import com.tronicdream.epochdivider.core.types.view.View;
 
 public class TaskMatcher {
 	public static boolean matchByContext(Task item, Context context, View view) {
-		if (context instanceof AllContextsContext) return true;
+		if (context instanceof AllTasksContext) return true;
 		if (context instanceof NoDueDateContext) return !item.isDue();
 		if (context instanceof DueTodayContext) return item.isDueToday();
 		if (context instanceof DueTomorrowContext) return item.isDueTomorrow();

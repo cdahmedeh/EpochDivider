@@ -7,15 +7,15 @@ import org.joda.time.LocalDate;
 import com.tronicdream.epochdivider.core.tools.DateReference;
 
 /**
- * The View represents a time window that is viewable in a Calendar. It is 
- * defined by the first day that is visible (startDate) and the last day that is
- * visible (lastDate). 
+ * The {@link View} class represents a time window that is viewable in a 
+ * Calendar. It is defined by the first day that is visible (startDate) and the
+ * last day that is visible (endDate). 
  * 
  * @author Ahmed El-Hajjar
  */
 public class View {
 	
-	/* ---- Main Data ---- */
+	/* - Primary Fields - */
 	
 	private LocalDate startDate = DateReference.getSundayOfThisWeek();
 	public LocalDate getStartDate() {return startDate;}
@@ -26,22 +26,7 @@ public class View {
 	public void setEndDate(LocalDate end) {this.endDate = end;}
 	
 	
-	/* ---- Compare Methods ---- */
-	
-	//Views are the same if they represent the same period of days.
-	
-	@Override
-	public int hashCode() {
-		return (startDate.toString() + endDate.toString()).hashCode();
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		return this.hashCode() == obj.hashCode();
-	}
-	
-	
-	/* ---- Reader Methods ---- */
+	/* - Reader Methods - */
 	
 	/**
 	 * Gives an interval that represents the period that is viewable by the 
@@ -72,7 +57,7 @@ public class View {
 	}
 	
 	
-	/* ---- Manipulate Methods ---- */
+	/* - Manipulate Methods - */
 	
 	/**
 	 * Displaces the view 'n' days. If 'n' is positive, then it is forward.

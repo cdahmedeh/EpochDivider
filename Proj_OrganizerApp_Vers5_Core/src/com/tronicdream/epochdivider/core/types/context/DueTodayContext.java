@@ -7,5 +7,5 @@ package com.tronicdream.epochdivider.core.types.context;
 public class DueTodayContext extends Context {
 	public DueTodayContext() {super("Due Today");}
 	public boolean isSelectable() {return false;}
-	public int getColor() {return 150;} 
+	public int getColor() {return ContextConstants.DUE_DATE_CONTEXT_COLOR;} 
 }

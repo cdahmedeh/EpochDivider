@@ -4,8 +4,8 @@ package com.tronicdream.epochdivider.core.types.context;
  * Meta-context for disabling filtering and getting all tasks. 
  * @author Ahmed El-Hajjar
  */
-public class AllContextsContext extends Context {
-	public AllContextsContext() {super("All Tasks");}
+public class AllTasksContext extends Context {
+	public AllTasksContext() {super("All Tasks");}
 	public boolean isSelectable() {return false;}
-	public int getColor() {return 0;} 
+	public int getColor() {return ContextConstants.META_CONTEXT_COLOR;} 
 }

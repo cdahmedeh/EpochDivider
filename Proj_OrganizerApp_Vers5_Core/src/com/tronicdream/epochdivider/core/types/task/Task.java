@@ -28,7 +28,7 @@ public class Task {
 	
 	/* - Primary Fields - */
 	
-	private int id;
+	private int id = -1;
 	public int getId() {return id;}
 	public void setId(int id) {this.id = id;}
 	
@@ -64,7 +64,7 @@ public class Task {
 		return this.getTitle();
 	}
 	
-	/* ---- Reader methods ---- */
+	/* - Reader methods - */
 	
 	/**
 	 * True if task is due today. 

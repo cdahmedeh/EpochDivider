@@ -8,5 +8,5 @@ package com.tronicdream.epochdivider.core.types.context;
 public class NoContextContext extends Context {
 	public NoContextContext() {super("Unsorted Tasks");}
 	public boolean isSelectable() {return true;}
-	public int getColor() {return 0;} 
+	public int getColor() {return ContextConstants.META_CONTEXT_COLOR;} 
 }

@@ -8,7 +8,7 @@ import org.joda.time.Duration;
 
 import com.tronicdream.epochdivider.core.container.DataContainer;
 import com.tronicdream.epochdivider.core.tools.DateReference;
-import com.tronicdream.epochdivider.core.types.context.AllContextsContext;
+import com.tronicdream.epochdivider.core.types.context.AllTasksContext;
 import com.tronicdream.epochdivider.core.types.context.Context;
 import com.tronicdream.epochdivider.core.types.context.DueThisViewContext;
 import com.tronicdream.epochdivider.core.types.context.DueTodayContext;
@@ -16,7 +16,6 @@ import com.tronicdream.epochdivider.core.types.context.DueTomorrowContext;
 import com.tronicdream.epochdivider.core.types.context.NoContextContext;
 import com.tronicdream.epochdivider.core.types.context.NoDueDateContext;
 import com.tronicdream.epochdivider.core.types.task.Task;
-import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.core.types.view.View;
 
 /**
@@ -40,7 +39,7 @@ public class TestDataGenerator {
 		ArrayList<Context> contextList = new ArrayList<>();
 		
 		//Default contexts
-		contextList.add(new AllContextsContext());
+		contextList.add(new AllTasksContext());
 		contextList.add(new NoContextContext());
 		
 		contextList.add(new DueTodayContext());
@@ -81,15 +80,15 @@ public class TestDataGenerator {
 		Task task01 = new Task("Clean car");
 		task01.setContext(miscContext);
 		task01.setDue(DateReference.getNow().toDateMidnight().plusDays(1).toDateTime());
-		task01.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,25,13,30)));
+//		task01.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,25,13,30)));
 		task01.setEstimate(Duration.standardHours(3));
 		taskList.add(task01);
 		
 		Task task02 = new Task("Data persistence prototype for Epoch Divider");
 		task02.setContext(projectContext);
 		task02.setDue(new DateTime(2013, 04, 30, 15, 00));
-		task02.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,17,00)));
-		task02.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,23,15,00),new DateTime(2013,04,23,23,15)));
+//		task02.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,22,17,00)));
+//		task02.assignToTimeBlock(new TimeBlock(new DateTime(2013,04,23,15,00),new DateTime(2013,04,23,23,15)));
 		task02.setEstimate(Duration.standardHours(40));
 		taskList.add(task02);
 		
@@ -124,7 +123,7 @@ public class TestDataGenerator {
 		ArrayList<Context> contextList = new ArrayList<>();
 		
 		//Default contexts
-		contextList.add(new AllContextsContext());
+		contextList.add(new AllTasksContext());
 		contextList.add(new NoContextContext());
 		
 		contextList.add(new DueTodayContext());
@@ -159,7 +158,7 @@ public class TestDataGenerator {
 		
 		//Assign 300 timeblocks
 		for (int i = 0; i < 400; i++) {
-			taskList.get(new Random().nextInt(taskList.size())).assignToTimeBlock(new TimeBlock(view.getStartDate().toDateTimeAtStartOfDay().plusMinutes(new Random().nextInt(1000)*30), Duration.standardMinutes((new Random().nextInt(12)+1)*30)));
+//			taskList.get(new Random().nextInt(taskList.size())).assignToTimeBlock(new TimeBlock(view.getStartDate().toDateTimeAtStartOfDay().plusMinutes(new Random().nextInt(1000)*30), Duration.standardMinutes((new Random().nextInt(12)+1)*30)));
 		}
 		
 		//Put the task and context lists into the container.
@@ -185,7 +184,7 @@ public class TestDataGenerator {
 		ArrayList<Context> contextList = new ArrayList<>();
 		
 		//Default contexts
-		contextList.add(new AllContextsContext());
+		contextList.add(new AllTasksContext());
 		contextList.add(new NoContextContext());
 		
 		contextList.add(new DueTodayContext());
@@ -220,7 +219,7 @@ public class TestDataGenerator {
 		
 		//Assign 7000 timeblocks
 		for (int i = 0; i < 7000; i++) {
-			taskList.get(new Random().nextInt(taskList.size())).assignToTimeBlock(new TimeBlock(view.getStartDate().toDateTimeAtStartOfDay().plusMinutes(new Random().nextInt(1000)*30), Duration.standardMinutes((new Random().nextInt(12)+1)*30)));
+//			taskList.get(new Random().nextInt(taskList.size())).assignToTimeBlock(new TimeBlock(view.getStartDate().toDateTimeAtStartOfDay().plusMinutes(new Random().nextInt(1000)*30), Duration.standardMinutes((new Random().nextInt(12)+1)*30)));
 		}
 		
 		//Put the task and context lists into the container.
@@ -246,7 +245,7 @@ public class TestDataGenerator {
 		ArrayList<Context> contextList = new ArrayList<>();
 		
 		//Default contexts
-		contextList.add(new AllContextsContext());
+		contextList.add(new AllTasksContext());
 		contextList.add(new NoContextContext());
 		
 		contextList.add(new DueTodayContext());
@@ -281,7 +280,7 @@ public class TestDataGenerator {
 		
 		//Assign 7000 timeblocks
 		for (int i = 0; i < 7000; i++) {
-			taskList.get(new Random().nextInt(taskList.size())).assignToTimeBlock(new TimeBlock(view.getStartDate().toDateTimeAtStartOfDay().plusMinutes(new Random().nextInt(100000)*30), Duration.standardMinutes((new Random().nextInt(12)+1)*30)));
+//			taskList.get(new Random().nextInt(taskList.size())).assignToTimeBlock(new TimeBlock(view.getStartDate().toDateTimeAtStartOfDay().plusMinutes(new Random().nextInt(100000)*30), Duration.standardMinutes((new Random().nextInt(12)+1)*30)));
 		}
 		
 		//Put the task and context lists into the container.
@@ -307,7 +306,7 @@ public class TestDataGenerator {
 		ArrayList<Context> contextList = new ArrayList<>();
 		
 		//Default contexts
-		contextList.add(new AllContextsContext());
+		contextList.add(new AllTasksContext());
 		contextList.add(new NoContextContext());
 		
 		contextList.add(new DueTodayContext());
@@ -327,7 +326,7 @@ public class TestDataGenerator {
 		
 		//Assign 350 timeblocks to that task
 		for (int i = 0; i < 350; i++) {
-			task.assignToTimeBlock(new TimeBlock(view.getStartDate().toDateTimeAtStartOfDay().plusMinutes(i*30), Duration.standardMinutes(30)));
+//			task.assignToTimeBlock(new TimeBlock(view.getStartDate().toDateTimeAtStartOfDay().plusMinutes(i*30), Duration.standardMinutes(30)));
 		}
 		
 		//Put the task and context lists into the container.
@@ -353,7 +352,7 @@ public class TestDataGenerator {
 		ArrayList<Context> contextList = new ArrayList<>();
 		
 		//Default contexts
-		contextList.add(new AllContextsContext());
+		contextList.add(new AllTasksContext());
 		contextList.add(new NoContextContext());
 		
 		contextList.add(new DueTodayContext());
@@ -456,7 +455,7 @@ public class TestDataGenerator {
 		ArrayList<Context> contextList = new ArrayList<>();
 		
 		//Default contexts
-		contextList.add(new AllContextsContext());
+		contextList.add(new AllTasksContext());
 		contextList.add(new NoContextContext());
 		
 		contextList.add(new DueTodayContext());

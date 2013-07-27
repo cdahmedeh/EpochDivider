@@ -17,7 +17,7 @@ public class ContextListModel implements
 		sql.append(context.getColor());
 		sql.append("', '");
 		// sql.append(context.getClass().getName());
-		if (context instanceof AllContextsContext) { // TODO: This is very bad practice. To be revised.
+		if (context instanceof AllTasksContext) { // TODO: This is very bad practice. To be revised.
 			sql.append("AllContextsContext");
 		} else if (context instanceof DueThisViewContext) {
 			sql.append("DueThisViewContext");
@@ -68,7 +68,7 @@ public class ContextListModel implements
 				context = new NoDueDateContext();
 				break;
 			case ("AllContextsContext"):
-				context = new AllContextsContext();
+				context = new AllTasksContext();
 				break;
 			}
 			context.setColor(rs.getInt(2));

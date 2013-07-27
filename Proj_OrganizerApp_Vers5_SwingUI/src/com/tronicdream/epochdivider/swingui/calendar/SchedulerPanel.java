@@ -164,7 +164,7 @@ public class SchedulerPanel extends CPanel {
 							if (task == null) return false;
 							
 							//Add a new TimeBlock to the Task and start dragging it.
-							TimeBlock timeBlock = dataContainer.assignNewTimeBlockToTask(task);
+							TimeBlock timeBlock = dataContainer.emTaskSetNewTimeBlock(task);
 							generateTimeBlockRenders();
 							tbrSelected = renderedTimeBlocks.get(timeBlock);
 							uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
