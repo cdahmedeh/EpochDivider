@@ -131,7 +131,7 @@ public class DataContainer {
 	
 	/* - Readers - */
 
-	public ArrayList<Context> getSelectableContexts() {
+	public ArrayList<Context> rdSelectableTaskContexts() {
 		ArrayList<Context> contextsList = new ArrayList<>();
 		for (Context context: taskContexts) if (context.isSelectable()) contextsList.add(context);
 		return contextsList;
@@ -256,8 +256,8 @@ public class DataContainer {
 	 * Move view by days
 	 * @param days
 	 */
-	public void moveViewByAmountOfDays(int days) {
-		this.view.moveAmountOfDays(days);
+	public void emViewMoveByDays(int days) {
+		view.moveAmountOfDays(days);
 	}
 
 }

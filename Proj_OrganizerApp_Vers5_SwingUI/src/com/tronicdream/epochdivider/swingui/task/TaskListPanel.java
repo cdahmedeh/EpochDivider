@@ -148,7 +148,7 @@ public class TaskListPanel extends CPanel {
 	private void prepareTaskListTableRendersAndEditors() {
 		//Setup auto-completed support for Context editor
 		contextEventList = new BasicEventList<>();
-		contextEventList.addAll(dataContainer.getSelectableContexts());
+		contextEventList.addAll(dataContainer.rdSelectableTaskContexts());
 		
 		AutoCompleteCellEditor<Context> contextTableCellEditor = AutoCompleteSupport.createTableCellEditor(contextEventList);
 		
@@ -257,7 +257,7 @@ public class TaskListPanel extends CPanel {
 	private void refreshContextAutoComplete(){
 		//TODO: Investigate proper method to refresh GlazedLists lists.
 		contextEventList.clear();
-		contextEventList.addAll(dataContainer.getSelectableContexts());
+		contextEventList.addAll(dataContainer.rdSelectableTaskContexts());
 	}
 	
 	private void addNewTaskToTaskListTable() {

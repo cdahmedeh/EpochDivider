@@ -20,6 +20,12 @@ import com.tronicdream.epochdivider.core.types.view.View;
  */
 public class Task {
 	
+	/* ---- Constructs ---- */
+	
+	public Task() {}
+	//TODO: Remove
+	public Task(String title) {this.setTitle(title);}
+	
 	/* - Primary Fields - */
 	
 	private int id;
@@ -50,7 +56,7 @@ public class Task {
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();
 	public void setTimeBlocks(ArrayList<TimeBlock> timeBlocks) {this.timeBlocks = timeBlocks == null ? this.timeBlocks : timeBlocks;} //TODO: FIXME!
 	public void assignToTimeBlock(TimeBlock timeBlock) {this.timeBlocks.add(timeBlock);}
-	public ArrayList<TimeBlock> getAllTimeBlocks() {return timeBlocks;}
+	public ArrayList<TimeBlock> getTimeBlocks() {return timeBlocks;}
 	
 	
 	@Override
@@ -87,7 +93,7 @@ public class Task {
 	 */
 	private Duration getTotalScheduled(){
 		Duration duration = Duration.ZERO;
-		for (TimeBlock timeBlock: getAllTimeBlocks()){
+		for (TimeBlock timeBlock: getTimeBlocks()){
 			//TimeBlocks after due date DON'T COUNT.
 			if (this.isDue() && timeBlock.getEnd().isAfter(this.getDue())) {
 				continue;
@@ -104,7 +110,7 @@ public class Task {
 	 */
 	private Duration getTotalPassed(DateTime moment){
 		Duration duration = Duration.ZERO;
-		for (TimeBlock timeBlock: getAllTimeBlocks()) if (timeBlock.getEnd().isBefore(moment)) duration = duration.plus(timeBlock.getDuration());
+		for (TimeBlock timeBlock: getTimeBlocks()) if (timeBlock.getEnd().isBefore(moment)) duration = duration.plus(timeBlock.getDuration());
 		return duration;
 	}
 

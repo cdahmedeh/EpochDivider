@@ -130,7 +130,7 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
             }
             for (Task task: dataContainer.getTasks()){
             	statementTaskList.executeUpdate(taskListModel.objectToSQL(task,null));
-            	for (TimeBlock timeblock: task.getAllTimeBlocks())
+            	for (TimeBlock timeblock: task.getTimeBlocks())
             		statementTimeBlocks.executeUpdate(timeBlocksModel.objectToSQL(timeblock, task.getId()));
             }
         } catch (SQLException e) {
