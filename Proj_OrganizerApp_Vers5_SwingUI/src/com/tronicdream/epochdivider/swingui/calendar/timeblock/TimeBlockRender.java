@@ -56,6 +56,11 @@ public class TimeBlockRender {
 	}
 	
 	public void generateRectangles() {
+		//Don't waste time generating rectangles, if it is not within the view
+		//TODO: Premature optimization
+		if (!view.getInterval().contains(timeBlock.getStart())) return;
+		if (!view.getInterval().contains(timeBlock.getEnd())) return;
+		
 		LocalTime midnight = new LocalTime(0, 0);
 		LocalTime endOfDay = new LocalTime(23, 59, 59, 999);
 
@@ -85,6 +90,12 @@ public class TimeBlockRender {
 		this.tbcl = TimeBlockClickLocation.MIDDLE;
 		timeClickedOffset = Duration.ZERO;
 	}
+
+
+	public void forceResize() {
+		this.tbcl = TimeBlockClickLocation.BOTTOM;
+		timeClickedOffset = Duration.ZERO;
+	}
 	
 	private void setMoveOffset(int x, int y) {
 		DateTime timeFromMouse = PixelsToDate.getTimeFromPosition(x, y, pWidth, pHeight, view);
@@ -101,4 +112,5 @@ public class TimeBlockRender {
 			timeBlock.setEnd(PixelsToDate.roundToMins(timeFromMouse, 15));
 		}
 	}
+
 }

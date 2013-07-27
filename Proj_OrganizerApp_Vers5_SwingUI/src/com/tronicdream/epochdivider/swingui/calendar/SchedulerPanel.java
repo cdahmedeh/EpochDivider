@@ -19,6 +19,7 @@ import com.tronicdream.epochdivider.core.container.DataContainer;
 import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.swingui.calendar.timeblock.BRectangle;
+import com.tronicdream.epochdivider.swingui.calendar.timeblock.PixelsToDate;
 import com.tronicdream.epochdivider.swingui.calendar.timeblock.TimeBlockIntersectionHandler;
 import com.tronicdream.epochdivider.swingui.calendar.timeblock.TimeBlockPainter;
 import com.tronicdream.epochdivider.swingui.calendar.timeblock.TimeBlockRender;
@@ -58,7 +59,7 @@ public class SchedulerPanel extends CPanel {
 	// -- Data --
 	private boolean drawTasks = false;
 	private HashMap<TimeBlock, TimeBlockRender> renderedTimeBlocks = new HashMap<>();
-	private CalendarUIMode uiMode = CalendarUIMode.NONE;
+	private SchedulerUIMode uiMode = SchedulerUIMode.NONE;
 	
 	private TimeBlockRender tbrSelected = null;
 	
@@ -123,13 +124,24 @@ public class SchedulerPanel extends CPanel {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				//Support for moving and resizing TimeBlocks.
-				if (uiMode == CalendarUIMode.NONE){
+				if (uiMode == SchedulerUIMode.NONE){
 					TimeBlockRender clickedTimeBlock = getClickedTimeBlock(e.getX(), e.getY());
 					if (clickedTimeBlock != null) {
 						tbrSelected = clickedTimeBlock;
-						uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
+						uiMode = SchedulerUIMode.ADJUST_TIMEBLOCK;
+					} else {
+						TimeBlock timeBlock = dataContainer.emTimeBlockNew(PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()), PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()));
+						Task task = dataContainer.emTaskNew();
+						//TODO: Cheat
+						task.addTimeBlock(timeBlock);
+						timeBlock.setOwner(task);
+						generateTimeBlockRenders();
+						tbrSelected = renderedTimeBlocks.get(timeBlock);
+						uiMode = SchedulerUIMode.ADJUST_TIMEBLOCK;
+						tbrSelected.forceResize();
+						repaint();
 					}
-				} else if (uiMode == CalendarUIMode.ADJUST_TIMEBLOCK) {
+				} else if (uiMode == SchedulerUIMode.ADJUST_TIMEBLOCK) {
 					tbrSelected.move(e.getX(), e.getY());
 					repaint();
 				}
@@ -139,7 +151,7 @@ public class SchedulerPanel extends CPanel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				if (uiMode == CalendarUIMode.ADJUST_TIMEBLOCK){
+				if (uiMode == SchedulerUIMode.ADJUST_TIMEBLOCK){
 					endDragging();
 				}
 			}
@@ -156,7 +168,7 @@ public class SchedulerPanel extends CPanel {
 				//right away. canImport is being used so that the TimeBlock
 				//is visible as soon as the pointer enters the Calendar area.
 				try {
-					if (uiMode == CalendarUIMode.NONE) {
+					if (uiMode == SchedulerUIMode.NONE) {
 						if (support.getTransferable().isDataFlavorSupported(new DataFlavor(Task.class, "Task"))){
 							//Get the task being dragged
 							Task task = (Task) support.getTransferable().getTransferData(new DataFlavor(Task.class, "Task"));
@@ -166,13 +178,13 @@ public class SchedulerPanel extends CPanel {
 							TimeBlock timeBlock = dataContainer.emTaskSetNewTimeBlock(task);
 							generateTimeBlockRenders();
 							tbrSelected = renderedTimeBlocks.get(timeBlock);
-							uiMode = CalendarUIMode.ADJUST_TIMEBLOCK;
+							uiMode = SchedulerUIMode.ADJUST_TIMEBLOCK;
 							tbrSelected.forceMove();
 							repaint();
 							return true;
 						}
 					}
-					else if (uiMode == CalendarUIMode.ADJUST_TIMEBLOCK) {
+					else if (uiMode == SchedulerUIMode.ADJUST_TIMEBLOCK) {
 						Point dropPoint = support.getDropLocation().getDropPoint();
 						tbrSelected.move((int)dropPoint.getX(), (int)dropPoint.getY());
 						repaint();
@@ -186,7 +198,7 @@ public class SchedulerPanel extends CPanel {
 			
 			@Override
 			public boolean importData(TransferSupport support) {
-				if (uiMode == CalendarUIMode.ADJUST_TIMEBLOCK){
+				if (uiMode == SchedulerUIMode.ADJUST_TIMEBLOCK){
 					endDragging();
 					return true;
 				}
@@ -206,7 +218,7 @@ public class SchedulerPanel extends CPanel {
 	}
 
 	private void endDragging() {
-		uiMode = CalendarUIMode.NONE;
+		uiMode = SchedulerUIMode.NONE;
 		tbrSelected = null;
 		repaint();
 		eventBus.post(new TasksChangedNotification());
