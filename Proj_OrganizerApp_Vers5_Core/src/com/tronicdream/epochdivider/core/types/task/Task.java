@@ -8,8 +8,9 @@ import org.joda.time.Duration;
 import com.tronicdream.epochdivider.core.tools.DateReference;
 import com.tronicdream.epochdivider.core.tools.MiscHelper;
 import com.tronicdream.epochdivider.core.types.context.Context;
-import com.tronicdream.epochdivider.core.types.context.UnsortedTaskContext;
+import com.tronicdream.epochdivider.core.types.context.UnsortedTasksContext;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
+import com.tronicdream.epochdivider.core.types.timeblock.TimeBlockOwnerInterface;
 import com.tronicdream.epochdivider.core.types.timeblock.TripleDurationInfo;
 import com.tronicdream.epochdivider.core.types.view.View;
 
@@ -18,7 +19,7 @@ import com.tronicdream.epochdivider.core.types.view.View;
  * 
  * @author Ahmed El-Hajjar
  */
-public class Task {
+public class Task implements TimeBlockOwnerInterface{
 	
 	/* - Primary Fields - */
 	
@@ -46,8 +47,8 @@ public class Task {
 	
 	/* - Relationships - */
 
-	private Context context = new UnsortedTaskContext();
-	public void setContext(Context context) {this.context = context == null ? new UnsortedTaskContext() : context;}
+	private Context context = new UnsortedTasksContext();
+	public void setContext(Context context) {this.context = context == null ? new UnsortedTasksContext() : context;}
 	public Context getContext() {return context;}
 	
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<>();

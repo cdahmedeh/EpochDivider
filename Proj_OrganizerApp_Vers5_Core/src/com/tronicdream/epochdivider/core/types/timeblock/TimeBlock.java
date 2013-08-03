@@ -29,9 +29,9 @@ public class TimeBlock {
 	
 	/* - Relationships - */
 	
-	private Object owner;
-	public Object getOwner() {return owner;}
-	public void setOwner(Object owner) {this.owner = owner;}
+	private TimeBlockOwnerInterface owner;
+	public TimeBlockOwnerInterface getOwner() {return owner;}
+	public void setOwner(TimeBlockOwnerInterface owner) {this.owner = owner;}
 	
 	
 	/* - Reader Methods - */

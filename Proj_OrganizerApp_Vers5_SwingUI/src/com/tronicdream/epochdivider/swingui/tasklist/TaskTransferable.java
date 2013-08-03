@@ -1,4 +1,4 @@
-package com.tronicdream.epochdivider.swingui.task;
+package com.tronicdream.epochdivider.swingui.tasklist;
 
 import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.swingui.components.ObjectTransferable;

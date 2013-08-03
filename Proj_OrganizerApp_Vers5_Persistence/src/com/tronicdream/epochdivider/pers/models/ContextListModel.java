@@ -10,7 +10,7 @@ import com.tronicdream.epochdivider.core.types.context.DueThisViewContext;
 import com.tronicdream.epochdivider.core.types.context.DueTodayContext;
 import com.tronicdream.epochdivider.core.types.context.DueTomorrowContext;
 import com.tronicdream.epochdivider.core.types.context.NoDueDateContext;
-import com.tronicdream.epochdivider.core.types.context.UnsortedTaskContext;
+import com.tronicdream.epochdivider.core.types.context.UnsortedTasksContext;
 
 public class ContextListModel implements
 		ModelInterface<Context, Object, Object> {
@@ -69,7 +69,7 @@ public class ContextListModel implements
 				context = new DueTomorrowContext();
 				break;
 			case ("NoContextContext"):
-				context = new UnsortedTaskContext();
+				context = new UnsortedTasksContext();
 				break;
 			case ("NoDueDateContext"):
 				context = new NoDueDateContext();

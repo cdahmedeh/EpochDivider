@@ -5,10 +5,10 @@ package com.tronicdream.epochdivider.core.types.context;
  * 
  * @author Ahmed El-Hajjar
  */
-public class UnsortedTaskContext extends Context {
-	public UnsortedTaskContext() {
+public class UnsortedEventsContext extends Context {
+	public UnsortedEventsContext() {
 		super();
-		setName("Unsorted Tasks");
+		setName("Unsorted Events");
 	}
 	
 	public boolean isSelectable() {return true;}

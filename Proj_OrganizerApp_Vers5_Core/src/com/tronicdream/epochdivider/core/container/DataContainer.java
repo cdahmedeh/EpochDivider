@@ -41,7 +41,7 @@ public class DataContainer {
 		taskContexts = DataContainerHelper.generateDefaultTaskContexts();
 
 		events = new ArrayList<>();
-		eventContexts = DataContainerHelper.generateDefaultTaskContexts();
+		eventContexts = DataContainerHelper.generateDefaultEventContexts();
 		
 		view = new View();
 		selectedTaskContext = taskContexts.get(0);
@@ -109,8 +109,8 @@ public class DataContainer {
 	public void setEventIdCounter(int eventIdCounter) {this.eventIdCounter = eventIdCounter;}
 	
 	private int eventContextIdCounter = 0;
-	public int geteventContextIdCounter() {return eventContextIdCounter;}
-	public void seteventContextIdCounter(int eventContextIdCounter) {this.eventContextIdCounter = eventContextIdCounter;}
+	public int getEventContextIdCounter() {return eventContextIdCounter;}
+	public void setEventContextIdCounter(int eventContextIdCounter) {this.eventContextIdCounter = eventContextIdCounter;}
 	
 	
 	/* - Main UI States - */
@@ -122,6 +122,10 @@ public class DataContainer {
 	private Context selectedTaskContext;
 	public Context getSelectedTaskContext() {return selectedTaskContext;}
 	public void setSelectedTaskContext(Context selectedTaskContext) {this.selectedTaskContext = selectedTaskContext;}
+	
+	private Context selectedEventContext;
+	public Context getSelectedEventContext() {return selectedEventContext;}
+	public void setSelectedEventContext(Context selectedEventContext) {this.selectedEventContext = selectedEventContext;}
 	
 	
 	/* - Secondary UI States - */
@@ -143,6 +147,11 @@ public class DataContainer {
 		return contextsList;
 	}
 
+	public ArrayList<Context> rdSelectableEventContexts() {
+		ArrayList<Context> contextsList = new ArrayList<>();
+		for (Context context: eventContexts) if (context.isSelectable()) contextsList.add(context);
+		return contextsList;
+	}
 	
 	/* - Easy Modifiers - */
 	
@@ -221,9 +230,19 @@ public class DataContainer {
 		
 		event.setId(eventIdCounter++);
 		
+		// Set the event context to the currently selected one only if it can
+		// be assigned to the task.
+		if (getSelectedEventContext().isSelectable()){
+			event.setContext(getSelectedEventContext());
+		}
+		
 		events.add(event);
 		
 		return event;
+	}
+	
+	public boolean emEventRemove(Event event) {
+		return events.remove(event);
 	}
 	
 	public void emEventSetTimeBlock(Event event, TimeBlock timeBlock) {
@@ -231,6 +250,16 @@ public class DataContainer {
 		timeBlock.setOwner(event);
 	}
 	
+	public Context emEventContextNew() {
+		Context context = new Context();
+
+		context.setId(eventContextIdCounter++);
+		context.setName("");
+		
+		eventContexts.add(context);
+		
+		return context;
+	}
 	
 	/* - Validation methods - */
 	
@@ -244,5 +273,7 @@ public class DataContainer {
 	public void csViewMoveByDays(int days) {
 		view.moveAmountOfDays(days);
 	}
+
+
 
 }

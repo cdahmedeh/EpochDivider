@@ -1,6 +1,6 @@
-package com.tronicdream.epochdivider.swingui.context;
+package com.tronicdream.epochdivider.swingui.eventcontextlist;
 
-public class ContextListPanelDefaults {
+public class EventContextListPanelDefaults {
 	public static final int DEFAULT_CONTEXT_PANEL_WIDTH = 160;
 	public static final int DEFAULT_CONTEXT_PANEL_HEIGHT = 600;
 	

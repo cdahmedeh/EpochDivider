@@ -34,12 +34,14 @@ import com.tronicdream.epochdivider.imt.icons.IconsLocation;
 import com.tronicdream.epochdivider.pers.PersistanceManagerInterface;
 import com.tronicdream.epochdivider.pers.YAMLPersistenceManager;
 import com.tronicdream.epochdivider.swingui.calendar.CalendarPanel;
-import com.tronicdream.epochdivider.swingui.context.ContextListPanel;
+import com.tronicdream.epochdivider.swingui.eventcontextlist.EventContextListPanel;
+import com.tronicdream.epochdivider.swingui.eventlist.EventListPanel;
 import com.tronicdream.epochdivider.swingui.notification.ContextsChangedNotification;
 import com.tronicdream.epochdivider.swingui.notification.LoadContextListPanelRequest;
 import com.tronicdream.epochdivider.swingui.notification.TasksChangedNotification;
 import com.tronicdream.epochdivider.swingui.notification.WindowLoadedNotification;
-import com.tronicdream.epochdivider.swingui.task.TaskListPanel;
+import com.tronicdream.epochdivider.swingui.taskcontextlist.TaskContextListPanel;
+import com.tronicdream.epochdivider.swingui.tasklist.TaskListPanel;
 
 public class MainWindow {
 	public static void main(String[] args) {
@@ -174,16 +176,16 @@ public class MainWindow {
 		));
 		
 		//Context list
-		ContextListPanel contextListPanel = new ContextListPanel(dataContainer, eventBus);
+		EventContextListPanel contextListPanel = new EventContextListPanel(dataContainer, eventBus);
 		eventsSplitPane.add(contextListPanel, DefaultSplitPaneModel.LEFT);
 		
 		//Calendar 
 		CalendarPanel calendarPanel = new CalendarPanel(dataContainer, eventBus);
 		eventsSplitPane.add(calendarPanel, DefaultSplitPaneModel.TOP);
 		
-		//Task list
-		TaskListPanel taskListPanel = new TaskListPanel(dataContainer, eventBus);
-		eventsSplitPane.add(taskListPanel, DefaultSplitPaneModel.BOTTOM);
+		//Event list
+		EventListPanel eventListPanel = new EventListPanel(dataContainer, eventBus);
+		eventsSplitPane.add(eventListPanel, DefaultSplitPaneModel.BOTTOM);
 		
 		//Add pane as Tab
 		mainTabbedPane.addTab(MainWindowConstants.EVENTS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.EVENTS)), eventsSplitPane);
@@ -203,7 +205,7 @@ public class MainWindow {
 		));
 		
 		//Context list
-		ContextListPanel contextListPanel = new ContextListPanel(dataContainer, eventBus);
+		TaskContextListPanel contextListPanel = new TaskContextListPanel(dataContainer, eventBus);
 		tasksSplitPane.add(contextListPanel, DefaultSplitPaneModel.LEFT);
 		
 		//Calendar 

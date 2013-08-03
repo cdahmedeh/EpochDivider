@@ -16,6 +16,7 @@ import javax.swing.TransferHandler;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.tronicdream.epochdivider.core.container.DataContainer;
+import com.tronicdream.epochdivider.core.types.event.Event;
 import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.swingui.calendar.timeblock.BRectangle;
@@ -26,6 +27,7 @@ import com.tronicdream.epochdivider.swingui.calendar.timeblock.TimeBlockRender;
 import com.tronicdream.epochdivider.swingui.helpers.GraphicsHelper;
 import com.tronicdream.epochdivider.swingui.main.CPanel;
 import com.tronicdream.epochdivider.swingui.notification.ContextsChangedNotification;
+import com.tronicdream.epochdivider.swingui.notification.EventsChangedNotification;
 import com.tronicdream.epochdivider.swingui.notification.TasksChangedNotification;
 
 public class SchedulerPanel extends CPanel {
@@ -131,10 +133,10 @@ public class SchedulerPanel extends CPanel {
 						uiMode = SchedulerUIMode.ADJUST_TIMEBLOCK;
 					} else {
 						TimeBlock timeBlock = dataContainer.emTimeBlockNew(PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()), PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()));
-						Task task = dataContainer.emTaskNew();
+						Event event = dataContainer.emEventNew();
 						//TODO: Cheat
-						task.addTimeBlock(timeBlock);
-						timeBlock.setOwner(task);
+						event.setTimeBlock(timeBlock);
+						timeBlock.setOwner(event);
 						generateTimeBlockRenders();
 						tbrSelected = renderedTimeBlocks.get(timeBlock);
 						uiMode = SchedulerUIMode.ADJUST_TIMEBLOCK;
@@ -222,6 +224,7 @@ public class SchedulerPanel extends CPanel {
 		tbrSelected = null;
 		repaint();
 		eventBus.post(new TasksChangedNotification());
+		eventBus.post(new EventsChangedNotification());
 		eventBus.post(new ContextsChangedNotification());
 	}
 }

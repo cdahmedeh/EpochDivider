@@ -1,4 +1,4 @@
-package com.tronicdream.epochdivider.swingui.context;
+package com.tronicdream.epochdivider.swingui.taskcontextlist;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -47,9 +47,9 @@ import com.tronicdream.epochdivider.swingui.notification.SelectedContextChangedN
 import com.tronicdream.epochdivider.swingui.notification.TaskListPanelPostInitCompleteNotification;
 import com.tronicdream.epochdivider.swingui.notification.TasksChangedNotification;
 
-public class ContextListPanel extends CPanel {
+public class TaskContextListPanel extends CPanel {
 	private static final long serialVersionUID = -8250528552031443184L;
-	public ContextListPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus, "Context List");}
+	public TaskContextListPanel(DataContainer dataContainer, EventBus eventBus) {super(dataContainer, eventBus, "Context List");}
 
 	@Override 
 	protected Object getEventRecorder() {
@@ -73,11 +73,11 @@ public class ContextListPanel extends CPanel {
 	// - Lists and Models - 
 	private EventList<Context> contextEventList;
 	private DefaultEventSelectionModel<Context> contextListSelectionModel;
-	private ContextListTableFormat contextListTableFormat;
+	private TaskContextListTableFormat contextListTableFormat;
 	
 	@Override
 	protected void windowInit() {
-		setPreferredSize(new Dimension(ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_WIDTH, ContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_HEIGHT));
+		setPreferredSize(new Dimension(TaskContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_WIDTH, TaskContextListPanelDefaults.DEFAULT_CONTEXT_PANEL_HEIGHT));
 		setLayout(new BorderLayout());
 //		setBorder(UIManager.getBorder("ScrollPane.border"));
 		setBorder(BorderFactory.createEmptyBorder());
@@ -117,7 +117,7 @@ public class ContextListPanel extends CPanel {
 		add(toolbar, BorderLayout.SOUTH);
 		
 		ToolbarHelper.createToolbarHorizontalGlue(toolbar);
-		JButton addContextButton = ToolbarHelper.createToolbarButton(toolbar, "Add Context", ContextListPanel.class.getResource("/com/tronicdream/epochdivider/imt/icons/add.gif"));
+		JButton addContextButton = ToolbarHelper.createToolbarButton(toolbar, "Add Context", TaskContextListPanel.class.getResource("/com/tronicdream/epochdivider/imt/icons/add.gif"));
 		addContextButton.setBackground(contextListTable.getBackground());
 		addContextButton.addActionListener(new ActionListener() {
 			@Override
@@ -130,7 +130,7 @@ public class ContextListPanel extends CPanel {
 	private void prepareContextListTableModelAndRenders() {
 		//Create EventList and Table Format. Put all Contexts from data container.
 		contextEventList = new BasicEventList<>();
-		contextListTableFormat = new ContextListTableFormat(dataContainer);
+		contextListTableFormat = new TaskContextListTableFormat(dataContainer);
 		contextEventList.addAll(dataContainer.getTaskContexts());
 		
 		//Prepare and set Table Model.
@@ -138,10 +138,10 @@ public class ContextListPanel extends CPanel {
 		contextListTable.setModel(advancedTableModel);
 		
 		//Setup editors and renderers
-		TableColumn dueDateColumn = contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR);
+		TableColumn dueDateColumn = contextListTable.getColumnModel().getColumn(TaskContextListPanelDefaults.COLUMN_CONTEXT_COLOR);
 		dueDateColumn.setCellRenderer(new ColorHueCellRenderer());
 		
-		TableColumn progressColumn = contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS);
+		TableColumn progressColumn = contextListTable.getColumnModel().getColumn(TaskContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS);
 		progressColumn.setCellRenderer(new RoundedTripleDurationCellRenderer());
 		progressColumn.setCellEditor(new DurationCellEditor(new JTextField()));
 	}
@@ -160,8 +160,8 @@ public class ContextListPanel extends CPanel {
 	}
 	
 	private void adjustContextListTableColumnWidths() {
-		contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR).setMaxWidth(ContextListPanelDefaults.COLUMN_CONTEXT_COLOR_MAX_WIDTH);
-		contextListTable.getColumnModel().getColumn(ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS).setMaxWidth(ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS_MAX_WIDTH);
+		contextListTable.getColumnModel().getColumn(TaskContextListPanelDefaults.COLUMN_CONTEXT_COLOR).setMaxWidth(TaskContextListPanelDefaults.COLUMN_CONTEXT_COLOR_MAX_WIDTH);
+		contextListTable.getColumnModel().getColumn(TaskContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS).setMaxWidth(TaskContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS_MAX_WIDTH);
 	}
 	
 	private void enableDragRearrange() {
@@ -206,7 +206,7 @@ public class ContextListPanel extends CPanel {
 		
 		//Init. editing the title of the new context and focus the editor.
 		int rowOfNewContext = contextListTable.getRowCount()-1;
-		contextListTable.editCellAt(rowOfNewContext, ContextListPanelDefaults.COLUMN_CONTEXT_NAME);
+		contextListTable.editCellAt(rowOfNewContext, TaskContextListPanelDefaults.COLUMN_CONTEXT_NAME);
 
 		Component editorComponent = contextListTable.getEditorComponent();
 		if (editorComponent != null) {
@@ -214,7 +214,7 @@ public class ContextListPanel extends CPanel {
 		}
 
 		//Scroll to the context that is being added.
-		TableHelper.scrollTableToCellAt(contextListTable, rowOfNewContext, ContextListPanelDefaults.COLUMN_CONTEXT_NAME);
+		TableHelper.scrollTableToCellAt(contextListTable, rowOfNewContext, TaskContextListPanelDefaults.COLUMN_CONTEXT_NAME);
 		
 		//Select the item that is was edited.
 		selectItemInContextListTable(rowOfNewContext);

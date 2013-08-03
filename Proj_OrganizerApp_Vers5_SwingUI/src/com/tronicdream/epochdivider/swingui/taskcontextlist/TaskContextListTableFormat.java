@@ -1,4 +1,4 @@
-package com.tronicdream.epochdivider.swingui.context;
+package com.tronicdream.epochdivider.swingui.taskcontextlist;
 
 import java.util.Comparator;
 
@@ -12,20 +12,20 @@ import org.joda.time.Duration;
 import ca.odell.glazedlists.gui.AdvancedTableFormat;
 import ca.odell.glazedlists.gui.WritableTableFormat;
 
-public class ContextListTableFormat implements AdvancedTableFormat<Context>, WritableTableFormat<Context> {
+public class TaskContextListTableFormat implements AdvancedTableFormat<Context>, WritableTableFormat<Context> {
 	private DataContainer dataContainer;
 
-	public ContextListTableFormat(DataContainer dataContainer) {
+	public TaskContextListTableFormat(DataContainer dataContainer) {
 		this.dataContainer = dataContainer;
 	}
 
 	@Override
 	public String getColumnName(int column) {
 		switch(column){
-		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
-			return ContextListPanelDefaults.COLUMN_CONTEXT_LABEL;
-		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
-			return ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS_LABEL;
+		case TaskContextListPanelDefaults.COLUMN_CONTEXT_NAME:
+			return TaskContextListPanelDefaults.COLUMN_CONTEXT_LABEL;
+		case TaskContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
+			return TaskContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS_LABEL;
 		}
 		return "";
 	}
@@ -33,11 +33,11 @@ public class ContextListTableFormat implements AdvancedTableFormat<Context>, Wri
 	@Override
 	public Object getColumnValue(Context baseObject, int column) {
 		switch(column){
-		case ContextListPanelDefaults.COLUMN_CONTEXT_COLOR:
+		case TaskContextListPanelDefaults.COLUMN_CONTEXT_COLOR:
 			return baseObject.getColor();
-		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
+		case TaskContextListPanelDefaults.COLUMN_CONTEXT_NAME:
 			return baseObject.getName();
-		case ContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
+		case TaskContextListPanelDefaults.COLUMN_CONTEXT_PROGRESS:
 			return baseObject.getProgress(dataContainer.getTasks(), dataContainer.getView());
 		}
 		return "";
@@ -46,7 +46,7 @@ public class ContextListTableFormat implements AdvancedTableFormat<Context>, Wri
 	@Override
 	public Context setColumnValue(Context baseObject, Object editedValue, int column) {
 		switch(column){
-		case ContextListPanelDefaults.COLUMN_CONTEXT_NAME:
+		case TaskContextListPanelDefaults.COLUMN_CONTEXT_NAME:
 			if (editedValue instanceof String){
 				baseObject.setName((String) editedValue);	
 			}

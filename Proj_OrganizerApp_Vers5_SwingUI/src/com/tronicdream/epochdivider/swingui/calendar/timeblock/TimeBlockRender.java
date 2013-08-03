@@ -8,8 +8,8 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.ReadableDuration;
 
-import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
+import com.tronicdream.epochdivider.core.types.timeblock.TimeBlockOwnerInterface;
 import com.tronicdream.epochdivider.core.types.view.View;
 
 public class TimeBlockRender {
@@ -21,8 +21,8 @@ public class TimeBlockRender {
 	private TimeBlock timeBlock;
 	public TimeBlock getTimeBlock() {return timeBlock;}
 	
-	private Task owner;
-	public Task getOwner() {return owner;}
+	private TimeBlockOwnerInterface owner;
+	public TimeBlockOwnerInterface getOwner() {return owner;}
 
 	private ArrayList<BRectangle> rects = new ArrayList<>();
 	private ReadableDuration timeClickedOffset;
@@ -30,7 +30,7 @@ public class TimeBlockRender {
 
 	public TimeBlockRender(TimeBlock timeBlock, View view, int width, int height) {
 		this.timeBlock = timeBlock;
-		this.owner = (Task) timeBlock.getOwner();
+		this.owner = timeBlock.getOwner();
 		this.view = view;
 		this.pWidth = width - 1;
 		this.pHeight = height - 1;

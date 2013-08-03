@@ -1,4 +1,4 @@
-package com.tronicdream.epochdivider.swingui.task;
+package com.tronicdream.epochdivider.swingui.tasklist;
 
 import java.util.Comparator;
 

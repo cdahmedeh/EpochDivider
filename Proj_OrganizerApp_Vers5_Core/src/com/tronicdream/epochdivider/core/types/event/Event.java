@@ -1,7 +1,9 @@
 package com.tronicdream.epochdivider.core.types.event;
 
 import com.tronicdream.epochdivider.core.types.context.Context;
+import com.tronicdream.epochdivider.core.types.context.UnsortedEventsContext;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
+import com.tronicdream.epochdivider.core.types.timeblock.TimeBlockOwnerInterface;
 
 /**
  * An {@link Event} is a representation of a happening such as an appointment
@@ -9,7 +11,7 @@ import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
  * 
  * @author Ahmed El-Hajjar
  */
-public class Event {
+public class Event implements TimeBlockOwnerInterface{
 	
 	/* - Primary Fields - */
 	
@@ -24,7 +26,7 @@ public class Event {
 	
 	/* - Relationships - */
 	
-	private Context context = null;
+	private Context context = new UnsortedEventsContext();
 	public Context getContext() {return context;}
 	public void setContext(Context context) {this.context = context;}
 	
