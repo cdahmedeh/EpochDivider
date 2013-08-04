@@ -1,14 +1,13 @@
 package com.tronicdream.epochdivider.swingui.components;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
+import org.joda.time.Duration;
+
 import com.tronicdream.epochdivider.core.parsers.FuzzyDurationParser;
 import com.tronicdream.epochdivider.core.types.timeblock.TripleDurationInfo;
-
-import org.joda.time.Duration;
 
 /**
  * Renderer for TripleDurationInfo. Shows all three values and a dual-layer
@@ -47,17 +46,17 @@ public class RoundedTripleDurationCellRenderer extends DefaultTableCellRenderer 
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		double totalProgress = value.getEstimate().getStandardSeconds();
-		double secondProgress = value.getTotalScheduled().getStandardSeconds();
-		double firstProgress = value.getTotalPassed().getStandardSeconds();
-		
-		Color brighter = new Color(0, 0, 0, 20);
-		
-		g.setColor(new Color(0, 0, 0, 5));
-		g.fillRoundRect(0, 1, this.getWidth(), this.getHeight()-3, 0, 0);
-		
-		g.setColor(brighter);
-		g.fillRoundRect(0, 1, (int)(this.getWidth()*(secondProgress/totalProgress)), this.getHeight()-3, 0, 0);
-		g.fillRoundRect(0, 1, (int)(this.getWidth()*(firstProgress/totalProgress)), this.getHeight()-3, 0, 0);
+//		double totalProgress = value.getEstimate().getStandardSeconds();
+//		double secondProgress = value.getTotalScheduled().getStandardSeconds();
+//		double firstProgress = value.getTotalPassed().getStandardSeconds();
+//		
+//		Color brighter = new Color(0, 0, 0, 20);
+//		
+//		g.setColor(new Color(0, 0, 0, 5));
+//		g.fillRoundRect(0, 1, this.getWidth(), this.getHeight()-3, 0, 0);
+//		
+//		g.setColor(brighter);
+//		g.fillRoundRect(0, 1, (int)(this.getWidth()*(secondProgress/totalProgress)), this.getHeight()-3, 0, 0);
+//		g.fillRoundRect(0, 1, (int)(this.getWidth()*(firstProgress/totalProgress)), this.getHeight()-3, 0, 0);
 	}
 }

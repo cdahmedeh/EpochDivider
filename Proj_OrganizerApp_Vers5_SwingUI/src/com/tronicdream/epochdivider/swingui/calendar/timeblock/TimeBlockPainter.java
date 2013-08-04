@@ -8,8 +8,6 @@ import javax.swing.JPanel;
 import org.joda.time.LocalTime;
 
 import com.tronicdream.epochdivider.core.container.DataContainer;
-import com.tronicdream.epochdivider.core.types.event.Event;
-import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlockOwnerInterface;
 import com.tronicdream.epochdivider.swingui.calendar.CalendarConstants;
@@ -21,21 +19,11 @@ public class TimeBlockPainter {
 		LocalTime tEndTime = timeBlock.getEnd().toLocalTime();
 
 		//Set the color
-		Color timeBlockColor = new Color(0);
-		
-		if (owner instanceof Task) {
-			timeBlockColor = new Color(Color.HSBtoRGB(
-					owner.getContext().getColor()/255f, 
-					CalendarConstants.TIMEBLOCK_TASK_SATURATION, 
-					CalendarConstants.TIMEBLOCK_TASK_BRIGHTNESS
-			));
-		} else if (owner instanceof Event) {
-			timeBlockColor = new Color(Color.HSBtoRGB(
-					owner.getContext().getColor()/255f, 
-					CalendarConstants.TIMEBLOCK_EVENT_SATURATION, 
-					CalendarConstants.TIMEBLOCK_EVENT_BRIGHTNESS
-			));
-		}
+		Color timeBlockColor = new Color(Color.HSBtoRGB(
+				owner.getContext().getColor()/255f, 
+				CalendarConstants.TIMEBLOCK_TASK_SATURATION, 
+				CalendarConstants.TIMEBLOCK_TASK_BRIGHTNESS
+		));
 		
 		//Set the opacity
 		g.setColor(new Color(

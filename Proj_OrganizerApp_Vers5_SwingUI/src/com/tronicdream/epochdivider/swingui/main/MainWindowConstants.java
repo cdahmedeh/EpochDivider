@@ -13,6 +13,6 @@ public class MainWindowConstants {
 	public static final int DEFAULT_WINDOW_XPOS = 100;
 	public static final int DEFAULT_WINDOW_YPOS = 100;
 
-	public static final int DEFAULT_TAB_BORDER_WIDTH = 1;
+	public static final int DEFAULT_TAB_BORDER_WIDTH = 0;
 	public static final int DEFAULT_PANEL_MARGIN_WIDTH = 3;
 }

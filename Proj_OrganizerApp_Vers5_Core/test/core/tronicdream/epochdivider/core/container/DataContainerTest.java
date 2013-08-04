@@ -1,7 +1,6 @@
 package core.tronicdream.epochdivider.core.container;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
@@ -11,7 +10,6 @@ import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import com.tronicdream.epochdivider.core.container.DataContainer;
-import com.tronicdream.epochdivider.core.types.event.Event;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.core.types.view.View;
 
@@ -37,38 +35,38 @@ public class DataContainerTest {
 		assertEquals(newTimeBlock, timeBlocks.get(timeBlocks.size()-1));
 	}
 
-	@Test
-	public void testEmEventNew() {
-		DataContainer dataContainer = new DataContainer();
-		Event newEvent = dataContainer.emEventNew();
-
-		// Id should be set (not -1).
-		assertEquals(0, newEvent.getId());
-		
-		// Event should be completely blank
-		assertEquals("", newEvent.getTitle());
-		assertNull(newEvent.getContext());
-		assertNull(newEvent.getTimeBlock());
-		
-		// Event should be added to the end of the events list.
-		List<Event> events = dataContainer.getEvents();
-		assertEquals(1, events.size());
-		assertEquals(newEvent, events.get(events.size()-1));
-	}
-
-	@Test
-	public void testEmEventSetTimeBlock() {
-		DataContainer dataContainer = new DataContainer();
-		Event event = new Event();
-		TimeBlock timeBlock = new TimeBlock();
-		dataContainer.emEventSetTimeBlock(event, timeBlock);
-		
-		//Event should have TimeBlock
-		assertEquals(timeBlock, event.getTimeBlock());
-		
-		//TimeBlock should be owned by event
-		assertEquals(event, timeBlock.getOwner());
-	}
+//	@Test
+//	public void testEmEventNew() {
+//		DataContainer dataContainer = new DataContainer();
+//		Event newEvent = dataContainer.emEventNew();
+//
+//		// Id should be set (not -1).
+//		assertEquals(0, newEvent.getId());
+//		
+//		// Event should be completely blank
+//		assertEquals("", newEvent.getTitle());
+//		assertNull(newEvent.getContext());
+//		assertNull(newEvent.getTimeBlock());
+//		
+//		// Event should be added to the end of the events list.
+//		List<Event> events = dataContainer.getEvents();
+//		assertEquals(1, events.size());
+//		assertEquals(newEvent, events.get(events.size()-1));
+//	}
+//
+//	@Test
+//	public void testEmEventSetTimeBlock() {
+//		DataContainer dataContainer = new DataContainer();
+//		Event event = new Event();
+//		TimeBlock timeBlock = new TimeBlock();
+//		dataContainer.emEventSetTimeBlock(event, timeBlock);
+//		
+//		//Event should have TimeBlock
+//		assertEquals(timeBlock, event.getTimeBlock());
+//		
+//		//TimeBlock should be owned by event
+//		assertEquals(event, timeBlock.getOwner());
+//	}
 	
 	@Test
 	public void condViewShouldBeThisWeekByDefault(){

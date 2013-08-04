@@ -7,7 +7,6 @@ import org.joda.time.DateTime;
 
 import com.tronicdream.epochdivider.core.tools.DateReference;
 import com.tronicdream.epochdivider.core.types.context.Context;
-import com.tronicdream.epochdivider.core.types.event.Event;
 import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlockConstants;
@@ -40,9 +39,6 @@ public class DataContainer {
 		tasks = new ArrayList<>();
 		taskContexts = DataContainerHelper.generateDefaultTaskContexts();
 
-		events = new ArrayList<>();
-		eventContexts = DataContainerHelper.generateDefaultEventContexts();
-		
 		view = new View();
 		selectedTaskContext = taskContexts.get(0);
 		
@@ -56,9 +52,6 @@ public class DataContainer {
 		tasks = dataContainer.getTasks();
 		taskContexts = dataContainer.getTaskContexts();
 
-		events = dataContainer.getEvents();
-		eventContexts = dataContainer.getEventContexts();
-		
 		view = dataContainer.getView();
 		selectedTaskContext = dataContainer.getSelectedTaskContext();
 
@@ -81,14 +74,6 @@ public class DataContainer {
 	public List<Context> getTaskContexts() {return taskContexts;}
 	public void setTaskContexts(List<Context> taskContexts) {this.taskContexts = taskContexts;}
 
-	private List<Event> events;
-	public List<Event> getEvents() {return events;}
-	public void setEvents(List<Event> events) {this.events = events;}
-	
-	private List<Context> eventContexts;
-	public List<Context> getEventContexts() {return eventContexts;}
-	public void setEventContexts(List<Context> eventContexts) {this.eventContexts = eventContexts;}
-	
 	
 	/* - Id Counters for Main Data - */
 	
@@ -103,14 +88,6 @@ public class DataContainer {
 	private int taskContextIdCounter = 0;
 	public int gettaskContextIdCounter() {return taskContextIdCounter;}
 	public void settaskContextIdCounter(int taskContextIdCounter) {this.taskContextIdCounter = taskContextIdCounter;}
-	
-	private int eventIdCounter = 0;
-	public int getEventIdCounter() {return eventIdCounter;}
-	public void setEventIdCounter(int eventIdCounter) {this.eventIdCounter = eventIdCounter;}
-	
-	private int eventContextIdCounter = 0;
-	public int getEventContextIdCounter() {return eventContextIdCounter;}
-	public void setEventContextIdCounter(int eventContextIdCounter) {this.eventContextIdCounter = eventContextIdCounter;}
 	
 	
 	/* - Main UI States - */
@@ -147,11 +124,6 @@ public class DataContainer {
 		return contextsList;
 	}
 
-	public ArrayList<Context> rdSelectableEventContexts() {
-		ArrayList<Context> contextsList = new ArrayList<>();
-		for (Context context: eventContexts) if (context.isSelectable()) contextsList.add(context);
-		return contextsList;
-	}
 	
 	/* - Easy Modifiers - */
 	
@@ -223,42 +195,6 @@ public class DataContainer {
 		int newIndexForMovedContext = indexOf >= index ? index : index -1;
 		this.getTaskContexts().add(newIndexForMovedContext , context);
 		return newIndexForMovedContext;
-	}
-	
-	public Event emEventNew() {
-		Event event = new Event();
-		
-		event.setId(eventIdCounter++);
-		
-		// Set the event context to the currently selected one only if it can
-		// be assigned to the task.
-		if (getSelectedEventContext().isSelectable()){
-			event.setContext(getSelectedEventContext());
-		}
-		
-		events.add(event);
-		
-		return event;
-	}
-	
-	public boolean emEventRemove(Event event) {
-		return events.remove(event);
-	}
-	
-	public void emEventSetTimeBlock(Event event, TimeBlock timeBlock) {
-		event.setTimeBlock(timeBlock);
-		timeBlock.setOwner(event);
-	}
-	
-	public Context emEventContextNew() {
-		Context context = new Context();
-
-		context.setId(eventContextIdCounter++);
-		context.setName("");
-		
-		eventContexts.add(context);
-		
-		return context;
 	}
 	
 	/* - Validation methods - */

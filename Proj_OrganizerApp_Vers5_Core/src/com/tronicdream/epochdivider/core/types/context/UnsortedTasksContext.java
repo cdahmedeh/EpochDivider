@@ -8,7 +8,7 @@ package com.tronicdream.epochdivider.core.types.context;
 public class UnsortedTasksContext extends Context {
 	public UnsortedTasksContext() {
 		super();
-		setName("Unsorted Tasks");
+		setName("Unsorted");
 	}
 	
 	public boolean isSelectable() {return true;}

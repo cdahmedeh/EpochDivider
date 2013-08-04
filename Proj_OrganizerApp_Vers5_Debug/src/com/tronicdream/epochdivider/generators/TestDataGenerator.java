@@ -330,7 +330,39 @@ public class TestDataGenerator {
 	 */
 	public static DataContainer generateDataContainerWithAhmedsData(){
 		DataContainer dataContainer = new DataContainer();
-	
+
+		Context essentialsContext = dataContainer.emTaskContextNew();
+		essentialsContext.setName("Essentials");
+		
+		Context exerciseContext = dataContainer.emTaskContextNew();
+		exerciseContext.setName("Exercise");
+		
+		Context coursesContext = dataContainer.emTaskContextNew();
+		coursesContext.setName("Courses");
+		
+		Context workContext = dataContainer.emTaskContextNew();
+		workContext.setName("Work");
+		
+		Context socialContext = dataContainer.emTaskContextNew();
+		socialContext.setName("Social");
+		
+		
+		Context studyContext = dataContainer.emTaskContextNew();
+		studyContext.setName("Study");
+		
+		Context choresContext = dataContainer.emTaskContextNew();
+		choresContext.setName("Chores");
+		
+		Context tinkeringContext = dataContainer.emTaskContextNew();
+		tinkeringContext.setName("Tinkering");
+		
+		dataContainer.emTaskContextNew().setName("Gaming");
+		dataContainer.emTaskContextNew().setName("Tech Reading");
+		dataContainer.emTaskContextNew().setName("Religion Reading");
+		dataContainer.emTaskContextNew().setName("Epoch Divider");
+		dataContainer.emTaskContextNew().setName("OrbitHub");
+		dataContainer.emTaskContextNew().setName("Islam Web Portal");
+		
 //		//Set the view for the calendar.
 //		View view = new View();
 //		dataContainer.setView(view);

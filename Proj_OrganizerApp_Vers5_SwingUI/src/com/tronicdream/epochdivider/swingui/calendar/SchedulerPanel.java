@@ -16,7 +16,6 @@ import javax.swing.TransferHandler;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.tronicdream.epochdivider.core.container.DataContainer;
-import com.tronicdream.epochdivider.core.types.event.Event;
 import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
 import com.tronicdream.epochdivider.swingui.calendar.timeblock.BRectangle;
@@ -133,14 +132,16 @@ public class SchedulerPanel extends CPanel {
 						uiMode = SchedulerUIMode.ADJUST_TIMEBLOCK;
 					} else {
 						TimeBlock timeBlock = dataContainer.emTimeBlockNew(PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()), PixelsToDate.getTimeFromPosition(e.getX(), e.getY(), getWidth()-1, getHeight()-1, dataContainer.getView()));
-						Event event = dataContainer.emEventNew();
+						Task task = dataContainer.emTaskNew();
 						//TODO: Cheat
-						event.setTimeBlock(timeBlock);
-						timeBlock.setOwner(event);
+						task.addTimeBlock(timeBlock);
+						timeBlock.setOwner(task);
+						task.setTitle("New Task");
 						generateTimeBlockRenders();
 						tbrSelected = renderedTimeBlocks.get(timeBlock);
 						uiMode = SchedulerUIMode.ADJUST_TIMEBLOCK;
 						tbrSelected.forceResize();
+					
 						repaint();
 					}
 				} else if (uiMode == SchedulerUIMode.ADJUST_TIMEBLOCK) {

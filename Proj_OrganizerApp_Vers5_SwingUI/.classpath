@@ -12,6 +12,8 @@
 	<classpathentry kind="lib" path="elibs/jgoodies-common-1.6.0.jar" sourcepath="slibs/jgoodies-common-1.6.0-sources.jar"/>
 	<classpathentry kind="lib" path="elibs/jgoodies-looks-2.5.3.jar" sourcepath="slibs/jgoodies-looks-2.5.3-sources.jar"/>
 	<classpathentry kind="lib" path="elibs/swingx-all-1.6.4.jar" sourcepath="slibs/swingx-all-1.6.4-sources.jar"/>
+	<classpathentry kind="lib" path="elibs/jgoodies-forms-1.7.1.jar" sourcepath="slibs/jgoodies-forms-1.7.1-sources.jar"/>
+	<classpathentry kind="lib" path="elibs/miglayout-4.0-swing.jar" sourcepath="slibs/miglayout-4.0-sources.jar"/>
 	<classpathentry kind="src" path="expr"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Proj_OrganizerApp_Vers5_Persistence"/>
 	<classpathentry kind="src" path="imt"/>

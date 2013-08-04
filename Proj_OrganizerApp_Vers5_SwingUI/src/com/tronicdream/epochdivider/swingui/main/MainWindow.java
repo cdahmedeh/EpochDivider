@@ -11,8 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
@@ -26,16 +26,14 @@ import org.jdesktop.swingx.multisplitpane.DefaultSplitPaneModel;
 import com.google.common.eventbus.EventBus;
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import com.jidesoft.plaf.LookAndFeelFactory;
-import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.swing.JideTabbedPane;
 import com.tronicdream.epochdivider.core.container.DataContainer;
+import com.tronicdream.epochdivider.core.tools.DateReference;
 import com.tronicdream.epochdivider.generators.TestDataGenerator;
 import com.tronicdream.epochdivider.imt.icons.IconsLocation;
 import com.tronicdream.epochdivider.pers.PersistanceManagerInterface;
 import com.tronicdream.epochdivider.pers.YAMLPersistenceManager;
 import com.tronicdream.epochdivider.swingui.calendar.CalendarPanel;
-import com.tronicdream.epochdivider.swingui.eventcontextlist.EventContextListPanel;
-import com.tronicdream.epochdivider.swingui.eventlist.EventListPanel;
 import com.tronicdream.epochdivider.swingui.notification.ContextsChangedNotification;
 import com.tronicdream.epochdivider.swingui.notification.LoadContextListPanelRequest;
 import com.tronicdream.epochdivider.swingui.notification.TasksChangedNotification;
@@ -68,7 +66,7 @@ public class MainWindow {
 	// - Components -
 	private JFrame frame;
 	private JideTabbedPane mainTabbedPane;
-	private JideSplitButton menuButton;
+	private JMenuBar menuBar;
 
 	// - Sequential Methods - //
 	
@@ -87,9 +85,7 @@ public class MainWindow {
 		
 		//Show the application window
 		createMainWindow();
-		createEventsTab();
 		createTasksTab();
-		createOtherTabs();
 		createMenuButton();
 		createFileMenu();
 		createDebugMenu();
@@ -120,6 +116,7 @@ public class MainWindow {
 		logger.info("Persistence Manager prepared");
 		
 		dataContainer = new DataContainer();
+		dataContainer.getView().setEndDate(DateReference.getToday().plusDays(3));
 		logger.info("Default Data generated");
 	}
 	
@@ -162,35 +159,6 @@ public class MainWindow {
 		frame.getContentPane().add(mainTabbedPane, BorderLayout.CENTER);
 	}
 
-	private void createEventsTab() {
-		//Split pane
-		JXMultiSplitPane eventsSplitPane = new JXMultiSplitPane();
-		eventsSplitPane.setContinuousLayout(true);
-		eventsSplitPane.setModel(new DefaultSplitPaneModel());
-		eventsSplitPane.setDividerSize(MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH);
-		eventsSplitPane.setBorder(new EmptyBorder(
-				MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
-				MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
-				MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH, 
-				MainWindowConstants.DEFAULT_PANEL_MARGIN_WIDTH
-		));
-		
-		//Context list
-		EventContextListPanel contextListPanel = new EventContextListPanel(dataContainer, eventBus);
-		eventsSplitPane.add(contextListPanel, DefaultSplitPaneModel.LEFT);
-		
-		//Calendar 
-		CalendarPanel calendarPanel = new CalendarPanel(dataContainer, eventBus);
-		eventsSplitPane.add(calendarPanel, DefaultSplitPaneModel.TOP);
-		
-		//Event list
-		EventListPanel eventListPanel = new EventListPanel(dataContainer, eventBus);
-		eventsSplitPane.add(eventListPanel, DefaultSplitPaneModel.BOTTOM);
-		
-		//Add pane as Tab
-		mainTabbedPane.addTab(MainWindowConstants.EVENTS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.EVENTS)), eventsSplitPane);
-	}
-	
 	private void createTasksTab() {
 		//Split pane
 		JXMultiSplitPane tasksSplitPane = new JXMultiSplitPane();
@@ -220,20 +188,14 @@ public class MainWindow {
 		mainTabbedPane.addTab(MainWindowConstants.TASKS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.TASKS)), tasksSplitPane);
 	}
 	
-	private void createOtherTabs() {
-		mainTabbedPane.addTab(MainWindowConstants.REMINDERS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.WEEK)), new JPanel());
-		mainTabbedPane.addTab(MainWindowConstants.STATISTICS_TAB_LABEL, new ImageIcon(MainWindow.class.getResource(IconsLocation.STATISTICS)), new JPanel());
-	}
-	
 	private void createMenuButton() {
-		menuButton = new JideSplitButton("Menu");
-		menuButton.setAlwaysDropdown(true);
-		mainTabbedPane.setTabLeadingComponent(menuButton);
+		menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
 	}
 
 	private void createFileMenu() {
 		JMenu mnFile = new JMenu("File");
-		menuButton.add(mnFile);
+		menuBar.add(mnFile);
 
 		JMenuItem mntmNew = new JMenuItem("New");
 		mntmNew.setIcon(new ImageIcon(MainWindow.class.getResource(IconsLocation.NEW)));
@@ -275,7 +237,7 @@ public class MainWindow {
 	
 	private void createDebugMenu() {
 		JMenu mnDebug = new JMenu("Debug");
-		menuButton.add(mnDebug);
+		menuBar.add(mnDebug);
 		
 		JMenu mnSwitchTestData = new JMenu("Switch Test Data");
 		mnDebug.add(mnSwitchTestData);
