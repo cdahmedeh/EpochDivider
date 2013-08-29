@@ -8,13 +8,13 @@ import javax.swing.JPanel;
 import org.joda.time.LocalTime;
 
 import com.tronicdream.epochdivider.core.container.DataContainer;
+import com.tronicdream.epochdivider.core.types.task.Task;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
-import com.tronicdream.epochdivider.core.types.timeblock.TimeBlockOwnerInterface;
 import com.tronicdream.epochdivider.swingui.calendar.CalendarConstants;
 import com.tronicdream.epochdivider.swingui.helpers.GraphicsHelper;
 
 public class TimeBlockPainter {
-	public static void renderTimeBlock(Graphics g, TimeBlockOwnerInterface owner, TimeBlock timeBlock, BRectangle rect, DataContainer dataContainer, JPanel panel){
+	public static void renderTimeBlock(Graphics g, Task owner, TimeBlock timeBlock, BRectangle rect, DataContainer dataContainer, JPanel panel){
 		LocalTime tBeginTime = timeBlock.getStart().toLocalTime();
 		LocalTime tEndTime = timeBlock.getEnd().toLocalTime();
 

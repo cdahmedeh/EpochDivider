@@ -4,6 +4,8 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Duration;
 
+import com.tronicdream.epochdivider.core.types.task.Task;
+
 /**
  * A {@link TimeBlock} is a time interval between two instants. The beginning
  * instant is part of the interval, but the end instant is excluded. 
@@ -29,9 +31,9 @@ public class TimeBlock {
 	
 	/* - Relationships - */
 	
-	private TimeBlockOwnerInterface owner;
-	public TimeBlockOwnerInterface getOwner() {return owner;}
-	public void setOwner(TimeBlockOwnerInterface owner) {this.owner = owner;}
+	private Task owner;
+	public Task getOwner() {return owner;}
+	public void setOwner(Task owner) {this.owner = owner;}
 	
 	
 	/* - Reader Methods - */

@@ -10,7 +10,6 @@ import com.tronicdream.epochdivider.core.tools.MiscHelper;
 import com.tronicdream.epochdivider.core.types.context.Context;
 import com.tronicdream.epochdivider.core.types.context.UnsortedTasksContext;
 import com.tronicdream.epochdivider.core.types.timeblock.TimeBlock;
-import com.tronicdream.epochdivider.core.types.timeblock.TimeBlockOwnerInterface;
 import com.tronicdream.epochdivider.core.types.timeblock.TripleDurationInfo;
 import com.tronicdream.epochdivider.core.types.view.View;
 
@@ -19,7 +18,7 @@ import com.tronicdream.epochdivider.core.types.view.View;
  * 
  * @author Ahmed El-Hajjar
  */
-public class Task implements TimeBlockOwnerInterface{
+public class Task {
 	
 	/* - Primary Fields - */
 	

@@ -44,9 +44,6 @@ public class CalendarConstants {
 	public static final float TIMEBLOCK_TASK_SATURATION = 0.6f;
 	public static final float TIMEBLOCK_TASK_BRIGHTNESS = 0.8f;
 	
-	public static final float TIMEBLOCK_EVENT_SATURATION = 0.6f;
-	public static final float TIMEBLOCK_EVENT_BRIGHTNESS = 0.2f;
-	
 	public static final float TIMEBLOCK_OPACITY = 0.5f;
 	public static final float TIMEBLOCK_PASSED_OPACITY = 0.2f;
 	

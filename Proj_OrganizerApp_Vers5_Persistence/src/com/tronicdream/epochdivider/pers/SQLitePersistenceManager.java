@@ -68,6 +68,10 @@ public class SQLitePersistenceManager implements PersistanceManagerInterface {
 			HashMap<Integer,ArrayList<TimeBlock>> taskTimeblocks = timeBlocksModel.resultSetToObject(rsTimeBlocks, null);
 			for (Task task: tasks){
 				task.setTimeBlocks(taskTimeblocks.get(task.getId()));
+				dataContainer.getTimeBlocks().addAll(taskTimeblocks.get(task.getId()));
+				for (TimeBlock timeBlock: taskTimeblocks.get(task.getId())){
+					timeBlock.setOwner(task);
+				}
 			}
 			dataContainer.setTaskContexts(contextList);
 			dataContainer.setTasks(tasks);

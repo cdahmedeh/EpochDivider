@@ -28,11 +28,10 @@ import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.swing.JideTabbedPane;
 import com.tronicdream.epochdivider.core.container.DataContainer;
-import com.tronicdream.epochdivider.core.tools.DateReference;
 import com.tronicdream.epochdivider.generators.TestDataGenerator;
 import com.tronicdream.epochdivider.imt.icons.IconsLocation;
 import com.tronicdream.epochdivider.pers.PersistanceManagerInterface;
-import com.tronicdream.epochdivider.pers.YAMLPersistenceManager;
+import com.tronicdream.epochdivider.pers.SQLitePersistenceManager;
 import com.tronicdream.epochdivider.swingui.calendar.CalendarPanel;
 import com.tronicdream.epochdivider.swingui.notification.ContextsChangedNotification;
 import com.tronicdream.epochdivider.swingui.notification.LoadContextListPanelRequest;
@@ -112,11 +111,10 @@ public class MainWindow {
 	}
 	
 	private void preparePersistenceWithDefaults() {
-		pm = new YAMLPersistenceManager();
+		pm = new SQLitePersistenceManager();
 		logger.info("Persistence Manager prepared");
 		
 		dataContainer = new DataContainer();
-		dataContainer.getView().setEndDate(DateReference.getToday().plusDays(3));
 		logger.info("Default Data generated");
 	}
 	

@@ -24,18 +24,18 @@ public class ContextListModel implements
 		sql.append("', '");
 		// sql.append(context.getClass().getName());
 		if (context instanceof AllTasksContext) { // TODO: This is very bad practice. To be revised.
-			sql.append("AllContextsContext");
+			sql.append("AllTasksContext");
+		} else if (context instanceof UnsortedTasksContext) {
+			sql.append("UnsortedTasksContext");
 		} else if (context instanceof DueThisViewContext) {
 			sql.append("DueThisViewContext");
 		} else if (context instanceof DueTodayContext) {
 			sql.append("DueTodayContext");
-		} else if (context instanceof DueTodayContext) {
-			sql.append("DueTomorrowContext");
 		} else if (context instanceof DueTomorrowContext) {
-			sql.append("NoContextContext");
+			sql.append("DueTomorrowContext");
 		} else if (context instanceof NoDueDateContext) {
 			sql.append("NoDueDateContext");
-		}else if (context instanceof Context) {
+		} else if (context instanceof Context) {
 			sql.append("Context");
 		}
 		sql.append("')");
@@ -68,16 +68,17 @@ public class ContextListModel implements
 			case ("DueTomorrowContext"):
 				context = new DueTomorrowContext();
 				break;
-			case ("NoContextContext"):
+			case ("UnsortedTasksContext"):
 				context = new UnsortedTasksContext();
 				break;
 			case ("NoDueDateContext"):
 				context = new NoDueDateContext();
 				break;
-			case ("AllContextsContext"):
+			case ("AllTasksContext"):
 				context = new AllTasksContext();
 				break;
 			}
+			//TODO: Ahmed says remove this
 			context.setColor(rs.getInt(2));
 			contextList.add(context);
 		}
